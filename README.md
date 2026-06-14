@@ -264,11 +264,18 @@ Some mobile behaviour is controlled by **compile-time flags** in TypeScript (not
 | Flag | File | Current | When `false` |
 |------|------|---------|----------------|
 | **`SUBSCRIPTIONS_ENABLED`** | `mobile/src/features/monetization/config.ts` | `false` | No paywall UI (Settings upgrade card, More → Premium, paywall gates). Hadith **AI Summary** tab hidden. All entitlements treated as granted so nothing is paywall-blocked. Subscription bootstrap skipped. |
-| **`NATIVE_AUDIO_ENABLED`** | `mobile/src/features/quran/audio/config.ts` | `false` | No `react-native-track-player` (avoids New Architecture crash). Quran mini-player, Dua/Ziyarat/Sahifa/Nahjul audio use stubs instead of native hooks. |
+| **`NATIVE_AUDIO_ENABLED`** | `mobile/nativeAudio.config.js` (also `src/features/quran/audio/config.ts`) | `false` | Metro redirects `react-native-track-player` to a JS mock (no native crash). Audio hooks use stubs; Nahjul/Dua/Ziyarat audio bars hidden. |
 
 **To launch subscriptions later:** set `SUBSCRIPTIONS_ENABLED = true` in `monetization/config.ts`, then rebuild.
 
-**To re-enable native audio later:** set `NATIVE_AUDIO_ENABLED = true` in `quran/audio/config.ts`, wire hooks back to `*Native` implementations (see comments in `useDuaAudio.ts`, `useNahjulAudio.ts`, etc.), and rebuild after Track Player supports RN New Architecture.
+**To re-enable native audio later:** set `NATIVE_AUDIO_ENABLED: true` in `mobile/nativeAudio.config.js`, restart Metro with cache reset (`npm start -- --reset-cache`), switch hooks to `*Native` exports, and rebuild.
+
+After changing Metro config or feature flags, run:
+
+```bash
+cd mobile
+npm start -- --reset-cache
+```
 
 Details: [`mobile/README.md`](mobile/README.md#feature-flags).
 

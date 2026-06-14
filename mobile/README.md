@@ -100,16 +100,22 @@ Helpers in the same file: `shouldShowSubscriptionUi()`, `shouldShowPremiumFeatur
 
 ### Native audio (`NATIVE_AUDIO_ENABLED`)
 
-**File:** `src/features/quran/audio/config.ts`
+**File:** `nativeAudio.config.js` (project root of `mobile/`)
 
-```ts
-export const NATIVE_AUDIO_ENABLED = false; // re-enable when Track Player supports New Architecture
+```js
+module.exports = {
+  NATIVE_AUDIO_ENABLED: false, // set true when Track Player supports New Architecture
+};
 ```
+
+Metro (`metro.config.js`) replaces `react-native-track-player` with `src/mocks/react-native-track-player.ts` while this is `false`, so the native TurboModule is never loaded.
 
 | Value | Behaviour |
 |-------|-----------|
-| `false` (now) | Track Player not loaded (prevents TurboModule crash on RN 0.85+). Audio hooks use `.stub.ts` variants. |
-| `true` | Quran audio bootstrap + mini-player; switch hooks to `*Native` exports (see comments in `useDuaAudio.ts`, `useNahjulAudio.ts`, …). |
+| `false` (now) | No Track Player crash. Audio hooks are stubs; reader audio bars hidden. |
+| `true` | Real package used; switch hooks to `*Native` exports and rebuild the app. |
+
+**After toggling:** `npm start -- --reset-cache` then rebuild.
 
 ## Architecture Notes
 

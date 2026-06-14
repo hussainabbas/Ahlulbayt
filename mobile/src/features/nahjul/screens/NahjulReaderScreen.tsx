@@ -13,6 +13,7 @@ import { useTheme } from '@/theme/ThemeContext';
 import { NahjulAudioBar } from '../components/NahjulAudioBar';
 import { NahjulReaderToolbar } from '../components/NahjulReaderToolbar';
 import { NahjulSectionBlock } from '../components/NahjulSectionBlock';
+import { NATIVE_AUDIO_ENABLED } from '@/features/quran/audio/config';
 import { useNahjulAudio } from '../hooks/useNahjulAudio';
 import { useNahjulReader } from '../hooks/useNahjulReader';
 import { useNahjulBookmarkStore } from '../stores/nahjulBookmarkStore';
@@ -124,7 +125,7 @@ export function NahjulReaderScreen() {
         showsVerticalScrollIndicator={false}
       />
 
-      {meta.hasAudio ? (
+      {meta.hasAudio && NATIVE_AUDIO_ENABLED ? (
         <NahjulAudioBar
           isPlaying={audio.isPlaying}
           isDownloaded={audio.isDownloaded}
