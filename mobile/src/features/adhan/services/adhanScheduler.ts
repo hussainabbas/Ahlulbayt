@@ -2,10 +2,16 @@ import { Platform } from 'react-native';
 
 import type { PrayerName, PrayerTimes } from '@/core/prayer-engine';
 import type { ScheduledNotificationRequest } from '@/core/native/notifications';
+import { ADHAN_CHANNEL_ID, ADHAN_SILENT_CHANNEL_ID, REMINDER_CHANNEL_ID } from '@/core/native/notifications';
 
 import { getAdhanVoice, resolveVoiceForPrayer } from '../data/adhanVoices';
-import { pickAdhanSettings, snapshotAdhanSettingsForFingerprint, type AdhanSettings, type AdhanVoiceId, type NotificationKind } from '../types';
-import { ADHAN_CHANNEL_ID, REMINDER_CHANNEL_ID } from './notificationChannels';
+import {
+  pickAdhanSettings,
+  snapshotAdhanSettingsForFingerprint,
+  type AdhanSettings,
+  type AdhanVoiceId,
+  type NotificationKind,
+} from '../types';
 
 /** iOS caps local notifications — schedule 3 days ahead and refresh on app open. */
 export const SCHEDULE_DAYS = 3;
@@ -113,7 +119,8 @@ export function buildScheduleRequests(
             sound,
             channelId: ADHAN_CHANNEL_ID,
             silentOverride: settings.silentModeOverride,
-            data: { prayer, kind: 'adhan', dayKey },
+            snoozeLabel: t('adhan.notifications.snooze'),
+            data: { prayer, kind: 'adhan', dayKey, category: 'prayer', route: 'Prayer' },
           }),
         );
       }
@@ -176,19 +183,28 @@ function buildRequest(opts: {
   sound: string | boolean;
   channelId: string;
   silentOverride: boolean;
+  snoozeLabel?: string;
   data: Record<string, unknown>;
 }): ScheduledNotificationRequest {
+  const isAdhan = opts.data.kind === 'adhan';
+  const silentAdhan = isAdhan && (opts.sound === false || opts.silentOverride);
+  const channelId = silentAdhan ? ADHAN_SILENT_CHANNEL_ID : opts.channelId;
+
   return {
     identifier: opts.id,
     triggerDate: opts.triggerDate,
     content: {
       title: opts.copy.title,
       body: opts.copy.body,
-      sound: opts.sound,
-      data: opts.data,
-      channelId: opts.channelId,
+      sound: silentAdhan ? false : opts.sound,
+      data: { ...opts.data, channelId },
+      channelId,
       priority: 'max',
       interruptionLevel: opts.silentOverride ? 'timeSensitive' : 'active',
+      actions:
+        isAdhan && opts.snoozeLabel
+          ? [{ id: 'snooze_10', title: opts.snoozeLabel }]
+          : undefined,
     },
   };
 }

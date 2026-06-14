@@ -2,9 +2,12 @@ export type NotificationCategory =
   | 'prayer'
   | 'events'
   | 'duas'
+  | 'quran'
+  | 'hadith'
   | 'muharram'
   | 'amaal'
-  | 'fasting';
+  | 'fasting'
+  | 'ai';
 
 export type NotificationPriority = 'high' | 'default';
 
@@ -25,12 +28,23 @@ export interface NotificationPreferences {
   categories: Record<NotificationCategory, CategoryPreferences>;
 }
 
+export interface ScholarlyReferencePayload {
+  source?: string;
+  bookName?: string;
+  reference?: string;
+  ayahNumber?: string;
+  hadithNumber?: string;
+}
+
 export interface PlannedNotification {
   id: string;
   category: NotificationCategory;
   triggerAt: Date;
   titleKey: string;
   bodyKey: string;
+  /** Pre-rendered copy for daily content (verse/hadith preview). */
+  directTitle?: string;
+  directBody?: string;
   titleParams?: Record<string, string | number>;
   bodyParams?: Record<string, string | number>;
   priority: NotificationPriority;
@@ -43,7 +57,11 @@ export interface NotificationPayload {
   routeParams?: Record<string, string>;
   eventId?: string;
   duaId?: string;
+  hadithId?: string;
+  surah?: string;
+  ayah?: string;
   ruleId?: string;
+  scholarlyReference?: ScholarlyReferencePayload;
 }
 
 export interface NotificationContext {

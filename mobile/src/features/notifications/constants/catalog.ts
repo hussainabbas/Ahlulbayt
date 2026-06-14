@@ -4,7 +4,22 @@ import type { NotificationRule } from '../types';
 export const NOTIFICATION_RULES: NotificationRule[] = [
   // —— Duas ——
   {
-    id: 'dua_kumail_thursday',
+    id: 'dua_nudba_friday',
+    category: 'duas',
+    titleKey: 'notifications.duas.nudba.title',
+    bodyKey: 'notifications.duas.nudba.body',
+    priority: 'high',
+    dayOfWeek: 5,
+    hour: 8,
+    payload: {
+      category: 'duas',
+      route: 'DuaReader',
+      routeParams: { duaId: 'dua_nudba' },
+      duaId: 'dua_nudba',
+      scholarlyReference: { source: 'Mafatih al-Jinan', bookName: 'Dua Nudba', reference: 'Friday morning' },
+    },
+  },
+  {
     category: 'duas',
     titleKey: 'notifications.duas.kumail.title',
     bodyKey: 'notifications.duas.kumail.body',

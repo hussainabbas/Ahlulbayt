@@ -12,6 +12,12 @@ import { logger } from '@/core/logging/logger';
 
 export const ADHAN_CHANNEL_ID = 'adhan-primary';
 export const REMINDER_CHANNEL_ID = 'adhan-reminder';
+export const ADHAN_SILENT_CHANNEL_ID = 'adhan-silent';
+
+export interface NotificationActionInput {
+  id: string;
+  title: string;
+}
 
 export interface NotificationContentInput {
   title: string;
@@ -21,6 +27,8 @@ export interface NotificationContentInput {
   channelId?: string;
   priority?: 'max' | 'high' | 'default';
   interruptionLevel?: 'timeSensitive' | 'active';
+  vibration?: boolean;
+  actions?: NotificationActionInput[];
 }
 
 export interface ScheduledNotificationRequest {
@@ -49,6 +57,16 @@ export async function setupNotificationChannels(silentModeOverride: boolean): Pr
   });
 
   await notifee.createChannel({
+    id: ADHAN_SILENT_CHANNEL_ID,
+    name: 'Silent Prayer Reminders',
+    description: 'Prayer alerts without adhan sound',
+    importance: AndroidImportance.HIGH,
+    sound: undefined,
+    vibration: true,
+    bypassDnd: silentModeOverride,
+  });
+
+  await notifee.createChannel({
     id: REMINDER_CHANNEL_ID,
     name: 'Prayer Reminders',
     description: 'Preparation and smart prayer reminders',
@@ -61,10 +79,11 @@ export async function setupNotificationChannels(silentModeOverride: boolean): Pr
   logger.info('Adhan notification channels configured', { silentModeOverride });
 }
 
+/** Legacy hook — event routing lives in notificationRouter. */
 export function configureForegroundHandler(): void {
   notifee.onForegroundEvent(({ type }) => {
     if (type === EventType.DELIVERED || type === EventType.PRESS) {
-      // Default foreground presentation is handled by the OS.
+      // Handled by registerNotificationEventHandlers().
     }
   });
 }
@@ -93,6 +112,14 @@ export async function scheduleNotificationAsync(
     timestamp: request.triggerDate.getTime(),
   };
 
+  const useSilentChannel = request.content.sound === false;
+  const androidSound =
+    typeof request.content.sound === 'string'
+      ? request.content.sound
+      : request.content.sound === false
+        ? undefined
+        : 'default';
+
   return notifee.createTriggerNotification(
     {
       id: request.identifier,
@@ -100,14 +127,27 @@ export async function scheduleNotificationAsync(
       body: request.content.body,
       data: request.content.data as Record<string, string> | undefined,
       android: {
-        channelId: request.content.channelId ?? ADHAN_CHANNEL_ID,
-        sound: typeof request.content.sound === 'string' ? request.content.sound : 'default',
+        channelId:
+          request.content.channelId ??
+          (useSilentChannel ? ADHAN_SILENT_CHANNEL_ID : ADHAN_CHANNEL_ID),
+        sound: androidSound,
+        vibrationPattern: request.content.vibration === false ? undefined : [300, 500, 300, 500],
         pressAction: { id: 'default' },
+        actions: request.content.actions?.map((action) => ({
+          title: action.title,
+          pressAction: { id: action.id },
+        })),
         importance: AndroidImportance.HIGH,
       },
       ios: {
-        sound: typeof request.content.sound === 'string' ? request.content.sound : 'default',
+        sound:
+          typeof request.content.sound === 'string'
+            ? request.content.sound
+            : request.content.sound === false
+              ? undefined
+              : 'default',
         interruptionLevel: request.content.interruptionLevel ?? 'active',
+        categoryId: request.content.actions?.length ? 'PRAYER_ACTIONS' : undefined,
       },
     },
     trigger,
@@ -130,7 +170,7 @@ export const Notifications = {
   PermissionStatus,
   AndroidImportance: { MAX: 'max', HIGH: 'high' },
   AndroidNotificationPriority: { MAX: 'max' },
-  AndroidNotificationVisibility: { PUBLIC: 'public' },
+  AndroidVisibility: { PUBLIC: 'public' },
   setNotificationChannelAsync: async (
     id: string,
     channel: { name: string; bypassDnd?: boolean },

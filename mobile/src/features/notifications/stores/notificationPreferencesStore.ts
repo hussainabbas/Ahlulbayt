@@ -19,9 +19,12 @@ export function createDefaultNotificationPreferences(): NotificationPreferences 
       prayer: defaultCategory(true),
       events: defaultCategory(true),
       duas: defaultCategory(true),
+      quran: defaultCategory(true),
+      hadith: defaultCategory(true),
       muharram: defaultCategory(true),
       amaal: defaultCategory(true),
       fasting: defaultCategory(true),
+      ai: defaultCategory(true),
     },
   };
 }

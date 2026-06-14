@@ -20,6 +20,8 @@ import type {
   NotificationRule,
   PlannedNotification,
 } from '../types';
+import { planAiInsightNotifications } from '../platform/aiInsightPlanner';
+import { planDailyContentNotifications } from '../platform/dailyContentPlanner';
 
 function setLocalHour(date: Date, hour: number, minute = 0): Date {
   const d = new Date(date);
@@ -229,6 +231,8 @@ export function planAllNotifications(
     ...planCatalogNotifications(ctx, prefs),
     ...planEventNotifications(ctx, prefs),
     ...planMuharramNotifications(ctx, prefs),
+    ...planDailyContentNotifications(ctx, prefs),
+    ...planAiInsightNotifications(ctx, prefs),
   ];
 
   const seen = new Set<string>();

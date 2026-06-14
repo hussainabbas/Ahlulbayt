@@ -11,10 +11,13 @@ import { useNotificationPreferencesStore } from '../stores/notificationPreferenc
 const CATEGORIES: NotificationCategory[] = [
   'prayer',
   'events',
+  'quran',
+  'hadith',
   'duas',
   'muharram',
   'amaal',
   'fasting',
+  'ai',
 ];
 
 export function NotificationSettingsPanel() {

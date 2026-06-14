@@ -73,8 +73,14 @@ function payloadToData(payload: PlannedNotification['data']): Record<string, str
   if (payload.route) data.route = payload.route;
   if (payload.eventId) data.eventId = payload.eventId;
   if (payload.duaId) data.duaId = payload.duaId;
+  if (payload.hadithId) data.hadithId = payload.hadithId;
+  if (payload.surah) data.surah = payload.surah;
+  if (payload.ayah) data.ayah = payload.ayah;
   if (payload.ruleId) data.ruleId = payload.ruleId;
   if (payload.routeParams) data.routeParams = JSON.stringify(payload.routeParams);
+  if (payload.scholarlyReference) {
+    data.scholarlyReference = JSON.stringify(payload.scholarlyReference);
+  }
   return data;
 }
 
@@ -88,8 +94,8 @@ function toScheduleRequest(
     identifier: planned.id,
     triggerDate: planned.triggerAt,
     content: {
-      title: t(planned.titleKey, planned.titleParams),
-      body: t(planned.bodyKey, planned.bodyParams),
+      title: planned.directTitle ?? t(planned.titleKey, planned.titleParams),
+      body: planned.directBody ?? t(planned.bodyKey, planned.bodyParams),
       sound: 'default',
       channelId: channel.id,
       priority: planned.priority === 'high' ? 'max' : 'high',

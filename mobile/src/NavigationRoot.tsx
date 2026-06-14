@@ -1,8 +1,10 @@
 import { NavigationContainer, ThemeProvider as NavigationThemeProvider } from '@react-navigation/native';
 import { useMemo } from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, View, StyleSheet } from 'react-native';
 
 import { RootNavigator } from '@/navigation';
+import { navigationRef } from '@/navigation/navigationRef';
+import { NotificationEventHandler } from '@/features/notifications/components/NotificationEventHandler';
 import { useTheme } from '@/theme/ThemeContext';
 
 export function NavigationRoot() {
@@ -39,9 +41,16 @@ export function NavigationRoot() {
   return (
     <NavigationThemeProvider value={navigationTheme}>
       <StatusBar barStyle={theme.isDark ? 'light-content' : 'dark-content'} />
-      <NavigationContainer theme={navigationTheme}>
-        <RootNavigator />
+      <NavigationContainer ref={navigationRef} theme={navigationTheme}>
+        <View style={styles.root}>
+          <RootNavigator />
+          <NotificationEventHandler />
+        </View>
       </NavigationContainer>
     </NavigationThemeProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  root: { flex: 1 },
+});

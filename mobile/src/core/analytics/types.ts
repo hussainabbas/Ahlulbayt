@@ -7,6 +7,10 @@ export const ANALYTICS_EVENTS = {
   DUA_OPENED: 'dua.opened',
   ZIYARAT_OPENED: 'ziyarat.opened',
   FEATURE_USED: 'engagement.feature_used',
+  NOTIFICATION_DELIVERED: 'notification.delivered',
+  NOTIFICATION_OPENED: 'notification.opened',
+  NOTIFICATION_DISMISSED: 'notification.dismissed',
+  NOTIFICATION_SNOOZED: 'notification.snoozed',
 } as const;
 
 export type AnalyticsEventName = (typeof ANALYTICS_EVENTS)[keyof typeof ANALYTICS_EVENTS];

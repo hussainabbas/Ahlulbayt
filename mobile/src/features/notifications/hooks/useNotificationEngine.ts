@@ -60,6 +60,34 @@ export function useNotificationEngine() {
   }, [reschedule]);
 
   useEffect(() => {
+    const unsubPrefs = useNotificationPreferencesStore.subscribe((state, prev) => {
+      if (
+        state.masterEnabled !== prev.masterEnabled ||
+        state.quietHoursEnabled !== prev.quietHoursEnabled ||
+        state.quietStartHour !== prev.quietStartHour ||
+        state.quietEndHour !== prev.quietEndHour ||
+        state.categories !== prev.categories
+      ) {
+        void reschedule(true);
+      }
+    });
+    return unsubPrefs;
+  }, [reschedule]);
+
+  useEffect(() => {
+    const unsubAdhan = useAdhanStore.subscribe((state, prev) => {
+      if (
+        state.masterEnabled !== prev.masterEnabled ||
+        state.globalVoiceId !== prev.globalVoiceId ||
+        state.prayers !== prev.prayers
+      ) {
+        void reschedule(true);
+      }
+    });
+    return unsubAdhan;
+  }, [reschedule]);
+
+  useEffect(() => {
     const unsub = usePrayerClockStore.subscribe((state, prev) => {
       if (state.dateKey !== prev.dateKey || state.config !== prev.config) {
         void reschedule(true);

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "595645974841",
+    "project_id": "ahlulbaytplus-675de",
+    "storage_bucket": "ahlulbaytplus-675de.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:595645974841:android:099d3bb8065a10021740e8",
+        "android_client_info": {
+          "package_name": "com.ahlulbaytplus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDP88hvcJdiYHvx3WFu2-QRxKUgEoIL7-8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

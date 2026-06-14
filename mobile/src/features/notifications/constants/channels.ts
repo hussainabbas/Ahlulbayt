@@ -26,6 +26,16 @@ export const NOTIFICATION_CHANNELS: Record<
     nameKey: 'notifications.channels.duas',
     descriptionKey: 'notifications.channels.duasDesc',
   },
+  quran: {
+    id: 'smart-quran',
+    nameKey: 'notifications.channels.quran',
+    descriptionKey: 'notifications.channels.quranDesc',
+  },
+  hadith: {
+    id: 'smart-hadith',
+    nameKey: 'notifications.channels.hadith',
+    descriptionKey: 'notifications.channels.hadithDesc',
+  },
   muharram: {
     id: 'smart-muharram',
     nameKey: 'notifications.channels.muharram',
@@ -41,6 +51,11 @@ export const NOTIFICATION_CHANNELS: Record<
     nameKey: 'notifications.channels.fasting',
     descriptionKey: 'notifications.channels.fastingDesc',
   },
+  ai: {
+    id: 'smart-ai',
+    nameKey: 'notifications.channels.ai',
+    descriptionKey: 'notifications.channels.aiDesc',
+  },
 };
 
 export const DEFAULT_CATEGORY_HOURS: Record<
@@ -50,9 +65,12 @@ export const DEFAULT_CATEGORY_HOURS: Record<
   prayer: { digestHour: 6, eveningHour: 20 },
   events: { digestHour: 7, eveningHour: 20 },
   duas: { digestHour: 6, eveningHour: 19 },
+  quran: { digestHour: 7, eveningHour: 20 },
+  hadith: { digestHour: 8, eveningHour: 20 },
   muharram: { digestHour: 8, eveningHour: 21 },
   amaal: { digestHour: 9, eveningHour: 18 },
   fasting: { digestHour: 5, eveningHour: 20 },
+  ai: { digestHour: 10, eveningHour: 18 },
 };
 
 export function buildSmartNotificationId(

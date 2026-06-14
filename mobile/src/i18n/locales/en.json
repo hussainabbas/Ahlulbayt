@@ -270,11 +270,12 @@
     },
     "notifications": {
       "adhanTitle": "{{prayer}} Adhan",
-      "adhanBody": "It is time for {{prayer}} prayer.",
+      "adhanBody": "{{prayer}} prayer time has started.",
       "prepTitle": "Prepare for {{prayer}}",
       "prepBody": "{{prayer}} is approaching — time for wudu and preparation.",
       "smartTitle": "{{prayer}} soon",
-      "smartBody": "{{prayer}} begins shortly. Wrap up and prepare."
+      "smartBody": "{{prayer}} begins shortly. Wrap up and prepare.",
+      "snooze": "Snooze 10 min"
     }
   },
   "quran": {
@@ -1371,7 +1372,13 @@
       "amaal": "Amaal",
       "amaalDesc": "Tasbih, salawat, and seasonal recommended acts",
       "fasting": "Fasting",
-      "fastingDesc": "Sunnah fasts, Ashura, Arafah, and Ramadan"
+      "fastingDesc": "Sunnah fasts, Ashura, Arafah, and Ramadan",
+      "quran": "Daily Quran Verse",
+      "quranDesc": "Ayah, translation, and surah reference each morning",
+      "hadith": "Daily Hadith",
+      "hadithDesc": "Hadith of the day with source and reference",
+      "ai": "Smart Insights",
+      "aiDesc": "Helpful reminders based on your activity"
     },
     "channels": {
       "prayer": "Prayer",
@@ -1385,14 +1392,22 @@
       "amaal": "Amaal",
       "amaalDesc": "Daily amaal reminders",
       "fasting": "Fasting",
-      "fastingDesc": "Fasting reminders"
+      "fastingDesc": "Fasting reminders",
+      "quran": "Quran",
+      "quranDesc": "Daily verse notifications",
+      "hadith": "Hadith",
+      "hadithDesc": "Daily hadith notifications",
+      "ai": "Smart Insights",
+      "aiDesc": "Personalized activity reminders"
     },
     "events": {
       "today": { "title": "{{event}}", "body": "Today is {{event}}. Open the calendar for amaal and details." },
       "eve": { "title": "Tomorrow: {{event}}", "body": "{{event}} is tomorrow. Prepare with duas and amaal." }
     },
     "duas": {
+      "daily": { "title": "Dua of the Day", "body": "Open for the full supplication and source." },
       "kumail": { "title": "Dua Kumayl tonight", "body": "Thursday night — recite Dua Kumayl for forgiveness." },
+      "nudba": { "title": "Dua Nudba", "body": "Friday morning — recite Dua Nudba. Source: Mafatih al-Jinan." },
       "sabah": { "title": "Morning dua", "body": "Start your day with Dua al-Sabah." },
       "tawassul": { "title": "Dua Tawassul", "body": "Friday — seek intercession through Ahlul Bayt (as)." },
       "ahad": { "title": "Dua Ahad", "body": "Recite Dua Ahad and renew your covenant with Imam Mahdi (aj)." }
@@ -1415,6 +1430,26 @@
       "ashuraEve": { "title": "Tasu'a — eve of Ashura", "body": "Prepare for the Day of Ashura. Recite Ziyarat and amaal." },
       "arbaeen": { "title": "Arbaeen approaching", "body": "40 days after Ashura — plan ziyarat and Arbaeen walk if possible." },
       "day": { "title": "Muharram Day {{day}}", "body": "Day {{day}} of Muharram — view today's events and amaal." }
+    },
+    "quran": {
+      "daily": { "title": "Today's Verse", "body": "Tap to read the full ayah with translation." }
+    },
+    "hadith": {
+      "daily": { "title": "Hadith of the Day", "body": "Tap to read the full hadith with references." }
+    },
+    "ai": {
+      "quranGap": {
+        "title": "Continue your Quran journey",
+        "body": "You have not opened Quran in {{days}} days. Even one ayah counts."
+      },
+      "kumaylHabit": {
+        "title": "Dua Kumayl tonight?",
+        "body": "You usually read Dua Kumayl on Thursdays — continue your habit tonight."
+      },
+      "prayerStreak": {
+        "title": "Prayer tracking streak",
+        "body": "You completed {{days}} days of prayer tracking. Keep it up."
+      }
     }
   },
   "premium": {
