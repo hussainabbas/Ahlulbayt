@@ -114,8 +114,11 @@ export function QuranSearchScreen() {
           renderItem={({ item }) => (
             <SearchResultRow
               result={item}
-              onPress={() => {
-                navigation.goBack();
+              onPress={(result) => {
+                navigation.navigate('QuranReader', {
+                  surahNumber: result.surah,
+                  ayah: result.ayah,
+                });
               }}
             />
           )}

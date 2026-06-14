@@ -171,6 +171,35 @@
     "title": "Quran",
     "surahs": "Surahs",
     "ayahs": "ayahs",
+    "notFound": "Surah not found",
+    "downloadPrompt": "Full text not downloaded yet — showing preview ayahs.",
+    "readerSettings": "Reader settings",
+    "displayMode": "Display mode",
+    "translations": "Translations",
+    "tajweedColors": "Tajweed colors",
+    "showTafsir": "Show tafsir",
+    "audioSync": "Highlight with audio",
+    "tajweedLegend": "Tajweed legend",
+    "yourNote": "Your note",
+    "display": {
+      "stacked": "Arabic + translation",
+      "arabicOnly": "Arabic only",
+      "translationOnly": "Translation only",
+      "wordByWord": "Word by word"
+    },
+    "layers": {
+      "en": "English",
+      "ur": "Urdu",
+      "romanUr": "Roman Urdu"
+    },
+    "tajweed": {
+      "ghunnah": "Ghunnah (nasal)",
+      "qalaqah": "Qalqalah",
+      "madd": "Madd (elongation)",
+      "ikhfa": "Ikhfa (hidden)",
+      "idgham": "Idgham (merged)",
+      "iqlab": "Iqlab (conversion)"
+    },
     "search": {
       "title": "AI Quran Search",
       "subtitle": "Ask in natural language — find verses by meaning, not just keywords.",

@@ -78,14 +78,14 @@ export const SURAH_001: SurahBundle = {
       surah: 1, ayah: 5, juz: 1, page: 1,
       arabic: 'إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ',
       words: [
-        { index: 0, arabic: 'إِيَّاكَ', transliteration: 'iyyāka', translation: { en: 'You alone', ur: 'صرف تجhi', roman_ur: 'Sirf tujhe' }, tajweed: 'default' },
+        { index: 0, arabic: 'إِيَّاكَ', transliteration: 'iyyāka', translation: { en: 'You alone', ur: 'صرف تجھ', roman_ur: 'Sirf tujhe' }, tajweed: 'default' },
         { index: 1, arabic: 'نَعْبُدُ', transliteration: 'naʿbudu', translation: { en: 'we worship', ur: 'ہم عبادت کرتے ہیں', roman_ur: 'Hum ibadat karte hain' }, tajweed: 'default' },
-        { index: 2, arabic: 'وَإِيَّاكَ', transliteration: 'wa iyyāka', translation: { en: 'and You alone', ur: 'اور صرف تجhi', roman_ur: 'Aur sirf tujhe' }, tajweed: 'default' },
+        { index: 2, arabic: 'وَإِيَّاكَ', transliteration: 'wa iyyāka', translation: { en: 'and You alone', ur: 'اور صرف تجھ', roman_ur: 'Aur sirf tujhe' }, tajweed: 'default' },
         { index: 3, arabic: 'نَسْتَعِينُ', transliteration: 'nastaʿīn', translation: { en: 'we ask for help', ur: 'مدد چاہتے ہیں', roman_ur: 'Madad chahte hain' }, tajweed: 'madda_normal' },
       ],
       translations: {
         en: 'You alone we worship, and You alone we ask for help.',
-        ur: 'ہم صرف تیری ہی عبادت کرتے ہیں اور صرف تجhi سے مدد چاہتے ہیں۔',
+        ur: 'ہم صرف تیری ہی عبادت کرتے ہیں اور صرف تجھ سے مدد چاہتے ہیں۔',
         roman_ur: 'Hum sirf teri hi ibadat karte hain aur sirf tujh se madad chahte hain.',
       },
       tafsir: {
@@ -98,12 +98,12 @@ export const SURAH_001: SurahBundle = {
       arabic: 'اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ',
       words: [
         { index: 0, arabic: 'اهْدِنَا', transliteration: 'ihdinā', translation: { en: 'Guide us', ur: 'ہمیں ہدایت دے', roman_ur: 'Hamein hidayat de' }, tajweed: 'default' },
-        { index: 1, arabic: 'الصِّرَاطَ', transliteration: 'aṣ-ṣirāṭ', translation: { en: 'the path', ur: 'رasta', roman_ur: 'Raasta' }, tajweed: 'default' },
-        { index: 2, arabic: 'الْمُسْتَقِيمَ', transliteration: 'al-mustaqīm', translation: { en: 'the straight', ur: 'سیدha', roman_ur: 'Seedha' }, tajweed: 'madda_normal' },
+        { index: 1, arabic: 'الصِّرَاطَ', transliteration: 'aṣ-ṣirāṭ', translation: { en: 'the path', ur: 'راستہ', roman_ur: 'Raasta' }, tajweed: 'default' },
+        { index: 2, arabic: 'الْمُسْتَقِيمَ', transliteration: 'al-mustaqīm', translation: { en: 'the straight', ur: 'سیدھا', roman_ur: 'Seedha' }, tajweed: 'madda_normal' },
       ],
       translations: {
         en: 'Guide us to the straight path.',
-        ur: 'ہمیں سیدhe رaste ki ہدایت فرما۔',
+        ur: 'ہمیں سیدھے راستے کی ہدایت فرما۔',
         roman_ur: 'Hamein seedhe raaste ki hidayat farma.',
       },
     },
@@ -111,7 +111,7 @@ export const SURAH_001: SurahBundle = {
       surah: 1, ayah: 7, juz: 1, page: 2,
       arabic: 'صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ',
       words: [
-        { index: 0, arabic: 'صِرَاطَ', transliteration: 'ṣirāṭa', translation: { en: 'The path', ur: 'رasta', roman_ur: 'Raasta' }, tajweed: 'default' },
+        { index: 0, arabic: 'صِرَاطَ', transliteration: 'ṣirāṭa', translation: { en: 'The path', ur: 'راستہ', roman_ur: 'Raasta' }, tajweed: 'default' },
         { index: 1, arabic: 'الَّذِينَ', transliteration: 'alladhīna', translation: { en: 'of those', ur: 'ان لوگوں کا', roman_ur: 'Un logon ka' }, tajweed: 'default' },
         { index: 2, arabic: 'أَنْعَمْتَ', transliteration: 'anʿamta', translation: { en: 'You have favored', ur: 'تو نے انعام کیا', roman_ur: 'Tu ne inaam kiya' }, tajweed: 'default' },
         { index: 3, arabic: 'عَلَيْهِمْ', transliteration: 'ʿalayhim', translation: { en: 'upon them', ur: 'ان پر', roman_ur: 'Un par' }, tajweed: 'default' },
@@ -122,7 +122,7 @@ export const SURAH_001: SurahBundle = {
       ],
       translations: {
         en: 'The path of those upon whom You have bestowed favor, not of those who have earned wrath nor of those who go astray.',
-        ur: 'ان لوگوں کا رasta جن پر تو نے انعام فرمایا، نہ ان کا جن پر غضب ہوا اور نہ گمراہوں کا۔',
+        ur: 'ان لوگوں کا راستہ جن پر تو نے انعام فرمایا، نہ ان کا جن پر غضب ہوا اور نہ گمراہوں کا۔',
         roman_ur: 'Un logon ka raasta jin par tu ne inaam farmaya, na un ka jin par ghazab hua aur na gumrahon ka.',
       },
       tafsir: {

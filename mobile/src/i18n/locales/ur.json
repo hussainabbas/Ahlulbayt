@@ -171,6 +171,35 @@
     "title": "قرآن",
     "surahs": "سورتیں",
     "ayahs": "آیات",
+    "notFound": "سورت نہیں ملی",
+    "downloadPrompt": "مکمل متن ابھی ڈاؤن لوڈ نہیں — پیش نظارہ آیات دکھائی جا رہی ہیں۔",
+    "readerSettings": "ریڈر کی ترتیبات",
+    "displayMode": "ڈسپلے موڈ",
+    "translations": "ترجمے",
+    "tajweedColors": "تجوید کے رنگ",
+    "showTafsir": "تفسیر دکھائیں",
+    "audioSync": "آڈیو کے ساتھ ہائی لائٹ",
+    "tajweedLegend": "تجوید کی وضاحت",
+    "yourNote": "آپ کا نوٹ",
+    "display": {
+      "stacked": "عربی + ترجمہ",
+      "arabicOnly": "صرف عربی",
+      "translationOnly": "صرف ترجمہ",
+      "wordByWord": "لفظ بہ لفظ"
+    },
+    "layers": {
+      "en": "انگریزی",
+      "ur": "اردو",
+      "romanUr": "رومن اردو"
+    },
+    "tajweed": {
+      "ghunnah": "غنہ",
+      "qalaqah": "قلقلہ",
+      "madd": "مد",
+      "ikhfa": "اخفاء",
+      "idgham": "ادغام",
+      "iqlab": "اقلاب"
+    },
     "search": {
       "title": "AI قرآن سرچ",
       "subtitle": "قدرتی زبان میں پوچھیں — معنی کے لحاظ سے آیات تلاش کریں۔",

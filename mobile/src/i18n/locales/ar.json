@@ -171,6 +171,35 @@
     "title": "القرآن",
     "surahs": "السور",
     "ayahs": "آيات",
+    "notFound": "لم تُعثر على السورة",
+    "downloadPrompt": "النص الكامل غير محمّل بعد — معاينة الآيات فقط.",
+    "readerSettings": "إعدادات القراءة",
+    "displayMode": "وضع العرض",
+    "translations": "الترجمات",
+    "tajweedColors": "ألوان التجويد",
+    "showTafsir": "إظهار التفسير",
+    "audioSync": "تمييز مع الصوت",
+    "tajweedLegend": "دليل التجويد",
+    "yourNote": "ملاحظتك",
+    "display": {
+      "stacked": "عربي + ترجمة",
+      "arabicOnly": "عربي فقط",
+      "translationOnly": "ترجمة فقط",
+      "wordByWord": "كلمة بكلمة"
+    },
+    "layers": {
+      "en": "إنجليزي",
+      "ur": "أردو",
+      "romanUr": "أردو بالحروف اللاتينية"
+    },
+    "tajweed": {
+      "ghunnah": "غنة",
+      "qalaqah": "قلقلة",
+      "madd": "مد",
+      "ikhfa": "إخفاء",
+      "idgham": "إدغام",
+      "iqlab": "إقلاب"
+    },
     "search": {
       "title": "بحث القرآن بالذكاء الاصطناعي",
       "subtitle": "اسأل بلغة طبيعية — ابحث عن الآيات بالمعنى لا بالكلمات فقط.",

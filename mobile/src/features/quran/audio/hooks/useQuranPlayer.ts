@@ -4,6 +4,6 @@
  * evaluates the native module (which crashes under RN New Architecture).
  *
  * When enabling audio: set NATIVE_AUDIO_ENABLED=true and switch to:
- *   export { useQuranPlayerNative as useQuranPlayer } from './useQuranPlayer.native';
+ *   export { useQuranPlayerNative as useQuranPlayer } from './useQuranPlayerNative';
  */
 export { useQuranPlayer } from './useQuranPlayer.stub';

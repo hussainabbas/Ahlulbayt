@@ -35,6 +35,13 @@ export function RootNavigator() {
         options={stack.modal()}
       />
       <Stack.Screen
+        name="QuranReader"
+        getComponent={lazyScreen(
+          () => require('@/features/quran/screens/QuranReaderScreen').QuranReaderScreen,
+        )}
+        options={stack.base}
+      />
+      <Stack.Screen
         name="Mafatih"
         getComponent={lazyScreen(
           () => require('@/features/mafatih/screens/MafatihHubScreen').MafatihHubScreen,

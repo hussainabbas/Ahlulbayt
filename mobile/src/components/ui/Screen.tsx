@@ -131,7 +131,7 @@ export function Screen({
 
         styles.root,
 
-        { backgroundColor: theme.colors.backgroundPrimary, paddingTop: insets.top },
+        { backgroundColor: theme.colors.backgroundPrimary },
 
         contentStyle,
 

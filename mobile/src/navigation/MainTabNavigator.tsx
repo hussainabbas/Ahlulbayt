@@ -24,7 +24,7 @@ export function MainTabNavigator() {
     () => ({
       headerShown: false,
       lazy: true,
-      freezeOnBlur: true,
+      freezeOnBlur: false,
       tabBarShowLabel: true,
     }),
     [],

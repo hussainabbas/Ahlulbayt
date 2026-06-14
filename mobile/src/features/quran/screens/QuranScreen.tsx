@@ -1,31 +1,27 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { FlatList, InteractionManager, Pressable, StyleSheet, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-import { FLAT_LIST_PERFORMANCE, surahRowLayout } from '@/core/ui/listPerformance';
-import { Card } from '@/components/ui/Card';
 import { Icon } from '@/components/ui/Icon';
 import { Screen } from '@/components/ui/Screen';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { SegmentControl } from '@/components/ui/SegmentControl';
 import { Text } from '@/components/ui/Text';
 import { useLocale } from '@/i18n/useLocale';
-import type { RootStackParamList } from '@/navigation/types';
+import { useRootNavigation } from '@/navigation/hooks';
 import { layout } from '@/theme/layout';
 import { useTheme } from '@/theme/ThemeContext';
 
-import { RECITERS, SURAH_METADATA } from '../constants/surahMetadata';
 import { SurahAudioRow } from '../audio/components/SurahAudioRow';
 import { useQuranPlayer } from '../audio/hooks/useQuranPlayer';
 import { useQuranDownloadStore } from '../audio/stores/quranDownloadStore';
+import { RECITERS, SURAH_METADATA } from '../constants/surahMetadata';
 import type { SurahMeta } from '../types';
 
 export function QuranScreen() {
   const { t } = useLocale();
   const { theme } = useTheme();
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const { reciterId, changeReciter, playSurah, addToQueue } = useQuranPlayer();
+  const rootNavigation = useRootNavigation();
+  const { reciterId, changeReciter, addToQueue } = useQuranPlayer();
   const hydrateDownloads = useQuranDownloadStore((s) => s.hydrateDownloads);
   const downloads = useQuranDownloadStore((s) => s.downloads);
 
@@ -41,14 +37,19 @@ export function QuranScreen() {
     return () => task.cancel();
   }, [hydrateDownloads, reciterId]);
 
-  const onPlay = useCallback((surah: number) => void playSurah(surah), [playSurah]);
+  const onOpenSurah = useCallback(
+    (surah: number) => {
+      rootNavigation.navigate('QuranReader', { surahNumber: surah });
+    },
+    [rootNavigation],
+  );
   const onQueue = useCallback((surah: number) => void addToQueue(surah), [addToQueue]);
 
   const renderItem = useCallback(
     ({ item }: { item: SurahMeta }) => (
-      <SurahAudioRow meta={item} reciterId={reciterId} onPlay={onPlay} onQueue={onQueue} />
+      <SurahAudioRow meta={item} reciterId={reciterId} onPlay={onOpenSurah} onQueue={onQueue} />
     ),
-    [reciterId, onPlay, onQueue],
+    [reciterId, onOpenSurah, onQueue],
   );
 
   const keyExtractor = useCallback((item: SurahMeta) => String(item.number), []);
@@ -62,8 +63,8 @@ export function QuranScreen() {
     [t],
   );
 
-  const header = useMemo(
-    () => (
+  return (
+    <Screen padded={false} safeBottom={false}>
       <View style={styles.header}>
         <ScreenHeader
           title={t('quran.title')}
@@ -72,7 +73,7 @@ export function QuranScreen() {
         />
 
         <Pressable
-          onPress={() => navigation.navigate('QuranSearch')}
+          onPress={() => rootNavigation.navigate('QuranSearch')}
           style={[
             styles.searchBtn,
             {
@@ -91,37 +92,22 @@ export function QuranScreen() {
         <SegmentControl
           options={reciterOptions}
           value={reciterId}
-          onChange={(id) => void changeReciter(id).then(() => hydrateDownloads(id))}
+          onChange={(id) => void changeReciter(id)}
         />
       </View>
-    ),
-    [
-      theme,
-      t,
-      offlineCount,
-      navigation,
-      reciterId,
-      changeReciter,
-      hydrateDownloads,
-      reciterOptions,
-    ],
-  );
 
-  return (
-    <Screen padded={false}>
-      <Card padded={false} style={styles.listCard} shadow="none">
-        <FlatList
-          data={SURAH_METADATA}
-          keyExtractor={keyExtractor}
-          renderItem={renderItem}
-          ListHeaderComponent={header}
-          contentContainerStyle={styles.listContent}
-          showsVerticalScrollIndicator={false}
-          style={styles.list}
-          getItemLayout={surahRowLayout}
-          {...FLAT_LIST_PERFORMANCE}
-        />
-      </Card>
+      <FlatList
+        data={SURAH_METADATA}
+        keyExtractor={keyExtractor}
+        renderItem={renderItem}
+        style={styles.list}
+        contentContainerStyle={styles.listContent}
+        showsVerticalScrollIndicator={false}
+        initialNumToRender={16}
+        maxToRenderPerBatch={12}
+        windowSize={7}
+        removeClippedSubviews={false}
+      />
     </Screen>
   );
 }
@@ -129,7 +115,6 @@ export function QuranScreen() {
 const styles = StyleSheet.create({
   header: {
     paddingHorizontal: layout.screenPaddingX,
-    paddingTop: layout.screenPaddingY,
     paddingBottom: layout.blockGap,
   },
   screenHeader: {
@@ -143,11 +128,6 @@ const styles = StyleSheet.create({
     paddingVertical: layout.blockGap,
     borderWidth: StyleSheet.hairlineWidth,
     alignSelf: 'stretch',
-  },
-  listCard: {
-    flex: 1,
-    marginHorizontal: layout.screenPaddingX,
-    marginBottom: layout.listGap,
   },
   list: {
     flex: 1,

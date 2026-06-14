@@ -23,6 +23,7 @@ export type RootStackParamList = {
   Main: NavigatorScreenParams<MainTabParamList>;
   Settings: undefined;
   QuranSearch: { query?: string } | undefined;
+  QuranReader: { surahNumber: number; ayah?: number };
   Mafatih: undefined;
   MafatihReader: { ref: string };
   Duas: undefined;
