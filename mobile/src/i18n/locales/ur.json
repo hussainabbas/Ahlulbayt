@@ -182,6 +182,8 @@
     "audioSync": "آڈیو کے ساتھ ہائی لائٹ",
     "tajweedLegend": "تجوید کی وضاحت",
     "yourNote": "آپ کا نوٹ",
+    "notes": "نوٹس",
+    "notePlaceholder": "اپنا نوٹ یہاں لکھیں…",
     "meta": {
       "meccan": "مکی",
       "medinan": "مدنی",
@@ -193,7 +195,20 @@
       "downloadText": "آف لائن ڈاؤن لوڈ",
       "downloadingText": "محفوظ {{percent}}%",
       "textOffline": "آف لائن محفوظ",
+      "textOfflineCount": "{{count}} سورتیں آف لائن محفوظ",
       "removeOffline": "ہٹانے کے لیے ٹیپ کریں"
+    },
+    "hub": {
+      "subtitle": "114 سورتیں · پڑھیں، تلاش کریں اور آف لائن محفوظ کریں",
+      "recitation": "تلاوت",
+      "queue": "قطار",
+      "audio": "آڈیو",
+      "textSaved": "آف لائن محفوظ",
+      "textSavedCount": "{{count}} آف لائن محفوظ",
+      "audioSaved": "آڈیو محفوظ",
+      "addToQueue": "تلاوت کی قطار میں شامل کریں",
+      "downloadAudio": "تلاوت آڈیو ڈاؤن لوڈ کریں",
+      "downloadingAudio": "آڈیو محفوظ {{percent}}%"
     },
     "display": {
       "stacked": "عربی + ترجمہ",

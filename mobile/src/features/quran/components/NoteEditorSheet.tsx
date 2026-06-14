@@ -40,10 +40,20 @@ export function NoteEditorSheet({
           ]}
           onPress={(e) => e.stopPropagation()}
         >
-          <Text variant="headingSm">{t('quran.notes')}</Text>
-          <Text variant="caption" color="tertiary">
-            {ayahRef}
-          </Text>
+          <View style={styles.handle} />
+          <View style={styles.headerRow}>
+            <View style={styles.headerText}>
+              <Text variant="headingSm">{t('quran.notes')}</Text>
+              <Text variant="caption" color="tertiary">
+                {ayahRef}
+              </Text>
+            </View>
+            <Pressable onPress={onClose} hitSlop={8}>
+              <Text variant="bodySm" color="secondary">
+                {t('common.close')}
+              </Text>
+            </Pressable>
+          </View>
           <TextInput
             value={text}
             onChangeText={setText}
@@ -98,7 +108,25 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderWidth: 1,
     padding: 20,
-    gap: 10,
+    gap: 12,
+  },
+  handle: {
+    alignSelf: 'center',
+    width: 36,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: 'rgba(128,128,128,0.35)',
+    marginBottom: 4,
+  },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    gap: 12,
+  },
+  headerText: {
+    flex: 1,
+    gap: 2,
   },
   input: {
     minHeight: 120,

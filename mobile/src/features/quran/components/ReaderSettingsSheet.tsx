@@ -4,7 +4,7 @@ import { Text } from '@/components/ui/Text';
 import { useLocale } from '@/i18n/useLocale';
 import { useTheme } from '@/theme/ThemeContext';
 
-import { TAJWEED_LEGEND } from '../constants/tajweed';
+import { TAJWEED_LEGEND, getTajweedColor } from '../constants/tajweed';
 import { useQuranReaderStore } from '../stores/quranReaderStore';
 import type { ReaderDisplayMode, TranslationLayer } from '../types';
 
@@ -107,7 +107,7 @@ export function ReaderSettingsSheet({ visible, onClose }: ReaderSettingsSheetPro
                     <View
                       style={[
                         styles.dot,
-                        { backgroundColor: theme.colors.accentPrimary },
+                        { backgroundColor: getTajweedColor(item.rule, theme.scheme) },
                       ]}
                     />
                     <Text variant="caption" color="secondary">
@@ -189,7 +189,7 @@ function ToggleRow({
             styles.knob,
             {
               alignSelf: active ? 'flex-end' : 'flex-start',
-              backgroundColor: theme.colors.textPrimary,
+              backgroundColor: theme.colors.textInverse,
             },
           ]}
         />
@@ -255,9 +255,9 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: 10,
+    height: 10,
+    borderRadius: 5,
   },
   doneBtn: {
     alignSelf: 'center',

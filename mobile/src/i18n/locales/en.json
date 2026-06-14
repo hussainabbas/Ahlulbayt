@@ -182,6 +182,8 @@
     "audioSync": "Highlight with audio",
     "tajweedLegend": "Tajweed legend",
     "yourNote": "Your note",
+    "notes": "Notes",
+    "notePlaceholder": "Write your note here…",
     "meta": {
       "meccan": "Meccan",
       "medinan": "Medinan",
@@ -192,8 +194,21 @@
       "openTafsir": "View tafsir",
       "downloadText": "Download for offline",
       "downloadingText": "Saving {{percent}}%",
-      "textOffline": "Saved offline",
+      "textOffline": "Offline saved",
+      "textOfflineCount": "{{count}} surahs offline saved",
       "removeOffline": "Tap to remove"
+    },
+    "hub": {
+      "subtitle": "114 surahs · read, search & save offline",
+      "recitation": "Recitation",
+      "queue": "Queue",
+      "audio": "Audio",
+      "textSaved": "Offline saved",
+      "textSavedCount": "{{count}} offline saved",
+      "audioSaved": "Audio saved",
+      "addToQueue": "Add to recitation queue",
+      "downloadAudio": "Download recitation audio",
+      "downloadingAudio": "Saving audio {{percent}}%"
     },
     "display": {
       "stacked": "Arabic + translation",
@@ -210,7 +225,7 @@
       "ghunnah": "Ghunnah (nasal)",
       "qalaqah": "Qalqalah",
       "madd": "Madd (elongation)",
-      "ikhfa": "Ikhfa (hidden)",
+      "ikhfa": "Ikhfa",
       "idgham": "Idgham (merged)",
       "iqlab": "Iqlab (conversion)"
     },

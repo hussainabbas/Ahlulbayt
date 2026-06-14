@@ -182,6 +182,8 @@
     "audioSync": "تمييز مع الصوت",
     "tajweedLegend": "دليل التجويد",
     "yourNote": "ملاحظتك",
+    "notes": "ملاحظات",
+    "notePlaceholder": "اكتب ملاحظتك هنا…",
     "meta": {
       "meccan": "مكية",
       "medinan": "مدنية",
@@ -193,7 +195,20 @@
       "downloadText": "تنزيل للقراءة دون اتصال",
       "downloadingText": "جاري الحفظ {{percent}}%",
       "textOffline": "محفوظ دون اتصال",
+      "textOfflineCount": "{{count}} سور محفوظة دون اتصال",
       "removeOffline": "اضغط للإزالة"
+    },
+    "hub": {
+      "subtitle": "114 سورة · اقرأ وابحث واحفظ دون اتصال",
+      "recitation": "التلاوة",
+      "queue": "قائمة",
+      "audio": "صوت",
+      "textSaved": "محفوظ دون اتصال",
+      "textSavedCount": "{{count}} محفوظ دون اتصال",
+      "audioSaved": "الصوت محفوظ",
+      "addToQueue": "إضافة إلى قائمة التلاوة",
+      "downloadAudio": "تنزيل صوت التلاوة",
+      "downloadingAudio": "حفظ الصوت {{percent}}%"
     },
     "display": {
       "stacked": "عربي + ترجمة",

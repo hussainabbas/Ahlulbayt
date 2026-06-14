@@ -1,33 +1,36 @@
 import { useCallback, useEffect, useMemo } from 'react';
-import { FlatList, InteractionManager, Pressable, StyleSheet, View } from 'react-native';
+import { FlatList, InteractionManager, StyleSheet, View } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
-import { Icon } from '@/components/ui/Icon';
 import { Screen } from '@/components/ui/Screen';
-import { ScreenHeader } from '@/components/ui/ScreenHeader';
-import { SegmentControl } from '@/components/ui/SegmentControl';
-import { Text } from '@/components/ui/Text';
 import { useLocale } from '@/i18n/useLocale';
 import { useRootNavigation } from '@/navigation/hooks';
 import { layout } from '@/theme/layout';
-import { useTheme } from '@/theme/ThemeContext';
 
 import { SurahAudioRow } from '../audio/components/SurahAudioRow';
 import { useQuranPlayer } from '../audio/hooks/useQuranPlayer';
 import { useQuranDownloadStore } from '../audio/stores/quranDownloadStore';
+import { QuranHubHeader } from '../components/QuranHubHeader';
 import { RECITERS, SURAH_METADATA } from '../constants/surahMetadata';
+import {
+  selectOfflineTextCount,
+  useQuranTextDownloadStore,
+} from '../stores/quranTextDownloadStore';
 import type { SurahMeta } from '../types';
 
 export function QuranScreen() {
   const { t } = useLocale();
-  const { theme } = useTheme();
   const rootNavigation = useRootNavigation();
   const { reciterId, changeReciter, addToQueue } = useQuranPlayer();
   const hydrateDownloads = useQuranDownloadStore((s) => s.hydrateDownloads);
-  const downloads = useQuranDownloadStore((s) => s.downloads);
+  const hydrateTextOffline = useQuranTextDownloadStore((s) => s.hydrateOfflineCatalog);
+  const offlineSurahs = useQuranTextDownloadStore((s) => s.offlineSurahs);
+  const offlineTextCount = useQuranTextDownloadStore(selectOfflineTextCount);
 
-  const offlineCount = useMemo(
-    () => Object.values(downloads).filter((d) => d.reciterId === reciterId).length,
-    [downloads, reciterId],
+  useFocusEffect(
+    useCallback(() => {
+      void hydrateTextOffline();
+    }, [hydrateTextOffline]),
   );
 
   useEffect(() => {
@@ -63,48 +66,32 @@ export function QuranScreen() {
     [t],
   );
 
+  const listHeader = useMemo(
+    () => (
+      <QuranHubHeader
+        offlineCount={offlineTextCount}
+        reciterOptions={reciterOptions}
+        reciterId={reciterId}
+        onReciterChange={(id) => void changeReciter(id)}
+        onSearchPress={() => rootNavigation.navigate('QuranSearch')}
+      />
+    ),
+    [offlineTextCount, reciterOptions, reciterId, changeReciter, rootNavigation],
+  );
+
   return (
     <Screen padded={false} safeBottom={false}>
-      <View style={styles.header}>
-        <ScreenHeader
-          title={t('quran.title')}
-          subtitle={t('quran.player.offlineCount', { count: offlineCount })}
-          style={styles.screenHeader}
-        />
-
-        <Pressable
-          onPress={() => rootNavigation.navigate('QuranSearch')}
-          style={[
-            styles.searchBtn,
-            {
-              backgroundColor: theme.colors.surfaceElevated,
-              borderColor: theme.colors.borderSubtle,
-              borderRadius: theme.radius.md,
-            },
-          ]}
-        >
-          <Icon name="search" size={16} color={theme.colors.accentPrimary} />
-          <Text variant="bodySm" color="secondary">
-            {t('quran.search.openSearch')}
-          </Text>
-        </Pressable>
-
-        <SegmentControl
-          options={reciterOptions}
-          value={reciterId}
-          onChange={(id) => void changeReciter(id)}
-        />
-      </View>
-
       <FlatList
         data={SURAH_METADATA}
         keyExtractor={keyExtractor}
         renderItem={renderItem}
-        style={styles.list}
+        ListHeaderComponent={listHeader}
+        extraData={offlineSurahs}
+        ItemSeparatorComponent={() => <View style={styles.separator} />}
         contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}
-        initialNumToRender={16}
-        maxToRenderPerBatch={12}
+        initialNumToRender={12}
+        maxToRenderPerBatch={10}
         windowSize={7}
         removeClippedSubviews={false}
       />
@@ -113,26 +100,10 @@ export function QuranScreen() {
 }
 
 const styles = StyleSheet.create({
-  header: {
-    paddingHorizontal: layout.screenPaddingX,
-    paddingBottom: layout.blockGap,
-  },
-  screenHeader: {
-    marginBottom: layout.blockGap,
-  },
-  searchBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: layout.listGap,
-    paddingHorizontal: layout.blockGap + 2,
-    paddingVertical: layout.blockGap,
-    borderWidth: StyleSheet.hairlineWidth,
-    alignSelf: 'stretch',
-  },
-  list: {
-    flex: 1,
-  },
   listContent: {
     paddingBottom: 120,
+  },
+  separator: {
+    height: 8,
   },
 });

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 
+import { listOfflineTextSurahNumbers } from '../engine/quranBundleStorage';
 import type { SurahBundle, SurahMeta } from '../types';
 import {
   checkSurahTextOffline,
@@ -10,6 +11,7 @@ import {
 interface QuranTextDownloadState {
   offlineSurahs: Record<number, boolean>;
   progress: Record<number, number>;
+  hydrateOfflineCatalog: () => Promise<void>;
   refreshOffline: (surah: number) => Promise<void>;
   downloadSurahText: (
     meta: SurahMeta,
@@ -21,6 +23,15 @@ interface QuranTextDownloadState {
 export const useQuranTextDownloadStore = create<QuranTextDownloadState>((set) => ({
   offlineSurahs: {},
   progress: {},
+
+  hydrateOfflineCatalog: async () => {
+    const numbers = await listOfflineTextSurahNumbers();
+    const offlineSurahs: Record<number, boolean> = {};
+    for (const number of numbers) {
+      offlineSurahs[number] = true;
+    }
+    set({ offlineSurahs });
+  },
 
   refreshOffline: async (surah) => {
     const stored = await checkSurahTextOffline(surah);
@@ -68,3 +79,7 @@ export const useQuranTextDownloadStore = create<QuranTextDownloadState>((set) =>
     }));
   },
 }));
+
+export function selectOfflineTextCount(state: QuranTextDownloadState): number {
+  return Object.entries(state.offlineSurahs).filter(([, saved]) => saved).length;
+}

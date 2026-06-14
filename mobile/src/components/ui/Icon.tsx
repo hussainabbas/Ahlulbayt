@@ -8,6 +8,7 @@ type IconName =
   | 'settings'
   | 'bookmark'
   | 'book'
+  | 'plus'
   | 'download'
   | 'search'
   | 'send';
@@ -65,62 +66,115 @@ export function Icon({ name, size = 18, color, filled = false, style }: IconProp
   }
 
   if (name === 'settings') {
+    const lineH = 1.5;
+    const knob = size * 0.24;
+    const rows = [size * 0.58, size * 0.26, size * 0.46];
+
     return (
-      <View style={[styles.gear, { width: size, height: size, borderColor: tint }, style]}>
-        <View style={[styles.gearCore, { backgroundColor: tint }]} />
+      <View style={[{ width: size, height: size, justifyContent: 'space-evenly' }, style]}>
+        {rows.map((knobLeft, index) => (
+          <View
+            key={index}
+            style={{
+              height: lineH,
+              borderRadius: lineH,
+              backgroundColor: tint,
+              width: '100%',
+            }}
+          >
+            <View
+              style={{
+                position: 'absolute',
+                left: knobLeft - knob / 2,
+                top: (lineH - knob) / 2,
+                width: knob,
+                height: knob,
+                borderRadius: knob / 2,
+                backgroundColor: tint,
+              }}
+            />
+          </View>
+        ))}
       </View>
     );
   }
 
   if (name === 'bookmark') {
-    const w = size * 0.56;
+    const w = size * 0.54;
     const h = size;
-    const stroke = 1.75;
-    const fillColor = filled ? tint : 'transparent';
+    const stroke = 1.5;
+    const headH = h * 0.66;
+    const tailH = h - headH;
+
+    if (filled) {
+      return (
+        <View style={[{ width: w, height: h, alignItems: 'center' }, style]}>
+          <View
+            style={{
+              width: w,
+              height: headH,
+              backgroundColor: tint,
+              borderTopLeftRadius: 4,
+              borderTopRightRadius: 4,
+            }}
+          />
+          <View
+            style={{
+              width: 0,
+              height: 0,
+              borderLeftWidth: w / 2,
+              borderRightWidth: w / 2,
+              borderTopWidth: tailH,
+              borderLeftColor: 'transparent',
+              borderRightColor: 'transparent',
+              borderTopColor: tint,
+              marginTop: -1,
+            }}
+          />
+        </View>
+      );
+    }
 
     return (
-      <View style={[{ width: w, height: h, alignItems: 'center' }, style]}>
+      <View style={[{ width: w, height: h }, style]}>
         <View
           style={{
-            width: w,
-            height: h * 0.76,
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: headH,
             borderWidth: stroke,
             borderColor: tint,
-            borderTopLeftRadius: 5,
-            borderTopRightRadius: 5,
+            borderTopLeftRadius: 4,
+            borderTopRightRadius: 4,
             borderBottomWidth: 0,
-            backgroundColor: fillColor,
           }}
         />
         <View
           style={{
-            flexDirection: 'row',
-            width: w,
-            height: h * 0.28,
-            marginTop: -stroke,
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            width: w / 2 + stroke / 2,
+            height: tailH,
+            borderLeftWidth: stroke,
+            borderBottomWidth: stroke,
+            borderColor: tint,
           }}
-        >
-          <View
-            style={{
-              flex: 1,
-              borderLeftWidth: stroke,
-              borderBottomWidth: stroke,
-              borderColor: tint,
-              backgroundColor: fillColor,
-              transform: [{ skewY: '26deg' }, { translateY: h * 0.03 }],
-            }}
-          />
-          <View
-            style={{
-              flex: 1,
-              borderRightWidth: stroke,
-              borderBottomWidth: stroke,
-              borderColor: tint,
-              backgroundColor: fillColor,
-              transform: [{ skewY: '-26deg' }, { translateY: h * 0.03 }],
-            }}
-          />
-        </View>
+        />
+        <View
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            right: 0,
+            width: w / 2 + stroke / 2,
+            height: tailH,
+            borderRightWidth: stroke,
+            borderBottomWidth: stroke,
+            borderColor: tint,
+          }}
+        />
       </View>
     );
   }
@@ -185,23 +239,74 @@ export function Icon({ name, size = 18, color, filled = false, style }: IconProp
     );
   }
 
-  if (name === 'download') {
+  if (name === 'plus') {
+    const arm = size * 0.42;
+    const stroke = 1.75;
     return (
-      <View style={[styles.download, { width: size, height: size }, style]}>
-        <View style={[styles.downloadStem, { backgroundColor: tint, height: size * 0.45 }]} />
+      <View
+        style={[
+          {
+            width: size,
+            height: size,
+            alignItems: 'center',
+            justifyContent: 'center',
+          },
+          style,
+        ]}
+      >
+        <View style={{ width: arm, height: stroke, backgroundColor: tint, borderRadius: stroke }} />
         <View
-          style={[
-            styles.downloadHead,
-            {
-              borderColor: tint,
-              borderLeftWidth: 1.5,
-              borderBottomWidth: 1.5,
-              width: size * 0.42,
-              height: size * 0.42,
-              transform: [{ rotate: '-45deg' }],
-            },
-          ]}
+          style={{
+            position: 'absolute',
+            width: stroke,
+            height: arm,
+            backgroundColor: tint,
+            borderRadius: stroke,
+          }}
         />
+      </View>
+    );
+  }
+
+  if (name === 'download') {
+    const barW = size * 0.58;
+    const arrowW = size * 0.38;
+
+    return (
+      <View
+        style={[
+          {
+            width: size,
+            height: size,
+            alignItems: 'center',
+            justifyContent: 'center',
+          },
+          style,
+        ]}
+      >
+        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+          <View
+            style={{
+              width: barW,
+              height: 1.5,
+              backgroundColor: tint,
+              borderRadius: 1,
+              marginBottom: 2,
+            }}
+          />
+          <View
+            style={{
+              width: 0,
+              height: 0,
+              borderLeftWidth: arrowW / 2,
+              borderRightWidth: arrowW / 2,
+              borderTopWidth: arrowW * 0.52,
+              borderLeftColor: 'transparent',
+              borderRightColor: 'transparent',
+              borderTopColor: tint,
+            }}
+          />
+        </View>
       </View>
     );
   }
@@ -247,29 +352,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   checkMark: {},
-  gear: {
-    borderRadius: 999,
-    borderWidth: 1.5,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  gearCore: {
-    width: 4,
-    height: 4,
-    borderRadius: 2,
-  },
-  download: {
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-  },
-  downloadStem: {
-    width: 1.5,
-    borderRadius: 1,
-  },
-  downloadHead: {
-    position: 'absolute',
-    bottom: 0,
-  },
   send: {
     alignItems: 'center',
     justifyContent: 'center',

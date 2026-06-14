@@ -3,6 +3,7 @@ import RNFS from 'react-native-fs';
 import { CONTENT_PATHS, contentManifestService } from '@/core/offline/contentManifestService';
 
 import { BUNDLED_SURAHS } from '../data/bundled/surah001';
+import { SURAH_METADATA, getSurahMeta } from '../constants/surahMetadata';
 import type { SurahBundle } from '../types';
 
 function surahBundleId(number: number): string {
@@ -46,7 +47,10 @@ export async function isSurahTextStored(number: number): Promise<boolean> {
   const stored = await loadStoredSurahBundle(number);
   if (!stored?.ayahs.length || stored.bundleVersion <= 0) return false;
 
-  return stored.ayahs.length >= stored.meta.ayahCount;
+  const expectedCount = stored.meta?.ayahCount ?? getSurahMeta(number)?.ayahCount ?? 0;
+  if (expectedCount <= 0) return true;
+
+  return stored.ayahs.length >= expectedCount;
 }
 
 export async function removeSurahBundleCache(number: number): Promise<void> {
@@ -56,4 +60,30 @@ export async function removeSurahBundleCache(number: number): Promise<void> {
   if (await RNFS.exists(path)) {
     await RNFS.unlink(path);
   }
+}
+
+/** Returns surah numbers with full text available offline (bundled + saved cache). */
+export async function listOfflineTextSurahNumbers(): Promise<number[]> {
+  const offline = new Set<number>(Object.keys(BUNDLED_SURAHS).map(Number));
+
+  await contentManifestService.ensureContentDirs();
+  const dirExists = await RNFS.exists(CONTENT_PATHS.quran);
+  if (dirExists) {
+    const files = await RNFS.readDir(CONTENT_PATHS.quran);
+    for (const file of files) {
+      const match = /^surah-(\d{3})\.cache\.json$/.exec(file.name);
+      if (!match) continue;
+      const number = Number.parseInt(match[1]!, 10);
+      if (await isSurahTextStored(number)) offline.add(number);
+    }
+  }
+
+  for (const meta of SURAH_METADATA) {
+    const manifestEntry = contentManifestService.getLocalVersion('quran', surahBundleId(meta.number));
+    if (manifestEntry?.localPath && (await RNFS.exists(manifestEntry.localPath))) {
+      if (await isSurahTextStored(meta.number)) offline.add(meta.number);
+    }
+  }
+
+  return [...offline].sort((a, b) => a - b);
 }

@@ -16,6 +16,8 @@ interface SurahReaderHeaderProps {
   onDownloadComplete?: (bundle: SurahBundle) => void;
 }
 
+const BADGE_SIZE = 36;
+
 export function SurahReaderHeader({ bundle, onDownloadComplete }: SurahReaderHeaderProps) {
   const { t, locale } = useLocale();
   const { theme } = useTheme();
@@ -110,31 +112,31 @@ export function SurahReaderHeader({ bundle, onDownloadComplete }: SurahReaderHea
           ]}
         >
           {isDownloading ? (
-            <>
+            <View style={styles.downloadBtnContent}>
               <ActivityIndicator size="small" color={theme.colors.accentPrimary} />
               <Text variant="label" color="accent">
                 {t('quran.reader.downloadingText', {
                   percent: Math.round((progress ?? 0) * 100),
                 })}
               </Text>
-            </>
+            </View>
           ) : isOffline ? (
-            <>
+            <View style={styles.downloadBtnContent}>
               <Icon name="check" size={16} color={theme.colors.accentPrimary} />
               <Text variant="label" color="accent">
-                {t('quran.reader.textOffline')}
+                {t('quran.hub.textSaved')}
               </Text>
               <Text variant="caption" color="tertiary">
-                {t('quran.reader.removeOffline')}
+                · {t('quran.reader.removeOffline')}
               </Text>
-            </>
+            </View>
           ) : (
-            <>
+            <View style={styles.downloadBtnContent}>
               <Icon name="download" size={16} color={theme.colors.accentPrimary} />
               <Text variant="label" color="accent">
                 {t('quran.reader.downloadText')}
               </Text>
-            </>
+            </View>
           )}
         </Pressable>
       </LinearGradient>
@@ -171,14 +173,14 @@ const styles = StyleSheet.create({
   },
   topRow: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     gap: layout.listGap,
     marginBottom: 4,
   },
   numberBadge: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: BADGE_SIZE,
+    height: BADGE_SIZE,
+    borderRadius: BADGE_SIZE / 2,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -186,12 +188,16 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
+    alignItems: 'center',
     gap: 6,
   },
   chip: {
+    minHeight: 28,
     paddingHorizontal: 10,
-    paddingVertical: 4,
+    paddingVertical: 5,
     borderRadius: 999,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   arabicName: {
     textAlign: 'right',
@@ -203,12 +209,16 @@ const styles = StyleSheet.create({
   },
   downloadBtn: {
     marginTop: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderWidth: StyleSheet.hairlineWidth,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  downloadBtnContent: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderWidth: StyleSheet.hairlineWidth,
   },
 });

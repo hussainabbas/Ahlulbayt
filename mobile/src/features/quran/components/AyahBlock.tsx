@@ -402,7 +402,7 @@ function ActionBtn({
 
           name={icon}
 
-          size={14}
+          size={16}
 
           filled={filled}
 
