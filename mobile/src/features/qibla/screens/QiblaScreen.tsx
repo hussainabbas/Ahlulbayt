@@ -1,5 +1,5 @@
 import { useLayoutEffect, useMemo, useState } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -25,6 +25,7 @@ export function QiblaScreen() {
   const { t } = useLocale();
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
+  const { height: windowHeight } = useWindowDimensions();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const preferredView = useQiblaStore((s) => s.preferredView);
   const setPreferredView = useQiblaStore((s) => s.setPreferredView);
@@ -72,6 +73,8 @@ export function QiblaScreen() {
           ? t('qibla.accuracy.low')
           : t('qibla.accuracy.unavailable');
 
+  const arPanelHeight = Math.max(440, windowHeight - insets.top - 260);
+
   return (
     <Screen padded={false} safeTop={false} safeBottom={false}>
       <View style={[styles.page, { paddingBottom: insets.bottom + layout.blockGap }]}>
@@ -113,6 +116,7 @@ export function QiblaScreen() {
           {mode === 'ar' ? (
             <QiblaArView
               active={mode === 'ar'}
+              height={arPanelHeight}
               qiblaRelative={compass.qiblaRelative}
               qiblaBearing={qibla.bearing}
               distanceKm={qibla.distanceKm}
@@ -159,7 +163,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: layout.screenPaddingX,
     paddingTop: layout.listGap,
-    gap: layout.sectionGap,
+    gap: layout.blockGap,
   },
   header: {
     gap: layout.blockGap,
@@ -175,12 +179,16 @@ const styles = StyleSheet.create({
   },
   stage: {
     flex: 1,
-    alignItems: 'center',
+    width: '100%',
+    alignSelf: 'stretch',
+    alignItems: 'stretch',
     justifyContent: 'center',
     minHeight: 360,
   },
   stageAr: {
-    minHeight: 420,
+    flex: 0,
+    minHeight: 0,
+    justifyContent: 'flex-start',
   },
   infoCard: {
     gap: layout.blockGap,

@@ -455,7 +455,8 @@
       "cameraRequired": "Camera access needed",
       "cameraRequiredHint": "Allow camera access to see live Qibla direction over your surroundings.",
       "enableCamera": "Enable camera",
-      "cameraUnavailable": "No camera available on this device."
+      "cameraUnavailable": "No camera available on this device.",
+      "cameraError": "Camera preview failed — showing compass overlay. Rebuild the app if this persists."
     },
     "calibration": {
       "title": "Compass Calibration",

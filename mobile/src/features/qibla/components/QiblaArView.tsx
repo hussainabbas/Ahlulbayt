@@ -1,8 +1,13 @@
-import { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import { StyleSheet, useWindowDimensions, View, type ViewStyle } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Animated, { useAnimatedStyle, withSpring } from 'react-native-reanimated';
-import { Camera, useCameraDevice, useCameraPermission } from 'react-native-vision-camera';
+import {
+  Camera,
+  useCameraDevice,
+  useCameraPermission,
+  type CameraRuntimeError,
+} from 'react-native-vision-camera';
 
 import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/ui/Text';
@@ -17,6 +22,8 @@ interface QiblaArViewProps {
   qiblaBearing: number;
   distanceKm: number;
   isAligned: boolean;
+  height?: number;
+  style?: ViewStyle;
 }
 
 export function QiblaArView({
@@ -25,56 +32,92 @@ export function QiblaArView({
   qiblaBearing,
   distanceKm,
   isAligned,
+  height,
+  style,
 }: QiblaArViewProps) {
   const { t } = useLocale();
   const { theme } = useTheme();
+  const { width: windowWidth } = useWindowDimensions();
   const { hasPermission, requestPermission } = useCameraPermission();
   const device = useCameraDevice('back');
+  const [cameraError, setCameraError] = useState<string | null>(null);
+  const [permissionRequested, setPermissionRequested] = useState(false);
+
+  const panelWidth = windowWidth - layout.screenPaddingX * 2;
+  const panelHeight = height ?? 440;
+
+  const requestAccess = useCallback(async () => {
+    setPermissionRequested(true);
+    const granted = await requestCameraPermission();
+    if (!granted) {
+      await requestPermission();
+    }
+  }, [requestPermission]);
 
   useEffect(() => {
-    if (active && !hasPermission) {
-      void requestCameraPermission().then((granted) => {
-        if (!granted) void requestPermission();
-      });
+    if (active && !hasPermission && !permissionRequested) {
+      void requestAccess();
     }
-  }, [active, hasPermission, requestPermission]);
+  }, [active, hasPermission, permissionRequested, requestAccess]);
+
+  useEffect(() => {
+    if (active) {
+      setCameraError(null);
+    }
+  }, [active, device?.id]);
 
   const arrowStyle = useAnimatedStyle(() => ({
     transform: [{ rotate: withSpring(`${qiblaRelative}deg`, { damping: 16, stiffness: 100 }) }],
   }));
 
+  const onCameraError = useCallback((error: CameraRuntimeError) => {
+    setCameraError(error.message);
+  }, []);
+
   if (!hasPermission) {
     return (
-      <View style={[styles.permissionCard, { backgroundColor: theme.colors.surfaceMuted }]}>
+      <View
+        style={[
+          styles.panel,
+          styles.permissionCard,
+          { width: panelWidth, height: panelHeight, backgroundColor: theme.colors.surfaceMuted },
+          style,
+        ]}
+      >
         <Text variant="headingSm">{t('qibla.ar.cameraRequired')}</Text>
         <Text variant="bodySm" color="secondary" style={styles.permissionCopy}>
           {t('qibla.ar.cameraRequiredHint')}
         </Text>
-        <Button label={t('qibla.ar.enableCamera')} onPress={() => void requestCameraPermission()} />
+        <Button label={t('qibla.ar.enableCamera')} onPress={() => void requestAccess()} />
       </View>
     );
   }
 
-  if (!device) {
-    return (
-      <View style={[styles.permissionCard, { backgroundColor: theme.colors.surfaceMuted }]}>
-        <Text variant="bodySm" color="secondary">
-          {t('qibla.ar.cameraUnavailable')}
-        </Text>
-      </View>
-    );
-  }
+  const useFallback = !device || cameraError != null;
 
   return (
-    <View style={styles.root}>
-      <Camera
-        style={StyleSheet.absoluteFill}
-        device={device}
-        isActive={active && hasPermission}
-        photo={false}
-        video={false}
-        audio={false}
-      />
+    <View
+      style={[
+        styles.panel,
+        styles.root,
+        { width: panelWidth, height: panelHeight },
+        style,
+      ]}
+    >
+      {!useFallback ? (
+        <Camera
+          style={StyleSheet.absoluteFill}
+          device={device}
+          isActive={active && hasPermission}
+          preview
+          onError={onCameraError}
+        />
+      ) : (
+        <LinearGradient
+          colors={['#102018', '#0C0D0F', '#121820']}
+          style={StyleSheet.absoluteFill}
+        />
+      )}
 
       <LinearGradient
         colors={['rgba(8,12,18,0.72)', 'rgba(8,12,18,0.08)', 'rgba(8,12,18,0.78)']}
@@ -85,6 +128,11 @@ export function QiblaArView({
         <Text variant="overline" style={styles.hudLight}>
           {t('qibla.ar.hud')}
         </Text>
+        {useFallback ? (
+          <Text variant="caption" style={styles.fallbackNote}>
+            {cameraError ? t('qibla.ar.cameraError') : t('qibla.ar.cameraUnavailable')}
+          </Text>
+        ) : null}
         <View
           style={[
             styles.statusPill,
@@ -117,7 +165,14 @@ export function QiblaArView({
             },
           ]}
         />
-        <View style={[styles.arrowStem, { backgroundColor: isAligned ? theme.colors.accentPrimary : theme.colors.accentGold }]} />
+        <View
+          style={[
+            styles.arrowStem,
+            {
+              backgroundColor: isAligned ? theme.colors.accentPrimary : theme.colors.accentGold,
+            },
+          ]}
+        />
         <Text variant="bodySm" style={styles.arrowLabel}>
           🕋 {Math.round(qiblaBearing)}°
         </Text>
@@ -153,18 +208,16 @@ function HudStat({ label, value }: { label: string; value: string }) {
 }
 
 const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    minHeight: 420,
+  panel: {
+    alignSelf: 'stretch',
     borderRadius: 18,
     overflow: 'hidden',
+  },
+  root: {
     alignItems: 'center',
     justifyContent: 'center',
   },
   permissionCard: {
-    flex: 1,
-    minHeight: 320,
-    borderRadius: 18,
     padding: layout.screenPaddingX,
     alignItems: 'center',
     justifyContent: 'center',
@@ -175,14 +228,19 @@ const styles = StyleSheet.create({
   },
   hudTop: {
     position: 'absolute',
-    top: layout.screenPaddingX,
-    left: layout.screenPaddingX,
-    right: layout.screenPaddingX,
+    top: layout.blockGap,
+    left: layout.blockGap,
+    right: layout.blockGap,
     alignItems: 'center',
     gap: layout.listGap,
+    zIndex: 2,
   },
   hudLight: {
     color: '#E8ECEA',
+  },
+  fallbackNote: {
+    color: 'rgba(232,236,234,0.82)',
+    textAlign: 'center',
   },
   statusPill: {
     paddingHorizontal: 12,
@@ -196,6 +254,7 @@ const styles = StyleSheet.create({
     height: 220,
     alignItems: 'center',
     justifyContent: 'center',
+    zIndex: 2,
   },
   reticleRing: {
     width: 220,
@@ -218,6 +277,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 150,
     justifyContent: 'flex-start',
+    zIndex: 2,
   },
   arrow: {
     width: 0,
@@ -241,8 +301,8 @@ const styles = StyleSheet.create({
   hudBottom: {
     position: 'absolute',
     bottom: 56,
-    left: layout.screenPaddingX,
-    right: layout.screenPaddingX,
+    left: layout.blockGap,
+    right: layout.blockGap,
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: layout.blockGap,
@@ -250,6 +310,7 @@ const styles = StyleSheet.create({
     borderTopWidth: StyleSheet.hairlineWidth,
     backgroundColor: 'rgba(8,12,18,0.35)',
     borderRadius: 14,
+    zIndex: 2,
   },
   stat: {
     flex: 1,
@@ -266,7 +327,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: layout.blockGap,
     textAlign: 'center',
-    paddingHorizontal: layout.screenPaddingX,
+    paddingHorizontal: layout.blockGap,
     color: 'rgba(232,236,234,0.72)',
+    zIndex: 2,
   },
 });

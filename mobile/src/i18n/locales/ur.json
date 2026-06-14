@@ -455,7 +455,8 @@
       "cameraRequired": "کیمرہ کی اجازت درکار",
       "cameraRequiredHint": "اپنے ارد گرد قبلہ سمت دکھانے کے لیے کیمرہ کی اجازت دیں۔",
       "enableCamera": "کیمرہ فعال کریں",
-      "cameraUnavailable": "اس آلہ پر کیمرہ دستیاب نہیں۔"
+      "cameraUnavailable": "اس آلہ پر کیمرہ دستیاب نہیں۔",
+      "cameraError": "کیمرہ preview نہیں چل سکی — قبلہ اوورلے دکھایا جا رہا ہے۔ مسئلہ برقرار رہے تو app دوبارہ build کریں۔"
     },
     "calibration": {
       "title": "قطب نما کیلیبریشن",
