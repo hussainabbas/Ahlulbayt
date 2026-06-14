@@ -58,7 +58,7 @@ export function PrayerAcademyGuideScreen() {
     [prayerId, difficulty],
   );
 
-  const { pose, isTransitioning, goToStep } = useWorshipSimulator(steps);
+  const { pose, isTransitioning, animationAssetKey, goToStep } = useWorshipSimulator(steps);
 
   useEffect(() => {
     if (guided) void goToStep(stepIndex);
@@ -127,6 +127,7 @@ export function PrayerAcademyGuideScreen() {
           <WorshipAvatarStage
             pose={pose}
             isTransitioning={isTransitioning}
+            animationAssetKey={animationAssetKey}
             subtitle={getAvatarSubtitle(step)}
           />
         ) : (
@@ -142,7 +143,7 @@ export function PrayerAcademyGuideScreen() {
         />
       </ScrollView>
     ),
-    [stepIndex, pose, isTransitioning, readerPrefs, theme.colors.surfaceMuted],
+    [stepIndex, pose, isTransitioning, animationAssetKey, readerPrefs, theme.colors.surfaceMuted],
   );
 
   if (!bundle) {

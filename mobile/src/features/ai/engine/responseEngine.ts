@@ -1,10 +1,19 @@
 import { DUA_CATALOG } from '@/features/dua/constants/catalog';
 import { ZIYARAT_CATALOG } from '@/features/ziyarat/constants/catalog';
+import {
+  AI_CALENDAR_REFS,
+  AI_DUA_REFS,
+  AI_PRAYER_GUIDANCE_REFS,
+  AI_ZIYARAT_REFS,
+  FAQ_REFERENCE_CATALOG,
+  REFERENCE_UNAVAILABLE,
+  enforceAiReferences,
+} from '@/core/references';
 
 import { FAQ_KNOWLEDGE } from '../constants/faqKnowledge';
 import { classifyIntent } from './intentClassifier';
 import { checkGuardrails } from './guardrails';
-import type { AiAction, AiCitation, AiResponseDraft, AssistantContext } from '../types';
+import type { AiResponseDraft, AssistantContext } from '../types';
 
 function scoreFaq(query: string) {
   const lower = query.toLowerCase();
@@ -23,11 +32,20 @@ function scoreFaq(query: string) {
   return bestScore > 0 ? best : null;
 }
 
-function recommendDuas(ctx: AssistantContext, query: string): AiResponseDraft {
+function finalizeDraft(draft: AiResponseDraft): AiResponseDraft {
+  const enforcement = enforceAiReferences(draft.references);
+  return {
+    ...draft,
+    references: enforcement.references,
+    referenceWarning: enforcement.showUnavailableWarning,
+  };
+}
+
+function recommendDuas(_ctx: AssistantContext, query: string): AiResponseDraft {
   const lower = query.toLowerCase();
   const isThursday = lower.includes('thursday') || lower.includes('kumail') || lower.includes('خميس');
   const isMorning = lower.includes('morning') || lower.includes('sabah') || lower.includes('صبح');
-  const isMuharram = ctx.muharramSeason || lower.includes('muharram') || lower.includes('ashura');
+  const isMuharram = _ctx.muharramSeason || lower.includes('muharram') || lower.includes('ashura');
 
   const picks: typeof DUA_CATALOG = [];
   if (isMuharram) {
@@ -46,7 +64,7 @@ function recommendDuas(ctx: AssistantContext, query: string): AiResponseDraft {
 
   const unique = [...new Map(picks.filter(Boolean).map((d) => [d.id, d])).values()].slice(0, 3);
 
-  return {
+  return finalizeDraft({
     intent: 'dua_recommendation',
     bodyKey: 'ai.responses.dua_recommendation',
     bodyParams: { count: unique.length },
@@ -55,8 +73,9 @@ function recommendDuas(ctx: AssistantContext, query: string): AiResponseDraft {
       labelKey: d.titles.en,
       payload: { duaId: d.id },
     })),
+    references: AI_DUA_REFS,
     citations: [{ id: 'mafatih', title: 'Mafatih al-Jinan', source: 'Duas & Amaal', kind: 'book' }],
-  };
+  });
 }
 
 function recommendZiyarat(ctx: AssistantContext, query: string): AiResponseDraft {
@@ -76,7 +95,7 @@ function recommendZiyarat(ctx: AssistantContext, query: string): AiResponseDraft
     .filter(Boolean)
     .slice(0, 3);
 
-  return {
+  return finalizeDraft({
     intent: 'ziyarat_recommendation',
     bodyKey: 'ai.responses.ziyarat_recommendation',
     bodyParams: { count: unique.length },
@@ -85,12 +104,13 @@ function recommendZiyarat(ctx: AssistantContext, query: string): AiResponseDraft
       labelKey: z!.titles.en,
       payload: { ziyaratId: z!.id },
     })),
+    references: AI_ZIYARAT_REFS,
     citations: [{ id: 'kamil', title: 'Kamil al-Ziyarat', source: 'Ziyarat collection', kind: 'book' }],
-  };
+  });
 }
 
 function prayerGuidance(ctx: AssistantContext): AiResponseDraft {
-  return {
+  return finalizeDraft({
     intent: 'prayer_guidance',
     bodyKey: 'ai.responses.prayer_guidance',
     bodyParams: {
@@ -101,17 +121,16 @@ function prayerGuidance(ctx: AssistantContext): AiResponseDraft {
       marja: ctx.marja,
     },
     actions: [{ type: 'prayer', labelKey: 'ai.actions.openPrayer', payload: { route: 'Prayer' } }],
-    citations: [
-      { id: 'leva', title: 'Leva Institute Method', source: 'Jafari prayer times' },
-    ],
-  };
+    references: AI_PRAYER_GUIDANCE_REFS,
+    citations: [{ id: 'leva', title: 'Leva Institute Method', source: 'Jafari prayer times' }],
+  });
 }
 
 function calendarAwareness(ctx: AssistantContext): AiResponseDraft {
   const todayCount = ctx.todayCalendarEvents.length;
   const upcomingCount = ctx.upcomingCalendarEvents.length;
 
-  return {
+  return finalizeDraft({
     intent: 'calendar_awareness',
     bodyKey:
       todayCount > 0 ? 'ai.responses.calendar_today' : 'ai.responses.calendar_upcoming',
@@ -127,36 +146,40 @@ function calendarAwareness(ctx: AssistantContext): AiResponseDraft {
         ? [{ type: 'muharram' as const, labelKey: 'ai.actions.openMuharram', payload: { route: 'MuharramMode' } }]
         : []),
     ],
+    references: AI_CALENDAR_REFS,
     citations: [{ id: 'calendar', title: 'Shia Islamic Calendar', source: 'Bundled observances' }],
-  };
+  });
 }
 
 function islamicQa(query: string, guardFatwa: boolean): AiResponseDraft {
   if (guardFatwa) {
-    return {
+    return finalizeDraft({
       intent: 'islamic_qa',
       bodyKey: 'ai.responses.fatwa_redirect',
       bodyParams: {},
-      citations: [{ id: 'disclaimer', title: 'Educational only', source: 'Ahlulbayt+ AI policy' }],
-    };
+      references: [REFERENCE_UNAVAILABLE],
+    });
   }
 
   const faq = scoreFaq(query);
   if (faq) {
-    return {
+    const refs = FAQ_REFERENCE_CATALOG[faq.id];
+    return finalizeDraft({
       intent: 'islamic_qa',
       bodyKey: faq.bodyKey,
+      references: refs ?? [REFERENCE_UNAVAILABLE],
       citations: faq.citationKey
         ? [{ id: faq.id, title: faq.titleKey, source: faq.citationKey }]
         : [{ id: faq.id, title: faq.titleKey }],
-    };
+    });
   }
 
-  return {
+  return finalizeDraft({
     intent: 'islamic_qa',
     bodyKey: 'ai.responses.general_fallback',
-    citations: [{ id: 'quran', title: 'Holy Quran', source: 'Refer to Quran & Ahlul Bayt teachings', kind: 'quran' }],
-  };
+    references: [REFERENCE_UNAVAILABLE],
+    referenceWarning: true,
+  });
 }
 
 export function generateLocalResponse(

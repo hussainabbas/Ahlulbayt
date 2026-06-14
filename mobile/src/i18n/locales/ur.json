@@ -25,6 +25,44 @@
     "finish": "مکمل",
     "swipeHint": "مراحل بدلنے کے لیے دائیں یا بائیں سوائپ کریں"
   },
+  "references": {
+    "title": "حوالہ",
+    "sourcesUsed": "استعمال شدہ مآخذ",
+    "primarySource": "بنیادی ماخذ",
+    "bookName": "کتاب",
+    "volume": "جلد",
+    "page": "صفحہ",
+    "hadithNumber": "حدیث نمبر",
+    "chapter": "باب",
+    "surahAyah": "سورت · آیت",
+    "translationSource": "ترجمہ",
+    "tafsirSource": "تفسیر",
+    "narrator": "راوی",
+    "scholar": "عالم",
+    "marja": "مرجع",
+    "grading": "درجہ",
+    "url": "لنک",
+    "openUrl": "ماخذ کا لنک کھولیں",
+    "unavailable": "حوالہ دستیاب نہیں۔ براہ کرم کسی مجاز عالم سے تصدیق کریں۔",
+    "verification": {
+      "pending": "ماخذ کی تصدیق زیرِ غور",
+      "verified": "تصدیق شدہ ماخذ"
+    },
+    "kinds": {
+      "quran": "قرآن",
+      "tafsir": "تفسیر",
+      "hadith": "حدیث",
+      "dua": "دعا",
+      "ziyarat": "زیارت",
+      "fiqh": "فقہ",
+      "calendar": "کیلنڈر",
+      "history": "تاریخ",
+      "amaal": "اعمال",
+      "book": "کتاب",
+      "scholar": "عالم",
+      "external": "بیرونی"
+    }
+  },
   "tabs": {
     "home": "ہوم",
     "prayer": "نماز",

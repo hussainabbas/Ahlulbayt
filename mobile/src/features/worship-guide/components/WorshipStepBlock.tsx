@@ -1,6 +1,8 @@
 import { StyleSheet, View } from 'react-native';
 
+import { ReferenceList } from '@/components/references';
 import { Text } from '@/components/ui/Text';
+import { fiqhRefsToIslamic } from '@/core/references';
 import { useLocale } from '@/i18n/useLocale';
 import { layout } from '@/theme/layout';
 import { useTheme } from '@/theme/ThemeContext';
@@ -102,20 +104,12 @@ export function WorshipStepBlock({
         </View>
       ) : null}
 
-      {showScholar && step.fiqhRefs?.length
-        ? step.fiqhRefs.map((ref, i) => (
-            <View key={i} style={[styles.refBox, { backgroundColor: theme.colors.surfaceMuted }]}>
-              <Text variant="caption" color="accent">
-                {pickLocalized(ref.source, locale)}
-              </Text>
-              {ref.citation ? (
-                <Text variant="caption" color="tertiary">
-                  {pickLocalized(ref.citation, locale)}
-                </Text>
-              ) : null}
-            </View>
-          ))
-        : null}
+      {showScholar && step.fiqhRefs?.length ? (
+        <ReferenceList
+          references={fiqhRefsToIslamic(step.fiqhRefs, step.id)}
+          compact
+        />
+      ) : null}
     </View>
   );
 }
@@ -140,6 +134,5 @@ const styles = StyleSheet.create({
   translit: { fontStyle: 'italic' },
   checklist: { gap: 4 },
   errors: { padding: 10, borderRadius: 8, gap: 4 },
-  refBox: { padding: 10, borderRadius: 8, gap: 2 },
   scholar: { marginTop: 4 },
 });

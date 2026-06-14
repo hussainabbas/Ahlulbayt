@@ -1,0 +1,8 @@
+{
+  "key": "sim/salah/jalsa",
+  "theme": "dark",
+  "artboard": "jalsa_dark",
+  "animation": "idle_loop",
+  "sourceSvg": "salah/jalsa/dark/static.svg",
+  "note": "Export from Rive Editor using static.svg as reference — no internet assets."
+}

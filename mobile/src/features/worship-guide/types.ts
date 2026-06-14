@@ -22,6 +22,11 @@ export type GhuslMethod = 'tartibi' | 'irtimasi';
 
 export type LocalizedText = { en: string; ur: string; ar: string };
 
+import type { FiqhReference as CoreFiqhReference, MarjaId } from '@/core/references';
+
+export type FiqhReference = CoreFiqhReference;
+export type { MarjaId };
+
 export type WorshipStepKind =
   | 'intro'
   | 'niyyah'
@@ -44,12 +49,6 @@ export type WorshipVisualHint =
   | 'ghusl_head'
   | 'ghusl_body'
   | 'ghusl_feet';
-
-export interface FiqhReference {
-  source: LocalizedText;
-  citation?: LocalizedText;
-  marja?: 'sistani' | 'khamenei' | 'general';
-}
 
 export interface WorshipAudioCue {
   id: string;

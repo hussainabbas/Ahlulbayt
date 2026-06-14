@@ -9,14 +9,21 @@ import { AiActionCards } from '../AiActionCards';
 import { AssistantAvatar } from './AssistantAvatar';
 import { CitationCards } from './CitationCards';
 import { StreamingCursor } from './StreamingCursor';
+import type { IslamicReference } from '@/core/references';
 
 interface ChatMessageRowProps {
   message: AiMessage;
   onAction: (action: AiAction) => void;
   onCitationPress?: (citation: AiCitation) => void;
+  onReferencePress?: (reference: IslamicReference) => void;
 }
 
-export function ChatMessageRow({ message, onAction, onCitationPress }: ChatMessageRowProps) {
+export function ChatMessageRow({
+  message,
+  onAction,
+  onCitationPress,
+  onReferencePress,
+}: ChatMessageRowProps) {
   const { theme } = useTheme();
   const isUser = message.role === 'user';
   const showMeta = message.role === 'assistant' && !message.isStreaming;
@@ -52,8 +59,13 @@ export function ChatMessageRow({ message, onAction, onCitationPress }: ChatMessa
             {message.isStreaming ? <StreamingCursor /> : null}
           </View>
         </View>
-        {showMeta && message.citations?.length ? (
-          <CitationCards citations={message.citations} onCitationPress={onCitationPress} />
+        {showMeta && (message.references?.length || message.citations?.length) ? (
+          <CitationCards
+            citations={message.citations}
+            references={message.references}
+            onCitationPress={onCitationPress}
+            onReferencePress={onReferencePress}
+          />
         ) : null}
         {showMeta && message.actions?.length ? (
           <AiActionCards actions={message.actions} onAction={onAction} />

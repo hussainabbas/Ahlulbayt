@@ -288,7 +288,12 @@ export function AyahBlock({ ayah, activeWordIndex, onPlayAyah, isPlaying }: Ayah
 
 
 
-      <TafsirPanel visible={tafsirOpen} tafsir={ayah.tafsir} onClose={() => setTafsirOpen(false)} />
+      <TafsirPanel
+        visible={tafsirOpen}
+        ayahRef={`${ayah.surah}:${ayah.ayah}`}
+        tafsir={ayah.tafsir}
+        onClose={() => setTafsirOpen(false)}
+      />
 
       <NoteEditorSheet
 

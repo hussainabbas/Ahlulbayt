@@ -35,6 +35,11 @@ export type LocalizedText = { en: string; ur: string; ar: string };
 
 export type PartialLocalizedText = Partial<LocalizedText>;
 
+import type { FiqhReference as CoreFiqhReference, MarjaId } from '@/core/references';
+
+export type FiqhReference = CoreFiqhReference;
+export type { MarjaId };
+
 export interface PrayerRakatUnit {
   id: string;
   kind: RakatKind;
@@ -42,13 +47,6 @@ export interface PrayerRakatUnit {
   /** e.g. "Before Dhuhr", "Wajib portion" */
   label: LocalizedText;
   notes?: LocalizedText;
-}
-
-export interface FiqhReference {
-  source: LocalizedText;
-  /** e.g. Imam Ja'far al-Sadiq (as), Al-Kafi */
-  citation?: LocalizedText;
-  marja?: 'sistani' | 'khamenei' | 'general';
 }
 
 export interface SunniDifferenceNote {

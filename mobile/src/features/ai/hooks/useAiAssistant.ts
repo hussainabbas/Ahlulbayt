@@ -29,6 +29,8 @@ function draftToMessage(
       source: c.source?.startsWith('ai.') ? t(c.source) : c.source,
       kind: inferCitationKind(c),
     })),
+    references: draft.references,
+    referenceWarning: draft.referenceWarning,
     actions: draft.actions,
     createdAt: new Date().toISOString(),
     source: 'local',
@@ -91,6 +93,8 @@ export function useAiAssistant() {
         updateMessage(assistantId, {
           isStreaming: false,
           citations: assistant.citations,
+          references: assistant.references,
+          referenceWarning: assistant.referenceWarning,
           actions: assistant.actions,
           intent: assistant.intent,
         });

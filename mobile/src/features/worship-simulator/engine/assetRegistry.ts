@@ -1,27 +1,28 @@
-/** Offline asset keys → bundle paths. Lottie/Rive files added in phase 2. */
-const SALAH_ASSETS: Record<string, { placeholder: true }> = {
-  'sim/salah/takbir': { placeholder: true },
-  'sim/salah/qiyam': { placeholder: true },
-  'sim/salah/qunoot': { placeholder: true },
-  'sim/salah/ruku': { placeholder: true },
-  'sim/salah/sujud': { placeholder: true },
-  'sim/salah/jalsa': { placeholder: true },
-  'sim/salah/tashahhud': { placeholder: true },
-  'sim/salah/completion': { placeholder: true },
-};
+import { SIM_ASSET_CATALOG, type SimAssetKey, type SimAssetTheme } from '../illustrations/catalog';
+import { BUNDLED_LOTTIE } from './bundledSimAssets';
 
-const WUDU_ASSETS: Record<string, { placeholder: true }> = {
-  'sim/wudu/hands': { placeholder: true },
-  'sim/wudu/face': { placeholder: true },
-  'sim/wudu/arm': { placeholder: true },
-  'sim/wudu/masah_head': { placeholder: true },
-  'sim/wudu/masah_feet': { placeholder: true },
-};
+const REGISTERED = new Set(SIM_ASSET_CATALOG.map((e) => e.key));
 
 export function isAssetRegistered(key: string): boolean {
-  return key in SALAH_ASSETS || key in WUDU_ASSETS;
+  return REGISTERED.has(key);
 }
 
-export function preloadAssetKeys(keys: (string | undefined)[]): string[] {
-  return keys.filter((k): k is string => Boolean(k && isAssetRegistered(k)));
+export function getBundledLottie(key: SimAssetKey, theme: SimAssetTheme): object | null {
+  const bundleKey = `${key}:${theme}`;
+  return BUNDLED_LOTTIE[bundleKey] ?? null;
+}
+
+export function listAssetKeys(): SimAssetKey[] {
+  return SIM_ASSET_CATALOG.map((e) => e.key);
+}
+
+export function preloadAssetKeys(keys: (string | undefined)[]): SimAssetKey[] {
+  return keys.filter((k): k is SimAssetKey => Boolean(k && isAssetRegistered(k)));
+}
+
+/** Preload Lottie JSON into memory (Metro already bundles requires). */
+export async function preloadSimAssets(keys: SimAssetKey[], theme: SimAssetTheme): Promise<void> {
+  for (const key of keys) {
+    getBundledLottie(key, theme);
+  }
 }

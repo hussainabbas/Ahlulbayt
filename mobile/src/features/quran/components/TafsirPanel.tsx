@@ -1,22 +1,27 @@
 import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 
+import { ReferenceList } from '@/components/references';
 import { Text } from '@/components/ui/Text';
+import { quranTafsirReferences } from '@/core/references';
 import { useLocale } from '@/i18n/useLocale';
 import { useTheme } from '@/theme/ThemeContext';
 
-import type { AyahTafsir } from '../types';
+import type { AyahRef, AyahTafsir } from '../types';
 
 interface TafsirPanelProps {
   visible: boolean;
+  ayahRef: AyahRef;
   tafsir?: AyahTafsir;
   onClose: () => void;
 }
 
-export function TafsirPanel({ visible, tafsir, onClose }: TafsirPanelProps) {
+export function TafsirPanel({ visible, ayahRef, tafsir, onClose }: TafsirPanelProps) {
   const { t } = useLocale();
   const { theme } = useTheme();
 
   if (!tafsir) return null;
+
+  const references = quranTafsirReferences(ayahRef, tafsir);
 
   return (
     <Modal visible={visible} animationType="slide" transparent onRequestClose={onClose}>
@@ -33,11 +38,7 @@ export function TafsirPanel({ visible, tafsir, onClose }: TafsirPanelProps) {
         >
           <View style={styles.handle} />
           <Text variant="headingSm">{t('quran.tafsir')}</Text>
-          {tafsir.source ? (
-            <Text variant="caption" color="accent" style={styles.source}>
-              {tafsir.source}
-            </Text>
-          ) : null}
+          <ReferenceList references={references} compact filterMarja={false} />
           <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
             {tafsir.en ? (
               <Text variant="bodyMd" color="secondary" style={styles.block}>
@@ -85,9 +86,6 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     backgroundColor: 'rgba(255,255,255,0.2)',
     marginBottom: 8,
-  },
-  source: {
-    marginBottom: 4,
   },
   scroll: {
     maxHeight: 320,

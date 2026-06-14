@@ -1,0 +1,112 @@
+{
+  "version": 1,
+  "generator": "generate-worship-assets.mjs",
+  "catalog": [
+    {
+      "domain": "salah",
+      "slug": "qiyam",
+      "key": "sim/salah/qiyam",
+      "pose": "standing"
+    },
+    {
+      "domain": "salah",
+      "slug": "qunoot",
+      "key": "sim/salah/qunoot",
+      "pose": "qunoot"
+    },
+    {
+      "domain": "salah",
+      "slug": "ruku",
+      "key": "sim/salah/ruku",
+      "pose": "ruku"
+    },
+    {
+      "domain": "salah",
+      "slug": "sujud",
+      "key": "sim/salah/sujud",
+      "pose": "sujud"
+    },
+    {
+      "domain": "salah",
+      "slug": "jalsa",
+      "key": "sim/salah/jalsa",
+      "pose": "jalsa"
+    },
+    {
+      "domain": "salah",
+      "slug": "tashahhud",
+      "key": "sim/salah/tashahhud",
+      "pose": "tashahhud"
+    },
+    {
+      "domain": "salah",
+      "slug": "completion",
+      "key": "sim/salah/completion",
+      "pose": "completion"
+    },
+    {
+      "domain": "salah",
+      "slug": "takbir",
+      "key": "sim/salah/takbir",
+      "pose": "takbir"
+    },
+    {
+      "domain": "wudu",
+      "slug": "face",
+      "key": "sim/wudu/face",
+      "pose": "wash_face"
+    },
+    {
+      "domain": "wudu",
+      "slug": "arm_right",
+      "key": "sim/wudu/arm_right",
+      "pose": "wash_arm_r"
+    },
+    {
+      "domain": "wudu",
+      "slug": "arm_left",
+      "key": "sim/wudu/arm_left",
+      "pose": "wash_arm_l"
+    },
+    {
+      "domain": "wudu",
+      "slug": "masah_head",
+      "key": "sim/wudu/masah_head",
+      "pose": "masah_head"
+    },
+    {
+      "domain": "wudu",
+      "slug": "masah_feet",
+      "key": "sim/wudu/masah_feet",
+      "pose": "masah_feet"
+    },
+    {
+      "domain": "wudu",
+      "slug": "hands",
+      "key": "sim/wudu/hands",
+      "pose": "wash_hands"
+    },
+    {
+      "domain": "ghusl",
+      "slug": "tartibi",
+      "key": "sim/ghusl/tartibi",
+      "pose": "ghusl_tartibi"
+    },
+    {
+      "domain": "ghusl",
+      "slug": "irtimasi",
+      "key": "sim/ghusl/irtimasi",
+      "pose": "ghusl_immersion"
+    }
+  ],
+  "formats": [
+    "static.svg",
+    "thumb.svg",
+    "anim.lottie.json",
+    "anim.rive.spec.json"
+  ],
+  "themes": [
+    "light",
+    "dark"
+  ]
+}

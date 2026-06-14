@@ -25,6 +25,44 @@
     "finish": "إكمال",
     "swipeHint": "اسحب يميناً أو يساراً بين الخطوات"
   },
+  "references": {
+    "title": "المرجع",
+    "sourcesUsed": "المصادر المستخدمة",
+    "primarySource": "المصدر الأساسي",
+    "bookName": "الكتاب",
+    "volume": "المجلد",
+    "page": "الصفحة",
+    "hadithNumber": "رقم الحديث",
+    "chapter": "الباب",
+    "surahAyah": "سورة · آية",
+    "translationSource": "الترجمة",
+    "tafsirSource": "التفسير",
+    "narrator": "الراوي",
+    "scholar": "العالم",
+    "marja": "مرجع التقليد",
+    "grading": "التصحيح",
+    "url": "الرابط",
+    "openUrl": "فتح رابط المصدر",
+    "unavailable": "المرجع غير متوفر. يرجى التحقق من عالم مؤهل.",
+    "verification": {
+      "pending": "التحقق من المصدر قيد المراجعة",
+      "verified": "مصدر موثّق"
+    },
+    "kinds": {
+      "quran": "قرآن",
+      "tafsir": "تفسير",
+      "hadith": "حديث",
+      "dua": "دعاء",
+      "ziyarat": "زيارة",
+      "fiqh": "فقه",
+      "calendar": "تقويم",
+      "history": "تاريخ",
+      "amaal": "أعمال",
+      "book": "كتاب",
+      "scholar": "عالم",
+      "external": "خارجي"
+    }
+  },
   "tabs": {
     "home": "الرئيسية",
     "prayer": "الصلاة",

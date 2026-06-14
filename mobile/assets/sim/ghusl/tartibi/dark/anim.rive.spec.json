@@ -1,0 +1,8 @@
+{
+  "key": "sim/ghusl/tartibi",
+  "theme": "dark",
+  "artboard": "tartibi_dark",
+  "animation": "idle_loop",
+  "sourceSvg": "ghusl/tartibi/dark/static.svg",
+  "note": "Export from Rive Editor using static.svg as reference — no internet assets."
+}

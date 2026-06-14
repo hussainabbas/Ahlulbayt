@@ -23,7 +23,11 @@ import { ChatMessageRow } from '../components/chat/ChatMessageRow';
 import { SuggestedPromptStrip } from '../components/chat/SuggestedPromptStrip';
 import { useAiAssistant } from '../hooks/useAiAssistant';
 import type { AiAction, AiCitation, AiMessage } from '../types';
-import { resolveCitationNavigation } from '../utils/citationNavigation';
+import {
+  resolveCitationNavigation,
+  resolveIslamicReferenceNavigation,
+} from '../utils/citationNavigation';
+import type { IslamicReference } from '@/core/references';
 
 export function AiAssistantScreen() {
   const navigation = useNavigation<BottomTabNavigationProp<MainTabParamList>>();
@@ -80,6 +84,18 @@ export function AiAssistantScreen() {
     rootNavigation.navigate(target.screen, target.params);
   };
 
+  const handleReferencePress = (reference: IslamicReference) => {
+    const target = resolveIslamicReferenceNavigation(reference);
+    if (!target) return;
+
+    if (target.stack === 'tab') {
+      navigation.navigate(target.screen);
+      return;
+    }
+
+    rootNavigation.navigate(target.screen, target.params);
+  };
+
   const showTypingFooter =
     isThinking && !messages.some((message) => message.isStreaming);
 
@@ -88,6 +104,7 @@ export function AiAssistantScreen() {
       message={item}
       onAction={handleAction}
       onCitationPress={handleCitationPress}
+      onReferencePress={handleReferencePress}
     />
   );
 

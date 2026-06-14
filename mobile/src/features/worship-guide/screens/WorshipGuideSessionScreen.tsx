@@ -45,7 +45,7 @@ export function WorshipGuideSessionScreen() {
 
   const bundle = useMemo(() => WorshipGuideRepository.getBundle(guideId), [guideId]);
   const steps = useMemo(() => StepProgressionEngine.getSteps(guideId, mode), [guideId, mode]);
-  const { pose, isTransitioning, goToStep } = useWorshipSimulator(steps);
+  const { pose, isTransitioning, animationAssetKey, goToStep } = useWorshipSimulator(steps);
 
   useEffect(() => {
     if (guided) void goToStep(stepIndex);
@@ -121,6 +121,7 @@ export function WorshipGuideSessionScreen() {
             <WorshipAvatarStage
               pose={pose}
               isTransitioning={isTransitioning}
+              animationAssetKey={animationAssetKey}
               subtitle={step.arabicText ?? null}
             />
           ) : (
@@ -165,6 +166,7 @@ export function WorshipGuideSessionScreen() {
       confirmed,
       pose,
       isTransitioning,
+      animationAssetKey,
       mode,
       readerPrefs.showArabic,
       readerPrefs.showTransliteration,

@@ -1,5 +1,6 @@
 import type { DuaId } from '@/features/dua/types';
 import type { ZiyaratId } from '@/features/ziyarat/types';
+import type { IslamicReference } from '@/core/references';
 
 export type AiIntent =
   | 'islamic_qa'
@@ -38,6 +39,8 @@ export interface AiMessage {
   content: string;
   intent?: AiIntent;
   citations?: AiCitation[];
+  references?: IslamicReference[];
+  referenceWarning?: boolean;
   actions?: AiAction[];
   createdAt: string;
   source: 'local' | 'remote';
@@ -77,6 +80,8 @@ export interface AiResponseDraft {
   bodyKey: string;
   bodyParams?: Record<string, string | number>;
   citations?: AiCitation[];
+  references?: IslamicReference[];
+  referenceWarning?: boolean;
   actions?: AiAction[];
   blocked?: boolean;
   blockReasonKey?: string;

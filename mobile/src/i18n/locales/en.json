@@ -25,6 +25,44 @@
     "finish": "Complete",
     "swipeHint": "Swipe left or right between steps"
   },
+  "references": {
+    "title": "Reference",
+    "sourcesUsed": "Sources Used",
+    "primarySource": "Primary source",
+    "bookName": "Book",
+    "volume": "Volume",
+    "page": "Page",
+    "hadithNumber": "Hadith no.",
+    "chapter": "Chapter",
+    "surahAyah": "Surah · Ayah",
+    "translationSource": "Translation",
+    "tafsirSource": "Tafsir",
+    "narrator": "Narrator",
+    "scholar": "Scholar",
+    "marja": "Marja",
+    "grading": "Grading",
+    "url": "URL",
+    "openUrl": "Open source link",
+    "unavailable": "Reference unavailable. Please verify with a scholar.",
+    "verification": {
+      "pending": "Source verification pending",
+      "verified": "Verified source"
+    },
+    "kinds": {
+      "quran": "Quran",
+      "tafsir": "Tafsir",
+      "hadith": "Hadith",
+      "dua": "Dua",
+      "ziyarat": "Ziyarat",
+      "fiqh": "Fiqh",
+      "calendar": "Calendar",
+      "history": "History",
+      "amaal": "Amaal",
+      "book": "Book",
+      "scholar": "Scholar",
+      "external": "External"
+    }
+  },
   "tabs": {
     "home": "Home",
     "prayer": "Prayer",

@@ -10,6 +10,8 @@ import { useLocale } from '@/i18n/useLocale';
 import type { RootStackParamList } from '@/navigation/types';
 import { useTheme } from '@/theme/ThemeContext';
 
+import { ReferenceList } from '@/components/references';
+import { duaSourceToReference } from '@/core/references';
 import { DuaAudioBar } from '../components/DuaAudioBar';
 import { DuaReaderToolbar } from '../components/DuaReaderToolbar';
 import { DuaSectionBlock } from '../components/DuaSectionBlock';
@@ -97,8 +99,15 @@ export function DuaReaderScreen() {
               {subtitle}
             </Text>
             <Text variant="caption" color="tertiary">
-              {time} · {meta.source.en}
+              {time}
             </Text>
+            <ReferenceList
+              references={[
+                duaSourceToReference(duaId, meta.source, meta.titles.en),
+              ]}
+              compact
+              filterMarja={false}
+            />
 
             <DuaReaderToolbar
               bookmarked={isBookmarked}
