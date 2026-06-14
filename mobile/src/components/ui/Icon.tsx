@@ -2,16 +2,25 @@ import { StyleSheet, View, type ViewStyle } from 'react-native';
 
 import { useTheme } from '@/theme/ThemeContext';
 
-type IconName = 'chevron' | 'check' | 'settings' | 'bookmark' | 'download' | 'search' | 'send';
+type IconName =
+  | 'chevron'
+  | 'check'
+  | 'settings'
+  | 'bookmark'
+  | 'book'
+  | 'download'
+  | 'search'
+  | 'send';
 
 interface IconProps {
   name: IconName;
   size?: number;
   color?: string;
+  filled?: boolean;
   style?: ViewStyle;
 }
 
-export function Icon({ name, size = 18, color, style }: IconProps) {
+export function Icon({ name, size = 18, color, filled = false, style }: IconProps) {
   const { theme } = useTheme();
   const tint = color ?? theme.colors.textTertiary;
 
@@ -64,8 +73,115 @@ export function Icon({ name, size = 18, color, style }: IconProps) {
   }
 
   if (name === 'bookmark') {
+    const w = size * 0.56;
+    const h = size;
+    const stroke = 1.75;
+    const fillColor = filled ? tint : 'transparent';
+
     return (
-      <View style={[styles.bookmark, { borderColor: tint, height: size, width: size * 0.72 }, style]} />
+      <View style={[{ width: w, height: h, alignItems: 'center' }, style]}>
+        <View
+          style={{
+            width: w,
+            height: h * 0.76,
+            borderWidth: stroke,
+            borderColor: tint,
+            borderTopLeftRadius: 5,
+            borderTopRightRadius: 5,
+            borderBottomWidth: 0,
+            backgroundColor: fillColor,
+          }}
+        />
+        <View
+          style={{
+            flexDirection: 'row',
+            width: w,
+            height: h * 0.28,
+            marginTop: -stroke,
+          }}
+        >
+          <View
+            style={{
+              flex: 1,
+              borderLeftWidth: stroke,
+              borderBottomWidth: stroke,
+              borderColor: tint,
+              backgroundColor: fillColor,
+              transform: [{ skewY: '26deg' }, { translateY: h * 0.03 }],
+            }}
+          />
+          <View
+            style={{
+              flex: 1,
+              borderRightWidth: stroke,
+              borderBottomWidth: stroke,
+              borderColor: tint,
+              backgroundColor: fillColor,
+              transform: [{ skewY: '-26deg' }, { translateY: h * 0.03 }],
+            }}
+          />
+        </View>
+      </View>
+    );
+  }
+
+  if (name === 'book') {
+    const w = size;
+    const h = size * 0.92;
+    const spine = size * 0.14;
+    return (
+      <View style={[{ width: w, height: h }, style]}>
+        <View
+          style={{
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            bottom: 0,
+            width: spine,
+            borderWidth: 1.5,
+            borderColor: tint,
+            borderTopLeftRadius: 2,
+            borderBottomLeftRadius: 2,
+            backgroundColor: filled ? tint : 'transparent',
+          }}
+        />
+        <View
+          style={{
+            position: 'absolute',
+            left: spine - 1,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            borderWidth: 1.5,
+            borderColor: tint,
+            borderTopRightRadius: 3,
+            borderBottomRightRadius: 3,
+            borderLeftWidth: 0,
+          }}
+        />
+        <View
+          style={{
+            position: 'absolute',
+            left: spine + size * 0.12,
+            right: size * 0.12,
+            top: h * 0.28,
+            height: 1.5,
+            backgroundColor: tint,
+            opacity: 0.7,
+          }}
+        />
+        <View
+          style={{
+            position: 'absolute',
+            left: spine + size * 0.12,
+            right: size * 0.12,
+            top: h * 0.48,
+            height: 1.5,
+            backgroundColor: tint,
+            opacity: 0.7,
+          }}
+        />
+      </View>
     );
   }
 
@@ -141,14 +257,6 @@ const styles = StyleSheet.create({
     width: 4,
     height: 4,
     borderRadius: 2,
-  },
-  bookmark: {
-    borderWidth: 1.5,
-    borderTopLeftRadius: 2,
-    borderTopRightRadius: 2,
-    borderBottomLeftRadius: 2,
-    borderBottomRightRadius: 2,
-    borderBottomWidth: 0,
   },
   download: {
     alignItems: 'center',

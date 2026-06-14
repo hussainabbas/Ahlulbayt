@@ -172,15 +172,29 @@
     "surahs": "السور",
     "ayahs": "آيات",
     "notFound": "لم تُعثر على السورة",
-    "downloadPrompt": "النص الكامل غير محمّل بعد — معاينة الآيات فقط.",
+    "downloadPrompt": "اتصل بالإنترنت أو نزّل أدناه للقراءة الكاملة دون اتصال.",
     "readerSettings": "إعدادات القراءة",
     "displayMode": "وضع العرض",
     "translations": "الترجمات",
     "tajweedColors": "ألوان التجويد",
     "showTafsir": "إظهار التفسير",
+    "tafsir": "التفسير",
     "audioSync": "تمييز مع الصوت",
     "tajweedLegend": "دليل التجويد",
     "yourNote": "ملاحظتك",
+    "meta": {
+      "meccan": "مكية",
+      "medinan": "مدنية",
+      "juz": "جزء"
+    },
+    "reader": {
+      "bookmark": "إضافة إشارة",
+      "openTafsir": "عرض التفسير",
+      "downloadText": "تنزيل للقراءة دون اتصال",
+      "downloadingText": "جاري الحفظ {{percent}}%",
+      "textOffline": "محفوظ دون اتصال",
+      "removeOffline": "اضغط للإزالة"
+    },
     "display": {
       "stacked": "عربي + ترجمة",
       "arabicOnly": "عربي فقط",

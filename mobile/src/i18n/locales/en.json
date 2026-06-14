@@ -172,15 +172,29 @@
     "surahs": "Surahs",
     "ayahs": "ayahs",
     "notFound": "Surah not found",
-    "downloadPrompt": "Full text not downloaded yet — showing preview ayahs.",
+    "downloadPrompt": "Connect to the internet or download below for full offline reading.",
     "readerSettings": "Reader settings",
     "displayMode": "Display mode",
     "translations": "Translations",
     "tajweedColors": "Tajweed colors",
     "showTafsir": "Show tafsir",
+    "tafsir": "Tafsir",
     "audioSync": "Highlight with audio",
     "tajweedLegend": "Tajweed legend",
     "yourNote": "Your note",
+    "meta": {
+      "meccan": "Meccan",
+      "medinan": "Medinan",
+      "juz": "Juz"
+    },
+    "reader": {
+      "bookmark": "Bookmark ayah",
+      "openTafsir": "View tafsir",
+      "downloadText": "Download for offline",
+      "downloadingText": "Saving {{percent}}%",
+      "textOffline": "Saved offline",
+      "removeOffline": "Tap to remove"
+    },
     "display": {
       "stacked": "Arabic + translation",
       "arabicOnly": "Arabic only",

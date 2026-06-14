@@ -172,15 +172,29 @@
     "surahs": "سورتیں",
     "ayahs": "آیات",
     "notFound": "سورت نہیں ملی",
-    "downloadPrompt": "مکمل متن ابھی ڈاؤن لوڈ نہیں — پیش نظارہ آیات دکھائی جا رہی ہیں۔",
+    "downloadPrompt": "مکمل آف لائن پڑھنے کے لیے انٹرنیٹ سے جڑیں یا نیچے ڈاؤن لوڈ کریں۔",
     "readerSettings": "ریڈر کی ترتیبات",
     "displayMode": "ڈسپلے موڈ",
     "translations": "ترجمے",
     "tajweedColors": "تجوید کے رنگ",
     "showTafsir": "تفسیر دکھائیں",
+    "tafsir": "تفسیر",
     "audioSync": "آڈیو کے ساتھ ہائی لائٹ",
     "tajweedLegend": "تجوید کی وضاحت",
     "yourNote": "آپ کا نوٹ",
+    "meta": {
+      "meccan": "مکی",
+      "medinan": "مدنی",
+      "juz": "پارہ"
+    },
+    "reader": {
+      "bookmark": "آیت بک مارک کریں",
+      "openTafsir": "تفسیر دیکھیں",
+      "downloadText": "آف لائن ڈاؤن لوڈ",
+      "downloadingText": "محفوظ {{percent}}%",
+      "textOffline": "آف لائن محفوظ",
+      "removeOffline": "ہٹانے کے لیے ٹیپ کریں"
+    },
     "display": {
       "stacked": "عربی + ترجمہ",
       "arabicOnly": "صرف عربی",
