@@ -9,6 +9,8 @@ import type {
   SunniDifferenceNote,
 } from '../../types';
 
+import { HAMD_AND_IKHLAS_ARABIC } from './recitationTexts';
+
 export const L = (en: string, ur: string, ar: string): LocalizedText => ({ en, ur, ar });
 
 export const COMMON_CONDITIONS: PrayerCondition[] = [
@@ -293,7 +295,7 @@ export function twoRakatWajibSteps(prayerName: LocalizedText, withQunoot = true)
         'سورہ الحمد، پھر کوئی سورت (مثلاً اخلاص) پڑھیں۔ پھر رکوع میں جائیں۔',
         'اقرأ الفاتحة ثم سورة أخرى (مثل الإخلاص). ثم اركع.',
       ),
-      arabic: 'بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيمِ\nالْحَمْدُ لِلّٰهِ رَبِّ الْعَالَمِينَ…',
+      arabic: HAMD_AND_IKHLAS_ARABIC,
       animationPose: 'standing_qiyam',
     },
     rukuStep('r1_ruku', 1),
@@ -312,6 +314,7 @@ export function twoRakatWajibSteps(prayerName: LocalizedText, withQunoot = true)
       rakatIndex: 2,
       titles: L('2nd rakat — Qira\'at', 'دوسری رکعت — قراءت', 'الركعة الثانية — القراءة'),
       body: L('Recite al-Hamd and another surah.', 'الحمد اور دوسری سورت پڑھیں۔', 'اقرأ الفاتحة وسورة أخرى.'),
+      arabic: HAMD_AND_IKHLAS_ARABIC,
       animationPose: 'standing_qiyam',
     },
   ];

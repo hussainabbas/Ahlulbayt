@@ -13,6 +13,12 @@ export function clampMuharramDay(day: number): number {
   return Math.min(Math.max(day, 1), MUHARRAM_DAILY.length);
 }
 
+/** True once Hijri month 1 (Muharram) has begun — used for auto theme/mode. */
+export function isMuharramMonth(hijriMonth: number): boolean {
+  return hijriMonth === 1;
+}
+
+/** Broader lead-up (Dhu al-Hijjah 20+) for banners, countdowns, and notifications. */
 export function isMuharramSeason(hijriMonth: number, hijriDay: number): boolean {
   return hijriMonth === 1 || (hijriMonth === 12 && hijriDay >= 20);
 }

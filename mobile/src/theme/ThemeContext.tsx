@@ -3,12 +3,12 @@ import {
   createContext,
   useContext,
   useMemo,
-  useState,
   type ReactNode,
 } from 'react';
 
 import type { ThemeMode } from '@/core/config/constants';
 import { parseHijriDate } from '@/features/calendar/engine/hijriUtils';
+import { useHijriClock } from '@/features/calendar/hooks/useHijriClock';
 import { resolveMuharramThemeActive } from '@/features/muharram/hooks/useMuharramMode';
 import { useMuharramStore } from '@/features/muharram/stores/muharramStore';
 import { useSettingsStore } from '@/stores/settingsStore';
@@ -52,7 +52,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const locale = useSettingsStore((s) => s.locale);
   const muharramMode = useMuharramStore((s) => s.mode);
   const muharramBlackTheme = useMuharramStore((s) => s.blackTheme);
-  const [now] = useState(() => new Date());
+  const now = useHijriClock();
 
   const scheme = resolveScheme(themeMode, systemScheme as ColorScheme | null | undefined);
   const hijri = useMemo(() => parseHijriDate(now, locale), [now, locale]);

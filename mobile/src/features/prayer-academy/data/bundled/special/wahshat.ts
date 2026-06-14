@@ -1,6 +1,10 @@
 import { getCatalogMeta } from '../../../constants/catalog';
 import type { PrayerAcademyBundle } from '../../../types';
 import { COMMON_CONDITIONS, L, twoRakatWajibSteps } from '../../shared/contentHelpers';
+import {
+  WAHSHAT_R1_RECITATION_ARABIC,
+  WAHSHAT_R2_RECITATION_ARABIC,
+} from '../../shared/recitationTexts';
 
 const meta = getCatalogMeta('namaz_e_wahshat');
 
@@ -51,7 +55,7 @@ export const NAMAZ_E_WAHSHAT: PrayerAcademyBundle = {
         rakatIndex: 1,
         titles: L('1st rakat — Ayat al-Kursi', 'پہلی — آیت الکرسی', 'الأولى — آية الكرسي'),
         body: L('After al-Hamd, recite Ayat al-Kursi (2:255) once, then complete rakat.', 'الحمد کے بعد آیت الکرسی (۲:۲۵۵) ایک بار۔', 'بعد الفاتحة آية الكرسي مرة.'),
-        arabic: 'اللّٰهُ لَا إِلٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ…',
+        arabic: WAHSHAT_R1_RECITATION_ARABIC,
       },
       {
         id: 'r2',
@@ -63,6 +67,7 @@ export const NAMAZ_E_WAHSHAT: PrayerAcademyBundle = {
           'الحمد کے بعد: قدر ۳×، فلق ۱×، ناس ۱×۔ نماز بعد میّت کی دعا۔',
           'بعد الفاتحة: القدر ٣×، الفلق ١×، الناس ١×. ثم دعاء للميت.',
         ),
+        arabic: WAHSHAT_R2_RECITATION_ARABIC,
       },
       ...twoRakatWajibSteps(meta.titles, false).filter(
         (s) => !['r1_recite', 'r2_recite', 'prep', 'niyyah'].includes(s.id),

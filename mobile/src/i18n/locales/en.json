@@ -19,6 +19,12 @@
     "locating": "Finding your location…",
     "settings": "Settings"
   },
+  "guidedSession": {
+    "back": "Back",
+    "next": "Next step",
+    "finish": "Complete",
+    "swipeHint": "Swipe left or right between steps"
+  },
   "tabs": {
     "home": "Home",
     "prayer": "Prayer",

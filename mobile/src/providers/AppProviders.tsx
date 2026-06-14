@@ -10,6 +10,7 @@ import { networkManager } from '@/core/offline/network';
 import { logger } from '@/core/logging/logger';
 import { i18n } from '@/i18n';
 import { ThemeProvider } from '@/theme/ThemeContext';
+import { MuharramThemeBootstrap } from '@/features/muharram/components/MuharramThemeBootstrap';
 import { useAppStore } from '@/stores/appStore';
 import { OfflineBanner } from '@/components/feedback/OfflineBanner';
 import { ContentSyncBootstrap } from '@/core/offline/ContentSyncBootstrap';
@@ -61,6 +62,7 @@ export function AppProviders({ children }: AppProvidersProps) {
         <QueryClientProvider client={queryClient}>
           <I18nextProvider i18n={i18n}>
             <ThemeProvider>
+              <MuharramThemeBootstrap />
               <OfflineBanner />
               <PrayerTimesBootstrap />
               <ContentSyncBootstrap />

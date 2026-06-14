@@ -1,10 +1,12 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import { parseHijriDate } from '@/features/calendar/engine/hijriUtils';
+import { useHijriClock } from '@/features/calendar/hooks/useHijriClock';
 import { useLocale } from '@/i18n/useLocale';
 
 import {
   getMuharramDay,
+  isMuharramMonth,
   isMuharramSeason,
   resolveMuharramDay,
 } from '../engine/muharramRepository';
@@ -22,16 +24,17 @@ export function useMuharramMode() {
   const setSelectedDay = useMuharramStore((s) => s.setSelectedDay);
   const markDayVisited = useMuharramStore((s) => s.markDayVisited);
 
-  const [now] = useState(() => new Date());
+  const now = useHijriClock();
   const hijri = useMemo(() => parseHijriDate(now, locale), [now, locale]);
 
   const seasonActive = isMuharramSeason(hijri.month, hijri.day);
+  const muharramStarted = isMuharramMonth(hijri.month);
 
   const isModeActive = useMemo(() => {
     if (mode === 'on') return true;
     if (mode === 'off') return false;
-    return seasonActive;
-  }, [mode, seasonActive]);
+    return muharramStarted;
+  }, [mode, muharramStarted]);
 
   const isBlackThemeActive = isModeActive && blackTheme;
 
@@ -67,9 +70,11 @@ export function resolveMuharramThemeActive(
   mode: MuharramModeState,
   blackTheme: boolean,
   hijriMonth: number,
-  hijriDay: number,
+  _hijriDay: number,
 ): boolean {
-  const season = isMuharramSeason(hijriMonth, hijriDay);
-  const active = mode === 'on' || (mode === 'auto' && season);
-  return active && blackTheme;
+  const muharramStarted = isMuharramMonth(hijriMonth);
+  const modeActive = mode === 'on' || (mode === 'auto' && muharramStarted);
+  if (!modeActive) return false;
+  if (mode === 'auto' && muharramStarted) return true;
+  return blackTheme;
 }

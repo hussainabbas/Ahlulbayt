@@ -3,6 +3,9 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
+import { GuidedNavigationBar } from '@/components/guided/GuidedNavigationBar';
+import { GuidedProgressHeader } from '@/components/guided/GuidedProgressHeader';
+import { GuidedStepPager } from '@/components/guided/GuidedStepPager';
 import { Icon } from '@/components/ui/Icon';
 import { Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
@@ -12,7 +15,6 @@ import type { RootStackParamList } from '@/navigation/types';
 import { useTheme } from '@/theme/ThemeContext';
 
 import { DifficultyToggle } from '../components/DifficultyToggle';
-import { GuidedModeBar } from '../components/GuidedModeBar';
 import { PrayerRakatBreakdown } from '../components/PrayerRakatBreakdown';
 import { PrayerStepBlock } from '../components/PrayerStepBlock';
 import { WorshipAvatarStage } from '@/features/worship-simulator/components/WorshipAvatarStage';
@@ -21,10 +23,16 @@ import { PrayerAcademyRepository } from '../engine/prayerAcademyRepository';
 import { usePrayerAcademyBookmarkStore } from '../stores/bookmarkStore';
 import { usePrayerAcademyProgressStore } from '../stores/progressStore';
 import { usePrayerAcademyReaderStore } from '../stores/readerStore';
-import type { GuideDifficulty } from '../types';
+import type { GuideDifficulty, PrayerAcademyStep } from '../types';
+import { getAvatarSubtitle } from '../utils/avatarSubtitle';
 import { pickLocalized } from '../utils/localizedText';
 
 type GuideRoute = RouteProp<RootStackParamList, 'PrayerAcademyGuide'>;
+
+const DIFFICULTY_LABELS: Record<GuideDifficulty, string> = {
+  beginner: 'prayerAcademy.difficulty.beginner',
+  advanced: 'prayerAcademy.difficulty.advanced',
+};
 
 export function PrayerAcademyGuideScreen() {
   const { t, locale } = useLocale();
@@ -56,7 +64,13 @@ export function PrayerAcademyGuideScreen() {
     if (guided) void goToStep(stepIndex);
   }, [guided, stepIndex, goToStep]);
 
+  const cycleDifficulty = useCallback(() => {
+    setDifficulty((d) => (d === 'beginner' ? 'advanced' : 'beginner'));
+    setStepIndex(0);
+  }, []);
+
   const bookmarked = isBookmarked(prayerId);
+  const isLastStep = stepIndex >= steps.length - 1;
 
   useLayoutEffect(() => {
     if (!bundle) return;
@@ -93,6 +107,44 @@ export function PrayerAcademyGuideScreen() {
     setStepIndex((i) => Math.max(0, i - 1));
   }, []);
 
+  const handleStepIndexChange = useCallback(
+    (newIndex: number) => {
+      if (newIndex < stepIndex) {
+        setStepIndex(newIndex);
+        return;
+      }
+      if (newIndex > stepIndex) {
+        onNext();
+      }
+    },
+    [stepIndex, onNext],
+  );
+
+  const renderGuidedStep = useCallback(
+    (step: PrayerAcademyStep, index: number) => (
+      <ScrollView contentContainerStyle={styles.pageContent} showsVerticalScrollIndicator={false}>
+        {index === stepIndex ? (
+          <WorshipAvatarStage
+            pose={pose}
+            isTransitioning={isTransitioning}
+            subtitle={getAvatarSubtitle(step)}
+          />
+        ) : (
+          <View style={[styles.avatarPlaceholder, { backgroundColor: theme.colors.surfaceMuted }]} />
+        )}
+        <PrayerStepBlock
+          step={step}
+          index={index}
+          active
+          showArabic={readerPrefs.showArabic}
+          showTransliteration={readerPrefs.showTransliteration}
+          showFiqhRefs={readerPrefs.showFiqhRefs}
+        />
+      </ScrollView>
+    ),
+    [stepIndex, pose, isTransitioning, readerPrefs, theme.colors.surfaceMuted],
+  );
+
   if (!bundle) {
     return (
       <Screen>
@@ -103,109 +155,73 @@ export function PrayerAcademyGuideScreen() {
     );
   }
 
-  const activeStep = guided ? steps[stepIndex] : undefined;
+  const difficultyLabel = t(DIFFICULTY_LABELS[difficulty] ?? DIFFICULTY_LABELS.beginner);
 
   return (
-    <Screen scroll={false} padded={false}>
-      <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
-        <Text variant="bodySm" color="secondary">
-          {pickLocalized(bundle.meta.purpose, locale)}
-        </Text>
-
-        <DifficultyToggle value={difficulty} onChange={setDifficulty} />
-
-        <View style={styles.section}>
-          <Text variant="label" color="secondary">
-            {t('prayerAcademy.rakatStructure')}
+    <Screen padded={false} safeTop={false} safeBottom={false}>
+      {guided ? (
+        <>
+          <GuidedProgressHeader
+            modeLabel={difficultyLabel}
+            onModePress={cycleDifficulty}
+            current={stepIndex + 1}
+            total={steps.length}
+          />
+          <GuidedStepPager
+            steps={steps}
+            stepIndex={stepIndex}
+            enabled={guided}
+            canSwipeForward
+            onStepIndexChange={handleStepIndexChange}
+            keyExtractor={(step) => step.id}
+            renderStep={renderGuidedStep}
+          />
+        </>
+      ) : (
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.scroll}
+          showsVerticalScrollIndicator={false}
+        >
+          <Text variant="bodySm" color="secondary">
+            {pickLocalized(bundle.meta.purpose, locale)}
           </Text>
-          <PrayerRakatBreakdown units={bundle.rakatStructure} />
-        </View>
 
-        {bundle.timingRules.length ? (
+          <DifficultyToggle value={difficulty} onChange={setDifficulty} />
+
           <View style={styles.section}>
             <Text variant="label" color="secondary">
-              {t('prayerAcademy.timing')}
+              {t('prayerAcademy.rakatStructure')}
             </Text>
-            {bundle.timingRules.map((rule) => (
-              <View
-                key={rule.id}
-                style={[styles.infoBox, { backgroundColor: theme.colors.surfaceMuted }]}
-              >
-                <Text variant="bodySm" weight="600">
-                  {pickLocalized(rule.title, locale)}
-                </Text>
-                <Text variant="caption" color="secondary">
-                  {pickLocalized(rule.body, locale)}
-                </Text>
-              </View>
-            ))}
+            <PrayerRakatBreakdown units={bundle.rakatStructure} />
           </View>
-        ) : null}
 
-        {bundle.conditions.length ? (
+          {bundle.timingRules.length ? (
+            <View style={styles.section}>
+              <Text variant="label" color="secondary">
+                {t('prayerAcademy.timing')}
+              </Text>
+              {bundle.timingRules.map((rule) => (
+                <View
+                  key={rule.id}
+                  style={[styles.infoBox, { backgroundColor: theme.colors.surfaceMuted }]}
+                >
+                  <Text variant="bodySm" weight="600">
+                    {pickLocalized(rule.title, locale)}
+                  </Text>
+                  <Text variant="caption" color="secondary">
+                    {pickLocalized(rule.body, locale)}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          ) : null}
+
           <View style={styles.section}>
             <Text variant="label" color="secondary">
-              {t('prayerAcademy.conditions')}
+              {t('prayerAcademy.allSteps')}
             </Text>
-            {bundle.conditions.slice(0, 3).map((cond) => (
-              <View
-                key={cond.id}
-                style={[styles.infoBox, { backgroundColor: theme.colors.surfaceMuted }]}
-              >
-                <Text variant="bodySm" weight="600">
-                  {pickLocalized(cond.title, locale)}
-                </Text>
-                <Text variant="caption" color="secondary">
-                  {pickLocalized(cond.body, locale)}
-                </Text>
-              </View>
-            ))}
-          </View>
-        ) : null}
-
-        {bundle.sunniDifferences?.length ? (
-          <View style={styles.section}>
-            <Text variant="label" color="secondary">
-              {t('prayerAcademy.jafariNotes')}
-            </Text>
-            {bundle.sunniDifferences.map((note, i) => (
-              <View
-                key={i}
-                style={[styles.infoBox, { backgroundColor: theme.colors.accentPrimaryMuted }]}
-              >
-                <Text variant="caption" weight="600" color="accent">
-                  {pickLocalized(note.topic, locale)}
-                </Text>
-                <Text variant="caption" color="secondary">
-                  {pickLocalized(note.jafari, locale)}
-                </Text>
-              </View>
-            ))}
-          </View>
-        ) : null}
-
-        <View style={styles.section}>
-          <Text variant="label" color="secondary">
-            {guided ? t('prayerAcademy.currentStep') : t('prayerAcademy.allSteps')}
-          </Text>
-          {guided && activeStep ? (
-            <>
-              <WorshipAvatarStage
-                pose={pose}
-                isTransitioning={isTransitioning}
-                subtitle={activeStep.arabic ?? null}
-              />
-              <PrayerStepBlock
-                step={activeStep}
-                index={stepIndex}
-                active
-                showArabic={readerPrefs.showArabic}
-                showTransliteration={readerPrefs.showTransliteration}
-                showFiqhRefs={readerPrefs.showFiqhRefs}
-              />
-            </>
-          ) : (
-            steps.map((step, index) => (
+            {steps.map((step, index) => (
               <PrayerStepBlock
                 key={step.id}
                 step={step}
@@ -215,48 +231,64 @@ export function PrayerAcademyGuideScreen() {
                 showFiqhRefs={readerPrefs.showFiqhRefs}
                 active={progress?.lastStepId === step.id}
               />
-            ))
-          )}
-        </View>
-
-        {progress?.completedAt ? (
-          <View style={[styles.completeBadge, { backgroundColor: theme.colors.accentPrimaryMuted }]}>
-            <Icon name="check" size={16} color={theme.colors.accentPrimary} />
-            <Text variant="bodySm" color="accent">
-              {t('prayerAcademy.completed')}
-            </Text>
+            ))}
           </View>
-        ) : null}
-      </ScrollView>
 
-      <GuidedModeBar
+          {progress?.completedAt ? (
+            <View style={[styles.completeBadge, { backgroundColor: theme.colors.accentPrimaryMuted }]}>
+              <Icon name="check" size={16} color={theme.colors.accentPrimary} />
+              <Text variant="bodySm" color="accent">
+                {t('prayerAcademy.completed')}
+              </Text>
+            </View>
+          ) : null}
+        </ScrollView>
+      )}
+
+      <GuidedNavigationBar
         current={stepIndex + 1}
         total={Math.max(steps.length, 1)}
         guided={guided}
+        guidedLabel={t('prayerAcademy.guided')}
+        stepOfLabel={t('prayerAcademy.stepOf', {
+          current: stepIndex + 1,
+          total: steps.length,
+        })}
         onToggleGuided={() => setGuided((g) => !g)}
         onPrev={onPrev}
         onNext={onNext}
-        canPrev={stepIndex > 0}
-        canNext={stepIndex < steps.length - 1 || !progress?.completedAt}
+        canPrev={guided && stepIndex > 0}
+        canNext={guided && (stepIndex < steps.length - 1 || !progress?.completedAt)}
+        isLastStep={guided && isLastStep}
       />
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
+  scrollView: { flex: 1 },
   scroll: {
-    padding: layout.screenPadding,
+    padding: layout.screenPaddingX,
     paddingBottom: layout.sectionGap,
     gap: layout.sectionGap,
   },
+  pageContent: {
+    paddingHorizontal: layout.screenPaddingX,
+    paddingBottom: 24,
+    gap: layout.blockGap,
+  },
+  avatarPlaceholder: {
+    height: 220,
+    borderRadius: 16,
+  },
   section: { gap: layout.listGap },
-  infoBox: { padding: layout.blockGap, borderRadius: 12, gap: 4 },
+  infoBox: { padding: layout.blockGap, borderRadius: 14, gap: 4 },
   completeBadge: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
     padding: layout.blockGap,
-    borderRadius: 12,
+    borderRadius: 14,
     alignSelf: 'flex-start',
   },
   headerBtn: { marginRight: 4 },

@@ -3,6 +3,9 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
+import { GuidedNavigationBar } from '@/components/guided/GuidedNavigationBar';
+import { GuidedProgressHeader } from '@/components/guided/GuidedProgressHeader';
+import { GuidedStepPager } from '@/components/guided/GuidedStepPager';
 import { Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
 import { useLocale } from '@/i18n/useLocale';
@@ -10,7 +13,6 @@ import type { RootStackParamList } from '@/navigation/types';
 import { layout } from '@/theme/layout';
 import { useTheme } from '@/theme/ThemeContext';
 
-import { GuidedWizardBar } from '../components/GuidedWizardBar';
 import { WorshipStepBlock } from '../components/WorshipStepBlock';
 import { WorshipAvatarStage } from '@/features/worship-simulator/components/WorshipAvatarStage';
 import { useWorshipSimulator } from '@/features/worship-simulator/hooks/useWorshipSimulator';
@@ -18,7 +20,7 @@ import { StepProgressionEngine } from '../engine/stepProgressionEngine';
 import { WorshipGuideRepository } from '../engine/worshipGuideRepository';
 import { useWorshipGuideProgressStore } from '../stores/progressStore';
 import { useWorshipGuideReaderStore } from '../stores/readerStore';
-import type { GuideLearningMode, WorshipGuideId } from '../types';
+import type { GuideLearningMode, WorshipGuideId, WorshipGuideStep } from '../types';
 import { pickLocalized } from '../utils/localizedText';
 
 type SessionRoute = RouteProp<RootStackParamList, 'WorshipGuideSession'>;
@@ -66,6 +68,11 @@ export function WorshipGuideSessionScreen() {
     setConfirmed(false);
   }, []);
 
+  const activeStep = steps[stepIndex];
+  const needsConfirm = Boolean(activeStep?.confirmPrompt);
+  const canAdvance = !needsConfirm || confirmed;
+  const isLastStep = stepIndex >= steps.length - 1;
+
   const onNext = useCallback(async () => {
     const step = steps[stepIndex];
     if (!step) return;
@@ -86,6 +93,86 @@ export function WorshipGuideSessionScreen() {
     setConfirmed(false);
   }, []);
 
+  const handleStepIndexChange = useCallback(
+    (newIndex: number) => {
+      if (newIndex < stepIndex) {
+        setStepIndex(newIndex);
+        setConfirmed(false);
+        return;
+      }
+      if (newIndex > stepIndex && canAdvance) {
+        void onNext();
+      }
+    },
+    [stepIndex, canAdvance, onNext],
+  );
+
+  const renderGuidedStep = useCallback(
+    (step: WorshipGuideStep, index: number) => {
+      const stepNeedsConfirm = Boolean(step.confirmPrompt);
+      const stepConfirmed = index === stepIndex ? confirmed : false;
+
+      return (
+        <ScrollView
+          contentContainerStyle={styles.pageContent}
+          showsVerticalScrollIndicator={false}
+        >
+          {index === stepIndex ? (
+            <WorshipAvatarStage
+              pose={pose}
+              isTransitioning={isTransitioning}
+              subtitle={step.arabicText ?? null}
+            />
+          ) : (
+            <View style={[styles.avatarPlaceholder, { backgroundColor: theme.colors.surfaceMuted }]} />
+          )}
+
+          <WorshipStepBlock
+            step={step}
+            index={index}
+            mode={mode}
+            showArabic={readerPrefs.showArabic}
+            showTransliteration={readerPrefs.showTransliteration}
+            active
+          />
+
+          {stepNeedsConfirm ? (
+            <Pressable
+              onPress={() => index === stepIndex && setConfirmed((c) => !c)}
+              disabled={index !== stepIndex}
+              style={[
+                styles.confirm,
+                {
+                  backgroundColor: stepConfirmed
+                    ? theme.colors.accentPrimaryMuted
+                    : theme.colors.surfaceElevated,
+                  borderColor: theme.colors.borderSubtle,
+                  opacity: index === stepIndex ? 1 : 0.7,
+                },
+              ]}
+            >
+              <Text variant="bodySm" color={stepConfirmed ? 'accent' : 'secondary'}>
+                {stepConfirmed ? '✓ ' : '☐ '}
+                {pickLocalized(step.confirmPrompt!, locale)}
+              </Text>
+            </Pressable>
+          ) : null}
+        </ScrollView>
+      );
+    },
+    [
+      stepIndex,
+      confirmed,
+      pose,
+      isTransitioning,
+      mode,
+      readerPrefs.showArabic,
+      readerPrefs.showTransliteration,
+      locale,
+      theme.colors,
+    ],
+  );
+
   if (!bundle) {
     return (
       <Screen>
@@ -96,78 +183,39 @@ export function WorshipGuideSessionScreen() {
     );
   }
 
-  const activeStep = guided ? steps[stepIndex] : undefined;
-  const needsConfirm = Boolean(activeStep?.confirmPrompt);
-  const canAdvance = !needsConfirm || confirmed;
-
   return (
     <Screen padded={false} safeTop={false} safeBottom={false}>
-      <View style={styles.modeBar}>
-        <Pressable onPress={cycleMode} style={styles.modeBtn}>
-          <Text variant="caption" color="accent">
-            {t(`worshipGuide.mode.${mode}`)}
-          </Text>
-        </Pressable>
-        {guided ? (
-          <View style={styles.dots}>
-            {steps.map((_, i) => (
-              <View
-                key={i}
-                style={[
-                  styles.dot,
-                  {
-                    backgroundColor:
-                      i <= stepIndex ? theme.colors.accentPrimary : theme.colors.surfaceMuted,
-                  },
-                ]}
-              />
-            ))}
-          </View>
-        ) : null}
-      </View>
-
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scroll}
-        showsVerticalScrollIndicator={false}
-      >
-        {guided && activeStep ? (
-          <>
-            <WorshipAvatarStage
-              pose={pose}
-              isTransitioning={isTransitioning}
-              subtitle={activeStep.arabicText ?? null}
-            />
-            <WorshipStepBlock
-              step={activeStep}
-              index={stepIndex}
-              mode={mode}
-              showArabic={readerPrefs.showArabic}
-              showTransliteration={readerPrefs.showTransliteration}
-              active
-            />
-            {activeStep.confirmPrompt ? (
-              <Pressable
-                onPress={() => setConfirmed((c) => !c)}
-                style={[
-                  styles.confirm,
-                  {
-                    backgroundColor: confirmed
-                      ? theme.colors.accentPrimaryMuted
-                      : theme.colors.surfaceElevated,
-                    borderColor: theme.colors.borderSubtle,
-                  },
-                ]}
-              >
-                <Text variant="bodySm" color={confirmed ? 'accent' : 'secondary'}>
-                  {confirmed ? '✓ ' : '☐ '}
-                  {pickLocalized(activeStep.confirmPrompt, locale)}
-                </Text>
-              </Pressable>
-            ) : null}
-          </>
-        ) : (
-          steps.map((step, index) => (
+      {guided ? (
+        <>
+          <GuidedProgressHeader
+            modeLabel={t(`worshipGuide.mode.${mode}`)}
+            onModePress={cycleMode}
+            current={stepIndex + 1}
+            total={steps.length}
+          />
+          <GuidedStepPager
+            steps={steps}
+            stepIndex={stepIndex}
+            enabled={guided}
+            canSwipeForward={canAdvance}
+            onStepIndexChange={handleStepIndexChange}
+            keyExtractor={(step) => step.id}
+            renderStep={renderGuidedStep}
+          />
+        </>
+      ) : (
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.scroll}
+          showsVerticalScrollIndicator={false}
+        >
+          <GuidedProgressHeader
+            modeLabel={t(`worshipGuide.mode.${mode}`)}
+            onModePress={cycleMode}
+            current={1}
+            total={steps.length}
+          />
+          {steps.map((step, index) => (
             <WorshipStepBlock
               key={step.id}
               step={step}
@@ -176,65 +224,66 @@ export function WorshipGuideSessionScreen() {
               showArabic={readerPrefs.showArabic}
               showTransliteration={readerPrefs.showTransliteration}
             />
-          ))
-        )}
+          ))}
 
-        {bundle.invalidators?.length && mode === 'scholar' ? (
-          <View style={[styles.invalidators, { backgroundColor: theme.colors.surfaceMuted }]}>
-            <Text variant="bodySm" weight="600">
-              {t('worshipGuide.invalidators')}
-            </Text>
-            {bundle.invalidators.map((inv) => (
-              <Text key={inv.id} variant="caption" color="secondary">
-                • {pickLocalized(inv.title, locale)} — {pickLocalized(inv.body, locale)}
+          {bundle.invalidators?.length && mode === 'scholar' ? (
+            <View style={[styles.invalidators, { backgroundColor: theme.colors.surfaceMuted }]}>
+              <Text variant="bodySm" weight="600">
+                {t('worshipGuide.invalidators')}
               </Text>
-            ))}
-          </View>
-        ) : null}
-      </ScrollView>
+              {bundle.invalidators.map((inv) => (
+                <Text key={inv.id} variant="caption" color="secondary">
+                  • {pickLocalized(inv.title, locale)} — {pickLocalized(inv.body, locale)}
+                </Text>
+              ))}
+            </View>
+          ) : null}
+        </ScrollView>
+      )}
 
-      <GuidedWizardBar
+      <GuidedNavigationBar
         current={stepIndex + 1}
         total={steps.length}
         guided={guided}
+        guidedLabel={t('worshipGuide.guided')}
+        stepOfLabel={t('worshipGuide.stepOf', { current: stepIndex + 1, total: steps.length })}
         onToggleGuided={() => setGuided((g) => !g)}
         onPrev={onPrev}
         onNext={() => void onNext()}
-        onRepeatAudio={() => {
-          // Phase 2: play activeStep audioAssetKey
-        }}
-        canPrev={stepIndex > 0}
-        canNext={guided && canAdvance && stepIndex <= steps.length - 1}
+        canPrev={guided && stepIndex > 0}
+        canNext={guided && canAdvance}
+        isLastStep={guided && isLastStep}
       />
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  modeBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: layout.screenPaddingX,
-    paddingVertical: 8,
-  },
-  modeBtn: { padding: 6 },
-  dots: { flexDirection: 'row', gap: 4, flex: 1, justifyContent: 'center' },
-  dot: { width: 8, height: 8, borderRadius: 4 },
   scrollView: { flex: 1 },
   scroll: {
     padding: layout.screenPaddingX,
     paddingBottom: 24,
     gap: layout.blockGap,
   },
+  pageContent: {
+    paddingHorizontal: layout.screenPaddingX,
+    paddingBottom: 24,
+    gap: layout.blockGap,
+  },
+  avatarPlaceholder: {
+    height: 220,
+    borderRadius: 16,
+  },
   confirm: {
     padding: layout.blockGap,
-    borderRadius: 12,
+    borderRadius: 14,
     borderWidth: StyleSheet.hairlineWidth,
+    minHeight: 52,
+    justifyContent: 'center',
   },
   invalidators: {
     padding: layout.blockGap,
-    borderRadius: 12,
+    borderRadius: 14,
     gap: 6,
     marginTop: 8,
   },
