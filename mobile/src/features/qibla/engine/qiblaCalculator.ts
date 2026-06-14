@@ -57,6 +57,39 @@ export function calculateQibla(from: QiblaCoordinates): QiblaResult {
   };
 }
 
+/** Sample points along the great-circle path between two coordinates. */
+export function greatCirclePoints(
+  from: QiblaCoordinates,
+  to: QiblaCoordinates,
+  segments = 32,
+): QiblaCoordinates[] {
+  const φ1 = toRad(from.latitude);
+  const λ1 = toRad(from.longitude);
+  const φ2 = toRad(to.latitude);
+  const λ2 = toRad(to.longitude);
+
+  const cosD =
+    Math.sin(φ1) * Math.sin(φ2) + Math.cos(φ1) * Math.cos(φ2) * Math.cos(λ2 - λ1);
+  const d = Math.acos(Math.min(1, Math.max(-1, cosD)));
+
+  if (d === 0) return [from, to];
+
+  const points: QiblaCoordinates[] = [];
+  for (let i = 0; i <= segments; i++) {
+    const f = i / segments;
+    const a = Math.sin((1 - f) * d) / Math.sin(d);
+    const b = Math.sin(f * d) / Math.sin(d);
+    const x = a * Math.cos(φ1) * Math.cos(λ1) + b * Math.cos(φ2) * Math.cos(λ2);
+    const y = a * Math.cos(φ1) * Math.sin(λ1) + b * Math.cos(φ2) * Math.sin(λ2);
+    const z = a * Math.sin(φ1) + b * Math.sin(φ2);
+    points.push({
+      latitude: toDeg(Math.atan2(z, Math.sqrt(x * x + y * y))),
+      longitude: toDeg(Math.atan2(y, x)),
+    });
+  }
+  return points;
+}
+
 /** Project lat/lon to 0–1 for equirectangular map */
 export function projectEquirectangular(
   lat: number,

@@ -3,6 +3,7 @@ import Animated, { useAnimatedStyle, withSpring } from 'react-native-reanimated'
 
 import { Text } from '@/components/ui/Text';
 import { useLocale } from '@/i18n/useLocale';
+import { getShadow } from '@/theme/shadows';
 import { useTheme } from '@/theme/ThemeContext';
 
 interface QiblaCompassDialProps {
@@ -13,90 +14,188 @@ interface QiblaCompassDialProps {
   size?: number;
 }
 
+const CARDINALS = [
+  { label: 'N', angle: 0 },
+  { label: 'E', angle: 90 },
+  { label: 'S', angle: 180 },
+  { label: 'W', angle: 270 },
+] as const;
+
 export function QiblaCompassDial({
   deviceHeading,
   qiblaRelative,
   qiblaBearing,
   isAligned,
-  size = 280,
+  size = 300,
 }: QiblaCompassDialProps) {
   const { t } = useLocale();
   const { theme } = useTheme();
+  const radius = size / 2;
 
   const dialStyle = useAnimatedStyle(() => ({
-    transform: [{ rotate: withSpring(`${-deviceHeading}deg`, { damping: 20 }) }],
+    transform: [{ rotate: withSpring(`${-deviceHeading}deg`, { damping: 22, stiffness: 90 }) }],
   }));
 
   const qiblaNeedleStyle = useAnimatedStyle(() => ({
-    transform: [{ rotate: withSpring(`${qiblaRelative}deg`, { damping: 18 }) }],
+    transform: [{ rotate: withSpring(`${qiblaRelative}deg`, { damping: 18, stiffness: 100 }) }],
   }));
 
-  const labels = ['N', 'E', 'S', 'W'];
-
   return (
-    <View style={[styles.wrap, { width: size, height: size }]}>
-      <Animated.View
+    <View style={styles.wrap}>
+      <View
         style={[
-          styles.dial,
-          dialStyle,
+          styles.bezel,
+          getShadow('md', theme.scheme),
           {
-            width: size,
-            height: size,
-            borderRadius: size / 2,
-            borderColor: theme.colors.borderSubtle,
+            width: size + 24,
+            height: size + 24,
+            borderRadius: (size + 24) / 2,
             backgroundColor: theme.colors.surfaceElevated,
+            borderColor: isAligned ? theme.colors.accentPrimary : theme.colors.borderSubtle,
           },
         ]}
       >
-        {labels.map((label, i) => {
-          const angle = i * 90;
-          const rad = (angle * Math.PI) / 180;
-          const r = size / 2 - 28;
-          const x = size / 2 + r * Math.sin(rad) - 8;
-          const y = size / 2 - r * Math.cos(rad) - 10;
-          return (
-            <Text
-              key={label}
-              variant="caption"
-              color={label === 'N' ? 'accent' : 'tertiary'}
-              style={{ position: 'absolute', left: x, top: y }}
-            >
-              {label}
-            </Text>
-          );
-        })}
+        {isAligned ? (
+          <View
+            style={[
+              styles.alignGlow,
+              {
+                width: size + 12,
+                height: size + 12,
+                borderRadius: (size + 12) / 2,
+                borderColor: theme.colors.accentPrimary,
+              },
+            ]}
+          />
+        ) : null}
 
-        <View style={[styles.tickRing, { borderColor: theme.colors.borderSubtle }]} />
-      </Animated.View>
-
-      <Animated.View style={[styles.qiblaNeedle, qiblaNeedleStyle, { height: size * 0.38 }]}>
-        <View
+        <Animated.View
           style={[
-            styles.needleHead,
+            styles.dial,
+            dialStyle,
             {
-              borderBottomColor: isAligned ? theme.colors.accentPrimary : '#D4B87A',
+              width: size,
+              height: size,
+              borderRadius: radius,
+              backgroundColor: theme.colors.backgroundSecondary,
+              borderColor: theme.colors.borderSubtle,
             },
           ]}
-        />
+        >
+          {Array.from({ length: 36 }, (_, index) => {
+            const angle = index * 10;
+            const major = angle % 30 === 0;
+            return (
+              <View
+                key={angle}
+                style={[
+                  styles.tickWrap,
+                  { transform: [{ rotate: `${angle}deg` }] },
+                ]}
+              >
+                <View
+                  style={[
+                    styles.tick,
+                    {
+                      height: major ? 14 : 8,
+                      backgroundColor: major
+                        ? theme.colors.textTertiary
+                        : theme.colors.borderStrong,
+                    },
+                  ]}
+                />
+              </View>
+            );
+          })}
+
+          {CARDINALS.map(({ label, angle }) => {
+            const rad = (angle * Math.PI) / 180;
+            const labelRadius = radius - 34;
+            const x = radius + labelRadius * Math.sin(rad) - 8;
+            const y = radius - labelRadius * Math.cos(rad) - 10;
+            return (
+              <View
+                key={label}
+                style={[
+                  styles.cardinalPill,
+                  {
+                    left: x,
+                    top: y,
+                    backgroundColor:
+                      label === 'N' ? theme.colors.accentPrimaryMuted : theme.colors.surfaceMuted,
+                    borderColor:
+                      label === 'N' ? theme.colors.accentPrimary : theme.colors.borderSubtle,
+                  },
+                ]}
+              >
+                <Text variant="caption" weight="600" color={label === 'N' ? 'accent' : 'secondary'}>
+                  {label}
+                </Text>
+              </View>
+            );
+          })}
+
+          <View
+            style={[
+              styles.innerRing,
+              { borderColor: theme.colors.borderSubtle, backgroundColor: theme.colors.surfaceElevated },
+            ]}
+          />
+        </Animated.View>
+
+        <Animated.View style={[styles.qiblaArm, qiblaNeedleStyle, { height: radius * 0.72 }]}>
+          <View
+            style={[
+              styles.qiblaHead,
+              {
+                borderBottomColor: isAligned ? theme.colors.accentPrimary : theme.colors.accentGold,
+              },
+            ]}
+          />
+          <View
+            style={[
+              styles.qiblaShaft,
+              {
+                backgroundColor: isAligned
+                  ? theme.colors.accentPrimary
+                  : theme.colors.accentGold,
+              },
+            ]}
+          />
+        </Animated.View>
+
         <View
           style={[
-            styles.needleTail,
-            { backgroundColor: theme.colors.textTertiary },
+            styles.centerHub,
+            {
+              backgroundColor: theme.colors.surfaceElevated,
+              borderColor: theme.colors.accentPrimary,
+            },
           ]}
-        />
-      </Animated.View>
-
-      <View style={[styles.centerDot, { backgroundColor: theme.colors.accentPrimary }]} />
-
-      <View style={styles.meta}>
-        <Text variant="caption" color="accent">
-          🕋 {Math.round(qiblaBearing)}°
-        </Text>
-        {isAligned ? (
+        >
           <Text variant="caption" color="accent">
-            {t('qibla.aligned')}
+            🕋
           </Text>
-        ) : null}
+        </View>
+      </View>
+
+      <View
+        style={[
+          styles.statusCard,
+          {
+            backgroundColor: isAligned
+              ? theme.colors.accentPrimaryMuted
+              : theme.colors.surfaceMuted,
+            borderColor: isAligned ? theme.colors.accentPrimary : theme.colors.borderSubtle,
+          },
+        ]}
+      >
+        <Text variant="bodySm" weight="600" color={isAligned ? 'accent' : 'primary'}>
+          {isAligned ? t('qibla.aligned') : t('qibla.compass.turn', { degrees: Math.round(Math.abs(((qiblaRelative + 180) % 360) - 180)) })}
+        </Text>
+        <Text variant="caption" color="secondary">
+          {t('qibla.compass.bearing', { degrees: Math.round(qiblaBearing) })}
+        </Text>
       </View>
     </View>
   );
@@ -105,51 +204,86 @@ export function QiblaCompassDial({
 const styles = StyleSheet.create({
   wrap: {
     alignItems: 'center',
+    gap: 16,
+  },
+  bezel: {
+    alignItems: 'center',
     justifyContent: 'center',
+    borderWidth: StyleSheet.hairlineWidth,
+  },
+  alignGlow: {
+    position: 'absolute',
+    borderWidth: 2,
+    opacity: 0.35,
   },
   dial: {
-    borderWidth: 2,
+    borderWidth: StyleSheet.hairlineWidth,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  tickRing: {
+  tickWrap: {
     position: 'absolute',
-    width: '88%',
-    height: '88%',
-    borderRadius: 999,
-    borderWidth: 1,
-    borderStyle: 'dashed',
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
   },
-  qiblaNeedle: {
+  tick: {
+    width: 2,
+    marginTop: 10,
+    borderRadius: 1,
+  },
+  cardinalPill: {
     position: 'absolute',
-    width: 4,
+    minWidth: 24,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 999,
+    borderWidth: StyleSheet.hairlineWidth,
+    alignItems: 'center',
+  },
+  innerRing: {
+    position: 'absolute',
+    width: '58%',
+    height: '58%',
+    borderRadius: 999,
+    borderWidth: StyleSheet.hairlineWidth,
+  },
+  qiblaArm: {
+    position: 'absolute',
+    width: 6,
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
-  needleHead: {
+  qiblaHead: {
     width: 0,
     height: 0,
-    borderLeftWidth: 10,
-    borderRightWidth: 10,
-    borderBottomWidth: 22,
+    borderLeftWidth: 11,
+    borderRightWidth: 11,
+    borderBottomWidth: 24,
     borderLeftColor: 'transparent',
     borderRightColor: 'transparent',
   },
-  needleTail: {
+  qiblaShaft: {
     width: 4,
     flex: 1,
     borderRadius: 2,
   },
-  centerDot: {
+  centerHub: {
     position: 'absolute',
-    width: 12,
-    height: 12,
-    borderRadius: 6,
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    borderWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  meta: {
-    position: 'absolute',
-    bottom: -28,
+  statusCard: {
     alignItems: 'center',
     gap: 4,
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    borderRadius: 14,
+    borderWidth: StyleSheet.hairlineWidth,
+    minWidth: 220,
   },
 });

@@ -1,11 +1,14 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, useWindowDimensions, View } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
+import { Card } from '@/components/ui/Card';
 import { Text } from '@/components/ui/Text';
 import { useLocale } from '@/i18n/useLocale';
+import { layout } from '@/theme/layout';
 import { useTheme } from '@/theme/ThemeContext';
 
 import { KAABA } from '../constants/kaaba';
-import { projectEquirectangular } from '../engine/qiblaCalculator';
+import { greatCirclePoints, projectEquirectangular } from '../engine/qiblaCalculator';
 import type { QiblaCoordinates } from '../types';
 
 interface QiblaMapViewProps {
@@ -15,123 +18,215 @@ interface QiblaMapViewProps {
 }
 
 export function QiblaMapView({ user, qiblaBearing, distanceKm }: QiblaMapViewProps) {
-  const { t, locale } = useLocale();
+  const { t } = useLocale();
   const { theme } = useTheme();
+  const { width: screenWidth } = useWindowDimensions();
+
+  const mapW = Math.min(screenWidth - layout.screenPaddingX * 2, 360);
+  const mapH = Math.round(mapW * 0.56);
 
   const userPt = projectEquirectangular(user.latitude, user.longitude);
   const kaabaPt = projectEquirectangular(KAABA.latitude, KAABA.longitude);
-
-  const mapW = 320;
-  const mapH = 160;
   const ux = userPt.x * mapW;
   const uy = userPt.y * mapH;
   const kx = kaabaPt.x * mapW;
   const ky = kaabaPt.y * mapH;
 
-  const lineAngle =
-    (Math.atan2(ky - uy, kx - ux) * 180) / Math.PI;
-  const lineLen = Math.sqrt((kx - ux) ** 2 + (ky - uy) ** 2);
+  const arcPoints = greatCirclePoints(user, KAABA, 28).map((point) => {
+    const projected = projectEquirectangular(point.latitude, point.longitude);
+    return { x: projected.x * mapW, y: projected.y * mapH };
+  });
 
   return (
     <View style={styles.root}>
-      <View
-        style={[
-          styles.map,
-          {
-            width: mapW,
-            height: mapH,
-            backgroundColor: theme.colors.surfaceMuted,
-            borderColor: theme.colors.borderSubtle,
-          },
-        ]}
-      >
-        <View style={[styles.gridH, { backgroundColor: theme.colors.borderSubtle }]} />
-        <View style={[styles.gridV, { backgroundColor: theme.colors.borderSubtle }]} />
+      <Card padded={false} style={styles.mapCard}>
+        <LinearGradient
+          colors={[theme.colors.surfaceMuted, theme.colors.backgroundSecondary, theme.colors.surfaceMuted]}
+          style={[styles.map, { width: mapW, height: mapH }]}
+        >
+          <View style={[styles.gridH, { backgroundColor: theme.colors.borderSubtle }]} />
+          <View style={[styles.gridV, { backgroundColor: theme.colors.borderSubtle }]} />
 
-        <View
-          style={[
-            styles.line,
-            {
-              left: ux,
-              top: uy,
-              width: lineLen,
-              backgroundColor: theme.colors.accentPrimary,
-              transform: [{ rotate: `${lineAngle}deg` }],
-            },
-          ]}
-        />
+          {arcPoints.map((point, index) => (
+            <View
+              key={`arc-${index}`}
+              style={[
+                styles.arcDot,
+                {
+                  left: point.x - 2,
+                  top: point.y - 2,
+                  backgroundColor:
+                    index === arcPoints.length - 1
+                      ? theme.colors.accentGold
+                      : theme.colors.accentPrimary,
+                  opacity: 0.35 + (index / arcPoints.length) * 0.55,
+                },
+              ]}
+            />
+          ))}
 
-        <View style={[styles.marker, { left: ux - 6, top: uy - 6, backgroundColor: theme.colors.accentPrimary }]} />
-        <View style={[styles.marker, styles.kaaba, { left: kx - 7, top: ky - 7, backgroundColor: '#D4B87A' }]} />
+          <View
+            style={[
+              styles.bearingFan,
+              {
+                left: ux - 28,
+                top: uy - 28,
+                borderColor: theme.colors.accentPrimaryMuted,
+                transform: [{ rotate: `${qiblaBearing - 22.5}deg` }],
+              },
+            ]}
+          />
 
-        <Text variant="caption" color="tertiary" style={[styles.label, { left: ux + 8, top: uy - 8 }]}>
-          {t('qibla.map.you')}
-        </Text>
-        <Text variant="caption" color="accent" style={[styles.label, { left: kx + 8, top: ky - 8 }]}>
-          🕋
-        </Text>
-      </View>
+          <View style={[styles.userMarker, { left: ux - 10, top: uy - 10 }]}>
+            <View style={[styles.userCore, { backgroundColor: theme.colors.accentPrimary }]} />
+            <View style={[styles.userRing, { borderColor: theme.colors.accentPrimary }]} />
+          </View>
 
-      <View style={styles.legend}>
-        <Text variant="bodySm" color="secondary">
-          {t('qibla.map.bearing', { degrees: Math.round(qiblaBearing) })}
-        </Text>
-        <Text variant="bodySm" color="secondary">
-          {t('qibla.map.distance', { km: Math.round(distanceKm) })}
-        </Text>
-        <Text variant="caption" color="tertiary">
-          {t('qibla.offline')}
-        </Text>
-      </View>
+          <View style={[styles.kaabaMarker, { left: kx - 12, top: ky - 12 }]}>
+            <Text variant="caption">🕋</Text>
+          </View>
+
+          <View
+            style={[
+              styles.mapLabel,
+              {
+                left: Math.min(ux + 12, mapW - 56),
+                top: uy - 10,
+                backgroundColor: theme.colors.surfaceElevated,
+              },
+            ]}
+          >
+            <Text variant="caption" color="primary">
+              {t('qibla.map.you')}
+            </Text>
+          </View>
+        </LinearGradient>
+
+        <View style={[styles.mapFooter, { borderTopColor: theme.colors.borderSubtle }]}>
+          <MapStat label={t('qibla.info.bearing')} value={`${Math.round(qiblaBearing)}°`} />
+          <View style={[styles.footerDivider, { backgroundColor: theme.colors.borderSubtle }]} />
+          <MapStat label={t('qibla.info.distance')} value={`${Math.round(distanceKm).toLocaleString()} km`} />
+        </View>
+      </Card>
+
+      <Text variant="caption" color="tertiary" style={styles.hint}>
+        {t('qibla.map.hint')}
+      </Text>
+    </View>
+  );
+}
+
+function MapStat({ label, value }: { label: string; value: string }) {
+  return (
+    <View style={styles.stat}>
+      <Text variant="caption" color="tertiary">
+        {label}
+      </Text>
+      <Text variant="bodySm" weight="600">
+        {value}
+      </Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  root: { alignItems: 'center', gap: 16 },
-  map: {
-    borderRadius: 16,
-    borderWidth: 1,
+  root: {
+    width: '100%',
+    alignItems: 'center',
+    gap: layout.blockGap,
+  },
+  mapCard: {
+    width: '100%',
     overflow: 'hidden',
+  },
+  map: {
+    overflow: 'hidden',
+    position: 'relative',
   },
   gridH: {
     position: 'absolute',
     left: 0,
     right: 0,
     top: '50%',
-    height: 1,
-    opacity: 0.4,
+    height: StyleSheet.hairlineWidth,
+    opacity: 0.35,
   },
   gridV: {
     position: 'absolute',
     top: 0,
     bottom: 0,
     left: '50%',
-    width: 1,
-    opacity: 0.4,
+    width: StyleSheet.hairlineWidth,
+    opacity: 0.35,
   },
-  line: {
+  arcDot: {
     position: 'absolute',
-    height: 2,
-    transformOrigin: 'left center',
-    opacity: 0.85,
+    width: 4,
+    height: 4,
+    borderRadius: 2,
   },
-  marker: {
+  bearingFan: {
     position: 'absolute',
-    width: 12,
-    height: 12,
-    borderRadius: 6,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    borderWidth: 14,
+    borderTopColor: 'transparent',
+    borderRightColor: 'transparent',
+    opacity: 0.45,
   },
-  kaaba: {
-    width: 14,
-    height: 14,
-    borderRadius: 7,
-  },
-  label: {
+  userMarker: {
     position: 'absolute',
-  },
-  legend: {
+    width: 20,
+    height: 20,
     alignItems: 'center',
-    gap: 4,
+    justifyContent: 'center',
+  },
+  userCore: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+  },
+  userRing: {
+    position: 'absolute',
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    borderWidth: 2,
+    opacity: 0.45,
+  },
+  kaabaMarker: {
+    position: 'absolute',
+    width: 24,
+    height: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  mapLabel: {
+    position: 'absolute',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 999,
+  },
+  mapFooter: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderTopWidth: StyleSheet.hairlineWidth,
+    paddingHorizontal: layout.screenPaddingX,
+    paddingVertical: layout.blockGap,
+  },
+  footerDivider: {
+    width: StyleSheet.hairlineWidth,
+    alignSelf: 'stretch',
+    marginHorizontal: layout.blockGap,
+  },
+  stat: {
+    flex: 1,
+    alignItems: 'center',
+    gap: 2,
+  },
+  hint: {
+    textAlign: 'center',
+    paddingHorizontal: layout.blockGap,
   },
 });

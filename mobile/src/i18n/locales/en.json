@@ -419,6 +419,10 @@
     "calibrate": "Calibrate",
     "aligned": "Facing Qibla",
     "offline": "Calculated offline from your saved location",
+    "compass": {
+      "turn": "Turn {{degrees}}° to Qibla",
+      "bearing": "Qibla bearing · {{degrees}}°"
+    },
     "modes": {
       "compass": "Compass",
       "map": "Map",
@@ -438,7 +442,8 @@
     "map": {
       "you": "You",
       "bearing": "Bearing: {{degrees}}°",
-      "distance": "Distance: {{km}} km"
+      "distance": "Distance: {{km}} km",
+      "hint": "Great-circle route to the Kaaba from your saved location."
     },
     "ar": {
       "hud": "AR Qibla Guide",
@@ -446,7 +451,11 @@
       "bearing": "Bearing",
       "distance": "Distance",
       "offset": "Offset",
-      "note": "Hold phone flat, then rotate horizontally. Gold arrow points toward Makkah."
+      "note": "Point your camera and rotate until the arrow aligns with the top of your screen.",
+      "cameraRequired": "Camera access needed",
+      "cameraRequiredHint": "Allow camera access to see live Qibla direction over your surroundings.",
+      "enableCamera": "Enable camera",
+      "cameraUnavailable": "No camera available on this device."
     },
     "calibration": {
       "title": "Compass Calibration",
