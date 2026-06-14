@@ -16,6 +16,7 @@ A Shia Ithna Ashari Islamic super app — prayer times, Quran, duas, ziyarat, Ma
 - [Getting Started](#getting-started)
 - [Documentation](#documentation)
 - [Environment & Secrets](#environment--secrets)
+- [Mobile feature flags](#mobile-feature-flags)
 
 ---
 
@@ -253,6 +254,23 @@ Configure `API_BASE_URL` in `mobile/.env` to point at your local API.
 - Copy `.env.example` → `.env` in both `api/` and `mobile/`
 - **Never commit** `.env`, keystores, or signing keys (covered by `.gitignore`)
 - `api/.env.example` and `mobile/.env.example` are tracked as templates
+
+---
+
+## Mobile feature flags
+
+Some mobile behaviour is controlled by **compile-time flags** in TypeScript (not `.env`). Change the file, rebuild the app, and you’re done.
+
+| Flag | File | Current | When `false` |
+|------|------|---------|----------------|
+| **`SUBSCRIPTIONS_ENABLED`** | `mobile/src/features/monetization/config.ts` | `false` | No paywall UI (Settings upgrade card, More → Premium, paywall gates). Hadith **AI Summary** tab hidden. All entitlements treated as granted so nothing is paywall-blocked. Subscription bootstrap skipped. |
+| **`NATIVE_AUDIO_ENABLED`** | `mobile/src/features/quran/audio/config.ts` | `false` | No `react-native-track-player` (avoids New Architecture crash). Quran mini-player, Dua/Ziyarat/Sahifa/Nahjul audio use stubs instead of native hooks. |
+
+**To launch subscriptions later:** set `SUBSCRIPTIONS_ENABLED = true` in `monetization/config.ts`, then rebuild.
+
+**To re-enable native audio later:** set `NATIVE_AUDIO_ENABLED = true` in `quran/audio/config.ts`, wire hooks back to `*Native` implementations (see comments in `useDuaAudio.ts`, `useNahjulAudio.ts`, etc.), and rebuild after Track Player supports RN New Architecture.
+
+Details: [`mobile/README.md`](mobile/README.md#feature-flags).
 
 ---
 

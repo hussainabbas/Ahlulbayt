@@ -8,6 +8,7 @@ import { useRootNavigation } from '@/navigation/hooks';
 import { useTheme } from '@/theme/ThemeContext';
 
 import type { EntitlementKey } from '../types';
+import { shouldShowPremiumFeatureSurfaces } from '../config';
 import { useEntitlements } from '../hooks/usePremium';
 
 interface PremiumGateProps {
@@ -22,6 +23,10 @@ export function PremiumGate({ entitlement, children, overlay = false }: PremiumG
   const { t } = useLocale();
   const { theme } = useTheme();
   const navigation = useRootNavigation();
+
+  if (!shouldShowPremiumFeatureSurfaces()) {
+    return null;
+  }
 
   if (hasEntitlement(entitlement)) {
     return <>{children}</>;

@@ -5,6 +5,7 @@ import { Card } from '@/components/ui/Card';
 import { ListRow } from '@/components/ui/ListRow';
 import { Screen } from '@/components/ui/Screen';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
+import { shouldShowSubscriptionUi } from '@/features/monetization/config';
 import { useAuthStore } from '@/stores/authStore';
 import { useLocale } from '@/i18n/useLocale';
 import { layout } from '@/theme/layout';
@@ -12,7 +13,7 @@ import { useTheme } from '@/theme/ThemeContext';
 
 const ITEMS = [
   { key: 'insights', route: 'Insights' as const },
-  { key: 'premium', route: 'Paywall' as const },
+  { key: 'premium', route: 'Paywall' as const, subscriptionOnly: true },
   { key: 'mafatih', route: 'Mafatih' as const },
   { key: 'sahifa', route: 'Sahifa' as const },
   { key: 'masoomeen', route: 'Masoomeen' as const },
@@ -32,6 +33,14 @@ export function MoreScreen() {
   const rootNavigation = useRootNavigation();
   const displayName = useAuthStore((s) => s.user?.displayName);
   const email = useAuthStore((s) => s.user?.email);
+  const showSubscription = shouldShowSubscriptionUi();
+
+  const menuItems = ITEMS.filter((item) => {
+    if ('subscriptionOnly' in item && item.subscriptionOnly && !showSubscription) {
+      return false;
+    }
+    return true;
+  });
 
   return (
     <Screen scroll>
@@ -41,12 +50,12 @@ export function MoreScreen() {
       />
 
       <Card padded={false} style={styles.menuCard}>
-        {ITEMS.map((item, index) => (
+        {menuItems.map((item, index) => (
           <ListRow
             key={item.key}
             title={t(`more.${item.key}`)}
             onPress={() => rootNavigation.navigate(item.route)}
-            isLast={index === ITEMS.length - 1}
+            isLast={index === menuItems.length - 1}
           />
         ))}
       </Card>

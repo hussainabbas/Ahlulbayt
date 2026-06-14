@@ -14,6 +14,7 @@ import { useTheme } from '@/theme/ThemeContext';
 import { HadithListRow } from '../components/HadithListRow';
 import { HadithReferenceCard } from '../components/HadithReferenceCard';
 import { HadithSummaryCard } from '../components/HadithSummaryCard';
+import { shouldShowPremiumFeatureSurfaces } from '@/features/monetization/config';
 import { PremiumGate } from '@/features/monetization/components/PremiumGate';
 import { HadithRepository } from '../engine/hadithRepository';
 import { getHadithSummary } from '../engine/summaryEngine';
@@ -58,7 +59,7 @@ export function HadithDetailScreen() {
     });
   }, [navigation, entry, locale, t, theme, isBookmarked, hadithId, toggleBookmark]);
 
-  if (!entry || !aiSummary) {
+  if (!entry) {
     return (
       <Screen>
         <Text variant="bodyMd" color="secondary">
@@ -68,10 +69,12 @@ export function HadithDetailScreen() {
     );
   }
 
+  const showSummaryTab = shouldShowPremiumFeatureSurfaces();
+
   const tabs: Array<{ id: DetailTab; labelKey: string }> = [
     { id: 'text', labelKey: 'hadith.tabs.text' },
     { id: 'reference', labelKey: 'hadith.tabs.reference' },
-    { id: 'summary', labelKey: 'hadith.tabs.summary' },
+    ...(showSummaryTab ? [{ id: 'summary' as const, labelKey: 'hadith.tabs.summary' }] : []),
   ];
 
   return (
@@ -147,7 +150,7 @@ export function HadithDetailScreen() {
 
       {activeTab === 'reference' ? <HadithReferenceCard entry={entry} /> : null}
 
-      {activeTab === 'summary' ? (
+      {activeTab === 'summary' && aiSummary ? (
         <PremiumGate entitlement="exclusive_content" overlay>
           <HadithSummaryCard aiSummary={aiSummary} />
         </PremiumGate>

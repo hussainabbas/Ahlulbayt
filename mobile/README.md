@@ -79,6 +79,38 @@ Configure via `.env` (loaded by `react-native-config`):
 | `npm run ios` | Build & run on iOS |
 | `npm run typecheck` | TypeScript check |
 
+## Feature flags
+
+These are **not** in `.env`. Edit the config file and rebuild the native app.
+
+### Subscriptions (`SUBSCRIPTIONS_ENABLED`)
+
+**File:** `src/features/monetization/config.ts`
+
+```ts
+export const SUBSCRIPTIONS_ENABLED = false; // set true when subscriptions launch
+```
+
+| Value | Behaviour |
+|-------|-----------|
+| `false` (now) | App is fully free. Paywall / upgrade UI hidden. Hadith AI Summary tab hidden (code kept). `hasEntitlement()` always returns `true` so AI, sync, etc. are not blocked. |
+| `true` | Paywall, Premium row in More, Settings status card, and premium-gated surfaces shown. Entitlements enforced from `subscriptionStore`. |
+
+Helpers in the same file: `shouldShowSubscriptionUi()`, `shouldShowPremiumFeatureSurfaces()`, `areSubscriptionsEnforced()`.
+
+### Native audio (`NATIVE_AUDIO_ENABLED`)
+
+**File:** `src/features/quran/audio/config.ts`
+
+```ts
+export const NATIVE_AUDIO_ENABLED = false; // re-enable when Track Player supports New Architecture
+```
+
+| Value | Behaviour |
+|-------|-----------|
+| `false` (now) | Track Player not loaded (prevents TurboModule crash on RN 0.85+). Audio hooks use `.stub.ts` variants. |
+| `true` | Quran audio bootstrap + mini-player; switch hooks to `*Native` exports (see comments in `useDuaAudio.ts`, `useNahjulAudio.ts`, …). |
+
 ## Architecture Notes
 
 - **Offline-first:** TanStack Query + NetInfo sync

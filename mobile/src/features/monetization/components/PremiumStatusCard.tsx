@@ -7,12 +7,17 @@ import { useRootNavigation } from '@/navigation/hooks';
 import { useTheme } from '@/theme/ThemeContext';
 
 import { usePremium } from '../hooks/usePremium';
+import { shouldShowSubscriptionUi } from '../config';
 
 export function PremiumStatusCard() {
   const { t } = useLocale();
   const { theme } = useTheme();
   const navigation = useRootNavigation();
   const { isPremium, plan, expiresAt } = usePremium();
+
+  if (!shouldShowSubscriptionUi()) {
+    return null;
+  }
 
   return (
     <Card style={styles.card}>

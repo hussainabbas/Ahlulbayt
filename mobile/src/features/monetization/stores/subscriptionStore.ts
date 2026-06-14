@@ -12,6 +12,7 @@ import {
   type SubscriptionState,
 } from '../types';
 import { PRODUCT_PLANS } from '../constants/catalog';
+import { areSubscriptionsEnforced } from '../config';
 import { purchaseService } from '../services/purchaseService';
 import {
   fetchPlans,
@@ -45,7 +46,8 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
 
       setState: (state) => set({ ...state }),
 
-      hasEntitlement: (key) => get().entitlements[key] === true,
+      hasEntitlement: (key) =>
+        !areSubscriptionsEnforced() ? true : get().entitlements[key] === true,
 
       syncFromServer: async () => {
         if (!useAuthStore.getState().isAuthenticated) return;
