@@ -1,0 +1,71 @@
+# Dependencies
+node_modules/
+
+# Environment (keep example templates)
+.env
+.env.*
+!.env.example
+!.env*.example
+
+# Native build artifacts
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+android/app/build/
+android/build/
+android/.gradle/
+android/.cxx/
+android/app/.cxx/
+android/local.properties
+ios/build/
+ios/Pods/
+DerivedData/
+
+# Metro / Expo
+.metro-health-check*
+.expo/
+.expo-shared/
+
+# Debug logs
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+pnpm-debug.log*
+lerna-debug.log*
+
+# macOS / Windows
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE / editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Cursor local state
+.cursor/
+.claude/
+
+# Local env & secrets
+*.pem
+
+# TypeScript
+*.tsbuildinfo
+
+# Test / coverage
+coverage/
+.nyc_output/
+
+# Caches
+.cache/
+.eslintcache
+
+# RN scaffold temp
+.rn-scaffold/

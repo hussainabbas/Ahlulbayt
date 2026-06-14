@@ -1,0 +1,1435 @@
+{
+  "common": {
+    "appName": "اہل البیت+",
+    "loading": "لوڈ ہو رہا ہے…",
+    "loadingContent": "مواد لوڈ ہو رہا ہے…",
+    "refreshing": "تازہ ہو رہا ہے…",
+    "retry": "دوبارہ کوشش",
+    "cancel": "منسوخ",
+    "save": "محفوظ",
+    "delete": "حذف",
+    "done": "مکمل",
+    "close": "بند",
+    "offline": "آپ آف لائن ہیں",
+    "offlineHint": "عبادت کے اوزار کام کرتے ہیں۔ کنکشن پر مطابقت ہوگی۔",
+    "error": "کچھ غلط ہو گیا",
+    "errorHint": "ابھی لوڈ نہیں ہو سکا۔ کنکشن چیک کریں اور دوبارہ کوشش کریں۔",
+    "emptyTitle": "ابھی کچھ نہیں",
+    "emptySubtitle": "تلاش بدلیں یا بعد میں دوبارہ آئیں۔",
+    "locating": "آپ کا مقام تلاش ہو رہا ہے…",
+    "settings": "ترتیبات"
+  },
+  "tabs": {
+    "home": "ہوم",
+    "prayer": "نماز",
+    "quran": "قرآن",
+    "ai": "پوچھیں",
+    "profile": "پروفائل",
+    "switchHint": "{{tab}} پر جائیں"
+  },
+  "home": {
+    "greeting": "السلام علیکم",
+    "nextPrayer": "اگلی نماز",
+    "prayerAt": "{{prayer}} {{time}} بجے",
+    "untilPrayer": "{{prayer}} تک {{time}}",
+    "todayAmaal": "آج کے اعمال",
+    "continueReading": "پڑھنا جاری رکھیں",
+    "weather": "موسم",
+    "quranVerse": "آج کی آیت",
+    "hadith": "آج کی حدیث",
+    "dua": "آج کی دعا",
+    "weatherConditions": {
+      "clear": "صاف آسمان",
+      "mainlyClear": "زیادہ تر صاف",
+      "partlyCloudy": "جزوی ابر آلود",
+      "overcast": "ابر آلود",
+      "fog": "دھند",
+      "drizzle": "ہلکی بوندا باندی",
+      "rain": "بارش",
+      "heavyRain": "تیز بارش",
+      "snow": "برف",
+      "heavySnow": "بھاری برف",
+      "showers": "بوچھاریں",
+      "heavyShowers": "تیز بوچھاریں",
+      "thunderstorm": "طوفان"
+    },
+    "muharram": {
+      "label": "مقدس مہینہ",
+      "title": "محرم — امام حسین (ع) کا مہینہ",
+      "ashuraTitle": "عاشوراء — کربلا کی یاد",
+      "countdown": "عاشوراء تک {{days}} دن",
+      "subtitle": "امام حسین (ع) اور شہدائے کربلا کی قربانی پر غور کریں۔",
+      "enterMode": "محرم موڈ میں داخل ہوں"
+    },
+    "ai": {
+      "title": "آپ کے لیے",
+      "powered": "اہل البیت سے پوچھیں",
+      "ask": "پوچھیں ←",
+      "quranReflection": "آج کی آیت پر غور",
+      "quranReflectionSub": "تفسیر اور سیاق و سباق حوالوں کے ساتھ",
+      "imamHusayn": "کربلا کی میراث",
+      "imamHusaynSub": "تاریخ، سبق اور زیارت کی رہنمائی",
+      "dailyAmaal": "آج کے تجویز کردہ اعمال",
+      "dailyAmaalSub": "آپ کے دن کے لیے ذاتی عبادات",
+      "karbalaHistory": "محرم کے واقعات",
+      "karbalaHistorySub": "عاشوراء کا وقت اور اہمیت",
+      "lectureSummary": "مجلس کا خلاصہ",
+      "lectureSummarySub": "حالیہ خطبات کے اہم موضوعات",
+      "prayerGuidance": "نماز اور اذان کے مشورے",
+      "prayerGuidanceSub": "آپ کے مرجع کے مطابق جعفری فقہ",
+      "duaMeaning": "اس دعا کو سمجھیں",
+      "duaMeaningSub": "لفظ بہ لفظ معنی اور فوائد",
+      "ziyaratGuide": "زیارت کی تیاری",
+      "ziyaratGuideSub": "آداب اور تجویز کردہ زیارت"
+    },
+    "events": {
+      "title": "آنے والے واقعات",
+      "today": "آج",
+      "inDays": "{{days}} دنوں میں",
+      "ashura": "عاشوراء — شہادت امام حسین (ع)",
+      "arbaeen": "زیارت اربعین",
+      "wiladatProphet": "ولادت نبی اکرم (ص)",
+      "wiladatAli": "ولادت امام علی (ع)",
+      "wiladatMahdi": "ولادت امام مہدی (عج)",
+      "shahadatFatima": "شہادت سیدہ فاطمہ (س)",
+      "laylatQadr": "شب قدر",
+      "eidFitr": "عید الفطر",
+      "eidAdha": "عید الاضحی",
+      "wiladatHusayn": "ولادت امام حسین (ع)"
+    }
+  },
+  "prayer": {
+    "title": "نماز کے اوقات",
+    "fajr": "فجر",
+    "sunrise": "طلوع",
+    "dhuhr": "ظہر",
+    "asr": "عصر",
+    "sunset": "غروب",
+    "maghrib": "مغرب",
+    "isha": "عشاء",
+    "imsak": "امساک",
+    "midnight": "آدھی رات",
+    "next": "اگلی",
+    "current": "موجودہ",
+    "timezone": "ٹائم زون",
+    "methods": {
+      "leva": "لیوا انسٹی ٹیوٹ (سistani)",
+      "tehran": "تہران (خامنہ ای)",
+      "jafari": "جعفری معیاری",
+      "custom": "اپنی مرضی"
+    },
+    "highLatitude": {
+      "angle_based": "زاویہ پر مبنی",
+      "one_seventh": "رات کا ساتواں حصہ",
+      "middle_of_night": "رات کا وسط"
+    },
+    "offsets": "دستی ایڈجسٹمنٹ (منٹ)",
+    "completionProgress": "آج {{total}} میں سے {{done}} نمازیں",
+    "markComplete": "{{prayer}} مکمل نشان زد کریں"
+  },
+  "adhan": {
+    "title": "اذان اور یاددہانیاں",
+    "master": "اذان نوٹیفیکیشن",
+    "masterHint": "ہر نماز پر اذان بجائیں",
+    "silentOverride": "سائلنٹ موڈ اوور رائیڈ",
+    "silentOverrideHint": "ڈو ناٹ ڈسٹرب آن ہونے پر بھی اہم الرٹ",
+    "smartReminders": "سمارٹ یاددہانیاں",
+    "smartRemindersHint": "نماز سے {{minutes}} منٹ پہلے نرم یاددہانی",
+    "preparation": "تیاری کی یاددہانی",
+    "minutesBefore": "{{min}} منٹ پہلے",
+    "off": "بند",
+    "globalVoice": "اذان کی آواز",
+    "perPrayer": "ہر نماز کے لیے",
+    "customSoundsHint": "assets/sounds/adhan/ میں .wav فائلیں شامل کریں",
+    "enabledBanner": "فعال نمازوں کے لیے اذان شیڈول ہے",
+    "disabledBanner": "اذان نوٹیفیکیشن بند ہیں",
+    "configure": "ترتیبات",
+    "voices": {
+      "default": "کلاسک",
+      "defaultDesc": "سسٹم ٹون",
+      "makkah": "مکہ",
+      "makkahDesc": "مکہ کا انداز",
+      "madina": "مدینہ",
+      "madinaDesc": "مدینہ کا انداز",
+      "najaf": "نجف",
+      "najafDesc": "نجف کا انداز",
+      "karbala": "کربلا",
+      "karbalaDesc": "کربلا کا انداز",
+      "aliMakki": "علی مکی",
+      "aliMakkiDesc": "علی مکی کی تلاوت"
+    },
+    "notifications": {
+      "adhanTitle": "{{prayer}} اذان",
+      "adhanBody": "{{prayer}} کا وقت ہو گیا۔",
+      "prepTitle": "{{prayer}} کی تیاری",
+      "prepBody": "{{prayer}} قریب ہے — وضو اور تیاری کا وقت۔",
+      "smartTitle": "{{prayer}} جلد",
+      "smartBody": "{{prayer}} شروع ہونے والی ہے۔ تیار ہو جائیں۔"
+    }
+  },
+  "quran": {
+    "title": "قرآن",
+    "surahs": "سورتیں",
+    "ayahs": "آیات",
+    "search": {
+      "title": "AI قرآن سرچ",
+      "subtitle": "قدرتی زبان میں پوچھیں — معنی کے لحاظ سے آیات تلاش کریں۔",
+      "placeholder": "صبر کے بارے میں آیات تلاش کریں…",
+      "examples": "مثالیں",
+      "matchedTopics": "ملتے جلتے موضوعات",
+      "searching": "تلاش جاری…",
+      "noResults": "کوئی آیت نہیں ملی۔ دوسرا جملہ آزمائیں۔",
+      "openSearch": "قرآن تلاش کریں",
+      "matchTopic": "موضوع میچ",
+      "matchSemantic": "معنوی میچ",
+      "matchKeyword": "لفظی میچ",
+      "matchHybrid": "موضوع + متن"
+    },
+    "reciters": {
+      "alAfasy": "مشاری العفاسی",
+      "abdulBasit": "عبدالباسط",
+      "minshawi": "منشawi"
+    },
+    "player": {
+      "nowPlaying": "اب چل رہا ہے",
+      "collapse": "چھوٹا کریں",
+      "tapToExpand": "مکمل پلیئر کھولیں",
+      "speed": "رفتار",
+      "sleep": "سلیپ ٹائمر",
+      "sleepHint": "چلانا خود بند ہو جائے گا",
+      "sleepMinutes": "{{minutes}} منٹ",
+      "sleepEndSurah": "سورت کے آخر میں",
+      "sleepClear": "ٹائمر ختم",
+      "sleepActive": "{{time}} میں بند",
+      "playlist": "پلے لسٹ",
+      "newPlaylist": "نئی پلے لسٹ کا نام",
+      "playPlaylist": "پلے لسٹ چلائیں",
+      "trackCount": "{{count}} سورتیں",
+      "surahNumber": "سورت {{number}}",
+      "offline": "ڈاؤن لوڈ شدہ",
+      "offlineCount": "{{count}} سورتیں آف لائن",
+      "downloading": "ڈاؤن لوڈ {{percent}}%",
+      "repeat": {
+        "off": "ریپیٹ بند",
+        "one": "ایک دہرائیں",
+        "all": "سب دہرائیں"
+      }
+    }
+  },
+  "mafatih": {
+    "title": "مفاتیح الجنان",
+    "subtitle": "جنتوں کی کنجیاں — دعائیں، زیارت، اعمال۔",
+    "today": "آج کی سفارش",
+    "collections": "مجموعے",
+    "filterAll": "تمام",
+    "filterDaily": "روزانہ",
+    "filterWeekly": "ہفتہ وار",
+    "filterMonthly": "ماہانہ",
+    "filterFavorites": "پسندیدہ",
+    "filterBookmarks": "محفوظ",
+    "empty": "کوئی اندراج نہیں۔",
+    "notFound": "اندراج نہیں ملا۔",
+    "search": {
+      "placeholder": "دعائیں، زیارت، موضوعات تلاش کریں…",
+      "noResults": "کوئی نتیجہ نہیں۔"
+    },
+    "reader": {
+      "both": "دونوں",
+      "exitFocus": "فوکس موڈ سے نکلنے کے لیے ٹیپ کریں"
+    }
+  },
+  "dua": {
+    "title": "دعائیں و اعمال",
+    "subtitle": "اہم دعائیں — آف لائن، آڈیو اور ترجمے کے ساتھ۔",
+    "filterAll": "تمام",
+    "filterBookmarked": "محفوظ",
+    "noBookmarks": "ابھی کوئی محفوظ دعا نہیں۔",
+    "notFound": "دعا نہیں ملی۔",
+    "reciters": {
+      "feiz": "مهدی فیض",
+      "abbas": "عباس عابدی"
+    },
+    "reader": {
+      "bookmark": "بک مارک",
+      "modeStacked": "دونوں",
+      "modeArabic": "عربی",
+      "modeTranslation": "ترجمہ"
+    },
+    "audio": {
+      "listen": "تلاوت سنیں",
+      "playing": "چل رہا ہے",
+      "offline": "آف لائن دستیاب",
+      "downloading": "ڈاؤن لوڈ {{percent}}%",
+      "removeOffline": "ہٹائیں"
+    }
+  },
+  "sahifa": {
+    "title": "صحیفہ سجادیہ",
+    "subtitle": "زبور اسلام — امام زین العابدینؑ کی 54 دعائیں۔",
+    "source": "امام زین العابدینؑ",
+    "filterAll": "تمام",
+    "filterBookmarked": "محفوظ",
+    "noBookmarks": "ابھی کوئی محفوظ دعا نہیں۔",
+    "noResults": "کوئی دعا نہیں ملی۔",
+    "notFound": "دعا نہیں ملی۔",
+    "searchPlaceholder": "عنوان، موضوع، یا نمبر سے تلاش…",
+    "reciters": {
+      "feiz": "مهدی فیض",
+      "abbas": "عباس عابدی"
+    },
+    "reader": {
+      "bookmark": "محفوظ",
+      "modeStacked": "دونوں",
+      "modeArabic": "عربی",
+      "modeTranslation": "ترجمہ"
+    },
+    "audio": {
+      "listen": "تلاوت سنیں",
+      "playing": "چل رہا ہے",
+      "offline": "آف لائن دستیاب",
+      "downloading": "ڈاؤن لوڈ {{percent}}%",
+      "removeOffline": "ہٹائیں"
+    }
+  },
+  "nahjul": {
+    "title": "نہج البلاغہ",
+    "subtitle": "بلاغت کی چوٹی — امام علیؑ کے خطبات، خطوط، اور حکمت۔",
+    "source": "امام علیؑ ابنِ ابی طالبؑ",
+    "filterAll": "تمام",
+    "filterBookmarked": "محفوظ",
+    "noBookmarks": "ابھی کوئی محفوظ اندراج نہیں۔",
+    "noResults": "کوئی نتیجہ نہیں۔",
+    "notFound": "اندراج نہیں ملا۔",
+    "searchPlaceholder": "خطبات، خطوط، اقوال، موضوعات تلاش کریں…",
+    "featuredQuotes": "نمایاں اقوال",
+    "categories": {
+      "sermons": "خطبات",
+      "letters": "خطوط",
+      "quotes": "اقوال"
+    },
+    "reciters": {
+      "feiz": "مهدی فیض",
+      "abbas": "عباس عابدی"
+    },
+    "reader": {
+      "bookmark": "محفوظ",
+      "modeStacked": "دونوں",
+      "modeArabic": "عربی",
+      "modeTranslation": "ترجمہ"
+    },
+    "audio": {
+      "listen": "تلاوت سنیں",
+      "playing": "چل رہا ہے",
+      "offline": "آف لائن دستیاب",
+      "downloading": "ڈاؤن لوڈ {{percent}}%",
+      "removeOffline": "ہٹائیں"
+    }
+  },
+  "tasbih": {
+    "title": "سمارٹ تسبیح",
+    "subtitle": "تسبیح فاطمہ زہراءؑ — اہداف، سلسلہ، اور تجزیات۔",
+    "start": "تسبیح شروع کریں",
+    "continue": "جاری رکھیں",
+    "reset": "ری سیٹ",
+    "undo": "واپس",
+    "today": "آج",
+    "dailyGoal": "روزانہ ہدف",
+    "cyclesToday": "{{count}} دور مکمل",
+    "fatimaZahra": {
+      "title": "تسبیح فاطمہ زہراءؑ",
+      "description": "ہر نماز کے بعد: 34 سبحان اللہ، 33 الحمد للہ، 33 اللہ اکبر۔"
+    },
+    "counter": {
+      "title": "تسبیح کاؤنٹر",
+      "tapHint": "گننے کے لیے ٹیپ کریں"
+    },
+    "streak": {
+      "current": "دنوں کا سلسلہ",
+      "best": "بہترین: {{count}} دن"
+    },
+    "analytics": {
+      "last7Days": "آخری 7 دن",
+      "avg7": "7 دن اوسط",
+      "total30": "30 دن کل"
+    },
+    "settings": {
+      "title": "ترتیبات",
+      "haptics": "ہaptic فیڈبیک",
+      "on": "آن",
+      "off": "آف"
+    },
+    "widget": {
+      "title": "تسبیح",
+      "start": "گنتی شروع",
+      "continue": "گنتی جاری",
+      "details": "تفصیل"
+    }
+  },
+  "qibla": {
+    "title": "قبلہ تلاش",
+    "subtitle": "کعبہ کی سمت — مکمل آف لائن۔",
+    "calibrate": "کалиبریٹ",
+    "aligned": "قبلہ کی سمت",
+    "offline": "آپ کے محفوظ مقام سے آف لائن حساب",
+    "modes": {
+      "compass": "قطب نما",
+      "map": "نقشہ",
+      "ar": "AR منظر"
+    },
+    "accuracy": {
+      "high": "قطب نما: اعلیٰ درستگی",
+      "medium": "قطب نما: درمیانی درستگی",
+      "low": "قطب نما: کم درستگی — کیلیبریٹ کریں",
+      "unavailable": "قطب نما دستیاب نہیں"
+    },
+    "info": {
+      "bearing": "قبلہ زاویہ",
+      "distance": "کعبہ فاصلہ",
+      "heading": "آلہ کی سمت"
+    },
+    "map": {
+      "you": "آپ",
+      "bearing": "سمت: {{degrees}}°",
+      "distance": "فاصلہ: {{km}} km"
+    },
+    "ar": {
+      "hud": "AR قبلہ گائیڈ",
+      "rotate": "گھمائیں جب تیر اوپر ہو",
+      "bearing": "سمت",
+      "distance": "فاصلہ",
+      "offset": "انحراف",
+      "note": "فون سیدھا رکھیں، پھر افقی گھمائیں۔ سونے کا تیر مکہ کی طرف۔"
+    },
+    "calibration": {
+      "title": "قطب نما کیلیبریشن",
+      "instructions": "آلہ کے قطب نما کی درستگی بہتر بنائیں۔",
+      "step1": "فون کو 8 کی شکل میں تین بار حرکت دیں۔",
+      "step2": "فولاد اور مقناطیس سے دور رہیں۔",
+      "step3": "ضرورت ہو تو دستی انحراف استعمال کریں۔",
+      "manual": "دستی انحراف",
+      "reset": "ری سیٹ",
+      "done": "ہو گیا"
+    }
+  },
+  "ziyarat": {
+    "title": "زیارت",
+    "subtitle": "مقدس زیارتیں — آڈیو کے ساتھ immersive پڑھائی، آف لائن۔",
+    "filterAll": "تمام",
+    "filterBookmarked": "محفوظ",
+    "noBookmarks": "ابھی کوئی محفوظ زیارت نہیں۔",
+    "notFound": "زیارت نہیں ملی۔",
+    "reciters": {
+      "feiz": "مهدی فیض",
+      "abbas": "عباس عابدی"
+    },
+    "reader": {
+      "focus": "فوکس موڈ",
+      "exitFocus": "فوکس موڈ سے نکلنے کے لیے ٹیپ کریں",
+      "modeStacked": "دونوں",
+      "modeArabic": "عربی",
+      "modeTranslation": "ترجمہ"
+    },
+    "audio": {
+      "listen": "تلاوت سنیں",
+      "playing": "چل رہا ہے",
+      "offline": "آف لائن دستیاب",
+      "downloading": "ڈاؤن لوڈ {{percent}}%",
+      "removeOffline": "ہٹائیں"
+    }
+  },
+  "more": {
+    "title": "مزید",
+    "mafatih": "مفاتیح الجنان",
+    "sahifa": "صحیفہ سجادیہ",
+    "masoomeen": "۱۴ معصومین",
+    "hadith": "احادیث کا ڈیٹابیس",
+    "nahjul": "نہج البلاغہ",
+    "tasbih": "سمارٹ تسبیح",
+    "dua": "دعائیں و اعمال",
+    "ziyarat": "زیارت",
+    "calendar": "کیلنڈر",
+    "qibla": "قبلہ",
+    "ai": "اہل البیت سے پوچھیں",
+    "muharram": "محرم موڈ",
+    "premium": "AhlulBayt+ Premium",
+    "insights": "میری بصیرت"
+  },
+  "premium": {
+    "title": "پریمیم",
+    "headline": "AhlulBayt+ Premium",
+    "subtitle": "مکمل روحانی ساتھی — AI، جدید قرآن سرچ، کلاؤڈ سنک، اور خصوصی مواد۔",
+    "choosePlan": "اپنا پلان منتخب کریں",
+    "popular": "بہترین",
+    "trialDays": "{{days}} دن مفت آزمائش",
+    "savePercent": "{{percent}}% بچت",
+    "priceMonth": "${{price}}/ماہ",
+    "priceYear": "${{price}}/سال",
+    "priceOnce": "${{price}} ایک بار",
+    "subscribe": "Premium شروع کریں",
+    "restore": "خریداری بحال کریں",
+    "legal": "سبسکرپشن خودکار تجدید ہوتی ہے۔ اسٹور سیٹنگز میں منسوخ کریں۔",
+    "plans": { "monthly": "ماہانہ", "yearly": "سالانہ", "lifetime": "تاحیات" },
+    "features": {
+      "ai": { "title": "AI اسلامی معاون", "desc": "علمی حوالوں کے ساتھ کلاؤڈ جوابات۔" },
+      "advancedQuran": { "title": "جدید قرآن سرچ", "desc": "سرور پر مکمل قرآن semantic سرچ۔" },
+      "cloudSync": { "title": "کلاؤڈ سنک", "desc": "بک مارکس، قضا، اور پیش رفت تمام آلات پر۔" },
+      "exclusiveContent": { "title": "خصوصی مواد", "desc": "AI حدیث خلاصے اور پریمیم ترجمے۔" }
+    },
+    "gate": { "title": "پریمیم فیچر", "unlock": "Premium سے کھولیں", "cta": "پلان دیکھیں" },
+    "status": {
+      "label": "سبسکرپشن",
+      "active": "فعال",
+      "premium": "Premium رکن",
+      "free": "مفت پلان",
+      "freeDesc": "AI، سرچ، سنک، اور خصوصی مواد کے لیے اپ گریڈ کریں۔",
+      "upgrade": "Premium میں اپ گریڈ",
+      "lifetime": "تاحیات رسائی",
+      "renews": "تجدید {{date}}"
+    },
+    "errors": {
+      "purchaseFailed": "خریداری مکمل نہیں ہو سکی۔",
+      "verifyFailed": "خریداری کی تصدیق نہیں ہو سکی۔",
+      "restoreFailed": "بحالی ناکام۔",
+      "noPurchases": "کوئی پرانی خریداری نہیں ملی۔"
+    }
+  },
+  "masoomeen": {
+    "title": "۱۴ معصومین",
+    "subtitle": "سیرت، ٹائم لائن، اقوال، واقعات اور کتب — اہل بیتؑ کا آف لائن علم۔",
+    "searchPlaceholder": "معصومین تلاش کریں…",
+    "filter": {
+      "all": "تمام ۱۴",
+      "bookmarked": "نشان زدہ"
+    },
+    "noResults": "کوئی معصوم نہیں ملا۔",
+    "notFound": "پروفائل نہیں ملی۔",
+    "noQuotes": "ابھی کوئی اقتباس دستیاب نہیں۔",
+    "birth": "ولادت",
+    "death": "وفات / غیبت",
+    "birthPlace": "جائے پیدائش",
+    "shrine": "مرقد",
+    "ongoing": "جاری",
+    "viewCalendar": "کیلنڈر میں دیکھیں",
+    "tabs": {
+      "biography": "سیرت",
+      "timeline": "ٹائم لائن",
+      "quotes": "اقوال",
+      "events": "واقعات",
+      "books": "کتب"
+    },
+    "timelineKind": {
+      "birth": "ولادت",
+      "wiladat": "ولادت",
+      "shahadat": "شہادت",
+      "event": "واقعہ",
+      "occultation": "غیبت"
+    }
+  },
+  "hadith": {
+    "title": "احادیث کا ڈیٹابیس",
+    "subtitle": "نهج البلاغہ، الکافی، بحار الانوار — حوالہ جات و AI خلاصے کے ساتھ۔",
+    "searchPlaceholder": "حدیث، موضوع یا حوالہ تلاش کریں…",
+    "filter": {
+      "all": "تمام ماخذ",
+      "allTopics": "تمام موضوعات",
+      "bookmarked": "نشان زدہ"
+    },
+    "noResults": "کوئی حدیث نہیں ملی۔",
+    "notFound": "حدیث نہیں ملی۔",
+    "topicsOverview": "موضوعی خلاصے",
+    "related": "متعلقہ روایات",
+    "openNahjul": "نهج البلاغہ میں کھولیں",
+    "tabs": {
+      "text": "متن",
+      "reference": "حوالہ",
+      "summary": "AI خلاصہ"
+    },
+    "sources": {
+      "nahjul": "نهج البلاغہ",
+      "nahjulDesc": "امام علیؑ کے خطبات، مکتوبات و حکم",
+      "kafi": "الکافی",
+      "kafiDesc": "شیخ کلینی کی اصول و فروع الکافی",
+      "bihar": "بحار الانوار",
+      "biharDesc": "علامہ مجلسی کی دائرہ المعارف"
+    },
+    "topics": {
+      "ethics": "اخلاق",
+      "worship": "عبادت",
+      "imamate": "امامت",
+      "knowledge": "علم",
+      "patience": "صبر",
+      "family": "خاندان",
+      "justice": "عدل",
+      "dua": "دعا",
+      "karbala": "کربلا",
+      "taqwa": "تقویٰ"
+    },
+    "reference": {
+      "title": "علمی حوالہ",
+      "source": "ماخذ",
+      "volume": "جلد",
+      "book": "کتاب",
+      "chapter": "باب",
+      "number": "حدیث نمبر",
+      "page": "صفحہ",
+      "grading": "درجہ",
+      "narrators": "راوی",
+      "chain": "سند",
+      "alternate": "متبادل حوالہ"
+    },
+    "summary": {
+      "aiLabel": "AI خلاصہ",
+      "curated": "منتخب",
+      "generated": "تیار شدہ"
+    }
+  },
+  "notifications": {
+    "settings": {
+      "title": "ذہین نوٹیفیکیشنز",
+      "subtitle": "نماز، واقعات، دعائیں، محرم، اعمال و روزے — سیاق و سباق کے مطابق یاد دہانیاں۔",
+      "master": "نوٹیفیکیشنز فعال کریں",
+      "quietHours": "پرسکون اوقات (11 PM – 5 AM)",
+      "categories": "نوٹیفیکیشن کی اقسام"
+    },
+    "categories": {
+      "prayer": "نماز و اذان",
+      "prayerDesc": "نماز کے اوقات و تیاری کی یاد دہانیاں",
+      "events": "اسلامی واقعات",
+      "eventsDesc": "ولادت، شہادت، عیدیں",
+      "duas": "دعائیں",
+      "duasDesc": "کمیل، صبح کی دعائیں",
+      "muharram": "محرم",
+      "muharramDesc": "محرم میں روزانہ کربلا کی یاد دہانیاں",
+      "amaal": "اعمال",
+      "amaalDesc": "تسبیح، صلوات، موسمی اعمال",
+      "fasting": "روزے",
+      "fastingDesc": "سنت روزے، عاشورا، عرفہ، رمضان"
+    },
+    "channels": {
+      "prayer": "نماز",
+      "prayerDesc": "اذان و یاد دہانیاں",
+      "events": "واقعات",
+      "eventsDesc": "اسلامی کیلنڈر",
+      "duas": "دعائیں",
+      "duasDesc": "دعا کی یاد دہانیاں",
+      "muharram": "محرم",
+      "muharramDesc": "محرم کے الرٹ",
+      "amaal": "اعمال",
+      "amaalDesc": "روزانہ اعمال",
+      "fasting": "روزے",
+      "fastingDesc": "روزے کی یاد دہانیاں"
+    },
+    "events": {
+      "today": { "title": "{{event}}", "body": "آج {{event}} ہے۔ تفصیلات کے لیے کیلنڈر کھولیں۔" },
+      "eve": { "title": "کل: {{event}}", "body": "{{event}} کل ہے۔ دعائیں و اعمال سے تیاری کریں۔" }
+    },
+    "duas": {
+      "kumail": { "title": "آج رات دعائے کمیل", "body": "جمعرات ki raat — دعائے کمیل پڑھیں۔" },
+      "sabah": { "title": "صبح کی دعا", "body": "دعائے صبح سے دن کا آغاز کریں۔" },
+      "tawassul": { "title": "دعائے توسل", "body": "جمعہ — اہل بیتؑ سے توسل۔" },
+      "ahad": { "title": "دعائے عہد", "body": "دعائے عہد پڑھیں اور امام مہدیؑ سے عہد تجدید کریں۔" }
+    },
+    "amaal": {
+      "tasbih": { "title": "روزانہ ذکر", "body": "تسبیح و اللہ کے ذکر کے لیے وقت نکالیں۔" },
+      "salawat": { "title": "جمعہ کی صلوات", "body": "نبیؐ و اہل بیتؑ پر صلوات بڑھائیں۔" },
+      "qadr": { "title": "شب قدر کے اعمال", "body": "رمضان ki raatain — عبادت و دعا میں مشغول رہیں۔" },
+      "ghadeer": { "title": "غدیر قریب", "body": "عید غدیر کی تیاری — امام علیؑ کی ولایت۔" }
+    },
+    "fasting": {
+      "monday": { "title": "سنت روزہ — پیر", "body": "آج روزہ رکھنے par غور کریں۔" },
+      "thursday": { "title": "سنت روزہ — جمعرات", "body": "جمعرات مستحب روزوں میں ہے۔" },
+      "ashura": { "title": "کل عاشورا کا روزہ", "body": "امام حسینؑ ki yaad mein عاشورا کا روزہ۔" },
+      "arafah": { "title": "کل روزہ عرفہ", "body": "9 ذوالحجہ کا مستحب روزہ۔" },
+      "ramadan": { "title": "کل رمضان شروع", "body": "روزے و قرآن کے مبارک مہینے ki tiyari." }
+    },
+    "muharram": {
+      "daily": { "title": "محرم ki yaad dahani", "body": "آج ke Karbala events ke liye Muharram Mode kholen." },
+      "ashuraEve": { "title": "تاسوعا — عاشورا ki raat", "body": "عاشورا ki tiyari. Ziyarat aur amaal." },
+      "arbaeen": { "title": "Arbaeen qareeb", "body": "Ashura ke 40 din — ziyarat ki tiyari." },
+      "day": { "title": "Muharram din {{day}}", "body": "Muharram ka din {{day}} — aaj ke events dekhen." }
+    }
+  },
+  "settings": {
+    "title": "ترتیبات",
+    "appearance": "ظاہری شکل",
+    "theme": "تھیم",
+    "themeSystem": "سسٹم",
+    "themeLight": "روشن",
+    "themeDark": "تاریک",
+    "language": "زبان",
+    "languageEn": "English",
+    "languageAr": "العربية",
+    "languageUr": "اردو"
+  },
+  "onboarding": {
+    "back": "واپس",
+    "skip": "چھوڑیں",
+    "continue": "جاری رکھیں",
+    "stepOf": "قدم {{current}} از {{total}}",
+    "welcome": {
+      "title": "اہل البیت+ میں خوش آمدید",
+      "subtitle": "نماز، قرآن، اور اہل البیت علیہم السلام کے راستے میں آپ کا ساتھی۔",
+      "cta": "اپنا سفر شروع کریں",
+      "verse": "میں تم میں دو گراں‌بہا چیزیں چھوڑ رہا ہوں: اللہ کی کتاب اور میری عترت۔",
+      "verseRef": "حدیث ثقلین",
+      "features": {
+        "prayer": "درست جعفری نماز کے اوقات اور اذان",
+        "quran": "قرآن، دعائیں، زیارت — آف لائن",
+        "guidance": "علمی بنیاد پر AI رہنمائی"
+      }
+    },
+    "language": {
+      "title": "اپنی زبان منتخب کریں",
+      "subtitle": "ترتیبات میں کبھی بھی تبدیل کر سکتے ہیں۔"
+    },
+    "madhab": {
+      "title": "آپ کا مرجع تقلید",
+      "subtitle": "نماز کے اوقات اور مذہبی ذرائع کی ترتیب طے کرتا ہے۔",
+      "footer": "مرجع بعد میں ترتیبات میں بدل سکتے ہیں۔ اہل البیت+ فتویٰ نہیں دیتا۔",
+      "options": {
+        "sistani": {
+          "title": "آیت اللہ سیستانی",
+          "subtitle": "لیوا انسٹی ٹیوٹ · عالمی سطح پر"
+        },
+        "khamenei": {
+          "title": "آیت اللہ خامنہ ای",
+          "subtitle": "تہران طریقہ · ایران میں عام"
+        },
+        "shirazi": {
+          "title": "آیت اللہ شیرازی",
+          "subtitle": "شیرازی مکتب"
+        },
+        "local": {
+          "title": "مقامی مسجد کے مطابق",
+          "subtitle": "کمیونٹی کے اوقات جب دستیاب ہوں"
+        },
+        "unsure": {
+          "title": "ابھی یقین نہیں",
+          "subtitle": "ڈیفالٹ سیستانی · لیوا انسٹی ٹیوٹ"
+        }
+      }
+    },
+    "location": {
+      "title": "لوکیشن فعال کریں",
+      "subtitle": "درست نماز کے اوقات اور قبلہ کی سمت کے لیے۔",
+      "enable": "لوکیشن فعال کریں",
+      "privacy": "آپ کی لوکیشن ڈیوائس پر رہتی ہے۔ ہم ڈیٹا نہیں بیچتے۔",
+      "benefits": {
+        "prayer": "آپ کے شہر کے جعفری اوقات",
+        "qibla": "آپ کی پوزیشن کے لیے قبلہ کمپاس",
+        "calendar": "آپ کے علاقے کے ہجری تاریخیں"
+      }
+    },
+    "notifications": {
+      "title": "وقت پر رہیں",
+      "subtitle": "نرم اذان یاددہانیاں تاکہ نماز نہ چھوٹے۔",
+      "enable": "نوٹیفیکیشن فعال کریں",
+      "footer": "اذان ڈیوائس پر شیڈول — آف لائن کام کرتا ہے۔",
+      "previewLabel": "پیش نظارہ",
+      "previewTitle": "ظہر · 12:34",
+      "previewBody": "ظہر کی نماز کا وقت ہو گیا۔"
+    },
+    "interests": {
+      "title": "آپ کو کیا اہم ہے؟",
+      "subtitle": "ہوم اسکرین اور سفارشات ذاتی بنائیں گے۔",
+      "footer": "جاری رکھنے کے لیے کم از کم ایک منتخب کریں۔",
+      "options": {
+        "quran": "قرآن پڑھنا",
+        "duas": "دعائیں و اعمال",
+        "ziyarat": "زیارت",
+        "calendar": "اسلامی کیلنڈر",
+        "prayer": "نماز و اذان",
+        "learning": "اسلامی تعلیم",
+        "muharram": "محرم و مجالس",
+        "community": "کمیونٹی تقریبات"
+      }
+    },
+    "ai": {
+      "title": "AI ساتھی",
+      "subtitle": "تاریخ، قرآن، اور ائمہ علیہم السلام کی تعلیمات کے بارے میں پوچھیں۔",
+      "finish": "اہل البیت+ میں داخل ہوں",
+      "personalizeTitle": "جوابات ذاتی بنائیں",
+      "personalizeSubtitle": "دلچسپیوں کے مطابق موضوعات",
+      "topicsLabel": "دلچسپی کے موضوعات",
+      "topics": {
+        "history": "اسلامی تاریخ",
+        "quran_reflection": "قرآنی تدبر",
+        "imam_biographies": "ائمہ کی سیرت",
+        "daily_guidance": "روزانہ رہنمائی",
+        "lectures": "لیکچر خلاصے"
+      },
+      "note": "AI تعلیمی جوابات حوالوں کے ساتھ — فتویٰ نہیں۔ فقہ کے لیے مرجع سے رجوع کریں۔",
+      "disclaimer": "جاری رکھ کر AI استعمال کی محترم پالیسی سے اتفاق کرتے ہیں۔"
+    }
+  },
+  "auth": {
+    "back": "واپس",
+    "welcome": {
+      "title": "اہل البیت+ میں سائن ان کریں",
+      "subtitle": "اپنی پیشرفت، بک مارکس اور ترجیحات تمام آلات پر ہم آہنگ کریں۔",
+      "emailLogin": "ای میل سے جاری رکھیں",
+      "emailRegister": "اکاؤنٹ بنائیں",
+      "google": "Google سے جاری رکھیں",
+      "apple": "Apple سے جاری رکھیں",
+      "guest": "مہمان کے طور پر جاری رکھیں",
+      "guestNote": "مہمان موڈ آف لائن کام کرتا ہے۔ ہم آہنگی کے لیے کسی بھی وقت سائن ان کریں۔"
+    },
+    "login": {
+      "title": "خوش آمدید",
+      "subtitle": "اپنے ای میل اور پاس ورڈ سے سائن ان کریں۔",
+      "submit": "سائن ان",
+      "forgot": "پاس ورڈ بھول گئے؟",
+      "otp": "OTP سے سائن ان کریں"
+    },
+    "register": {
+      "title": "اکاؤنٹ بنائیں",
+      "subtitle": "اپنے ای میل سے اہل البیت+ میں شامل ہوں۔",
+      "submit": "اکاؤنٹ بنائیں"
+    },
+    "forgot": {
+      "title": "پاس ورڈ ری سیٹ",
+      "subtitle": "اپنا ای میل درج کریں، ہم ری سیٹ کی ہدایات بھیجیں گے۔",
+      "send": "ری سیٹ لنک بھیجیں",
+      "sent": "OTP اور ری سیٹ ٹوکن کے لیے اپنا ای میل چیک کریں۔",
+      "resetToken": "ری سیٹ ٹوکن",
+      "otp": "OTP کوڈ",
+      "newPassword": "نیا پاس ورڈ",
+      "resendOtp": "OTP دوبارہ بھیجیں",
+      "reset": "پاس ورڈ اپ ڈیٹ کریں"
+    },
+    "otp": {
+      "title": "کوڈ کی تصدیق",
+      "subtitle": "اپنے ای میل پر بھیجا گیا 6 ہندسوں کا کوڈ درج کریں۔",
+      "code": "تصدیقی کوڈ",
+      "verify": "تصدیق کریں",
+      "resend": "کوڈ دوبارہ بھیجیں"
+    },
+    "fields": {
+      "email": "ای میل",
+      "password": "پاس ورڈ",
+      "displayName": "ڈسپلے نام",
+      "newPassword": "نیا پاس ورڈ"
+    }
+  },
+  "insights": {
+    "title": "میری بصیرت",
+    "subtitle": "گزشتہ {{days}} دنوں کی روحانی عادات",
+    "signInRequired": "ذاتی بصیرت کے لیے سائن ان کریں۔",
+    "loadError": "بصیرت لوڈ نہیں ہو سکی۔ بعد میں کوشش کریں۔",
+    "sessions": "ایپ سیشن",
+    "prayerRate": "نماز تکمیل",
+    "prayersDone": "نشان زد نمازیں",
+    "ayahsRead": "پڑھی گئی آیات",
+    "readingMinutes": "پڑھنے کے منٹ",
+    "prayerBreakdown": "نماز کی تفصیل"
+  },
+  "errors": {
+    "networkOffline": "انٹرنیٹ کنکشن نہیں",
+    "networkTimeout": "درخواست کا وقت ختم",
+    "unauthorized": "براہ کرم دوبارہ سائن ان کریں",
+    "server": "سرور خرابی۔ دوبارہ کوشش کریں۔"
+  },
+  "calendar": {
+    "title": "اسلامی کیلنڈر",
+    "subtitle": "شیعہ ہجری تقریبات — ولادت، شہادت، محرم، اربعین، غدیر اور مباہلہ۔",
+    "filterAll": "سب",
+    "today": "آج",
+    "todayObservances": "آج کی تقریبات",
+    "upcoming": "آنے والی",
+    "dayEvents": "دن {{day}} کی تقریبات",
+    "noEvents": "اس دن کوئی تقریب نہیں۔",
+    "inDays": "{{days}} دن میں",
+    "ah": "ھ",
+    "hijriDate": "{{day}}/{{month}} ہجری",
+    "offline": "مکمل آف لائن۔",
+    "bookmark": "بک مارک",
+    "bookmarked": "بک مارک شدہ",
+    "close": "بند کریں",
+    "recommendedAmaal": "مستحب اعمال",
+    "muharramTimeline": "محرم کا وقت خط",
+    "muharramSubtitle": "امام حسین (ع) کی شہادت کے مقدس أيام",
+    "dayLabel": "دن {{day}}",
+    "categories": {
+      "wiladat": "ولادت",
+      "shahadat": "شہادت",
+      "muharram": "محرم",
+      "arbaeen": "اربعین",
+      "ghadeer": "غدیر",
+      "mubahila": "مباہلہ"
+    },
+    "months": {
+      "muharram": "محرم",
+      "safar": "صفر",
+      "rabi1": "ربیع الاول",
+      "rabi2": "ربیع الثانی",
+      "jumada1": "جمادی الاول",
+      "jumada2": "جمادی الثانی",
+      "rajab": "رجب",
+      "shaban": "شعبان",
+      "ramadan": "رمضان",
+      "shawwal": "شوال",
+      "dhulqadah": "ذوالقعدہ",
+      "dhulhijjah": "ذوالحجہ"
+    },
+    "amaal": {
+      "muharram": "Recite Ziyarat Ashura, attend majlis, and increase remembrance of Ahlul Bayt.",
+      "tasua": "Prepare for Ashura — recite duas of Imam Husayn (as) and avoid worldly celebrations.",
+      "ashura": "Fast if able, attend majlis, recite Ziyarat Ashura, and reflect on Karbala.",
+      "arbaeen": "Recite Ziyarat Arbaeen, walk or support Arbaeen pilgrimage, and serve the visitors of Husayn (as).",
+      "wiladat": "Recite salawat, give charity, and celebrate with gratitude to Allah.",
+      "midshaban": "Recite Dua al-Mujir, Ziyarat of Imam Mahdi (aj), and prepare for Ramadan.",
+      "shahadat_ali": "Recite Ziyarat Amir al-Muminin, attend programs, and reflect on Imam Ali's (as) sacrifice.",
+      "qadr": "Stay in worship, recite Quran, and seek forgiveness in the blessed nights.",
+      "ghadeer": "Recite Ghadeer khutbah, renew allegiance to Wilayat, and celebrate Eid al-Ghadir.",
+      "mubahila": "Recite the verse of Mubahila and reflect on the status of Ahlul Bayt (as).",
+      "fatima": "Recite Ziyarat Sayyida Fatima (sa), attend mourning programs, and increase salawat."
+    },
+    "events": {
+      "hijri_new_year": {
+        "title": "Islamic New Year",
+        "desc": "First of Muharram marks the beginning of the Hijri year — a time of reflection and renewal."
+      },
+      "husayn_arrives_karbala": {
+        "title": "Imam Husayn (as) Arrives at Karbala",
+        "desc": "The caravan of Imam Husayn (as) reached the plains of Karbala on 2 Muharram 61 AH."
+      },
+      "water_cutoff": {
+        "title": "Water Cut Off — Makhzaal",
+        "desc": "On 7 Muharram, access to water was blocked from the camp of Imam Husayn (as) and his companions."
+      },
+      "tasua": {
+        "title": "Tasua — Eve of Ashura",
+        "desc": "The ninth of Muharram, when companions of Imam Husayn (as) spent their final night before Ashura."
+      },
+      "ashura": {
+        "title": "Ashura — Martyrdom of Imam Husayn (as)",
+        "desc": "The tenth of Muharram, when Imam Husayn (as), his family, and companions were martyred at Karbala."
+      },
+      "burial_martyrs": {
+        "title": "Burial of the Martyrs of Karbala",
+        "desc": "The martyrs of Karbala were buried on 13 Muharram after the captives departed."
+      },
+      "shahadat_zainulabideen": {
+        "title": "Shahadat of Imam Zain ul-Abideen (as)",
+        "desc": "Commemoration of the passing of the fourth Imam, Ali ibn Husayn (as), the ornament of worshippers."
+      },
+      "shahadat_imam_hasan_safar": {
+        "title": "Shahadat of Imam Hasan (as)",
+        "desc": "Commemoration of the martyrdom of Imam Hasan al-Mujtaba (as), the second Imam."
+      },
+      "shahadat_imam_kazim": {
+        "title": "Shahadat of Imam Musa al-Kazim (as)",
+        "desc": "The seventh Imam was martyred in the prison of Harun al-Rashid on 7 Safar."
+      },
+      "arbaeen": {
+        "title": "Arbaeen — 40th Day After Ashura",
+        "desc": "The fortieth day after Ashura, when millions walk to Karbala honoring Imam Husayn (as)."
+      },
+      "shahadat_prophet": {
+        "title": "Shahadat of Prophet Muhammad (s)",
+        "desc": "The passing of the Seal of Prophets, Muhammad ibn Abdullah (s), on 28 Safar."
+      },
+      "shahadat_imam_hasan_28": {
+        "title": "Shahadat of Imam Hasan (as) — 28 Safar",
+        "desc": "Shia tradition commemorates Imam Hasan (as) alongside the Prophet (s) on this day."
+      },
+      "wiladat_imam_jawad": {
+        "title": "Wiladat of Imam Muhammad al-Jawad (as)",
+        "desc": "Birth of the ninth Imam, Muhammad ibn Ali al-Jawad (as), in Medina."
+      },
+      "shahadat_imam_askari": {
+        "title": "Shahadat of Imam Hasan al-Askari (as)",
+        "desc": "The eleventh Imam was martyred on 8 Rabi al-Awwal 260 AH."
+      },
+      "wiladat_imam_askari": {
+        "title": "Wiladat of Imam Hasan al-Askari (as)",
+        "desc": "Birth of the eleventh Imam in Medina on 10 Rabi al-Awwal."
+      },
+      "wiladat_prophet": {
+        "title": "Wiladat of Prophet Muhammad (s)",
+        "desc": "Birth of the Holy Prophet (s) — celebrated on 17 Rabi al-Awwal in Shia tradition."
+      },
+      "wiladat_imam_sadiq": {
+        "title": "Wiladat of Imam Jafar al-Sadiq (as)",
+        "desc": "Birth of the sixth Imam, founder of the Ja'fari school of jurisprudence."
+      },
+      "wiladat_imam_askari_rabi2": {
+        "title": "Wiladat of Imam Hasan al-Askari (as)",
+        "desc": "Alternate commemoration of the birth of the eleventh Imam."
+      },
+      "wiladat_zainulabideen": {
+        "title": "Wiladat of Imam Zain ul-Abideen (as)",
+        "desc": "Birth of Ali ibn Husayn (as), the master of prostrators."
+      },
+      "shahadat_sayyida_fatima": {
+        "title": "Shahadat of Sayyida Fatima al-Zahra (sa)",
+        "desc": "Commemoration of the martyrdom of the Lady of the Worlds, daughter of the Prophet (s)."
+      },
+      "wiladat_imam_kazim": {
+        "title": "Wiladat of Imam Musa al-Kazim (as)",
+        "desc": "Birth of the seventh Imam, Musa ibn Jafar al-Kazim (as)."
+      },
+      "wiladat_imam_baqir": {
+        "title": "Wiladat of Imam Muhammad al-Baqir (as)",
+        "desc": "Birth of the fifth Imam, the splitter of knowledge."
+      },
+      "shahadat_imam_hadi": {
+        "title": "Shahadat of Imam Ali al-Hadi (as)",
+        "desc": "The tenth Imam was martyred on 3 Rajab."
+      },
+      "wiladat_imam_hadi": {
+        "title": "Wiladat of Imam Ali al-Hadi (as)",
+        "desc": "Birth of the tenth Imam in Medina."
+      },
+      "wiladat_imam_jawad_rajab": {
+        "title": "Wiladat of Imam Muhammad al-Jawad (as)",
+        "desc": "Birth of the ninth Imam, celebrated in the month of Rajab."
+      },
+      "wiladat_imam_ali": {
+        "title": "Wiladat of Imam Ali (as)",
+        "desc": "Birth of Amir al-Muminin Ali ibn Abi Talib (as) inside the Kaaba on 13 Rajab."
+      },
+      "wiladat_imam_hasan_rajab": {
+        "title": "Wiladat of Imam Hasan (as)",
+        "desc": "Birth of the second Imam, Hasan al-Mujtaba (as)."
+      },
+      "shahadat_imam_kazim_rajab": {
+        "title": "Shahadat of Imam Musa al-Kazim (as)",
+        "desc": "Commemoration of the martyrdom of the seventh Imam in Rajab."
+      },
+      "mabath": {
+        "title": "Mab'ath — Prophetic Mission",
+        "desc": "The day Prophet Muhammad (s) received his first revelation and began his mission."
+      },
+      "wiladat_imam_husayn": {
+        "title": "Wiladat of Imam Husayn (as)",
+        "desc": "Birth of the master of martyrs, Imam Husayn ibn Ali (as), on 3 Sha'ban."
+      },
+      "wiladat_abbas": {
+        "title": "Wiladat of Abu al-Fadhl al-Abbas (as)",
+        "desc": "Birth of the standard-bearer of Imam Husayn (as), al-Abbas ibn Ali (as)."
+      },
+      "wiladat_zainulabideen_shaban": {
+        "title": "Wiladat of Imam Zain ul-Abideen (as)",
+        "desc": "Birth of the fourth Imam in Sha'ban."
+      },
+      "wiladat_ali_asghar": {
+        "title": "Wiladat of Ali al-Asghar (as)",
+        "desc": "Birth of the infant martyr of Karbala, Abdullah al-Radhi (as)."
+      },
+      "wiladat_imam_mahdi": {
+        "title": "Wiladat of Imam al-Mahdi (aj)",
+        "desc": "Birth of the twelfth Imam on 15 Sha'ban — the promised saviour of humanity."
+      },
+      "wiladat_imam_hasan_ramadan": {
+        "title": "Wiladat of Imam Hasan (as)",
+        "desc": "Birth of the second Imam, celebrated in the blessed month of Ramadan."
+      },
+      "shahadat_imam_ali": {
+        "title": "Shahadat of Imam Ali (as)",
+        "desc": "The first Imam was struck in the mihrab and martyred on 21 Ramadan 40 AH."
+      },
+      "laylat_qadr": {
+        "title": "Laylat al-Qadr",
+        "desc": "One of the blessed nights of Qadr in the last ten days of Ramadan."
+      },
+      "eid_fitr": {
+        "title": "Eid al-Fitr",
+        "desc": "Celebration marking the end of the blessed month of Ramadan."
+      },
+      "shahadat_imam_sadiq": {
+        "title": "Shahadat of Imam Jafar al-Sadiq (as)",
+        "desc": "The sixth Imam passed away on 15 Shawwal 148 AH."
+      },
+      "wiladat_imam_reza": {
+        "title": "Wiladat of Imam Ali al-Rida (as)",
+        "desc": "Birth of the eighth Imam in Medina on 11 Dhu al-Qi'dah."
+      },
+      "shahadat_imam_jawad": {
+        "title": "Shahadat of Imam Muhammad al-Jawad (as)",
+        "desc": "The ninth Imam was martyred on 29 Dhu al-Qi'dah."
+      },
+      "eid_adha": {
+        "title": "Eid al-Adha",
+        "desc": "The festival of sacrifice on 10 Dhu al-Hijjah."
+      },
+      "ghadeer": {
+        "title": "Eid al-Ghadir — Ghadeer Khum",
+        "desc": "On 18 Dhu al-Hijjah, the Prophet (s) declared Imam Ali (as) as his successor at Ghadeer Khum."
+      },
+      "mubahila": {
+        "title": "Day of Mubahila",
+        "desc": "On 24 Dhu al-Hijjah, the Prophet (s) took Imam Ali, Sayyida Fatima, Hasan, and Husayn (as) for Mubahila."
+      }
+    }
+  },
+  "muharramMode": {
+    "title": "محرم موڈ",
+    "subtitle": "کربلا کا سفر — روزانہ مجلس، عمل اور زیارت۔",
+    "subtitleActive": "محرم کے مقدس دن — امام حسین (ع) کی یاد۔",
+    "countdown": "عاشور تک {{days}} دن",
+    "notAvailable": "اس دن کے لیے مواد دستیاب نہیں۔",
+    "offline": "مکمل آف لائن۔",
+    "selectDay": "محرم کا دن منتخب کریں",
+    "dayLabel": "دن {{day}}",
+    "karbalaEvent": "کربلا واقعہ",
+    "majlis": "مجلس",
+    "dailyAmal": "روزانہ عمل",
+    "dailyZiyarat": "روزانہ زیارت",
+    "openDua": "دعا کھولیں",
+    "openZiyarat": "زیارت پڑھیں",
+    "settings": "موڈ ترتیبات",
+    "blackTheme": "سیاہ سوگ تھیم",
+    "blackThemeOn": "گہرا سیاہ تھیم پورے ایپ میں فعال",
+    "blackThemeOff": "معمولی تھیم رنگ",
+    "mode": {
+      "auto": "خودکار",
+      "on": "ہمیشہ",
+      "off": "بند"
+    },
+    "days": {
+      "d1": {
+        "event": "Islamic New Year — The Stand Begins",
+        "eventDetail": "On 1 Muharram 61 AH, the Hijri year begins as Imam Husayn (as) continues his journey toward Kufa, refusing to pledge allegiance to Yazid.",
+        "majlisTitle": "The Refusal of Yazid",
+        "majlisBody": "The majlis reflects on why Imam Husayn (as) could not accept a tyrant as leader. Bay'ah to Yazid meant legitimising corruption — Husayn (as) chose honour over comfort, truth over survival.",
+        "majlisTheme": "Wilayah & Courage",
+        "amalTitle": "Renew intentions for Muharram",
+        "amalBody": "Begin the sacred month with reflection and commitment to the path of Ahlul Bayt (as).",
+        "amalSteps": "1. Ghusl if possible\n2. Recite 100× Salawat\n3. Recite Dua Tawassul\n4. Give charity (Sadaqah)\n5. Attend or listen to majlis"
+      },
+      "d2": {
+        "event": "Imam Husayn (as) Arrives at Karbala",
+        "eventDetail": "The caravan of Imam Husayn (as) reaches the plains of Karbala on 2 Muharram. The land that would witness the greatest sacrifice in history.",
+        "majlisTitle": "The Plains of Karbala",
+        "majlisBody": "Majlis on the arrival at Karbala — the moment the earth of Karbala was chosen as the stage for the eternal lesson of truth against falsehood.",
+        "majlisTheme": "Arrival & Resolve",
+        "amalTitle": "Ziyarat of the arrival",
+        "amalBody": "Commemorate the arrival of the Imam's caravan at the sacred land.",
+        "amalSteps": "1. Recite Ziyarat Warith\n2. Recite Surah Al-Fatiha for martyrs\n3. 100× La hawla wa la quwwata\n4. Recite Dua Nudba (excerpt)\n5. Reflect on the Imam's journey"
+      },
+      "d3": {
+        "event": "Camp Established — Negotiations with Hur",
+        "eventDetail": "Imam Husayn (as) establishes camp at Karbala. Hur ibn Yazid al-Riyahi arrives, torn between duty and conscience.",
+        "majlisTitle": "The Conscience of Hur",
+        "majlisBody": "The majlis explores Hur's inner struggle — representing every soul caught between fear and truth. His eventual repentance shows that it is never too late to choose Husayn (as).",
+        "majlisTheme": "Repentance & Choice",
+        "amalTitle": "Seek forgiveness like Hur",
+        "amalBody": "Turn toward the Imam with sincere repentance.",
+        "amalSteps": "1. Istighfar 70 times\n2. Recite Ziyarat Warith\n3. Pray 2 rak'at for tawba\n4. Give charity in Husayn's name\n5. Recite salawat 100×"
+      },
+      "d4": {
+        "event": "The Siege Tightens",
+        "eventDetail": "Umar ibn Sa'd's army surrounds the camp of Imam Husayn (as). The companions prepare for the inevitable.",
+        "majlisTitle": "The Loyal Companions",
+        "majlisBody": "Majlis honouring the companions who chose martyrdom alongside the Imam — Christian monk Wahab, Muslim ibn Awsaja, and the faithful who stayed when others fled.",
+        "majlisTheme": "Loyalty & Sacrifice",
+        "amalTitle": "Honour the companions",
+        "amalBody": "Remember those who stood firm when the world abandoned Husayn (as).",
+        "amalSteps": "1. Recite Ziyarat Aminullah\n2. Recite Dua Kumayl (evening)\n3. 100× Salawat\n4. Read about a companion of Karbala\n5. Light a candle in remembrance"
+      },
+      "d5": {
+        "event": "Letters from Kufa — Broken Promises",
+        "eventDetail": "The people of Kufa who invited the Imam betrayed him. Ibn Ziyad's army grows while support never arrives.",
+        "majlisTitle": "The Betrayal of Kufa",
+        "majlisBody": "The majlis examines how empty promises and cowardice led to the tragedy — a lesson on standing with truth when it is unpopular.",
+        "majlisTheme": "Betrayal & Patience",
+        "amalTitle": "Steadfastness in trials",
+        "amalBody": "Pray for strength to remain loyal to Ahlul Bayt in difficulty.",
+        "amalSteps": "1. Recite Ziyarat Warith\n2. Surah Al-Kahf (1 section)\n3. 100× Salawat\n4. Avoid worldly entertainment\n5. Attend majlis"
+      },
+      "d6": {
+        "event": "The Army of Ibn Ziyad Gathers",
+        "eventDetail": "Thousands surround the small camp of Imam Husayn (as). Shimr is sent with orders to demand bay'ah or battle.",
+        "majlisTitle": "The Final Offer",
+        "majlisBody": "Yazid's forces offer safety in exchange for submission. The Imam's refusal — 'Death with dignity is better than life with humiliation' — echoes through history.",
+        "majlisTheme": "Dignity & Defiance",
+        "amalTitle": "Choose dignity",
+        "amalBody": "Reflect on choosing Allah's pleasure over worldly comfort.",
+        "amalSteps": "1. Recite Ziyarat Ale Yasin\n2. Dua Tawassul\n3. 100× La ilaha illallah\n4. Give sadaqah\n5. Wear simple, modest clothing"
+      },
+      "d7": {
+        "event": "Water Cut Off — Day of Makhzi",
+        "eventDetail": "On 7 Muharram, access to the Euphrates is blocked. The camp of Imam Husayn (as) suffers thirst — foreshadowing the thirst of Ashura.",
+        "majlisTitle": "The Thirst of the Camp",
+        "majlisBody": "Majlis on the cruelty of cutting water from women and children — Abbas (as) would later ride to the river, never to return.",
+        "majlisTheme": "Thirst & Cruelty",
+        "amalTitle": "Commemorate the thirsty camp",
+        "amalBody": "Fast from water for part of the day in remembrance (if able).",
+        "amalSteps": "1. Recite Ziyarat Ashura\n2. Recite Dua Mashlool\n3. Give water (Sabeel) in Imam's name\n4. 100× Salawat\n5. Avoid unnecessary eating/drinking until maghrib"
+      },
+      "d8": {
+        "event": "Eve of Battle — Abbas & the Companions",
+        "eventDetail": "The night before the final stand. Imam Husayn (as) speaks to his companions. Abbas (as), Ali Akbar (as), and Qasim prepare for martyrdom.",
+        "majlisTitle": "The Night of Farewell",
+        "majlisBody": "The majlis on the last night — companions requesting martyrdom before the Imam, the children sleeping unaware, and the Imam's tears under the stars.",
+        "majlisTheme": "Farewell & Love",
+        "amalTitle": "Prepare for Ashura",
+        "amalBody": "Spend the night in worship and remembrance.",
+        "amalSteps": "1. Recite Ziyarat Warith\n2. Night prayer (Namaz Shab)\n3. 100× Salawat\n4. Recite Quran — Surah Yasin\n5. Stay awake in remembrance if able"
+      },
+      "d9": {
+        "event": "Tasua — Eve of Ashura",
+        "eventDetail": "The ninth of Muharram. Companions spend their final night. Shimr mocks; the camp of truth prepares for the morning of Ashura.",
+        "majlisTitle": "The Night of Tasua",
+        "majlisBody": "The most emotional majlis of Muharram — Sayyida Zainab (sa) gathering the women, the Imam granting permission for martyrdom, and the silence before the storm.",
+        "majlisTheme": "Tasua & Tears",
+        "amalTitle": "Night of Tasua amaal",
+        "amalBody": "The recommended acts for the eve of Ashura.",
+        "amalSteps": "1. Recite Ziyarat Ashura\n2. Recite Dua Kumayl\n3. 100× Salawat\n4. Pray for martyrdom with the Imam\n5. Attend Tasua majlis"
+      },
+      "d10": {
+        "event": "Ashura — The Day of Martyrdom",
+        "eventDetail": "10 Muharram 61 AH. Imam Husayn (as), his family, and 72 companions are martyred. The day that shook the heavens and earth.",
+        "majlisTitle": "Ashura — The Master of Martyrs",
+        "majlisBody": "The central majlis of Muharram — from the first arrow to the last breath of Ali al-Asghar (as), from Abbas at the Euphrates to Husayn (as) alone on the field of Karbala.",
+        "majlisTheme": "Ashura & Eternal Sacrifice",
+        "amalTitle": "Ashura amaal",
+        "amalBody": "The most important day of the year for the followers of Ahlul Bayt.",
+        "amalSteps": "1. Fast (if able)\n2. Recite Ziyarat Ashura\n3. Recite Dua Mashlool\n4. Attend majlis & processions\n5. Give charity & serve others\n6. Avoid worldly celebrations"
+      },
+      "d11": {
+        "event": "After Ashura — The Captives",
+        "eventDetail": "The women and children of the Prophet's household are taken captive. The heads of martyrs are raised on spears.",
+        "majlisTitle": "The Captivity of Ahlul Bayt",
+        "majlisBody": "Majlis on the suffering of Sayyida Zainab (sa) — the eloquent defender who spoke truth in the court of Yazid.",
+        "majlisTheme": "Captivity & Eloquence",
+        "amalTitle": "Stand with Zainab (sa)",
+        "amalBody": "Honour the Lady who preserved the message of Karbala.",
+        "amalSteps": "1. Recite Ziyarat Warith\n2. 100× Salawat\n3. Read sermon of Zainab in Shaam\n4. Give charity to orphans\n5. Avoid music & entertainment"
+      },
+      "d12": {
+        "event": "Journey to Kufa & Shaam",
+        "eventDetail": "The captives are marched through towns. Some recognise the tragedy; others mock. The caravan of truth moves toward Damascus.",
+        "majlisTitle": "The Caravan of Captives",
+        "majlisBody": "The majlis on the humiliation inflicted on the Prophet's family — and how their dignity shone brighter through every trial.",
+        "majlisTheme": "Patience & Dignity",
+        "amalTitle": "Accompany the captives",
+        "amalBody": "Walk spiritually with the family of the Prophet (s).",
+        "amalSteps": "1. Recite Ziyarat Jamia Kabira\n2. Recite Dua Nudba\n3. 100× Salawat\n4. Reflect on Zainab's sermons\n5. Serve the oppressed"
+      },
+      "d13": {
+        "event": "Burial of the Martyrs of Karbala",
+        "eventDetail": "On 13 Muharram, the people of Banu Asad bury the bodies of the martyrs. The earth of Karbala receives its treasure.",
+        "majlisTitle": "The Burial at Karbala",
+        "majlisBody": "The closing majlis of the first Ashura cycle — the bodies without heads, the soil mixed with blood, and the eternal resting place of the Master of Martyrs.",
+        "majlisTheme": "Burial & Eternal Rest",
+        "amalTitle": "Final Muharram amaal",
+        "amalBody": "Close the ten days with renewed commitment to Husayn's mission.",
+        "amalSteps": "1. Recite Ziyarat Warith\n2. Visit graves if possible\n3. 100× Salawat\n4. Renew allegiance to Imam Husayn (as)\n5. Plan ongoing remembrance through Safar"
+      }
+    }
+  },
+  "ai": {
+    "title": "اہل البیت سے پوچھیں",
+    "subtitle": "اسلامی سوالات، نماز، دعائیں، زیارت",
+    "headerSubtitle": "قرآن و حدیث کے حوالوں کے ساتھ علمی رہنمائی",
+    "inputPlaceholder": "نماز، دعا، زیارت کے بارے میں پوچھیں...",
+    "send": "بھیجیں",
+    "clear": "صاف",
+    "thinking": "سوچ رہا ہے...",
+    "sources": "مصادر",
+    "suggestedPrompts": "تجویز کردہ سوالات",
+    "tapToAsk": "پوچھنے کے لیے ٹیپ کریں",
+    "tapToOpen": "کھولنے کے لیے ٹیپ کریں",
+    "disclaimer": "صرف تعلیمی رہنمائی — مرجع کا متبادل نہیں۔ فتویٰ کے لیے مرجع سے رجوع کریں۔",
+    "disclaimerShort": "صرف تعلیمی — فتویٰ نہیں۔ احکام کے لیے مرجع سے رجوع کریں۔",
+    "welcome": {
+      "greeting": "السلام علیکم",
+      "title": "آج میں آپ کی کیسے رہنمائی کر سکتا ہوں؟",
+      "subtitle": "نماز کے اوقات، دعائیں، زیارت، اسلامی تاریخ اور روزانہ عبادت — قابل اعتماد حوالوں کے ساتھ پوچھیں۔"
+    },
+    "citations": {
+      "quran": "قرآن",
+      "hadith": "حدیث",
+      "book": "کتاب",
+      "general": "ماخذ"
+    },
+    "offlineLabel": "آف لائن جواب",
+    "guardrails": {
+      "empty": "Please enter a question.",
+      "blocked": "I cannot help with that request."
+    },
+    "prompts": {
+      "prayerNext": "Next prayer",
+      "prayerNextMessage": "When is my next prayer?",
+      "duaTonight": "Dua for tonight",
+      "duaTonightMessage": "Recommend a dua for tonight",
+      "ziyaratMuharram": "Muharram ziyarat",
+      "ziyaratMuharramMessage": "Which ziyarat should I read in Muharram?",
+      "calendarToday": "Today's events",
+      "calendarTodayMessage": "What Islamic observances are today?",
+      "whoHusayn": "Imam Husayn (as)",
+      "whoHusaynMessage": "Tell me about Imam Husayn and Karbala",
+      "quranReflectionMessage": "Help me reflect on today's Quran verse"
+    },
+    "responses": {
+      "greeting": "Peace be upon you. Today is {{hijri}}. How may I guide you in worship, duas, ziyarat, or Islamic knowledge?",
+      "prayer_guidance": "Your next prayer is {{next}} at {{time}} (in {{countdown}}) in {{city}}. Times use the Jafari {{marja}} method. Maghrib includes the +17 min red twilight delay.",
+      "dua_recommendation": "Based on the time and season, here are {{count}} recommended duas from Mafatih al-Jinan. Tap to open the reader.",
+      "ziyarat_recommendation": "Here are {{count}} ziyarat suited to this occasion. Tap to read with translation and audio.",
+      "calendar_today": "Today ({{hijri}}): {{todayCount}} observance(s) on the Shia calendar. Muharram season: {{muharram}}.",
+      "calendar_upcoming": "Today is {{hijri}}. No major observance today — {{upcomingCount}} upcoming events on your calendar.",
+      "fatwa_redirect": "I cannot issue fatwa or personal religious verdicts. Please consult your marja's official rulings. I can share general educational information from Quran, hadith, and history.",
+      "general_fallback": "I don't have a specific answer bundled offline for that question. Try asking about prayer times, duas, ziyarat, Muharram, Imam Husayn (as), Ghadeer, or the Twelve Imams (as)."
+    },
+    "actions": {
+      "openPrayer": "Open Prayer Times",
+      "openCalendar": "Open Islamic Calendar",
+      "openMuharram": "Open Muharram Mode"
+    },
+    "faq": {
+      "who_ahlulbayt": {
+        "title": "Ahlul Bayt (as)",
+        "body": "Ahlul Bayt (as) are the purified family of Prophet Muhammad (s) — including Imam Ali, Sayyida Fatima, Imam Hasan, and Imam Husayn (peace be upon them all). Shia Muslims follow their teachings as the rightful interpreters of Islam after the Prophet (s).",
+        "citation": "Quran 33:33 · Hadith al-Kisa"
+      },
+      "twelve_imams": {
+        "title": "The Twelve Imams (as)",
+        "body": "After the Prophet (s), Shia Islam recognizes twelve divinely appointed Imams: Ali, Hasan, Husayn, Ali Zain ul-Abideen, Muhammad al-Baqir, Jafar al-Sadiq, Musa al-Kazim, Ali al-Rida, Muhammad al-Jawad, Ali al-Hadi, Hasan al-Askari, and Muhammad al-Mahdi (aj) — the awaited saviour.",
+        "citation": "Hadith of the Twelve Caliphs"
+      },
+      "karbala": {
+        "title": "Karbala & Ashura",
+        "body": "On 10 Muharram 61 AH, Imam Husayn (as) was martyred at Karbala standing against tyranny. Ashura is the day of eternal mourning and renewal of allegiance to truth — not celebration.",
+        "citation": "Maqtal al-Husayn traditions"
+      },
+      "ghadeer": {
+        "title": "Ghadeer Khum",
+        "body": "On 18 Dhu al-Hijjah, at Ghadeer Khum, the Prophet (s) declared Imam Ali (as) as his successor — 'Whomever I am his master, Ali is his master.' This is Eid al-Ghadir for Shia Muslims.",
+        "citation": "Quran 5:67 · Sahih Muslim (narration)"
+      },
+      "fatwa": {
+        "title": "Fiqh & Fatwa",
+        "body": "Ahlulbayt+ AI provides educational content only. For wajib/mustahab/haram rulings, always refer to your marja — e.g. Ayatullah Sistani or Ayatullah Khamenei official websites."
+      },
+      "tawassul": {
+        "title": "Tawassul",
+        "body": "Tawassul means seeking nearness to Allah through the intercession of the Prophet (s) and Ahlul Bayt (as). Dua Tawassul is among the most beloved supplications in Shia tradition.",
+        "citation": "Mafatih al-Jinan"
+      },
+      "mahdi": {
+        "title": "Imam al-Mahdi (aj)",
+        "body": "Imam Muhammad al-Mahdi (aj), the twelfth Imam, entered minor occultation after the martyrdom of Imam Askari (as). Shia Muslims await his reappearance to establish justice on earth.",
+        "citation": "Dua Nudba · Dua Ahad"
+      },
+      "sahifa": {
+        "title": "Sahifa Sajjadiya",
+        "body": "The Psalms of Islam — 54 supplications by Imam Zain ul-Abideen (as), covering every aspect of spiritual life. It is known as the Zabur of Ahlul Bayt.",
+        "citation": "Imam Ali ibn Husayn (as)"
+      }
+    }
+  },
+  "recommendations": {
+    "title": "آپ کے لیے",
+    "askAi": "AI سے پوچھیں",
+    "categories": {
+      "verse": "آیت",
+      "dua": "دعا",
+      "ziyarat": "زیارت",
+      "fasting": "روزہ",
+      "amaal": "اعمال"
+    },
+    "reasons": {
+      "date": "Based on today's date",
+      "event": "Upcoming Islamic observance",
+      "dateEvent": "Today's sacred occasion",
+      "behavior": "Based on your interests",
+      "behaviorDate": "Personalized for today"
+    },
+    "items": {
+      "verse_patience": {
+        "title": "Verses on Patience",
+        "subtitle": "Explore sabr through Quran AI search"
+      },
+      "verse_ahlulbayt": {
+        "title": "Ahlul Bayt in Quran",
+        "subtitle": "Wilayah and purification verses"
+      },
+      "verse_hussain": {
+        "title": "Karbala in Quran",
+        "subtitle": "Martyrdom and standing against tyranny"
+      },
+      "verse_ramadan": {
+        "title": "Ramadan Quran",
+        "subtitle": "Verses on fasting and revelation"
+      },
+      "dua_kumail": {
+        "title": "Dua Kumayl",
+        "subtitle": "Thursday night — forgiveness & mercy"
+      },
+      "dua_tawassul": {
+        "title": "Dua Tawassul",
+        "subtitle": "Through the Ahlul Bayt (as)"
+      },
+      "dua_sabah": {
+        "title": "Dua al-Sabah",
+        "subtitle": "Morning supplication"
+      },
+      "dua_mashlool": {
+        "title": "Dua Mashlool",
+        "subtitle": "For affliction — Muharram amaal"
+      },
+      "dua_nudba": {
+        "title": "Dua Nudba",
+        "subtitle": "Friday — lament for Imam Mahdi (aj)"
+      },
+      "ziyarat_ashura": {
+        "title": "Ziyarat Ashura",
+        "subtitle": "Honour Imam Husayn (as) today"
+      },
+      "ziyarat_arbaeen": {
+        "title": "Ziyarat Arbaeen",
+        "subtitle": "40th day after Ashura"
+      },
+      "ziyarat_waritha": {
+        "title": "Ziyarat Warith",
+        "subtitle": "Daily visitation of the heir of Prophets"
+      },
+      "ziyarat_jamia": {
+        "title": "Ziyarat Jamia Kabira",
+        "subtitle": "Friday comprehensive ziyarat"
+      },
+      "fast_ashura": {
+        "title": "Fast of Ashura",
+        "subtitle": "Recommended on 10 Muharram if able"
+      },
+      "fast_ramadan": {
+        "title": "Ramadan Fasting",
+        "subtitle": "Check prayer & imsak times"
+      },
+      "fast_arafah": {
+        "title": "Fast of Arafah",
+        "subtitle": "9 Dhu al-Hijjah — expiates sins"
+      },
+      "fast_mon_thu": {
+        "title": "Monday Fasting",
+        "subtitle": "Sunnah fast — check calendar"
+      },
+      "amaal_tasbih": {
+        "title": "Tasbih Fatima Zahra",
+        "subtitle": "Complete your daily dhikr cycle"
+      },
+      "amaal_salawat": {
+        "title": "100× Salawat",
+        "subtitle": "Friday amaal for the Prophet (s)"
+      },
+      "amaal_qadr": {
+        "title": "Laylat al-Qadr Amaal",
+        "subtitle": "Worship in the last ten nights"
+      },
+      "amaal_ghadeer": {
+        "title": "Ghadeer Amaal",
+        "subtitle": "Celebrate wilayah of Imam Ali (as)"
+      },
+      "amaal_muharram": {
+        "title": "Muharram Mode",
+        "subtitle": "Daily Karbala events, majlis & amaal"
+      },
+      "amaal_mid_shaban": {
+        "title": "Mid-Sha'ban",
+        "subtitle": "Dua Ahad & ziyarat of Imam Mahdi (aj)"
+      }
+    }
+  }
+}

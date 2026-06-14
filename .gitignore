@@ -1,0 +1,76 @@
+# Dependencies
+node_modules/
+
+# Environment (keep example templates)
+.env
+.env.*
+!.env.example
+!.env*.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE / editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Cursor local state
+.cursor/
+.claude/
+
+# TypeScript
+*.tsbuildinfo
+
+# Test / coverage
+coverage/
+.nyc_output/
+
+# Caches
+.cache/
+.turbo/
+.eslintcache
+
+# --- API (NestJS) ---
+api/dist/
+api/coverage/
+
+# --- Mobile (React Native) ---
+mobile/android/app/build/
+mobile/android/build/
+mobile/android/.gradle/
+mobile/android/local.properties
+mobile/android/.cxx/
+mobile/ios/build/
+mobile/ios/Pods/
+mobile/ios/DerivedData/
+mobile/.metro-health-check*
+mobile/.rn-scaffold/
+mobile/.kotlin/
+mobile/.expo/
+mobile/.expo-shared/
+
+# Native signing & secrets (never commit)
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.pem
+*.orig.*
+
+# Docker local overrides
+docker-compose.override.yml

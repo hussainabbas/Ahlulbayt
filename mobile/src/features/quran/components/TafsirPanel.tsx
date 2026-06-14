@@ -1,0 +1,110 @@
+import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+
+import { Text } from '@/components/ui/Text';
+import { useLocale } from '@/i18n/useLocale';
+import { useTheme } from '@/theme/ThemeContext';
+
+import type { AyahTafsir } from '../types';
+
+interface TafsirPanelProps {
+  visible: boolean;
+  tafsir?: AyahTafsir;
+  onClose: () => void;
+}
+
+export function TafsirPanel({ visible, tafsir, onClose }: TafsirPanelProps) {
+  const { t } = useLocale();
+  const { theme } = useTheme();
+
+  if (!tafsir) return null;
+
+  return (
+    <Modal visible={visible} animationType="slide" transparent onRequestClose={onClose}>
+      <Pressable style={styles.backdrop} onPress={onClose}>
+        <Pressable
+          style={[
+            styles.sheet,
+            {
+              backgroundColor: theme.colors.surfaceElevated,
+              borderColor: theme.colors.borderSubtle,
+            },
+          ]}
+          onPress={(e) => e.stopPropagation()}
+        >
+          <View style={styles.handle} />
+          <Text variant="headingSm">{t('quran.tafsir')}</Text>
+          {tafsir.source ? (
+            <Text variant="caption" color="accent" style={styles.source}>
+              {tafsir.source}
+            </Text>
+          ) : null}
+          <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
+            {tafsir.en ? (
+              <Text variant="bodyMd" color="secondary" style={styles.block}>
+                {tafsir.en}
+              </Text>
+            ) : null}
+            {tafsir.ur ? (
+              <Text variant="bodyMd" color="secondary" style={[styles.block, styles.urdu]}>
+                {tafsir.ur}
+              </Text>
+            ) : null}
+          </ScrollView>
+          <Pressable
+            onPress={onClose}
+            style={[styles.closeBtn, { backgroundColor: theme.colors.accentPrimaryMuted }]}
+          >
+            <Text variant="bodySm" color="accent">
+              {t('common.close')}
+            </Text>
+          </Pressable>
+        </Pressable>
+      </Pressable>
+    </Modal>
+  );
+}
+
+const styles = StyleSheet.create({
+  backdrop: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0,0,0,0.55)',
+  },
+  sheet: {
+    maxHeight: '72%',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderWidth: 1,
+    padding: 20,
+    gap: 8,
+  },
+  handle: {
+    alignSelf: 'center',
+    width: 40,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    marginBottom: 8,
+  },
+  source: {
+    marginBottom: 4,
+  },
+  scroll: {
+    maxHeight: 320,
+  },
+  block: {
+    lineHeight: 24,
+    marginBottom: 12,
+  },
+  urdu: {
+    textAlign: 'right',
+    writingDirection: 'rtl',
+  },
+  closeBtn: {
+    alignSelf: 'center',
+    paddingHorizontal: 24,
+    paddingVertical: 10,
+    borderRadius: 999,
+    marginTop: 8,
+  },
+});

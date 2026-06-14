@@ -1,0 +1,97 @@
+import type { FigureContent } from '../helpers';
+import { bio, book, event, quote, timeline } from '../helpers';
+
+export const profileSadiq: FigureContent = {
+  id: 'masoom_sadiq',
+  biography: [
+    bio(
+      'life',
+      'Founder of Ja\'fari School',
+      'مذہب جعفری کے بانی',
+      'مؤسس المذهب الجعفري',
+      'Sixth Imam, the most prolific teacher in Shia history. Four thousand students attended his classes. Ja\'fari fiqh is named after him.',
+      'چھٹے امام، شیعہ تاریخ کے سب سے زیادہ تعلیم دینے والے۔ چار ہزار طلبہ۔ فقہ جعفری ان کے نام سے۔',
+      'الإمام السادس، أكثر معلم إنتاجاً. أربعة آلاف طالب. سُمي الفقه الجعفري باسمه.',
+    ),
+    bio(
+      'sciences',
+      'Sciences & Dialogue',
+      'علوم و مکالمات',
+      'العلوم والحوار',
+      'Taught theology, law, chemistry, and astronomy. Engaged in scholarly dialogue with Abu Hanifa and Malik ibn Anas.',
+      'عقیدہ، فقہ، کیمیا، فلکیات پڑھائے۔ ابوجعفر ہمدانی و مالک بن انس سے علمی مباحثے۔',
+      'علّم العقيدة والفقه والكيمياء والفلك. حاور أبا حنيفة ومالك بن أنس.',
+    ),
+  ],
+  timeline: [
+    timeline('birth', 83, 'Birth in Medina', 'مدینہ میں ولادت', 'ولادة في المدينة', 'Born to Imam al-Baqir (as).', 'امام باقرؑ کے ہاں', 'وُلد للإمام الباقر', 'wiladat', '83 AH'),
+    timeline('imamate', 114, 'Imamate begins', 'امامت', 'الإمامة', 'Sixth Imam.', 'چھٹے امام', 'الإمام السادس', 'event', '114 AH'),
+    timeline('shahadat', 148, 'Shahadat', 'شہادت', 'الشهادة', 'Martyred by poison under Mansur.', 'منصور کے زمانے میں زہر', 'استشهد بالسم في زمن المنصور', 'shahadat', '148 AH'),
+  ],
+  quotes: [
+    quote(
+      'q1',
+      'Our Shia are those who fulfill trusts, speak truth, and pray when others sleep.',
+      'ہمارے شیعہ وہ ہیں جو امانت پوری کریں، سچ بولیں، اور جب لوگ سوتے ہیں نماز پڑھیں۔',
+      'شيعتنا من وفى بالأمانة وصدق في الحديث وصلى وهم ينامون',
+      'Imam al-Sadiq (as)',
+      'امام صادقؑ',
+      'الإمام الصادق',
+    ),
+    quote(
+      'q2',
+      'The most complete believer is the one with the best character.',
+      'کامل ترین مومن بہترین اخلاق والا ہے۔',
+      'أكمل المؤمنين أحسنهم خلقاً',
+      'Imam al-Sadiq (as)',
+      'امام صادقؑ',
+      'الإمام الصادق',
+    ),
+  ],
+  events: [
+    event(
+      'wiladat',
+      4,
+      17,
+      'Wiladat of Imam al-Sadiq (as)',
+      'ولادت امام صادقؑ',
+      'مولد الإمام الصادق',
+      '17th Rabi al-Awwal — birth in Medina.',
+      '۱۷ ربیع الاول — مدینہ',
+      'السابع عشر من ربيع الأول — المدينة',
+      'sadiq_birth',
+    ),
+    event(
+      'shahadat',
+      12,
+      25,
+      'Shahadat of Imam al-Sadiq (as)',
+      'شہادت امام صادقؑ',
+      'شهادة الإمام الصادق',
+      '25th Shawwal — martyrdom.',
+      '۲۵ شوال — شہادت',
+      'الخامس والعشرون من شوال — استشهاد',
+      'sadiq_shahadat',
+    ),
+  ],
+  books: [
+    book(
+      'fiqh',
+      'Ja\'fari Jurisprudence',
+      'فقہ جعفری',
+      'الفقه الجعفري',
+      'Foundational rulings on worship, transactions, and ethics.',
+      'عبادات، معاملات و اخلاق کے بنیادی احکام',
+      'الأحكام الأساسية في العبادات والمعاملات',
+    ),
+    book(
+      'hadith',
+      'Usul al-Kafi (via students)',
+      'اصول کافی (طلبہ کے ذریعے)',
+      'الأصول (عبر تلاميذه)',
+      'Thousands of hadiths narrated through his students.',
+      'طلبہ کے ذریعے ہزاروں احادیث',
+      'آلاف الأحاديث عن طريق تلاميذه',
+    ),
+  ],
+};
