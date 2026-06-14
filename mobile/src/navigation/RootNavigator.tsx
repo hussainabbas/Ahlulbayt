@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { OnboardingFlow } from '@/features/onboarding/OnboardingFlow';
+import { MafatihHubScreen } from '@/features/mafatih/screens/MafatihHubScreen';
 
 import { AuthNavigator } from './AuthNavigator';
 import { BootstrapScreen } from './BootstrapScreen';
@@ -43,9 +44,7 @@ export function RootNavigator() {
       />
       <Stack.Screen
         name="Mafatih"
-        getComponent={lazyScreen(
-          () => require('@/features/mafatih/screens/MafatihHubScreen').MafatihHubScreen,
-        )}
+        component={MafatihHubScreen}
         options={stack.titled()}
       />
       <Stack.Screen

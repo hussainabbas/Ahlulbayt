@@ -2,6 +2,7 @@ import { Pressable, ScrollView, StyleSheet } from 'react-native';
 
 import { Text } from '@/components/ui/Text';
 import { useLocale } from '@/i18n/useLocale';
+import { layout } from '@/theme/layout';
 import { useTheme } from '@/theme/ThemeContext';
 
 import { HADITH_TOPICS } from '../constants/catalog';
@@ -42,7 +43,7 @@ export function HadithTopicTabs({ active, onChange }: HadithTopicTabsProps) {
               },
             ]}
           >
-            <Text variant="bodySm" color={isActive ? 'accent' : 'secondary'}>
+            <Text variant="caption" color={isActive ? 'accent' : 'secondary'}>
               {tab.label}
             </Text>
           </Pressable>
@@ -53,11 +54,15 @@ export function HadithTopicTabs({ active, onChange }: HadithTopicTabsProps) {
 }
 
 const styles = StyleSheet.create({
-  row: { gap: 8, paddingVertical: 4 },
+  row: {
+    flexDirection: 'row',
+    gap: 8,
+    paddingVertical: 4,
+  },
   chip: {
-    paddingHorizontal: 12,
-    paddingVertical: 7,
-    borderRadius: 20,
-    borderWidth: 1,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 999,
+    borderWidth: StyleSheet.hairlineWidth,
   },
 });

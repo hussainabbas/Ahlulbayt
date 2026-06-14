@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, View } from 'react-native';
+import { StyleSheet, Switch, View } from 'react-native';
 
 import { Card } from '@/components/ui/Card';
 import { Text } from '@/components/ui/Text';
@@ -41,12 +41,12 @@ export function NotificationSettingsPanel() {
         <ToggleRow
           label={t('notifications.settings.master')}
           active={masterEnabled}
-          onPress={() => setMasterEnabled(!masterEnabled)}
+          onChange={setMasterEnabled}
         />
         <ToggleRow
           label={t('notifications.settings.quietHours')}
           active={quietHoursEnabled}
-          onPress={() => setQuietHours(!quietHoursEnabled)}
+          onChange={setQuietHours}
           border
         />
       </Card>
@@ -63,7 +63,7 @@ export function NotificationSettingsPanel() {
             description={t(`notifications.categories.${cat}Desc`)}
             active={categories[cat].enabled && masterEnabled}
             disabled={!masterEnabled}
-            onPress={() => setCategoryEnabled(cat, !categories[cat].enabled)}
+            onChange={(enabled) => setCategoryEnabled(cat, enabled)}
             border={index < CATEGORIES.length - 1}
           />
         ))}
@@ -77,25 +77,23 @@ function ToggleRow({
   description,
   active,
   disabled,
-  onPress,
+  onChange,
   border,
 }: {
   label: string;
   description?: string;
   active: boolean;
   disabled?: boolean;
-  onPress: () => void;
+  onChange: (value: boolean) => void;
   border?: boolean;
 }) {
   const { theme } = useTheme();
 
   return (
-    <Pressable
-      onPress={disabled ? undefined : onPress}
-      style={({ pressed }) => [
+    <View
+      style={[
         styles.row,
         border && { borderBottomWidth: 1, borderBottomColor: theme.colors.borderSubtle },
-        pressed && !disabled && { backgroundColor: theme.colors.accentPrimaryMuted },
         disabled && { opacity: 0.5 },
       ]}
     >
@@ -107,10 +105,14 @@ function ToggleRow({
           </Text>
         ) : null}
       </View>
-      <Text variant="bodySm" color={active ? 'accent' : 'tertiary'}>
-        {active ? '●' : '○'}
-      </Text>
-    </Pressable>
+      <Switch
+        value={active}
+        onValueChange={onChange}
+        disabled={disabled}
+        trackColor={{ true: theme.colors.accentPrimary, false: theme.colors.surfaceMuted }}
+        thumbColor={theme.colors.surfaceElevated}
+      />
+    </View>
   );
 }
 

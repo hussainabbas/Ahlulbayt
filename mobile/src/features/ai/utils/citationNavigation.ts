@@ -1,3 +1,4 @@
+import type { MafatihCollectionId } from '@/features/mafatih/types';
 import type { MainTabParamList, RootStackParamList } from '@/navigation/types';
 
 import type { AiCitation } from '../types';
@@ -6,9 +7,15 @@ export type CitationNavigationTarget =
   | { stack: 'root'; screen: keyof RootStackParamList; params?: RootStackParamList[keyof RootStackParamList] }
   | { stack: 'tab'; screen: keyof MainTabParamList };
 
+function mafatihCollection(collectionId: MafatihCollectionId): CitationNavigationTarget {
+  return { stack: 'root', screen: 'Mafatih', params: { collectionId } };
+}
+
 const ID_ROUTES: Partial<Record<string, CitationNavigationTarget>> = {
-  mafatih: { stack: 'root', screen: 'Mafatih' },
-  kamil: { stack: 'root', screen: 'Mafatih' },
+  mafatih: mafatihCollection('mafatih_al_jinan'),
+  kamil: mafatihCollection('kamil_al_ziyarat'),
+  taqibat: mafatihCollection('taqibat'),
+  karbala: { stack: 'root', screen: 'MuharramMode' },
   calendar: { stack: 'root', screen: 'Calendar' },
   quran: { stack: 'tab', screen: 'Quran' },
   leva: { stack: 'tab', screen: 'Prayer' },
@@ -25,11 +32,14 @@ export function resolveCitationNavigation(citation: AiCitation): CitationNavigat
 
   const haystack = `${citation.title} ${citation.source ?? ''}`.toLowerCase();
 
-  if (/mafatih|مفاتیح|مفاتيح/.test(haystack)) {
-    return { stack: 'root', screen: 'Mafatih' };
-  }
   if (/kamil.*ziyarat|کامل/.test(haystack)) {
-    return { stack: 'root', screen: 'Mafatih' };
+    return mafatihCollection('kamil_al_ziyarat');
+  }
+  if (/taqibat|تعقیبات/.test(haystack)) {
+    return mafatihCollection('taqibat');
+  }
+  if (/mafatih|مفاتیح|مفاتيح/.test(haystack)) {
+    return mafatihCollection('mafatih_al_jinan');
   }
   if (/sahifa|sajjadiya|صحیف|الصحيفة/.test(haystack)) {
     return { stack: 'root', screen: 'Sahifa' };
@@ -37,7 +47,10 @@ export function resolveCitationNavigation(citation: AiCitation): CitationNavigat
   if (/quran|قرآن|qur'an/.test(haystack)) {
     return { stack: 'tab', screen: 'Quran' };
   }
-  if (/hadith|kafi|bihar|nahjul|maqtal/.test(haystack)) {
+  if (/karbala|ashura|husayn|husain|maqtal|کربلا|حسین|عاشور/.test(haystack)) {
+    return { stack: 'root', screen: 'MuharramMode' };
+  }
+  if (/hadith|kafi|bihar|nahjul/.test(haystack)) {
     return { stack: 'root', screen: 'Hadith' };
   }
   if (/\bduas?\b|amaal|دعا/.test(haystack)) {
@@ -54,7 +67,7 @@ export function resolveCitationNavigation(citation: AiCitation): CitationNavigat
   }
 
   if (citation.kind === 'book') {
-    return { stack: 'root', screen: 'Mafatih' };
+    return mafatihCollection('mafatih_al_jinan');
   }
 
   return null;

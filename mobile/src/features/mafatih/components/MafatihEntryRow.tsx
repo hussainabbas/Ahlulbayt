@@ -1,5 +1,7 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 
+import { Icon } from '@/components/ui/Icon';
+import { ListRow } from '@/components/ui/ListRow';
 import { Text } from '@/components/ui/Text';
 import { useLocale } from '@/i18n/useLocale';
 import { useTheme } from '@/theme/ThemeContext';
@@ -11,6 +13,7 @@ interface MafatihEntryRowProps {
   bookmarked?: boolean;
   favorited?: boolean;
   offline?: boolean;
+  isLast?: boolean;
   onPress: () => void;
   onToggleFavorite?: () => void;
 }
@@ -20,82 +23,68 @@ export function MafatihEntryRow({
   bookmarked,
   favorited,
   offline,
+  isLast,
   onPress,
   onToggleFavorite,
 }: MafatihEntryRowProps) {
-  const { locale } = useLocale();
+  const { locale, t } = useLocale();
   const { theme } = useTheme();
 
   const title =
     locale === 'ur' ? entry.titles.ur : locale === 'ar' ? entry.titles.ar : entry.titles.en;
-  const desc = locale === 'ur' ? entry.description.ur : entry.description.en;
+  const subtitle = locale === 'ur' ? entry.subtitles?.ur : entry.subtitles?.en;
+  const desc = (locale === 'ur' ? entry.description?.ur : entry.description?.en) ?? '';
+
+  const kindLabel =
+    entry.kind === 'dua'
+      ? t('mafatih.kinds.dua')
+      : entry.kind === 'ziyarat'
+        ? t('mafatih.kinds.ziyarat')
+        : entry.kind === 'sahifa'
+          ? t('mafatih.kinds.sahifa')
+          : t('mafatih.kinds.amaal');
+
+  const accentColor =
+    entry.kind === 'ziyarat'
+      ? theme.colors.accentGold
+      : entry.kind === 'sahifa'
+        ? theme.colors.accentPrimary
+        : undefined;
+
+  const meta = `§ ${entry.mafatihRef} · ${kindLabel} · ${entry.estimatedMinutes} min`;
 
   return (
-    <Pressable
+    <ListRow
+      title={title}
+      subtitle={subtitle || desc}
+      meta={meta}
       onPress={onPress}
-      style={({ pressed }) => [
-        styles.row,
-        {
-          backgroundColor: pressed ? theme.colors.surfaceMuted : 'transparent',
-          borderBottomColor: theme.colors.borderSubtle,
-        },
-      ]}
-    >
-      <View style={styles.content}>
-        <View style={styles.titleRow}>
-          <Text variant="bodyMd" style={{ flex: 1 }}>
-            {title}
-          </Text>
-          <View style={styles.icons}>
-            {onToggleFavorite ? (
-              <Pressable onPress={onToggleFavorite} hitSlop={8}>
-                <Text variant="caption" color={favorited ? 'accent' : 'tertiary'}>
-                  {favorited ? '♥' : '♡'}
-                </Text>
-              </Pressable>
-            ) : null}
-            {bookmarked ? (
-              <Text variant="caption" color="accent" style={{ marginLeft: 8 }}>
-                ★
+      isLast={isLast}
+      accentColor={accentColor}
+      trailing={
+        <View style={styles.badges}>
+          {onToggleFavorite ? (
+            <Pressable onPress={onToggleFavorite} hitSlop={10} style={styles.favoriteBtn}>
+              <Text variant="bodySm" color={favorited ? 'accent' : 'tertiary'}>
+                {favorited ? '♥' : '♡'}
               </Text>
-            ) : null}
-            {offline ? (
-              <Text variant="caption" color="accent" style={{ marginLeft: 8 }}>
-                ↓
-              </Text>
-            ) : null}
-          </View>
+            </Pressable>
+          ) : null}
+          {bookmarked ? <Icon name="bookmark" size={14} color={theme.colors.accentPrimary} /> : null}
+          {offline ? <Icon name="download" size={14} color={theme.colors.accentPrimary} /> : null}
         </View>
-        <Text variant="caption" color="tertiary">
-          § {entry.mafatihRef} · {entry.kind} · {desc.slice(0, 60)}…
-        </Text>
-      </View>
-      <Text variant="bodySm" color="tertiary">
-        ›
-      </Text>
-    </Pressable>
+      }
+    />
   );
 }
 
 const styles = StyleSheet.create({
-  row: {
+  badges: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 14,
-    paddingHorizontal: 4,
-    borderBottomWidth: 1,
     gap: 8,
   },
-  content: {
-    flex: 1,
-    gap: 4,
-  },
-  titleRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  icons: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  favoriteBtn: {
+    padding: 2,
   },
 });

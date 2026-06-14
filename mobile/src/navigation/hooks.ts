@@ -12,11 +12,12 @@ export function useRootNavigation() {
       screen: keyof RootStackParamList,
       params?: RootStackParamList[keyof RootStackParamList],
     ) => {
-      navigation.dispatch(
-        CommonActions.navigate(
-          params !== undefined ? { name: screen, params } : { name: screen },
-        ),
-      );
+      if (params !== undefined) {
+        // Bubble to root stack from nested tab navigators.
+        (navigation as NavigationProp<RootStackParamList>).navigate(screen, params);
+        return;
+      }
+      (navigation as NavigationProp<RootStackParamList>).navigate(screen);
     },
     reset: (screen: keyof RootStackParamList) => {
       navigation.dispatch(

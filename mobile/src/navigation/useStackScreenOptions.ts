@@ -13,12 +13,13 @@ export function useStackScreenOptions() {
       headerTintColor: theme.colors.accentPrimary,
       headerStyle: { backgroundColor: theme.colors.backgroundPrimary },
       headerShadowVisible: false,
+      contentStyle: { flex: 1, backgroundColor: theme.colors.backgroundPrimary },
     };
 
     return {
       root: {
         headerShown: false,
-        contentStyle: { backgroundColor: theme.colors.backgroundPrimary },
+        contentStyle: { flex: 1, backgroundColor: theme.colors.backgroundPrimary },
       } satisfies NativeStackNavigationOptions,
       base,
       titled: (title = ''): NativeStackNavigationOptions => ({ ...base, title }),

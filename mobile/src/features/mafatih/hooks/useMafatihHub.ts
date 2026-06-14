@@ -3,16 +3,31 @@ import { useMemo } from 'react';
 import { MafatihRepository } from '../engine/mafatihRepository';
 import { useMafatihBookmarkStore } from '../stores/mafatihBookmarkStore';
 import { useMafatihFavoriteStore } from '../stores/mafatihFavoriteStore';
-import type { MafatihEntry, MafatihHubFilter } from '../types';
+import type { MafatihCollectionId, MafatihEntry, MafatihHubFilter } from '../types';
 
-export function useMafatihHub(filter: MafatihHubFilter) {
-  const bookmarkRefs = useMafatihBookmarkStore((s) => s.getBookmarkRefs());
-  const favoriteRefs = useMafatihFavoriteStore((s) => s.getFavoriteRefs());
+export function useMafatihHub(
+  filter: MafatihHubFilter,
+  collectionId: MafatihCollectionId | null = null,
+) {
+  const bookmarks = useMafatihBookmarkStore((s) => s.bookmarks);
+  const favorites = useMafatihFavoriteStore((s) => s.favorites);
+
+  const bookmarkRefs = useMemo(
+    () => [...new Set(bookmarks.filter((b) => !b.sectionId).map((b) => b.ref))],
+    [bookmarks],
+  );
+  const favoriteRefs = useMemo(
+    () => favorites.map((f) => f.ref),
+    [favorites],
+  );
 
   const today = useMemo(() => MafatihRepository.getTodayRecommendation(), []);
 
   const entries = useMemo<MafatihEntry[]>(() => {
-    const all = MafatihRepository.listAll();
+    let all = MafatihRepository.listAll();
+    if (collectionId) {
+      all = all.filter((e) => e.collectionId === collectionId);
+    }
     switch (filter) {
       case 'daily':
         return all.filter((e) => e.schedule === 'daily');
@@ -27,7 +42,7 @@ export function useMafatihHub(filter: MafatihHubFilter) {
       default:
         return all;
     }
-  }, [filter, bookmarkRefs, favoriteRefs]);
+  }, [filter, collectionId, bookmarkRefs, favoriteRefs]);
 
   const collections = useMemo(() => MafatihRepository.listCollections(), []);
   const chapters = useMemo(() => MafatihRepository.listChapters(), []);

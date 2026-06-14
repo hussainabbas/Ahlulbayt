@@ -1,5 +1,7 @@
 import type { NavigatorScreenParams } from '@react-navigation/native';
 
+import type { MafatihCollectionId } from '@/features/mafatih/types';
+
 export type AuthStackParamList = {
   Welcome: undefined;
   Login: undefined;
@@ -24,7 +26,7 @@ export type RootStackParamList = {
   Settings: undefined;
   QuranSearch: { query?: string } | undefined;
   QuranReader: { surahNumber: number; ayah?: number };
-  Mafatih: undefined;
+  Mafatih: { collectionId?: MafatihCollectionId } | undefined;
   MafatihReader: { ref: string };
   Duas: undefined;
   DuaReader: { duaId: string };

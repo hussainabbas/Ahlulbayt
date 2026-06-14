@@ -2,10 +2,10 @@ import { useLayoutEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Card } from '@/components/ui/Card';
 import { Screen } from '@/components/ui/Screen';
-import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { Text } from '@/components/ui/Text';
 import { useLocale } from '@/i18n/useLocale';
 import type { RootStackParamList } from '@/navigation/types';
@@ -27,6 +27,7 @@ import type { CalendarEventInstance, ShiaCalendarEvent } from '../types';
 export function CalendarScreen() {
   const { t } = useLocale();
   const { theme } = useTheme();
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const toggleBookmark = useCalendarStore((s) => s.toggleBookmark);
   const setPreferredFilter = useCalendarStore((s) => s.setPreferredFilter);
@@ -64,9 +65,11 @@ export function CalendarScreen() {
 
   useLayoutEffect(() => {
     navigation.setOptions({
+      headerShown: true,
       title: t('calendar.title'),
       headerStyle: { backgroundColor: theme.colors.backgroundPrimary },
       headerTintColor: theme.colors.accentPrimary,
+      headerShadowVisible: false,
     });
   }, [navigation, t, theme]);
 
@@ -78,34 +81,48 @@ export function CalendarScreen() {
         : upcoming;
 
   return (
-    <Screen padded={false}>
+    <Screen padded={false} safeTop={false} safeBottom={false}>
       <ScrollView
-        contentContainerStyle={[styles.content, { paddingHorizontal: layout.screenPaddingX }]}
+        contentContainerStyle={[
+          styles.content,
+          {
+            paddingHorizontal: layout.screenPaddingX,
+            paddingBottom: insets.bottom + layout.blockGap,
+          },
+        ]}
         showsVerticalScrollIndicator={false}
       >
-        <ScreenHeader title={t('calendar.title')} subtitle={t('calendar.subtitle')} />
+        <View style={styles.intro}>
+          <Text variant="bodySm" color="secondary" style={styles.subtitle}>
+            {t('calendar.subtitle')}
+          </Text>
 
-        <CalendarTodayCard
-          events={todayEvents}
-          hijriFormatted={hijriFormatted}
-          onEventPress={openDetail}
-        />
+          <CalendarTodayCard
+            events={todayEvents}
+            hijriFormatted={hijriFormatted}
+            onEventPress={openDetail}
+          />
+        </View>
 
-        <CalendarCategoryTabs active={filter} onChange={onFilterChange} />
+        <View style={styles.monthBlock}>
+          <CalendarCategoryTabs active={filter} onChange={onFilterChange} />
 
-        <CalendarMonthHeader
-          year={viewYear}
-          month={viewMonth}
-          isToday={isViewingToday}
-          onPrev={goToPrevMonth}
-          onNext={goToNextMonth}
-          onToday={goToToday}
-        />
+          <View style={styles.monthBody}>
+            <CalendarMonthHeader
+              year={viewYear}
+              month={viewMonth}
+              isToday={isViewingToday}
+              onPrev={goToPrevMonth}
+              onNext={goToNextMonth}
+              onToday={goToToday}
+            />
 
-        <CalendarMonthGrid
-          cells={monthGrid}
-          onSelectDay={(day) => setSelectedDay(day)}
-        />
+            <CalendarMonthGrid
+              cells={monthGrid}
+              onSelectDay={(day) => setSelectedDay(day)}
+            />
+          </View>
+        </View>
 
         {showMuharramTimeline && filter !== 'ghadeer' && filter !== 'mubahila' ? (
           <MuharramTimeline
@@ -115,57 +132,59 @@ export function CalendarScreen() {
           />
         ) : null}
 
-        <View style={styles.section}>
-          <Text variant="headingSm">
-            {selectedDay != null
-              ? t('calendar.dayEvents', { day: selectedDay })
-              : t('calendar.upcoming')}
-          </Text>
+        <View style={styles.eventsBlock}>
+          <View style={styles.section}>
+            <Text variant="headingSm">
+              {selectedDay != null
+                ? t('calendar.dayEvents', { day: selectedDay })
+                : t('calendar.upcoming')}
+            </Text>
 
-          <Card padded={false}>
-            {listEvents.length === 0 ? (
-              <Text variant="bodySm" color="secondary" style={styles.empty}>
-                {t('calendar.noEvents')}
-              </Text>
-            ) : (
-              listEvents.map((event, index) => (
-                <View
-                  key={event.id}
-                  style={
-                    index < listEvents.length - 1
-                      ? {
-                          borderBottomWidth: StyleSheet.hairlineWidth,
-                          borderBottomColor: theme.colors.borderSubtle,
-                          paddingHorizontal: 12,
-                        }
-                      : { paddingHorizontal: 12 }
-                  }
-                >
-                  <CalendarEventRow
-                    event={event}
-                    daysUntil={
-                      'daysUntil' in event
-                        ? event.daysUntil
-                        : daysUntilHijriDate(
-                            today.month,
-                            today.day,
-                            event.hijriMonth,
-                            event.hijriDay,
-                          )
+            <Card padded={false}>
+              {listEvents.length === 0 ? (
+                <Text variant="bodySm" color="secondary" style={styles.empty}>
+                  {t('calendar.noEvents')}
+                </Text>
+              ) : (
+                listEvents.map((event, index) => (
+                  <View
+                    key={event.id}
+                    style={
+                      index < listEvents.length - 1
+                        ? {
+                            borderBottomWidth: StyleSheet.hairlineWidth,
+                            borderBottomColor: theme.colors.borderSubtle,
+                            paddingHorizontal: 12,
+                          }
+                        : { paddingHorizontal: 12 }
                     }
-                    isBookmarked={bookmarkedIds.includes(event.id)}
-                    onPress={() => openDetail(event)}
-                    onToggleBookmark={() => toggleBookmark(event.id)}
-                  />
-                </View>
-              ))
-            )}
-          </Card>
-        </View>
+                  >
+                    <CalendarEventRow
+                      event={event}
+                      daysUntil={
+                        'daysUntil' in event
+                          ? event.daysUntil
+                          : daysUntilHijriDate(
+                              today.month,
+                              today.day,
+                              event.hijriMonth,
+                              event.hijriDay,
+                            )
+                      }
+                      isBookmarked={bookmarkedIds.includes(event.id)}
+                      onPress={() => openDetail(event)}
+                      onToggleBookmark={() => toggleBookmark(event.id)}
+                    />
+                  </View>
+                ))
+              )}
+            </Card>
+          </View>
 
-        <Text variant="caption" color="tertiary" style={styles.offline}>
-          {t('calendar.offline')}
-        </Text>
+          <Text variant="caption" color="tertiary" style={styles.offline}>
+            {t('calendar.offline')}
+          </Text>
+        </View>
       </ScrollView>
 
       <CalendarEventDetailSheet
@@ -181,12 +200,26 @@ export function CalendarScreen() {
 
 const styles = StyleSheet.create({
   content: {
-    paddingTop: 16,
-    paddingBottom: 40,
-    gap: 20,
+    paddingTop: layout.listGap,
+    gap: layout.sectionGap,
+  },
+  intro: {
+    gap: layout.blockGap,
+  },
+  subtitle: {
+    maxWidth: '92%',
+  },
+  monthBlock: {
+    gap: layout.listGap,
+  },
+  monthBody: {
+    gap: layout.blockGap,
   },
   section: {
-    gap: 12,
+    gap: layout.blockGap,
+  },
+  eventsBlock: {
+    gap: layout.listGap,
   },
   empty: {
     padding: 20,

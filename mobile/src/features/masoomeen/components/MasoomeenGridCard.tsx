@@ -1,8 +1,9 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 
-import { Card } from '@/components/ui/Card';
+import { Icon } from '@/components/ui/Icon';
 import { Text } from '@/components/ui/Text';
 import { useLocale } from '@/i18n/useLocale';
+import { layout } from '@/theme/layout';
 import { useTheme } from '@/theme/ThemeContext';
 
 import type { MasoomeenMeta } from '../types';
@@ -22,40 +23,61 @@ export function MasoomeenGridCard({ meta, bookmarked, onPress }: MasoomeenGridCa
   const epithet = pickLocalized(meta.epithet, locale);
 
   return (
-    <Pressable onPress={onPress} style={({ pressed }) => [pressed && { opacity: 0.85 }]}>
-      <Card
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => [styles.pressable, pressed && { opacity: 0.92 }]}
+      accessibilityRole="button"
+    >
+      <View
         style={[
           styles.card,
-          { borderColor: theme.colors.borderSubtle, backgroundColor: theme.colors.surfaceMuted },
+          {
+            backgroundColor: theme.colors.surfaceElevated,
+            borderColor: theme.colors.borderSubtle,
+            borderRadius: theme.radius.lg,
+          },
         ]}
       >
         <View style={[styles.accent, { backgroundColor: meta.accentColor }]} />
-        <Text variant="headingLg" style={styles.icon}>
-          {roleIcon(meta.role)}
-        </Text>
-        <Text variant="headingSm" numberOfLines={2} style={styles.title}>
+        <View style={styles.topRow}>
+          <View style={[styles.orderBadge, { backgroundColor: theme.colors.surfaceMuted }]}>
+            <Text variant="caption" color="secondary">
+              {meta.order}
+            </Text>
+          </View>
+          {bookmarked ? (
+            <Icon name="bookmark" size={14} color={theme.colors.accentPrimary} />
+          ) : (
+            <Text variant="bodyMd">{roleIcon(meta.role)}</Text>
+          )}
+        </View>
+        <Text variant="bodyMd" weight="600" numberOfLines={2} style={styles.title}>
           {title}
         </Text>
-        <Text variant="bodySm" color="secondary" numberOfLines={2}>
+        <Text variant="caption" color="secondary" numberOfLines={2}>
           {epithet}
         </Text>
-        {bookmarked ? (
-          <Text variant="caption" color="accent" style={styles.bookmark}>
-            ★
+        <View style={styles.footer}>
+          <Text variant="caption" color="tertiary" numberOfLines={1}>
+            {meta.birthHijri ?? '—'}
           </Text>
-        ) : null}
-      </Card>
+          <Icon name="chevron" size={14} color={theme.colors.textTertiary} />
+        </View>
+      </View>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
+  pressable: {
     flex: 1,
-    minHeight: 140,
-    padding: 14,
+  },
+  card: {
+    minHeight: 148,
+    padding: layout.blockGap + 2,
+    borderWidth: StyleSheet.hairlineWidth,
     overflow: 'hidden',
-    position: 'relative',
+    gap: 6,
   },
   accent: {
     position: 'absolute',
@@ -64,15 +86,28 @@ const styles = StyleSheet.create({
     right: 0,
     height: 3,
   },
-  icon: {
-    marginBottom: 8,
+  topRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 2,
+  },
+  orderBadge: {
+    minWidth: 24,
+    height: 24,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 6,
   },
   title: {
-    marginBottom: 4,
+    marginTop: 2,
   },
-  bookmark: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
+  footer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 'auto',
+    paddingTop: 4,
   },
 });

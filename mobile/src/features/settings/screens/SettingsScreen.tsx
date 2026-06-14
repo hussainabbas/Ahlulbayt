@@ -6,9 +6,9 @@ import { StyleSheet, View } from 'react-native';
 import { z } from 'zod';
 
 import { Card } from '@/components/ui/Card';
+import { RadioGroup } from '@/components/ui/RadioGroup';
 import { Screen } from '@/components/ui/Screen';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
-import { SegmentControl } from '@/components/ui/SegmentControl';
 import { Text } from '@/components/ui/Text';
 import { AdhanSettingsPanel } from '@/features/adhan/components/AdhanSettingsPanel';
 import { PremiumStatusCard } from '@/features/monetization/components/PremiumStatusCard';
@@ -79,7 +79,7 @@ export function SettingsScreen() {
           control={control}
           name="themeMode"
           render={() => (
-            <SegmentControl
+            <RadioGroup
               options={themeOptions}
               value={currentTheme}
               onChange={(value) => {
@@ -97,7 +97,7 @@ export function SettingsScreen() {
           control={control}
           name="locale"
           render={() => (
-            <SegmentControl
+            <RadioGroup
               options={localeOptions}
               value={currentLocale}
               onChange={(value) => {

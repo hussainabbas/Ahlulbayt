@@ -258,6 +258,15 @@
     "filterBookmarks": "محفوظ",
     "empty": "کوئی اندراج نہیں۔",
     "notFound": "اندراج نہیں ملا۔",
+    "allEntries": "تمام اندراج · {{count}}",
+    "filteredEntries": "دکھا رہے ہیں · {{count}}",
+    "searchResults": "تلاش کے نتائج · {{count}}",
+    "kinds": {
+      "dua": "دعا",
+      "ziyarat": "زیارت",
+      "sahifa": "صحیفہ",
+      "amaal": "اعمال"
+    },
     "search": {
       "placeholder": "دعائیں، زیارت، موضوعات تلاش کریں…",
       "noResults": "کوئی نتیجہ نہیں۔"
@@ -270,6 +279,12 @@
   "dua": {
     "title": "دعائیں و اعمال",
     "subtitle": "اہم دعائیں — آف لائن، آڈیو اور ترجمے کے ساتھ۔",
+    "searchPlaceholder": "عنوان، وقت، یا موضوع سے دعائیں تلاش کریں…",
+    "featured": "تجویز کردہ دعا",
+    "stats": "{{count}} دعائیں · آف لائن دستیاب",
+    "allEntries": "تمام دعائیں · {{count}}",
+    "searchResults": "تلاش کے نتائج · {{count}}",
+    "noResults": "کوئی دعا نہیں ملی۔",
     "filterAll": "تمام",
     "filterBookmarked": "محفوظ",
     "noBookmarks": "ابھی کوئی محفوظ دعا نہیں۔",
@@ -298,6 +313,10 @@
     "source": "امام زین العابدینؑ",
     "filterAll": "تمام",
     "filterBookmarked": "محفوظ",
+    "featured": "نمایاں دعا",
+    "allEntries": "تمام دعائیں · {{count}}",
+    "searchResults": "تلاش کے نتائج · {{count}}",
+    "entryMeta": "§ {{number}} · {{minutes}} منٹ · {{sections}} حصے",
     "noBookmarks": "ابھی کوئی محفوظ دعا نہیں۔",
     "noResults": "کوئی دعا نہیں ملی۔",
     "notFound": "دعا نہیں ملی۔",
@@ -443,6 +462,12 @@
   "ziyarat": {
     "title": "زیارت",
     "subtitle": "مقدس زیارتیں — آڈیو کے ساتھ immersive پڑھائی، آف لائن۔",
+    "searchPlaceholder": "نام، امام، یا موقع سے زیارت تلاش کریں…",
+    "featured": "تجویز کردہ زیارت",
+    "stats": "{{count}} زیارتیں · آف لائن دستیاب",
+    "allEntries": "تمام زیارت · {{count}}",
+    "searchResults": "تلاش کے نتائج · {{count}}",
+    "noResults": "کوئی زیارت نہیں ملی۔",
     "filterAll": "تمام",
     "filterBookmarked": "محفوظ",
     "noBookmarks": "ابھی کوئی محفوظ زیارت نہیں۔",
@@ -530,6 +555,8 @@
       "all": "تمام ۱۴",
       "bookmarked": "نشان زدہ"
     },
+    "allEntries": "تمام معصومین · {{count}}",
+    "searchResults": "تلاش کے نتائج · {{count}}",
     "noResults": "کوئی معصوم نہیں ملا۔",
     "notFound": "پروفائل نہیں ملی۔",
     "noQuotes": "ابھی کوئی اقتباس دستیاب نہیں۔",
@@ -560,9 +587,17 @@
     "searchPlaceholder": "حدیث، موضوع یا حوالہ تلاش کریں…",
     "filter": {
       "all": "تمام ماخذ",
+      "allDesc": "نهج البلاغہ، الکافی، بحار الانوار",
+      "showAll": "تمام روایات",
       "allTopics": "تمام موضوعات",
       "bookmarked": "نشان زدہ"
     },
+    "featured": "نمایاں روایت",
+    "topicsLabel": "موضوعات",
+    "stats": "{{count}} روایات · {{sources}} ماخذ",
+    "allEntries": "تمام روایات · {{count}}",
+    "searchResults": "تلاش کے نتائج · {{count}}",
+    "sourcesLabel": "ماخذ",
     "noResults": "کوئی حدیث نہیں ملی۔",
     "notFound": "حدیث نہیں ملی۔",
     "topicsOverview": "موضوعی خلاصے",
@@ -843,6 +878,8 @@
   "insights": {
     "title": "میری بصیرت",
     "subtitle": "گزشتہ {{days}} دنوں کی روحانی عادات",
+    "localSubtitle": "اس آلے پر گزشتہ {{days}} دنوں کی سرگرمی",
+    "localOnly": "تمام آلات پر بصیرت سنک کرنے کے لیے اکاؤنٹ سے سائن ان کریں۔",
     "signInRequired": "ذاتی بصیرت کے لیے سائن ان کریں۔",
     "loadError": "بصیرت لوڈ نہیں ہو سکی۔ بعد میں کوشش کریں۔",
     "sessions": "ایپ سیشن",

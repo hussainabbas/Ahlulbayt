@@ -8,6 +8,7 @@ import Animated, {
 
 import { Text } from '@/components/ui/Text';
 import { useLocale } from '@/i18n/useLocale';
+import { getShadow } from '@/theme/shadows';
 import { useTheme } from '@/theme/ThemeContext';
 
 interface TasbihCounterRingProps {
@@ -16,6 +17,24 @@ interface TasbihCounterRingProps {
   label: string;
   arabic: string;
   onTap: () => void;
+}
+
+function progressBorderColors(
+  progress: number,
+  accent: string,
+  track: string,
+): {
+  borderTopColor: string;
+  borderRightColor: string;
+  borderBottomColor: string;
+  borderLeftColor: string;
+} {
+  return {
+    borderTopColor: progress > 0 ? accent : track,
+    borderRightColor: progress > 0.25 ? accent : track,
+    borderBottomColor: progress > 0.5 ? accent : track,
+    borderLeftColor: progress > 0.75 ? accent : track,
+  };
 }
 
 export function TasbihCounterRing({
@@ -34,107 +53,123 @@ export function TasbihCounterRing({
   }));
 
   const progress = Math.min(1, count / target);
+  const progressColors = progressBorderColors(
+    progress,
+    theme.colors.accentPrimary,
+    theme.colors.accentPrimaryMuted,
+  );
 
   const handleTap = () => {
     scale.value = withSequence(
-      withSpring(0.94, { damping: 12 }),
+      withSpring(0.96, { damping: 12 }),
       withSpring(1, { damping: 10 }),
     );
     onTap();
   };
 
   return (
-    <Pressable onPress={handleTap} style={styles.wrapper}>
-      <Animated.View
-        style={[
-          styles.ring,
-          ringStyle,
-          {
-            borderColor: theme.colors.accentPrimary,
-            backgroundColor: theme.colors.surfaceElevated,
-          },
-        ]}
-      >
+    <Pressable onPress={handleTap} style={styles.wrapper} accessibilityRole="button">
+      <Animated.View style={[styles.shell, ringStyle]}>
         <View
           style={[
-            styles.progressTrack,
+            styles.progressRing,
+            progressColors,
             {
-              backgroundColor: theme.colors.accentPrimaryMuted,
+              borderColor: theme.colors.accentPrimaryMuted,
+            },
+          ]}
+        />
+        <View
+          style={[
+            styles.ring,
+            getShadow('md', theme.scheme),
+            {
+              backgroundColor: theme.colors.surfaceElevated,
+              borderColor: theme.colors.borderSubtle,
             },
           ]}
         >
-          <View
-            style={[
-              styles.progressFill,
-              {
-                width: `${progress * 100}%`,
-                backgroundColor: theme.colors.accentPrimary,
-              },
-            ]}
-          />
-        </View>
+          <Text style={[styles.arabic, { color: theme.colors.textPrimary }]}>{arabic}</Text>
 
-        <Text
-          style={[styles.arabic, { color: theme.colors.textPrimary }]}
-        >
-          {arabic}
-        </Text>
-        <Text variant="displayMd" color="accent">
-          {count}
-        </Text>
-        <Text variant="caption" color="tertiary">
-          / {target}
-        </Text>
-        <Text variant="bodySm" color="secondary" style={styles.label}>
-          {label}
-        </Text>
-        <Text variant="caption" color="tertiary" style={styles.hint}>
-          {t('tasbih.counter.tapHint')}
-        </Text>
+          <View style={styles.countRow}>
+            <Text variant="displayLg" color="accent">
+              {count}
+            </Text>
+            <Text variant="bodySm" color="tertiary" style={styles.target}>
+              / {target}
+            </Text>
+          </View>
+
+          <Text variant="bodyMd" color="secondary" style={styles.label}>
+            {label}
+          </Text>
+
+          <View style={[styles.tapPill, { backgroundColor: theme.colors.surfaceMuted }]}>
+            <Text variant="caption" color="tertiary">
+              {t('tasbih.counter.tapHint')}
+            </Text>
+          </View>
+        </View>
       </Animated.View>
     </Pressable>
   );
 }
 
+const RING_SIZE = 272;
+const PROGRESS_RING_SIZE = RING_SIZE + 8;
+
 const styles = StyleSheet.create({
   wrapper: {
     alignItems: 'center',
+    justifyContent: 'center',
   },
-  ring: {
-    width: 280,
-    height: 280,
-    borderRadius: 140,
-    borderWidth: 3,
+  shell: {
+    width: PROGRESS_RING_SIZE,
+    height: PROGRESS_RING_SIZE,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 24,
-    gap: 4,
   },
-  progressTrack: {
+  progressRing: {
     position: 'absolute',
-    top: 16,
-    left: 24,
-    right: 24,
-    height: 4,
-    borderRadius: 2,
-    overflow: 'hidden',
+    width: PROGRESS_RING_SIZE,
+    height: PROGRESS_RING_SIZE,
+    borderRadius: PROGRESS_RING_SIZE / 2,
+    borderWidth: 5,
   },
-  progressFill: {
-    height: '100%',
-    borderRadius: 2,
+  ring: {
+    width: RING_SIZE,
+    height: RING_SIZE,
+    borderRadius: RING_SIZE / 2,
+    borderWidth: StyleSheet.hairlineWidth,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 24,
+    paddingVertical: 20,
+    gap: 6,
   },
   arabic: {
-    fontSize: 28,
-    lineHeight: 44,
+    fontSize: 30,
+    lineHeight: 42,
     textAlign: 'center',
     writingDirection: 'rtl',
-    marginBottom: 4,
+  },
+  countRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    gap: 4,
+    marginTop: 4,
+  },
+  target: {
+    marginBottom: 6,
   },
   label: {
     textAlign: 'center',
-    marginTop: 4,
+    marginTop: 2,
   },
-  hint: {
-    marginTop: 8,
+  tapPill: {
+    marginTop: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    borderRadius: 999,
   },
 });

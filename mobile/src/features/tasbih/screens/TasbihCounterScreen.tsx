@@ -2,11 +2,14 @@ import { useLayoutEffect, useMemo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { Card } from '@/components/ui/Card';
 import { Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
 import { useLocale } from '@/i18n/useLocale';
 import type { RootStackParamList } from '@/navigation/types';
+import { layout } from '@/theme/layout';
 import { useTheme } from '@/theme/ThemeContext';
 
 import { TasbihCounterRing } from '../components/TasbihCounterRing';
@@ -17,6 +20,7 @@ import { useTasbihAnalytics, useTasbihSession } from '../hooks/useTasbihSession'
 export function TasbihCounterScreen() {
   const { t, locale } = useLocale();
   const { theme } = useTheme();
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const {
@@ -50,8 +54,9 @@ export function TasbihCounterScreen() {
       title: t('tasbih.counter.title'),
       headerStyle: { backgroundColor: theme.colors.backgroundPrimary },
       headerTintColor: theme.colors.accentPrimary,
+      headerShadowVisible: false,
       headerRight: () => (
-        <Pressable onPress={() => resetSession('fatima_zahra')} hitSlop={8} style={{ marginRight: 8 }}>
+        <Pressable onPress={() => resetSession('fatima_zahra')} hitSlop={8} style={styles.resetBtn}>
           <Text variant="caption" color="accent">
             {t('tasbih.reset')}
           </Text>
@@ -61,19 +66,22 @@ export function TasbihCounterScreen() {
   }, [navigation, t, theme, resetSession]);
 
   return (
-    <Screen>
-      <View style={styles.root}>
-        <TasbihGoalProgress
-          current={todayRecord.total}
-          goal={goalTotal}
-          cycles={todayRecord.cycles}
-        />
+    <Screen safeTop={false} safeBottom={false}>
+      <View style={[styles.root, { paddingBottom: insets.bottom + layout.blockGap }]}>
+        <View style={styles.top}>
+          <TasbihGoalProgress
+            compact
+            current={todayRecord.total}
+            goal={goalTotal}
+            cycles={todayRecord.cycles}
+          />
 
-        <TasbihPhaseIndicator
-          phases={phases}
-          activeIndex={phaseIndex}
-          phaseCounts={phaseCounts}
-        />
+          <TasbihPhaseIndicator
+            phases={phases}
+            activeIndex={phaseIndex}
+            phaseCounts={phaseCounts}
+          />
+        </View>
 
         <View style={styles.ringWrap}>
           <TasbihCounterRing
@@ -85,16 +93,22 @@ export function TasbihCounterScreen() {
           />
         </View>
 
-        <View style={styles.actions}>
+        <Card variant="inset" padded={false} style={styles.dock}>
           <Pressable
             onPress={undoLast}
-            style={[styles.actionBtn, { borderColor: theme.colors.borderSubtle }]}
+            style={({ pressed }) => [
+              styles.dockAction,
+              pressed && { backgroundColor: theme.colors.surfaceMuted },
+            ]}
           >
-            <Text variant="bodySm" color="secondary">
+            <Text variant="bodySm" weight="500" color="secondary">
               {t('tasbih.undo')}
             </Text>
           </Pressable>
-          <View style={styles.todayStat}>
+
+          <View style={[styles.dockDivider, { backgroundColor: theme.colors.borderSubtle }]} />
+
+          <View style={styles.dockStat}>
             <Text variant="caption" color="tertiary">
               {t('tasbih.today')}
             </Text>
@@ -102,15 +116,18 @@ export function TasbihCounterScreen() {
               {todayRecord.total}
             </Text>
           </View>
-          <View style={styles.todayStat}>
+
+          <View style={[styles.dockDivider, { backgroundColor: theme.colors.borderSubtle }]} />
+
+          <View style={styles.dockStat}>
             <Text variant="caption" color="tertiary">
               {t('tasbih.streak.current')}
             </Text>
             <Text variant="headingSm" color="accent">
-              🔥 {analytics.currentStreak}
+              {analytics.currentStreak}
             </Text>
           </View>
-        </View>
+        </Card>
       </View>
     </Screen>
   );
@@ -119,28 +136,41 @@ export function TasbihCounterScreen() {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    gap: 24,
-    paddingTop: 8,
+    paddingTop: layout.listGap,
+  },
+  top: {
+    gap: layout.blockGap,
   },
   ringWrap: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingVertical: layout.blockGap,
   },
-  actions: {
+  dock: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingBottom: 16,
+    paddingVertical: layout.listGap,
+    paddingHorizontal: layout.listGap,
   },
-  actionBtn: {
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderRadius: 999,
-    borderWidth: 1,
+  dockAction: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: layout.blockGap,
+    borderRadius: 12,
   },
-  todayStat: {
+  dockDivider: {
+    width: StyleSheet.hairlineWidth,
+    alignSelf: 'stretch',
+    marginHorizontal: layout.listGap,
+  },
+  dockStat: {
+    flex: 1,
     alignItems: 'center',
     gap: 2,
+  },
+  resetBtn: {
+    marginRight: layout.listGap,
   },
 });

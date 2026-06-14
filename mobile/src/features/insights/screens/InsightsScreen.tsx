@@ -1,6 +1,5 @@
 import { StyleSheet, View } from 'react-native';
 
-import { ErrorState } from '@/components/feedback/ErrorState';
 import { BreakdownSkeleton, MetricGridSkeleton } from '@/components/feedback/skeletonPresets';
 import { Card } from '@/components/ui/Card';
 import { Screen } from '@/components/ui/Screen';
@@ -9,13 +8,14 @@ import { useLocale } from '@/i18n/useLocale';
 import { useTheme } from '@/theme/ThemeContext';
 import { useAuthStore } from '@/stores/authStore';
 
-import { useUserInsights } from '../hooks/useUserInsights';
+import { useUserInsights, useInsightsSource } from '../hooks/useUserInsights';
 
 export function InsightsScreen() {
   const { t } = useLocale();
   const { theme } = useTheme();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
-  const { data, isLoading, isError, isFetching, refetch } = useUserInsights(30);
+  const { data, isLoading, isFetching, refetch } = useUserInsights(30);
+  const { isLocalOnly } = useInsightsSource();
 
   if (!isAuthenticated) {
     return (
@@ -29,7 +29,6 @@ export function InsightsScreen() {
   }
 
   const showSkeleton = isLoading && !data;
-  const showError = isError && !data;
 
   return (
     <Screen
@@ -39,20 +38,19 @@ export function InsightsScreen() {
     >
       <Text variant="displayMd">{t('insights.title')}</Text>
       <Text variant="bodySm" color="secondary" style={styles.subtitle}>
-        {t('insights.subtitle', { days: 30 })}
+        {isLocalOnly ? t('insights.localSubtitle', { days: 30 }) : t('insights.subtitle', { days: 30 })}
       </Text>
+      {isLocalOnly ? (
+        <Text variant="caption" color="tertiary" style={styles.localNote}>
+          {t('insights.localOnly')}
+        </Text>
+      ) : null}
 
       {showSkeleton ? (
         <>
           <MetricGridSkeleton />
           <BreakdownSkeleton />
         </>
-      ) : showError ? (
-        <ErrorState
-          title={t('insights.loadError')}
-          onRetry={() => void refetch()}
-          style={styles.stateBlock}
-        />
       ) : data ? (
         <>
           <View style={styles.grid}>
@@ -129,10 +127,10 @@ function MetricCard({
 const styles = StyleSheet.create({
   subtitle: {
     marginTop: 6,
-    marginBottom: 20,
+    marginBottom: 8,
   },
-  stateBlock: {
-    minHeight: 280,
+  localNote: {
+    marginBottom: 20,
   },
   grid: {
     flexDirection: 'row',

@@ -4,7 +4,7 @@ import { useDuaAudio } from '@/features/dua/hooks/useDuaAudio';
 import type { DuaId } from '@/features/dua/types';
 import { useSahifaAudio } from '@/features/sahifa/hooks/useSahifaAudio';
 import type { SahifaId } from '@/features/sahifa/types';
-import { useZiyaratAudio } from '@/features/ziyarat/hooks/useZiyaratReader';
+import { useZiyaratAudio } from '@/features/ziyarat/hooks/useZiyaratAudio';
 import type { ZiyaratId } from '@/features/ziyarat/types';
 
 import { MafatihRepository } from '../engine/mafatihRepository';

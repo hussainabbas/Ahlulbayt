@@ -15,7 +15,8 @@ import { ZiyaratHeroHeader } from '../components/ZiyaratHeroHeader';
 import { ZiyaratReaderToolbar } from '../components/ZiyaratReaderToolbar';
 import { ZiyaratSectionBlock } from '../components/ZiyaratSectionBlock';
 import { ZiyaratSectionNav } from '../components/ZiyaratSectionNav';
-import { useZiyaratAudio, useZiyaratReader } from '../hooks/useZiyaratReader';
+import { useZiyaratAudio } from '../hooks/useZiyaratAudio';
+import { useZiyaratReader } from '../hooks/useZiyaratReader';
 import { useZiyaratBookmarkStore } from '../stores/ziyaratBookmarkStore';
 import type { ZiyaratId } from '../types';
 

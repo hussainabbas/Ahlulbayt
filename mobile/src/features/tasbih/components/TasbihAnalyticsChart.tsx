@@ -2,6 +2,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { Text } from '@/components/ui/Text';
 import { useLocale } from '@/i18n/useLocale';
+import { layout } from '@/theme/layout';
 import { useTheme } from '@/theme/ThemeContext';
 
 import type { TasbihDailyRecord } from '../types';
@@ -54,24 +55,27 @@ export function TasbihAnalyticsChart({ days, goalTotal }: TasbihAnalyticsChartPr
 }
 
 const styles = StyleSheet.create({
-  root: { gap: 12 },
+  root: {
+    gap: layout.blockGap,
+  },
   chart: {
     flexDirection: 'row',
     alignItems: 'flex-end',
     justifyContent: 'space-between',
-    height: 120,
-    gap: 6,
+    height: 112,
+    gap: layout.listGap,
+    marginTop: layout.listGap,
   },
   barCol: {
     flex: 1,
     alignItems: 'center',
-    gap: 6,
+    gap: layout.listGap,
     height: '100%',
     justifyContent: 'flex-end',
   },
   barTrack: {
     width: '100%',
-    height: 90,
+    height: 84,
     borderRadius: 6,
     justifyContent: 'flex-end',
     overflow: 'hidden',

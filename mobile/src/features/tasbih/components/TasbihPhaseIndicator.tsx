@@ -2,6 +2,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { Text } from '@/components/ui/Text';
 import { useLocale } from '@/i18n/useLocale';
+import { layout } from '@/theme/layout';
 import { useTheme } from '@/theme/ThemeContext';
 
 import type { TasbihPhase } from '../types';
@@ -10,6 +11,12 @@ interface TasbihPhaseIndicatorProps {
   phases: TasbihPhase[];
   activeIndex: number;
   phaseCounts: number[];
+}
+
+function phaseShortLabel(phase: TasbihPhase, locale: string): string {
+  if (locale === 'ar') return phase.labels.ar;
+  if (locale === 'ur') return phase.labels.ur;
+  return phase.transliteration;
 }
 
 export function TasbihPhaseIndicator({
@@ -21,40 +28,62 @@ export function TasbihPhaseIndicator({
   const { theme } = useTheme();
 
   return (
-    <View style={styles.row}>
+    <View
+      style={[
+        styles.track,
+        {
+          backgroundColor: theme.colors.surfaceElevated,
+          borderColor: theme.colors.borderSubtle,
+        },
+      ]}
+    >
       {phases.map((phase, index) => {
         const active = index === activeIndex;
         const done = index < activeIndex || phaseCounts[index]! >= phase.target;
         const count = phaseCounts[index] ?? 0;
-
-        const label =
-          locale === 'ur' ? phase.labels.ur : locale === 'ar' ? phase.labels.ar : phase.labels.en;
+        const isLast = index === phases.length - 1;
 
         return (
           <View
             key={phase.id}
             style={[
-              styles.chip,
-              {
-                backgroundColor: active
-                  ? theme.colors.accentPrimaryMuted
-                  : done
-                    ? theme.colors.surfaceMuted
-                    : 'transparent',
-                borderColor: active ? theme.colors.accentPrimary : theme.colors.borderSubtle,
+              styles.segment,
+              !isLast && {
+                borderRightWidth: StyleSheet.hairlineWidth,
+                borderRightColor: theme.colors.borderSubtle,
               },
+              active && { backgroundColor: theme.colors.accentPrimaryMuted },
+              done && !active && { backgroundColor: theme.colors.surfaceMuted },
             ]}
           >
-            <Text variant="caption" color={active ? 'accent' : done ? 'secondary' : 'tertiary'}>
-              {count}/{phase.target}
-            </Text>
+            <View style={styles.segmentTop}>
+              <View
+                style={[
+                  styles.stepDot,
+                  {
+                    backgroundColor: done
+                      ? theme.colors.accentPrimary
+                      : active
+                        ? theme.colors.accentPrimary
+                        : theme.colors.borderStrong,
+                  },
+                ]}
+              />
+              <Text
+                variant="caption"
+                weight="600"
+                color={active || done ? 'accent' : 'secondary'}
+              >
+                {count}/{phase.target}
+              </Text>
+            </View>
             <Text
               variant="caption"
-              color={active ? 'accent' : 'tertiary'}
-              numberOfLines={1}
-              style={styles.chipLabel}
+              color={active ? 'accent' : done ? 'secondary' : 'tertiary'}
+              numberOfLines={2}
+              style={styles.segmentLabel}
             >
-              {label}
+              {phaseShortLabel(phase, locale)}
             </Text>
           </View>
         );
@@ -64,23 +93,33 @@ export function TasbihPhaseIndicator({
 }
 
 const styles = StyleSheet.create({
-  row: {
+  track: {
     flexDirection: 'row',
-    gap: 8,
-    flexWrap: 'wrap',
-    justifyContent: 'center',
+    borderRadius: 14,
+    borderWidth: StyleSheet.hairlineWidth,
+    overflow: 'hidden',
   },
-  chip: {
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderRadius: 12,
-    borderWidth: 1,
+  segment: {
+    flex: 1,
     alignItems: 'center',
-    minWidth: 90,
-    gap: 2,
+    justifyContent: 'center',
+    paddingHorizontal: 6,
+    paddingVertical: layout.blockGap,
+    gap: layout.listGap,
+    minHeight: 72,
   },
-  chipLabel: {
-    maxWidth: 100,
+  segmentTop: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  stepDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+  },
+  segmentLabel: {
     textAlign: 'center',
+    lineHeight: 16,
   },
 });

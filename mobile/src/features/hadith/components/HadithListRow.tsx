@@ -1,8 +1,9 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 
-import { Card } from '@/components/ui/Card';
+import { Icon } from '@/components/ui/Icon';
 import { Text } from '@/components/ui/Text';
 import { useLocale } from '@/i18n/useLocale';
+import { layout } from '@/theme/layout';
 import { useTheme } from '@/theme/ThemeContext';
 
 import { SOURCE_BY_ID } from '../constants/catalog';
@@ -12,33 +13,42 @@ import { pickLocalized } from '../utils/localize';
 interface HadithListRowProps {
   entry: HadithEntry;
   bookmarked?: boolean;
+  isLast?: boolean;
   onPress: () => void;
 }
 
-export function HadithListRow({ entry, bookmarked, onPress }: HadithListRowProps) {
+export function HadithListRow({ entry, bookmarked, isLast, onPress }: HadithListRowProps) {
   const { locale, t } = useLocale();
   const { theme } = useTheme();
   const sourceMeta = SOURCE_BY_ID[entry.source];
 
   return (
-    <Pressable onPress={onPress} style={({ pressed }) => [pressed && { opacity: 0.85 }]}>
-      <Card style={styles.card}>
-        <View style={styles.header}>
-          <View style={[styles.badge, { backgroundColor: sourceMeta.accentColor + '22' }]}>
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => [
+        styles.row,
+        {
+          borderBottomColor: theme.colors.borderSubtle,
+          borderBottomWidth: isLast ? 0 : StyleSheet.hairlineWidth,
+          backgroundColor: pressed ? theme.colors.surfaceMuted : 'transparent',
+        },
+      ]}
+      accessibilityRole="button"
+    >
+      <View style={[styles.accent, { backgroundColor: sourceMeta.accentColor }]} />
+      <View style={styles.body}>
+        <View style={styles.headerRow}>
+          <View style={[styles.sourceBadge, { backgroundColor: `${sourceMeta.accentColor}22` }]}>
             <Text variant="caption" style={{ color: sourceMeta.accentColor }}>
               {sourceMeta.icon} {t(sourceMeta.nameKey)}
             </Text>
           </View>
-          {bookmarked ? (
-            <Text variant="caption" color="accent">
-              ★
-            </Text>
-          ) : null}
+          {bookmarked ? <Icon name="bookmark" size={14} color={theme.colors.accentPrimary} /> : null}
         </View>
-        <Text variant="headingSm" numberOfLines={2}>
+        <Text variant="bodyMd" weight="500" numberOfLines={2}>
           {pickLocalized(entry.title, locale)}
         </Text>
-        <Text variant="bodySm" color="secondary" numberOfLines={2} style={styles.snippet}>
+        <Text variant="bodySm" color="secondary" numberOfLines={2} style={styles.subtitle}>
           {pickLocalized(entry.summary, locale)}
         </Text>
         <View style={styles.topics}>
@@ -53,24 +63,45 @@ export function HadithListRow({ entry, bookmarked, onPress }: HadithListRowProps
             </View>
           ))}
         </View>
-      </Card>
+      </View>
+      <Icon name="chevron" size={16} color={theme.colors.textTertiary} />
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  card: { gap: 8 },
-  header: {
+  row: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    gap: layout.blockGap,
+    paddingHorizontal: layout.listRowPaddingX,
+    paddingVertical: layout.listRowPaddingY,
+    minHeight: layout.listRowMinHeight,
   },
-  badge: {
+  accent: {
+    width: 3,
+    alignSelf: 'stretch',
+    borderRadius: 2,
+    marginVertical: 2,
+  },
+  body: {
+    flex: 1,
+    gap: 4,
+  },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 8,
+  },
+  sourceBadge: {
     paddingHorizontal: 8,
     paddingVertical: 3,
-    borderRadius: 8,
+    borderRadius: 999,
   },
-  snippet: { lineHeight: 20 },
+  subtitle: {
+    marginTop: 2,
+  },
   topics: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -80,6 +111,6 @@ const styles = StyleSheet.create({
   topicChip: {
     paddingHorizontal: 8,
     paddingVertical: 3,
-    borderRadius: 6,
+    borderRadius: 999,
   },
 });

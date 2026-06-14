@@ -258,6 +258,15 @@
     "filterBookmarks": "المحفوظ",
     "empty": "لا توجد مدخلات.",
     "notFound": "المدخل غير موجود.",
+    "allEntries": "جميع المدخلات · {{count}}",
+    "filteredEntries": "عرض · {{count}}",
+    "searchResults": "نتائج البحث · {{count}}",
+    "kinds": {
+      "dua": "دعاء",
+      "ziyarat": "زيارة",
+      "sahifa": "صحيفة",
+      "amaal": "أعمال"
+    },
     "search": {
       "placeholder": "ابحث في الأدعية والزيارات…",
       "noResults": "لا نتائج."
@@ -270,6 +279,12 @@
   "dua": {
     "title": "الأدعية والأعمال",
     "subtitle": "أدعية أساسية — بدون إنترنت، مع صوت وترجمة.",
+    "searchPlaceholder": "ابحث في الأدعية بالعنوان أو الوقت…",
+    "featured": "دعاء موصى به",
+    "stats": "{{count}} دعاء · جاهز بدون إنترنت",
+    "allEntries": "جميع الأدعية · {{count}}",
+    "searchResults": "نتائج البحث · {{count}}",
+    "noResults": "لا توجد أدعية مطابقة.",
     "filterAll": "الكل",
     "filterBookmarked": "المفضلة",
     "noBookmarks": "لا توجد أدعية محفوظة بعد.",
@@ -298,6 +313,10 @@
     "source": "الإمام زين العابدين (ع)",
     "filterAll": "الكل",
     "filterBookmarked": "المحفوظ",
+    "featured": "دعاء بارز",
+    "allEntries": "جميع الأدعية · {{count}}",
+    "searchResults": "نتائج البحث · {{count}}",
+    "entryMeta": "§ {{number}} · {{minutes}} د · {{sections}} أقسام",
     "noBookmarks": "لا توجد أدعية محفوظة بعد.",
     "noResults": "لا توجد نتائج.",
     "notFound": "الدعاء غير موجود.",
@@ -443,6 +462,12 @@
   "ziyarat": {
     "title": "الزيارات",
     "subtitle": "زيارات مقدسة — قراءة غامرة مع صوت، جاهزة بدون إنترنت.",
+    "searchPlaceholder": "ابحث في الزيارات بالاسم أو الإمام أو المناسبة…",
+    "featured": "زيارة موصى بها",
+    "stats": "{{count}} زيارة · جاهزة بدون إنترنت",
+    "allEntries": "جميع الزيارات · {{count}}",
+    "searchResults": "نتائج البحث · {{count}}",
+    "noResults": "لا توجد زيارات مطابقة.",
     "filterAll": "الكل",
     "filterBookmarked": "المفضلة",
     "noBookmarks": "لا توجد زيارات محفوظة بعد.",
@@ -530,6 +555,8 @@
       "all": "الكل (١٤)",
       "bookmarked": "المفضلة"
     },
+    "allEntries": "جميع المعصومين · {{count}}",
+    "searchResults": "نتائج البحث · {{count}}",
     "noResults": "لم يُعثر على معصوم.",
     "notFound": "الملف غير موجود.",
     "noQuotes": "لا اقتباسات متاحة بعد.",
@@ -560,9 +587,17 @@
     "searchPlaceholder": "ابحث في الحديث أو الموضوع…",
     "filter": {
       "all": "كل المصادر",
+      "allDesc": "نهج البلاغة والكافي وبحار الأنوار",
+      "showAll": "كل الأحاديث",
       "allTopics": "كل المواضيع",
       "bookmarked": "المفضلة"
     },
+    "featured": "حديث بارز",
+    "topicsLabel": "المواضيع",
+    "stats": "{{count}} حديث · {{sources}} مصادر",
+    "allEntries": "جميع الأحاديث · {{count}}",
+    "searchResults": "نتائج البحث · {{count}}",
+    "sourcesLabel": "المصادر",
     "noResults": "لم يُعثر على حديث.",
     "notFound": "الحديث غير موجود.",
     "topicsOverview": "ملخصات المواضيع",
@@ -843,6 +878,8 @@
   "insights": {
     "title": "إحصائياتي",
     "subtitle": "عاداتك الروحية خلال آخر {{days}} يوماً",
+    "localSubtitle": "نشاط هذا الجهاز خلال آخر {{days}} يوماً",
+    "localOnly": "سجّل الدخول لمزامنة الإحصائيات عبر أجهزتك.",
     "signInRequired": "سجّل الدخول لعرض إحصائيات الاستخدام والصلاة والقراءة.",
     "loadError": "تعذّر تحميل الإحصائيات. حاول لاحقاً.",
     "sessions": "جلسات التطبيق",

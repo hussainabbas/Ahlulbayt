@@ -1,7 +1,8 @@
-import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { StyleSheet, TextInput, View } from 'react-native';
 
-import { Text } from '@/components/ui/Text';
+import { Icon } from '@/components/ui/Icon';
 import { useLocale } from '@/i18n/useLocale';
+import { layout } from '@/theme/layout';
 import { useTheme } from '@/theme/ThemeContext';
 
 interface MafatihSearchBarProps {
@@ -25,9 +26,7 @@ export function MafatihSearchBar({ value, onChangeText, onFocus }: MafatihSearch
         },
       ]}
     >
-      <Text variant="bodyMd" color="secondary">
-        🔍
-      </Text>
+      <Icon name="search" size={16} color={theme.colors.textTertiary} />
       <TextInput
         value={value}
         onChangeText={onChangeText}
@@ -46,10 +45,11 @@ const styles = StyleSheet.create({
   wrap: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
-    minHeight: 48,
-    paddingHorizontal: 14,
-    gap: 10,
+    borderWidth: StyleSheet.hairlineWidth,
+    minHeight: 46,
+    paddingHorizontal: layout.blockGap + 2,
+    gap: layout.listGap,
+    marginTop: layout.blockGap,
   },
   input: {
     flex: 1,

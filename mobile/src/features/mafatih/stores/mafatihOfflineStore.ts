@@ -10,6 +10,10 @@ import { MAFATIH_INDEX } from '../constants/index';
 import type { MafatihRef } from '../types';
 import { parseMafatihRef } from '../types';
 
+import { isTextOffline as checkTextOffline } from '../utils/textOffline';
+
+export { isTextOffline } from '../utils/textOffline';
+
 interface MafatihOfflineState {
   /** User pinned for offline pack (text always bundled; audio tracked separately). */
   pinnedRefs: MafatihRef[];
@@ -38,7 +42,7 @@ export const useMafatihOfflineStore = create<MafatihOfflineState>()(
       isPinned: (ref) => get().pinnedRefs.includes(ref),
       isFullyOffline: (ref, reciterId = DEFAULT_RECITER) => {
         const { kind, contentId } = parseMafatihRef(ref);
-        const textOk = get().pinnedRefs.includes(ref);
+        const textOk = checkTextOffline(ref);
         if (!textOk) return false;
         if (kind === 'dua') {
           return useDuaDownloadStore.getState().isDownloaded(contentId as never, reciterId);
@@ -60,8 +64,3 @@ export const useMafatihOfflineStore = create<MafatihOfflineState>()(
     },
   ),
 );
-
-/** All bundled text is offline-ready by default. */
-export function isTextOffline(ref: MafatihRef): boolean {
-  return MAFATIH_INDEX.some((e) => e.ref === ref && e.bundled);
-}

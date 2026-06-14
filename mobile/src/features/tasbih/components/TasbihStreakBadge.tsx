@@ -2,6 +2,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { Text } from '@/components/ui/Text';
 import { useLocale } from '@/i18n/useLocale';
+import { layout } from '@/theme/layout';
 import { useTheme } from '@/theme/ThemeContext';
 
 interface TasbihStreakBadgeProps {
@@ -25,7 +26,7 @@ export function TasbihStreakBadge({ current, longest, compact }: TasbihStreakBad
         },
       ]}
     >
-      <Text variant="displayMd" color="accent">
+      <Text variant="headingLg" color="accent">
         {current}
       </Text>
       <View style={styles.text}>
@@ -46,10 +47,10 @@ const styles = StyleSheet.create({
   badge: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
-    padding: 16,
+    gap: layout.blockGap,
+    padding: layout.screenPaddingX,
     borderRadius: 16,
-    borderWidth: 1,
+    borderWidth: StyleSheet.hairlineWidth,
   },
   compact: {
     padding: 12,

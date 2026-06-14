@@ -258,6 +258,15 @@
     "filterBookmarks": "Bookmarks",
     "empty": "No entries in this section.",
     "notFound": "Entry not found.",
+    "allEntries": "All entries · {{count}}",
+    "filteredEntries": "Showing · {{count}}",
+    "searchResults": "Search results · {{count}}",
+    "kinds": {
+      "dua": "Dua",
+      "ziyarat": "Ziyarat",
+      "sahifa": "Sahifa",
+      "amaal": "Amaal"
+    },
     "search": {
       "placeholder": "Search duas, ziyarat, topics…",
       "noResults": "No results. Try different keywords."
@@ -270,6 +279,12 @@
   "dua": {
     "title": "Duas & Amaal",
     "subtitle": "Essential supplications — fully offline, with audio and translations.",
+    "searchPlaceholder": "Search duas by title, time, or theme…",
+    "featured": "Recommended dua",
+    "stats": "{{count}} supplications · offline ready",
+    "allEntries": "All duas · {{count}}",
+    "searchResults": "Search results · {{count}}",
+    "noResults": "No duas match your search.",
     "filterAll": "All",
     "filterBookmarked": "Bookmarked",
     "noBookmarks": "No bookmarked duas yet.",
@@ -298,6 +313,10 @@
     "source": "Imam Zayn al-Abidin (AS)",
     "filterAll": "All",
     "filterBookmarked": "Bookmarked",
+    "featured": "Notable supplication",
+    "allEntries": "All supplications · {{count}}",
+    "searchResults": "Search results · {{count}}",
+    "entryMeta": "§ {{number}} · {{minutes}} min · {{sections}} sections",
     "noBookmarks": "No bookmarked supplications yet.",
     "noResults": "No supplications match your search.",
     "notFound": "Supplication not found.",
@@ -977,6 +996,12 @@
   "ziyarat": {
     "title": "Ziyarat",
     "subtitle": "Sacred visitations — immersive reading with audio, offline ready.",
+    "searchPlaceholder": "Search ziyarat by name, imam, or occasion…",
+    "featured": "Recommended ziyarat",
+    "stats": "{{count}} visitations · offline ready",
+    "allEntries": "All ziyarat · {{count}}",
+    "searchResults": "Search results · {{count}}",
+    "noResults": "No ziyarat match your search.",
     "filterAll": "All",
     "filterBookmarked": "Bookmarked",
     "noBookmarks": "No bookmarked ziyarat yet.",
@@ -1026,6 +1051,8 @@
       "all": "All 14",
       "bookmarked": "Bookmarked"
     },
+    "allEntries": "All Masoomeen · {{count}}",
+    "searchResults": "Search results · {{count}}",
     "noResults": "No Masoomeen found.",
     "notFound": "Profile not found.",
     "noQuotes": "No quotes available yet.",
@@ -1056,9 +1083,17 @@
     "searchPlaceholder": "Search hadith, topic, or reference…",
     "filter": {
       "all": "All sources",
+      "allDesc": "Nahjul Balagha, Al-Kafi, and Bihar ul Anwar",
+      "showAll": "All traditions",
       "allTopics": "All topics",
       "bookmarked": "Bookmarked"
     },
+    "featured": "Notable tradition",
+    "topicsLabel": "Topics",
+    "stats": "{{count}} traditions · {{sources}} sources",
+    "allEntries": "All traditions · {{count}}",
+    "searchResults": "Search results · {{count}}",
+    "sourcesLabel": "Sources",
     "noResults": "No hadith found.",
     "notFound": "Hadith not found.",
     "topicsOverview": "Topic summaries",
@@ -1398,6 +1433,8 @@
   "insights": {
     "title": "My Insights",
     "subtitle": "Your spiritual habits over the last {{days}} days",
+    "localSubtitle": "Activity on this device over the last {{days}} days",
+    "localOnly": "Sign in with an account to sync insights across devices.",
     "signInRequired": "Sign in to view personalized retention, prayer, and reading insights.",
     "loadError": "Could not load insights. Try again later.",
     "sessions": "App sessions",

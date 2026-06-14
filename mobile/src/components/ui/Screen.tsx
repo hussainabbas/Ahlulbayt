@@ -19,6 +19,9 @@ interface ScreenProps extends ViewProps {
   /** When false, omit bottom safe-area inset (e.g. tab screens with their own tab bar). */
   safeBottom?: boolean;
 
+  /** When false, omit top safe-area inset (e.g. stack screens with a native header). */
+  safeTop?: boolean;
+
   refreshing?: boolean;
 
   onRefresh?: () => void;
@@ -34,6 +37,8 @@ export function Screen({
   padded = true,
 
   safeBottom = true,
+
+  safeTop = true,
 
   refreshing = false,
 
@@ -63,7 +68,7 @@ export function Screen({
 
       paddingHorizontal: padded ? layout.screenPaddingX : 0,
 
-      paddingTop: insets.top + layout.screenPaddingY,
+      paddingTop: (safeTop ? insets.top : 0) + (padded ? layout.screenPaddingY : 0),
 
       paddingBottom: safeBottom ? insets.bottom + layout.sectionGap : 0,
 
@@ -135,6 +140,8 @@ export function Screen({
 
         contentStyle,
 
+        styles.fill,
+
       ]}
 
       {...rest}
@@ -162,6 +169,12 @@ const styles = StyleSheet.create({
   content: {
 
     flexGrow: 1,
+
+  },
+
+  fill: {
+
+    flex: 1,
 
   },
 

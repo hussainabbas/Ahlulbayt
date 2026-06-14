@@ -12,6 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 
 import { Screen } from '@/components/ui/Screen';
+import { useRootNavigation } from '@/navigation/hooks';
 import type { MainTabParamList } from '@/navigation/types';
 
 import { AiChatHeader } from '../components/chat/AiChatHeader';
@@ -26,6 +27,7 @@ import { resolveCitationNavigation } from '../utils/citationNavigation';
 
 export function AiAssistantScreen() {
   const navigation = useNavigation<BottomTabNavigationProp<MainTabParamList>>();
+  const rootNavigation = useRootNavigation();
   const route = useRoute<RouteProp<MainTabParamList, 'AiAssistant'>>();
   const { messages, isThinking, sendMessage, sendPrompt, clearMessages } = useAiAssistant();
   const [input, setInput] = useState('');
@@ -49,20 +51,20 @@ export function AiAssistantScreen() {
 
   const handleAction = (action: AiAction) => {
     if (action.payload?.duaId) {
-      navigation.getParent()?.navigate('DuaReader', { duaId: action.payload.duaId });
+      rootNavigation.navigate('DuaReader', { duaId: action.payload.duaId });
       return;
     }
     if (action.payload?.ziyaratId) {
-      navigation.getParent()?.navigate('ZiyaratReader', { ziyaratId: action.payload.ziyaratId });
+      rootNavigation.navigate('ZiyaratReader', { ziyaratId: action.payload.ziyaratId });
       return;
     }
     const navRoute = action.payload?.route;
     if (navRoute === 'Prayer') {
       navigation.navigate('Prayer');
     } else if (navRoute === 'Calendar') {
-      navigation.getParent()?.navigate('Calendar');
+      rootNavigation.navigate('Calendar');
     } else if (navRoute === 'MuharramMode') {
-      navigation.getParent()?.navigate('MuharramMode');
+      rootNavigation.navigate('MuharramMode');
     }
   };
 
@@ -75,7 +77,7 @@ export function AiAssistantScreen() {
       return;
     }
 
-    navigation.getParent()?.navigate(target.screen, target.params);
+    rootNavigation.navigate(target.screen, target.params);
   };
 
   const showTypingFooter =

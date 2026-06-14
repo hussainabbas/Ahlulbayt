@@ -1,5 +1,7 @@
-import { Pressable, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
+import { Icon } from '@/components/ui/Icon';
+import { ListRow } from '@/components/ui/ListRow';
 import { Text } from '@/components/ui/Text';
 import { useLocale } from '@/i18n/useLocale';
 import { useTheme } from '@/theme/ThemeContext';
@@ -10,118 +12,65 @@ interface SahifaListRowProps {
   meta: SahifaMeta;
   bookmarked?: boolean;
   offline?: boolean;
+  isLast?: boolean;
   onPress: () => void;
 }
 
-export function SahifaListRow({ meta, bookmarked, offline, onPress }: SahifaListRowProps) {
-  const { locale } = useLocale();
+export function SahifaListRow({
+  meta,
+  bookmarked,
+  offline,
+  isLast,
+  onPress,
+}: SahifaListRowProps) {
+  const { locale, t } = useLocale();
   const { theme } = useTheme();
 
   const title =
     locale === 'ur' ? meta.titles.ur : locale === 'ar' ? meta.titles.ar : meta.titles.en;
-  const desc =
-    locale === 'ur' ? meta.description.ur : meta.description.en;
+  const subtitle = locale === 'ur' ? meta.description.ur : meta.description.en;
 
   return (
-    <Pressable
+    <ListRow
+      title={title}
+      subtitle={subtitle}
+      meta={t('sahifa.entryMeta', {
+        number: meta.number,
+        minutes: meta.estimatedMinutes,
+        sections: meta.sectionCount,
+      })}
       onPress={onPress}
-      style={({ pressed }) => [
-        styles.row,
-        {
-          backgroundColor: pressed ? theme.colors.surfaceMuted : 'transparent',
-          borderBottomColor: theme.colors.borderSubtle,
-        },
-      ]}
-    >
-      <View style={[styles.numberBadge, { backgroundColor: theme.colors.accentPrimaryMuted }]}>
-        <Text variant="caption" color="accent">
-          {meta.number}
-        </Text>
-      </View>
-
-      <View style={styles.content}>
-        <View style={styles.titleRow}>
-          <Text variant="headingSm" style={styles.title}>
-            {title}
+      isLast={isLast}
+      accentColor={theme.colors.accentPrimary}
+      leading={
+        <View style={[styles.numberBadge, { backgroundColor: theme.colors.accentPrimaryMuted }]}>
+          <Text variant="caption" color="accent" weight="600">
+            {meta.number}
           </Text>
-          <View style={styles.badges}>
-            {bookmarked ? (
-              <Text variant="caption" color="accent">
-                ★
-              </Text>
-            ) : null}
-            {offline ? (
-              <View style={[styles.offlineBadge, { backgroundColor: theme.colors.accentPrimaryMuted }]}>
-                <Text variant="caption" color="accent">
-                  ↓
-                </Text>
-              </View>
-            ) : null}
-          </View>
         </View>
-        <Text variant="bodySm" color="secondary" numberOfLines={2}>
-          {desc}
-        </Text>
-        <View style={styles.meta}>
-          <Text variant="caption" color="tertiary">
-            {meta.estimatedMinutes} min · {meta.sectionCount} sections
-          </Text>
-          {meta.bundled ? (
-            <Text variant="caption" color="accent">
-              · offline
-            </Text>
-          ) : null}
+      }
+      trailing={
+        <View style={styles.trailing}>
+          {bookmarked ? <Icon name="bookmark" size={14} color={theme.colors.accentPrimary} /> : null}
+          {offline ? <Icon name="download" size={14} color={theme.colors.accentPrimary} /> : null}
         </View>
-      </View>
-      <Text variant="bodyMd" color="tertiary">
-        ›
-      </Text>
-    </Pressable>
+      }
+    />
   );
 }
 
 const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    borderBottomWidth: 1,
-    gap: 12,
-  },
   numberBadge: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 34,
+    height: 34,
+    borderRadius: 17,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  content: {
-    flex: 1,
-    gap: 4,
-  },
-  titleRow: {
+  trailing: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-  },
-  title: {
-    flex: 1,
-  },
-  badges: {
-    flexDirection: 'row',
-    gap: 6,
     alignItems: 'center',
-  },
-  offlineBadge: {
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 999,
-  },
-  meta: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 4,
-    marginTop: 4,
+    gap: 8,
+    paddingTop: 2,
   },
 });
