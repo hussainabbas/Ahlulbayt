@@ -4,6 +4,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RouteProp } from '@react-navigation/native';
 
+import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
@@ -11,6 +12,7 @@ import { useLocale } from '@/i18n/useLocale';
 import type { RootStackParamList } from '@/navigation/types';
 import { useTheme } from '@/theme/ThemeContext';
 
+import { HadithGradingBadge, shareHadithText } from '../components/HadithGradingBadge';
 import { HadithListRow } from '../components/HadithListRow';
 import { HadithReferenceCard } from '../components/HadithReferenceCard';
 import { HadithSummaryCard } from '../components/HadithSummaryCard';
@@ -21,6 +23,7 @@ import { getHadithSummary } from '../engine/summaryEngine';
 import { useHadithBookmarkStore } from '../stores/hadithBookmarkStore';
 import type { HadithId } from '../types';
 import { pickLocalized } from '../utils/localize';
+import { SOURCE_BY_ID } from '../constants/catalog';
 
 type DetailTab = 'text' | 'reference' | 'summary';
 
@@ -34,6 +37,7 @@ export function HadithDetailScreen() {
   const [activeTab, setActiveTab] = useState<DetailTab>('text');
 
   const entry = useMemo(() => HadithRepository.getEntry(hadithId), [hadithId]);
+  const grading = useMemo(() => HadithRepository.getGrading(hadithId), [hadithId]);
   const aiSummary = useMemo(
     () => (entry ? getHadithSummary(hadithId, locale) : null),
     [entry, hadithId, locale],
@@ -70,6 +74,12 @@ export function HadithDetailScreen() {
   }
 
   const showSummaryTab = shouldShowPremiumFeatureSurfaces();
+  const refLabel = [
+    entry.reference.volume != null ? `Vol ${entry.reference.volume}` : null,
+    entry.reference.hadithNumber ? `#${entry.reference.hadithNumber}` : null,
+  ]
+    .filter(Boolean)
+    .join(' · ');
 
   const tabs: Array<{ id: DetailTab; labelKey: string }> = [
     { id: 'text', labelKey: 'hadith.tabs.text' },
@@ -84,6 +94,40 @@ export function HadithDetailScreen() {
           {pickLocalized(entry.speaker, locale)}
         </Text>
       ) : null}
+
+      {grading ? <HadithGradingBadge grading={grading} /> : null}
+
+      <View style={styles.actions}>
+        <Button
+          variant="secondary"
+          size="md"
+          label={t('hadith.share')}
+          onPress={() =>
+            shareHadithText({
+              title: pickLocalized(entry.title, locale),
+              text: pickLocalized(entry.text, locale),
+              arabic: entry.arabic,
+              source: t(SOURCE_BY_ID[entry.source].nameKey),
+              reference: refLabel,
+            })
+          }
+        />
+        <Button
+          variant="secondary"
+          size="md"
+          label={t('hadith.explainAi')}
+          onPress={() =>
+            navigation.navigate('Main', {
+              screen: 'AiAssistant',
+              params: {
+                seedPrompt: t('hadith.explainPrompt', {
+                  title: pickLocalized(entry.title, locale),
+                }),
+              },
+            })
+          }
+        />
+      </View>
 
       <View style={styles.tabs}>
         {tabs.map((tab) => {
@@ -122,6 +166,9 @@ export function HadithDetailScreen() {
           ) : null}
           <Text variant="bodyMd" style={styles.body}>
             {pickLocalized(entry.text, locale)}
+          </Text>
+          <Text variant="bodySm" color="secondary" style={styles.summaryInline}>
+            {pickLocalized(entry.summary, locale)}
           </Text>
           <View style={styles.topicRow}>
             {entry.topics.map((topic) => (
@@ -177,6 +224,12 @@ export function HadithDetailScreen() {
 const styles = StyleSheet.create({
   starBtn: { marginRight: 8 },
   speaker: { marginBottom: 8 },
+  actions: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginBottom: 12,
+  },
   tabs: {
     flexDirection: 'row',
     gap: 8,
@@ -196,6 +249,7 @@ const styles = StyleSheet.create({
     writingDirection: 'rtl',
   },
   body: { lineHeight: 26 },
+  summaryInline: { lineHeight: 22, fontStyle: 'italic' },
   topicRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',

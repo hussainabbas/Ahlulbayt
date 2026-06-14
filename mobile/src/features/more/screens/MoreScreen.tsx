@@ -1,88 +1,76 @@
-import { useRootNavigation } from '@/navigation/hooks';
+import { useCallback, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { Card } from '@/components/ui/Card';
-import { ListRow } from '@/components/ui/ListRow';
 import { Screen } from '@/components/ui/Screen';
-import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { shouldShowSubscriptionUi } from '@/features/monetization/config';
-import { useAuthStore } from '@/stores/authStore';
 import { useLocale } from '@/i18n/useLocale';
+import { useRootNavigation } from '@/navigation/hooks';
+import { useAuthStore } from '@/stores/authStore';
 import { layout } from '@/theme/layout';
-import { useTheme } from '@/theme/ThemeContext';
 
-const ITEMS = [
-  { key: 'insights', route: 'Insights' as const },
-  { key: 'premium', route: 'Paywall' as const, subscriptionOnly: true },
-  { key: 'mafatih', route: 'Mafatih' as const },
-  { key: 'sahifa', route: 'Sahifa' as const },
-  { key: 'masoomeen', route: 'Masoomeen' as const },
-  { key: 'hadith', route: 'Hadith' as const },
-  { key: 'tasbih', route: 'Tasbih' as const },
-  { key: 'nahjul', route: 'Nahjul' as const },
-  { key: 'dua', route: 'Duas' as const },
-  { key: 'ziyarat', route: 'Ziyarat' as const },
-  { key: 'muharram', route: 'MuharramMode' as const },
-  { key: 'calendar', route: 'Calendar' as const },
-  { key: 'qibla', route: 'Qibla' as const },
-] as const;
+import { MoreMenuSection } from '../components/MoreMenuSection';
+import { MoreProfileHero } from '../components/MoreProfileHero';
+import { MoreQuickActions } from '../components/MoreQuickActions';
+import { MORE_MENU_SECTIONS, type MoreMenuItem } from '../constants/menuConfig';
 
 export function MoreScreen() {
   const { t } = useLocale();
-  const { theme } = useTheme();
   const rootNavigation = useRootNavigation();
   const displayName = useAuthStore((s) => s.user?.displayName);
   const email = useAuthStore((s) => s.user?.email);
+  const isGuest = useAuthStore((s) => s.isGuest);
   const showSubscription = shouldShowSubscriptionUi();
 
-  const menuItems = ITEMS.filter((item) => {
-    if ('subscriptionOnly' in item && item.subscriptionOnly && !showSubscription) {
-      return false;
-    }
-    return true;
-  });
+  const openItem = useCallback(
+    (item: MoreMenuItem) => {
+      rootNavigation.navigate(item.route);
+    },
+    [rootNavigation],
+  );
+
+  const sections = useMemo(
+    () =>
+      MORE_MENU_SECTIONS.map((section) => ({
+        section,
+        items: section.items.filter((item) => {
+          if (item.subscriptionOnly && !showSubscription) return false;
+          return true;
+        }),
+      })),
+    [showSubscription],
+  );
 
   return (
-    <Screen scroll>
-      <ScreenHeader
-        title={displayName ?? t('tabs.profile')}
-        subtitle={email ?? t('more.subtitle')}
-      />
+    <Screen scroll padded={false} safeBottom={false}>
+      <View style={styles.container}>
+        <MoreProfileHero
+          displayName={displayName ?? t('tabs.profile')}
+          email={email}
+          isGuest={isGuest}
+          onSignIn={() => rootNavigation.navigate('Auth', { screen: 'Welcome' })}
+          onSettings={() => rootNavigation.navigate('Settings')}
+        />
 
-      <Card padded={false} style={styles.menuCard}>
-        {menuItems.map((item, index) => (
-          <ListRow
-            key={item.key}
-            title={t(`more.${item.key}`)}
-            onPress={() => rootNavigation.navigate(item.route)}
-            isLast={index === menuItems.length - 1}
+        <MoreQuickActions onPress={openItem} />
+
+        {sections.map(({ section, items }) => (
+          <MoreMenuSection
+            key={section.id}
+            section={section}
+            items={items}
+            onPress={openItem}
           />
         ))}
-      </Card>
-
-      <ListRow
-        title={t('common.settings')}
-        onPress={() => rootNavigation.navigate('Settings')}
-        style={[
-          styles.settingsRow,
-          {
-            backgroundColor: theme.colors.surfaceElevated,
-            borderRadius: theme.radius.lg,
-            borderWidth: StyleSheet.hairlineWidth,
-            borderColor: theme.colors.borderSubtle,
-            marginTop: layout.sectionGap,
-          },
-        ]}
-      />
+      </View>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  menuCard: {
-    marginTop: layout.listGap,
-  },
-  settingsRow: {
+  container: {
     paddingHorizontal: layout.screenPaddingX,
+    paddingTop: layout.screenPaddingY,
+    paddingBottom: 120,
+    gap: layout.sectionGap,
   },
 });

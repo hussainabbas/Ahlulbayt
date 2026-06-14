@@ -1,3 +1,5 @@
+import { getDailyHadithForHome } from '@/features/hadith/engine/dailyHadithService';
+
 import type { DailyDua, DailyHadith, DailyVerse } from '../types';
 
 export const DAILY_VERSES: DailyVerse[] = [
@@ -158,9 +160,8 @@ export function getTodaysVerse(date?: Date): DailyVerse {
   return DAILY_VERSES[idx]!;
 }
 
-export function getTodaysHadith(date?: Date): DailyHadith {
-  const idx = getDailyIndex(date) % DAILY_HADITHS.length;
-  return DAILY_HADITHS[idx]!;
+export function getTodaysHadith(date?: Date, locale = 'en'): DailyHadith {
+  return getDailyHadithForHome(date, locale);
 }
 
 export function getTodaysDua(date?: Date): DailyDua {

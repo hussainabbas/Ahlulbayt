@@ -177,6 +177,38 @@ export function RootNavigator() {
         options={stack.base}
       />
       <Stack.Screen
+        name="PrayerAcademy"
+        getComponent={lazyScreen(
+          () =>
+            require('@/features/prayer-academy/screens/PrayerAcademyHubScreen').PrayerAcademyHubScreen,
+        )}
+        options={stack.titled()}
+      />
+      <Stack.Screen
+        name="PrayerAcademyGuide"
+        getComponent={lazyScreen(
+          () =>
+            require('@/features/prayer-academy/screens/PrayerAcademyGuideScreen').PrayerAcademyGuideScreen,
+        )}
+        options={stack.base}
+      />
+      <Stack.Screen
+        name="WorshipGuide"
+        getComponent={lazyScreen(
+          () =>
+            require('@/features/worship-guide/screens/WorshipGuideHubScreen').WorshipGuideHubScreen,
+        )}
+        options={stack.titled()}
+      />
+      <Stack.Screen
+        name="WorshipGuideSession"
+        getComponent={lazyScreen(
+          () =>
+            require('@/features/worship-guide/screens/WorshipGuideSessionScreen').WorshipGuideSessionScreen,
+        )}
+        options={stack.base}
+      />
+      <Stack.Screen
         name="Paywall"
         getComponent={lazyScreen(
           () => require('@/features/monetization/screens/PaywallScreen').PaywallScreen,

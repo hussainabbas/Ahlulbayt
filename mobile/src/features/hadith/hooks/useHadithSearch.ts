@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
+import { useLocale } from '@/i18n/useLocale';
+
 import { HadithRepository } from '../engine/hadithRepository';
 import type { HadithSearchResult, HadithSource, HadithTopic } from '../types';
 
@@ -7,6 +9,7 @@ export function useHadithSearch(
   source: HadithSource | 'all' = 'all',
   topic: HadithTopic | 'all' = 'all',
 ) {
+  const { locale } = useLocale();
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
 
@@ -17,8 +20,8 @@ export function useHadithSearch(
 
   const results = useMemo<HadithSearchResult[]>(() => {
     if (!debouncedQuery.trim()) return [];
-    return HadithRepository.search(debouncedQuery, { source, topic });
-  }, [debouncedQuery, source, topic]);
+    return HadithRepository.search(debouncedQuery, { source, topic }, locale);
+  }, [debouncedQuery, source, topic, locale]);
 
   return {
     query,

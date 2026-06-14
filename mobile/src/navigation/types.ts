@@ -47,6 +47,10 @@ export type RootStackParamList = {
   HadithDetail: { hadithId: string };
   Paywall: { highlight?: 'ai' | 'advanced_quran' | 'cloud_sync' | 'exclusive_content' } | undefined;
   Insights: undefined;
+  PrayerAcademy: undefined;
+  PrayerAcademyGuide: { prayerId: string; step?: number };
+  WorshipGuide: undefined;
+  WorshipGuideSession: { guideId: string; step?: number };
 };
 
 declare global {

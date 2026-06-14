@@ -16,6 +16,9 @@ import { useTheme } from '@/theme/ThemeContext';
 import { AyahBlock } from '../components/AyahBlock';
 import { ReaderSettingsSheet } from '../components/ReaderSettingsSheet';
 import { SurahReaderHeader } from '../components/SurahReaderHeader';
+import { ReaderAudioBar } from '../audio/components/ReaderAudioBar';
+import { NATIVE_AUDIO_ENABLED } from '../audio/config';
+import { useQuranAudio } from '../hooks/useQuranAudio';
 import { useQuranReader } from '../hooks/useQuranReader';
 import type { QuranAyah, SurahBundle } from '../types';
 
@@ -29,6 +32,7 @@ export function QuranReaderScreen() {
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   const { bundle, loading, error, reload } = useQuranReader(surahNumber);
+  const { activeWordIndex, activeAyah, loadAyah, isPlaying: ayahPlaying } = useQuranAudio();
 
   const title = useMemo(() => {
     if (!bundle) return t('quran.title');
@@ -79,6 +83,26 @@ export function QuranReaderScreen() {
     return <SurahReaderHeader bundle={bundle} onDownloadComplete={onDownloadComplete} />;
   }, [bundle, onDownloadComplete]);
 
+  const renderAyah = useCallback(
+    ({ item }: { item: QuranAyah }) => {
+      const isActiveAyah =
+        activeAyah?.surah === item.surah && activeAyah?.ayah === item.ayah && ayahPlaying;
+      return (
+        <AyahBlock
+          ayah={item}
+          activeWordIndex={
+            activeAyah?.surah === item.surah && activeAyah?.ayah === item.ayah
+              ? activeWordIndex
+              : null
+          }
+          onPlayAyah={NATIVE_AUDIO_ENABLED ? loadAyah : undefined}
+          isPlaying={isActiveAyah}
+        />
+      );
+    },
+    [activeAyah, activeWordIndex, ayahPlaying, loadAyah],
+  );
+
   if (loading) {
     return (
       <Screen safeTop={false}>
@@ -106,10 +130,13 @@ export function QuranReaderScreen() {
         ref={listRef}
         data={bundle.ayahs}
         keyExtractor={(item) => `${item.surah}:${item.ayah}`}
-        renderItem={({ item }) => <AyahBlock ayah={item} />}
+        renderItem={renderAyah}
         ListHeaderComponent={listHeader}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
-        contentContainerStyle={styles.list}
+        contentContainerStyle={[
+          styles.list,
+          NATIVE_AUDIO_ENABLED ? styles.listWithAudioBar : null,
+        ]}
         showsVerticalScrollIndicator={false}
         onScrollToIndexFailed={(info) => {
           setTimeout(() => {
@@ -119,6 +146,7 @@ export function QuranReaderScreen() {
       />
 
       <ReaderSettingsSheet visible={settingsOpen} onClose={() => setSettingsOpen(false)} />
+      {bundle ? <ReaderAudioBar ayahs={bundle.ayahs} surahNumber={surahNumber} /> : null}
     </Screen>
   );
 }
@@ -138,6 +166,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: layout.screenPaddingX,
     paddingTop: layout.listGap,
     paddingBottom: layout.sectionGap,
+  },
+  listWithAudioBar: {
+    paddingBottom: 120,
   },
   separator: {
     height: layout.blockGap,

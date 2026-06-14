@@ -52,10 +52,14 @@ export function HadithSourceGrid({ activeId, counts, onSelect }: HadithSourceGri
         </Pressable>
         {HADITH_SOURCES.map((source) => {
           const active = activeId === source.id;
+          const locked = !source.available && counts[source.id] === 0;
           return (
             <Pressable
               key={source.id}
-              onPress={() => onSelect(active ? 'all' : source.id)}
+              onPress={() => {
+                if (locked) return;
+                onSelect(active ? 'all' : source.id);
+              }}
               style={({ pressed }) => [
                 styles.tile,
                 {
@@ -64,7 +68,7 @@ export function HadithSourceGrid({ activeId, counts, onSelect }: HadithSourceGri
                     : theme.colors.surfaceElevated,
                   borderColor: active ? theme.colors.accentPrimary : theme.colors.borderSubtle,
                   borderRadius: theme.radius.lg,
-                  opacity: pressed ? 0.92 : 1,
+                  opacity: locked ? 0.55 : pressed ? 0.92 : 1,
                 },
               ]}
             >
@@ -78,7 +82,9 @@ export function HadithSourceGrid({ activeId, counts, onSelect }: HadithSourceGri
                 {t(source.descriptionKey)}
               </Text>
               <Text variant="caption" style={[styles.count, { color: source.accentColor }]}>
-                {counts[source.id]}
+                {locked
+                  ? t('hadith.comingSoon', { total: source.estimatedTotal.toLocaleString() })
+                  : counts[source.id]}
               </Text>
             </Pressable>
           );

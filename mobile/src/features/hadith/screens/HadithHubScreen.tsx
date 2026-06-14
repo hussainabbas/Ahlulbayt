@@ -19,6 +19,7 @@ import { HadithSearchBar } from '../components/HadithSearchBar';
 import { HadithSourceGrid } from '../components/HadithSourceGrid';
 import { HadithTopicGrid } from '../components/HadithTopicGrid';
 import { HadithTopicTabs } from '../components/HadithTopicTabs';
+import { BUNDLED_SOURCE_COUNT, CORPUS_ESTIMATED_TOTAL, HADITH_SOURCES } from '../constants/catalog';
 import { HADITH_COUNT } from '../data/bundled';
 import { HadithRepository } from '../engine/hadithRepository';
 import { useHadithSearch } from '../hooks/useHadithSearch';
@@ -55,12 +56,11 @@ export function HadithHubScreen() {
 
   const sourceCounts = useMemo(() => {
     const all = HadithRepository.listAll();
-    return {
-      all: all.length,
-      nahjul: all.filter((entry) => entry.source === 'nahjul').length,
-      kafi: all.filter((entry) => entry.source === 'kafi').length,
-      bihar: all.filter((entry) => entry.source === 'bihar').length,
-    } satisfies Record<HadithSource | 'all', number>;
+    const counts = { all: all.length } as Record<HadithSource | 'all', number>;
+    for (const src of HADITH_SOURCES) {
+      counts[src.id] = all.filter((entry) => entry.source === src.id).length;
+    }
+    return counts;
   }, []);
 
   const listData = useMemo((): HadithEntry[] => {
@@ -132,7 +132,11 @@ export function HadithHubScreen() {
           {t('hadith.subtitle')}
         </Text>
         <Text variant="caption" color="tertiary">
-          {t('hadith.stats', { count: HADITH_COUNT, sources: 3 })}
+          {t('hadith.stats', {
+            count: HADITH_COUNT,
+            sources: BUNDLED_SOURCE_COUNT,
+            corpusTotal: CORPUS_ESTIMATED_TOTAL.toLocaleString(),
+          })}
         </Text>
 
         <HadithSearchBar value={query} onChangeText={setQuery} />

@@ -32,9 +32,12 @@ export class PrayerService {
       longitude: store.longitude,
     };
 
-    const { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== 'granted') {
-      return previous;
+    const { status: existing } = await Location.getForegroundPermissionsAsync();
+    if (existing !== Location.PermissionStatus.GRANTED) {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== Location.PermissionStatus.GRANTED) {
+        return previous;
+      }
     }
 
     const pos = await Location.getCurrentPositionAsync();

@@ -2,6 +2,7 @@ import { memo } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { Screen } from '@/components/ui/Screen';
+import { useRootNavigation } from '@/navigation/hooks';
 import { layout } from '@/theme/layout';
 
 import { DashboardHeader } from '../components/DashboardHeader';
@@ -19,6 +20,7 @@ import { WeatherWidget } from '../components/widgets/WeatherWidget';
 import { useDashboard } from '../hooks/useDashboard';
 
 export const HomeScreen = memo(function HomeScreen() {
+  const rootNavigation = useRootNavigation();
   const {
     t,
     displayName,
@@ -92,7 +94,14 @@ export const HomeScreen = memo(function HomeScreen() {
 
         <QuranVerseWidget verse={verse} />
 
-        <HadithWidget hadith={hadith} />
+        <HadithWidget
+          hadith={hadith}
+          onPress={
+            hadith.hadithId
+              ? () => rootNavigation.navigate('HadithDetail', { hadithId: hadith.hadithId! })
+              : undefined
+          }
+        />
 
         <DuaWidget dua={dua} />
 

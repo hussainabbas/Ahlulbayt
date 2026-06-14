@@ -32,6 +32,7 @@ export interface DailyVerse {
 }
 
 export interface DailyHadith {
+  hadithId?: string;
   text: string;
   narrator: string;
   source: string;

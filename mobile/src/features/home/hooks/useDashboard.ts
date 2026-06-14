@@ -43,7 +43,7 @@ export function useDashboard() {
   });
 
   const verse = useMemo(() => getTodaysVerse(now), [now]);
-  const hadith = useMemo(() => getTodaysHadith(now), [now]);
+  const hadith = useMemo(() => getTodaysHadith(now, locale), [now, locale]);
   const dua = useMemo(() => getTodaysDua(now), [now]);
 
   const events = useMemo(

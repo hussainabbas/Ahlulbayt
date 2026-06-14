@@ -17,13 +17,15 @@ const Stack = createNativeStackNavigator<AuthStackParamList>();
 
 function AuthGate({ children }: { children: ReactNode }) {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const isGuest = useAuthStore((s) => s.isGuest);
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   useEffect(() => {
-    if (isAuthenticated) {
+    // Guests are "authenticated" locally — still allow the Auth stack for sign-in.
+    if (isAuthenticated && !isGuest) {
       navigation.reset({ index: 0, routes: [{ name: 'Main' }] });
     }
-  }, [isAuthenticated, navigation]);
+  }, [isAuthenticated, isGuest, navigation]);
 
   return <>{children}</>;
 }

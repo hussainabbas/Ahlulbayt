@@ -127,6 +127,72 @@
     "completionProgress": "{{done}} of {{total}} prayers marked today",
     "markComplete": "Mark {{prayer}} as completed"
   },
+  "worshipGuide": {
+    "title": "Worship Guide",
+    "subtitle": "Learn Wudu, Ghusl & Salah step-by-step — Fiqh Jafariya",
+    "continue": "Continue last step",
+    "continueSession": "{{title}} — step {{step}}",
+    "startWudu": "Start Wudu",
+    "startPrayer": "Start Prayer Guide",
+    "guided": "Guided",
+    "stepOf": "Step {{current}} of {{total}}",
+    "minutesSteps": "{{minutes}} min · {{steps}} steps",
+    "notFound": "Guide not found",
+    "disclaimer": "Educational guidance — consult your marja for rulings.",
+    "invalidators": "What breaks taharah",
+    "salahHint": "15 prayers — daily wajib, Eid, Jumu'ah, special & nafl",
+    "sections": {
+      "taharah": "Taharah (Purification)",
+      "salah": "Salah (Prayer)"
+    },
+    "mode": {
+      "beginner": "Beginner",
+      "standard": "Standard",
+      "scholar": "Scholar"
+    }
+  },
+  "prayerAcademy": {
+    "title": "Prayer Academy",
+    "subtitle": "Step-by-step Jafari prayer guidance — wajib, mustahab & special salat",
+    "searchPlaceholder": "Search prayers…",
+    "featured": "Start here",
+    "startLearning": "Begin guided lesson",
+    "guided": "Guided",
+    "stepOf": "Step {{current}} of {{total}}",
+    "minutes": "min",
+    "rakatStructure": "Rakat structure",
+    "timing": "Timing rules",
+    "conditions": "Conditions",
+    "jafariNotes": "Jafari notes vs Sunni practice",
+    "currentStep": "Current step",
+    "allSteps": "Step-by-step guide",
+    "completed": "Lesson completed",
+    "notFound": "Prayer guide not found.",
+    "empty": "No prayers match your search.",
+    "disclaimer": "Educational guidance based on widely cited Jafari sources. For binding rulings, refer to your marja.",
+    "filter": {
+      "all": "All prayers",
+      "bookmarked": "Bookmarked"
+    },
+    "difficulty": {
+      "beginner": "Beginner",
+      "advanced": "Advanced"
+    },
+    "obligation": {
+      "wajib": "Wajib",
+      "wajib_kifai": "Wajib al-kifai",
+      "mustahab": "Mustahab",
+      "conditional": "Conditional"
+    },
+    "categories": {
+      "obligatory_daily": "Daily wajib prayers",
+      "special_obligatory": "Special obligatory",
+      "special_recommended": "Special recommended",
+      "eid": "Eid prayers",
+      "jumuah": "Jumu'ah",
+      "nafl": "Recommended nafl"
+    }
+  },
   "adhan": {
     "title": "Adhan & Reminders",
     "master": "Adhan notifications",
@@ -208,7 +274,22 @@
       "audioSaved": "Audio saved",
       "addToQueue": "Add to recitation queue",
       "downloadAudio": "Download recitation audio",
-      "downloadingAudio": "Saving audio {{percent}}%"
+      "downloadingAudio": "Saving audio {{percent}}%",
+      "playSurah": "Play"
+    },
+    "audio": {
+      "disabledTitle": "Audio coming soon",
+      "disabledMessage": "Native recitation playback is being upgraded for the latest app version. Text reading and offline downloads still work."
+    },
+    "readerAudio": {
+      "idle": "Tap play for surah recitation",
+      "surahPlaying": "Playing full surah",
+      "ayah": "Ayah {{number}}",
+      "play": "Play",
+      "pause": "Pause",
+      "prevAyah": "Previous ayah",
+      "nextAyah": "Next ayah",
+      "playAyah": "Play first ayah"
     },
     "display": {
       "stacked": "Arabic + translation",
@@ -1067,6 +1148,15 @@
   "more": {
     "title": "More",
     "subtitle": "Library, tools, and spiritual resources",
+    "guestBadge": "Guest",
+    "signIn": "Sign in",
+    "quickAccess": "Quick access",
+    "sections": {
+      "personal": "Personal",
+      "library": "Library & knowledge",
+      "worship": "Worship & devotion",
+      "tools": "Tools & calendar"
+    },
     "premium": "AhlulBayt+ Premium",
     "mafatih": "Mafatih al-Jinan",
     "sahifa": "Sahifa Sajjadiya",
@@ -1079,6 +1169,8 @@
     "calendar": "Calendar",
     "muharram": "Muharram Mode",
     "qibla": "Qibla",
+    "worshipGuide": "Worship Guide",
+    "prayerAcademy": "Prayer Academy",
     "ai": "Ask AhlulBayt",
     "insights": "My Insights"
   },
@@ -1117,19 +1209,19 @@
     }
   },
   "hadith": {
-    "title": "Hadith Database",
-    "subtitle": "Search traditions from Nahjul Balagha, Al-Kafi, and Bihar ul Anwar — with references and AI summaries.",
-    "searchPlaceholder": "Search hadith, topic, or reference…",
+    "title": "Hadith Knowledge Base",
+    "subtitle": "Shia core collections + Sunni cross-reference — searchable with isnad, grading, and AI explain.",
+    "searchPlaceholder": "Search hadith, topic, narrator, or reference…",
     "filter": {
       "all": "All sources",
-      "allDesc": "Nahjul Balagha, Al-Kafi, and Bihar ul Anwar",
+      "allDesc": "Four Books, Bihar, Nahjul, Sahifa & cross-refs",
       "showAll": "All traditions",
       "allTopics": "All topics",
       "bookmarked": "Bookmarked"
     },
     "featured": "Notable tradition",
     "topicsLabel": "Topics",
-    "stats": "{{count}} traditions · {{sources}} sources",
+    "stats": "{{count}} available · {{sources}} sources loaded · {{corpusTotal}}+ planned",
     "allEntries": "All traditions · {{count}}",
     "searchResults": "Search results · {{count}}",
     "sourcesLabel": "Sources",
@@ -1138,9 +1230,22 @@
     "topicsOverview": "Topic summaries",
     "related": "Related traditions",
     "openNahjul": "Open in Nahjul Balagha",
+    "openDaily": "Read full hadith",
+    "share": "Share",
+    "explainAi": "Explain with AI",
+    "explainPrompt": "Explain this hadith and its lessons in plain language: {{title}}",
+    "comingSoon": "Coming · ~{{total}}",
+    "grading": {
+      "sahih": "Sahih",
+      "hasan": "Hasan",
+      "muwaththaq": "Muwaththaq",
+      "daif": "Da'if",
+      "mawdu": "Mawdu'",
+      "unknown": "Ungraded"
+    },
     "tabs": {
       "text": "Text",
-      "reference": "Reference",
+      "reference": "Reference & Isnad",
       "summary": "AI Summary"
     },
     "sources": {
@@ -1148,8 +1253,24 @@
       "nahjulDesc": "Sermons, letters, and sayings of Imam Ali (as)",
       "kafi": "Al-Kafi",
       "kafiDesc": "Usul and Furu al-Kafi by Shaykh al-Kulayni",
-      "bihar": "Bihar ul Anwar",
-      "biharDesc": "Ocean of Lights — encyclopedia by Allama Majlisi"
+      "faqih": "Man La Yahduruhu al-Faqih",
+      "faqihDesc": "Shaykh al-Saduq — fourth Shia book",
+      "tahdhib": "Tahdhib al-Ahkam",
+      "tahdhibDesc": "Shaykh al-Tusi — refined fiqh traditions",
+      "istibsar": "Al-Istibsar",
+      "istibsarDesc": "Shaykh al-Tusi — reconciling traditions",
+      "bihar": "Bihar al-Anwar",
+      "biharDesc": "Ocean of Lights — Allama Majlisi encyclopedia",
+      "sahifa": "Sahifa Sajjadiya",
+      "sahifaDesc": "Related narrations from Imam Sajjad (as)",
+      "bukhari": "Sahih al-Bukhari",
+      "bukhariDesc": "Sunni cross-reference",
+      "muslim": "Sahih Muslim",
+      "muslimDesc": "Sunni cross-reference",
+      "abudawud": "Sunan Abu Dawud",
+      "abudawudDesc": "Sunni cross-reference",
+      "tirmidhi": "Jami' al-Tirmidhi",
+      "tirmidhiDesc": "Sunni cross-reference"
     },
     "topics": {
       "ethics": "Ethics",
@@ -1161,7 +1282,10 @@
       "justice": "Justice",
       "dua": "Dua",
       "karbala": "Karbala",
-      "taqwa": "Taqwa"
+      "taqwa": "Taqwa",
+      "fiqh": "Fiqh",
+      "tawhid": "Tawhid",
+      "akhira": "Hereafter"
     },
     "reference": {
       "title": "Scholarly Reference",
@@ -1172,8 +1296,9 @@
       "number": "Hadith No.",
       "page": "Page",
       "grading": "Grading",
+      "isnad": "Chain of narration (Isnad)",
       "narrators": "Narrators",
-      "chain": "Chain of narration",
+      "chain": "Chain summary",
       "alternate": "Alternate references"
     },
     "summary": {

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo } from 'react';
-import { FlatList, InteractionManager, StyleSheet, View } from 'react-native';
+import { Alert, FlatList, InteractionManager, StyleSheet, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { Screen } from '@/components/ui/Screen';
@@ -8,6 +8,7 @@ import { useRootNavigation } from '@/navigation/hooks';
 import { layout } from '@/theme/layout';
 
 import { SurahAudioRow } from '../audio/components/SurahAudioRow';
+import { NATIVE_AUDIO_ENABLED } from '../audio/config';
 import { useQuranPlayer } from '../audio/hooks/useQuranPlayer';
 import { useQuranDownloadStore } from '../audio/stores/quranDownloadStore';
 import { QuranHubHeader } from '../components/QuranHubHeader';
@@ -21,7 +22,7 @@ import type { SurahMeta } from '../types';
 export function QuranScreen() {
   const { t } = useLocale();
   const rootNavigation = useRootNavigation();
-  const { reciterId, changeReciter, addToQueue } = useQuranPlayer();
+  const { reciterId, changeReciter, addToQueue, playSurah } = useQuranPlayer();
   const hydrateDownloads = useQuranDownloadStore((s) => s.hydrateDownloads);
   const hydrateTextOffline = useQuranTextDownloadStore((s) => s.hydrateOfflineCatalog);
   const offlineSurahs = useQuranTextDownloadStore((s) => s.offlineSurahs);
@@ -46,13 +47,31 @@ export function QuranScreen() {
     },
     [rootNavigation],
   );
+
+  const onPlayAudio = useCallback(
+    (surah: number) => {
+      if (!NATIVE_AUDIO_ENABLED) {
+        Alert.alert(t('quran.audio.disabledTitle'), t('quran.audio.disabledMessage'));
+        return;
+      }
+      void playSurah(surah);
+    },
+    [playSurah, t],
+  );
+
   const onQueue = useCallback((surah: number) => void addToQueue(surah), [addToQueue]);
 
   const renderItem = useCallback(
     ({ item }: { item: SurahMeta }) => (
-      <SurahAudioRow meta={item} reciterId={reciterId} onPlay={onOpenSurah} onQueue={onQueue} />
+      <SurahAudioRow
+        meta={item}
+        reciterId={reciterId}
+        onOpenReader={onOpenSurah}
+        onPlayAudio={onPlayAudio}
+        onQueue={onQueue}
+      />
     ),
-    [reciterId, onOpenSurah, onQueue],
+    [reciterId, onOpenSurah, onPlayAudio, onQueue],
   );
 
   const keyExtractor = useCallback((item: SurahMeta) => String(item.number), []);

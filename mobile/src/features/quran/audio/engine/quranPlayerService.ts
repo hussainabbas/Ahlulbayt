@@ -5,9 +5,10 @@ import { logger } from '@/core/logging/logger';
 import {
   buildTrackId,
   getReciterLabel,
-  getSurahStreamUrl,
   getSurahTrackTitle,
+  parseTrackId,
 } from '../constants/audioSources';
+import { useQuranPlayerStore } from '../stores/quranPlayerStore';
 import { audioDownloadService } from './audioDownloadService';
 import { mapRepeatMode, setupTrackPlayer, unmapRepeatMode } from './trackPlayerSetup';
 import type { PlaybackSpeed, QuranRepeatMode } from '../types';
@@ -171,6 +172,70 @@ class QuranPlayerService {
 
   async stop(): Promise<void> {
     await TrackPlayer.reset();
+    useQuranPlayerStore.getState().clearPlaybackResume();
+  }
+
+  async saveCurrentPosition(): Promise<void> {
+    const active = await TrackPlayer.getActiveTrack();
+    if (!active?.id) return;
+
+    const position = await TrackPlayer.getPosition();
+    if (position < 1) return;
+
+    const meta = active as Track & { reciterId?: string; surah?: number };
+    let reciterId = meta.reciterId;
+    let surah = meta.surah;
+
+    if (reciterId == null || surah == null) {
+      const parsed = parseTrackId(String(active.id));
+      reciterId = parsed.reciterId;
+      surah = parsed.surah;
+    }
+
+    useQuranPlayerStore.getState().savePlaybackResume({
+      trackId: String(active.id),
+      reciterId,
+      surah,
+      positionSec: position,
+      updatedAt: new Date().toISOString(),
+    });
+  }
+
+  async restoreLastPlayback(): Promise<boolean> {
+    const { lastPlayback, clearPlaybackResume } = useQuranPlayerStore.getState();
+    if (!lastPlayback) return false;
+
+    const ageMs = Date.now() - new Date(lastPlayback.updatedAt).getTime();
+    if (ageMs > 7 * 24 * 60 * 60 * 1000) {
+      clearPlaybackResume();
+      return false;
+    }
+
+    if (lastPlayback.positionSec < 3) return false;
+
+    await this.playSurah(lastPlayback.reciterId, lastPlayback.surah);
+    await TrackPlayer.seekTo(lastPlayback.positionSec);
+    await TrackPlayer.pause();
+    return true;
+  }
+
+  async continueToNextSurah(reciterId: string): Promise<boolean> {
+    const queue = await TrackPlayer.getQueue();
+    const activeIndex = await TrackPlayer.getActiveTrackIndex();
+    const current =
+      activeIndex != null && activeIndex >= 0
+        ? (queue[activeIndex] as Track & { surah?: number })
+        : (queue[queue.length - 1] as Track & { surah?: number });
+
+    const surah = current?.surah;
+    if (surah == null || surah >= 114) return false;
+
+    const nextSurah = surah + 1;
+    const nextTrack = await this.buildTrack(reciterId, nextSurah);
+    await TrackPlayer.add(nextTrack);
+    await TrackPlayer.skipToNext();
+    await TrackPlayer.play();
+    return true;
   }
 
   async refreshTrackSources(reciterId: string): Promise<void> {

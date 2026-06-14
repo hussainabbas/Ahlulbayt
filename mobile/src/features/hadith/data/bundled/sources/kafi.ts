@@ -25,7 +25,10 @@ export const KAFI_HADITHS = [
       ],
       grading: loc('Sahih', 'صحیح', 'صحيح'),
     },
-    { speaker: loc('Imam al-Baqir (as)', 'امام باقرؑ', 'الإمام الباقر') },
+    {
+      speaker: loc('Imam al-Baqir (as)', 'امام باقرؑ', 'الإمام الباقر'),
+      relatedIds: ['hd_kafi_imam_earth'],
+    },
   ),
   hadith(
     'kafi_imam_earth',
@@ -48,7 +51,10 @@ export const KAFI_HADITHS = [
       narrators: [loc('Imam al-Askari (as)', 'امام عسکریؑ', 'الإمام العسكري')],
       grading: loc('Sahih', 'صحیح', 'صحيح'),
     },
-    { speaker: loc('Imam al-Askari (as)', 'امام عسکریؑ', 'الإمام العسكري') },
+    {
+      speaker: loc('Imam al-Askari (as)', 'امام عسکریؑ', 'الإمام العسكري'),
+      relatedIds: ['hd_kafi_shia_definition'],
+    },
   ),
   hadith(
     'kafi_knowledge_better',

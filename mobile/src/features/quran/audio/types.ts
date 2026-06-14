@@ -2,6 +2,14 @@ export type QuranRepeatMode = 'off' | 'one' | 'all';
 
 export type SleepTimerMode = 'minutes' | 'end_of_surah';
 
+export interface PlaybackResumeState {
+  trackId: string;
+  reciterId: string;
+  surah: number;
+  positionSec: number;
+  updatedAt: string;
+}
+
 export interface QuranAudioTrackMeta {
   id: string;
   surah: number;
@@ -38,7 +46,7 @@ export interface DownloadJob {
   error?: string;
 }
 
-export const PLAYBACK_SPEEDS = [0.75, 0.875, 1, 1.1, 1.25, 1.5, 1.75, 2] as const;
+export const PLAYBACK_SPEEDS = [0.5, 0.75, 0.875, 1, 1.1, 1.25, 1.5, 1.75, 2] as const;
 export type PlaybackSpeed = (typeof PLAYBACK_SPEEDS)[number];
 
 export const SLEEP_TIMER_MINUTES = [5, 10, 15, 30, 45, 60, 90] as const;

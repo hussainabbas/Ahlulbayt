@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { InteractionManager } from 'react-native';
 
 import { useLocale } from '@/i18n/useLocale';
 import { useOnboardingStore } from '@/stores/onboardingStore';
@@ -28,7 +29,12 @@ export function PrayerTimesBootstrap() {
       setGpsReady(true);
       return;
     }
-    void PrayerService.refreshLocationFromGps().finally(() => setGpsReady(true));
+
+    const task = InteractionManager.runAfterInteractions(() => {
+      void PrayerService.refreshLocationFromGps().finally(() => setGpsReady(true));
+    });
+
+    return () => task.cancel();
   }, [locationGranted, setGpsReady]);
 
   useEffect(() => {

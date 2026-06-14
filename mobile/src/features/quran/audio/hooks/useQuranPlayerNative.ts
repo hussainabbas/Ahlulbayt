@@ -65,6 +65,17 @@ export function useQuranPlayerNative() {
     return () => clearInterval(timer);
   }, [clearSleepTimer, sleepTimerEndsAt, sleepTimerMode]);
 
+  useEffect(() => {
+    if (!hasActiveTrack) return;
+
+    void quranPlayerService.saveCurrentPosition();
+    const interval = setInterval(() => {
+      void quranPlayerService.saveCurrentPosition();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [activeTrack?.id, hasActiveTrack]);
+
   const playSurah = useCallback(
     async (surah: number) => {
       await quranPlayerService.playSurah(reciterId, surah);

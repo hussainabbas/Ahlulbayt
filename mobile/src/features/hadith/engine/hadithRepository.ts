@@ -1,27 +1,18 @@
 import { HADITH_TOPICS } from '../constants/catalog';
 import { BUNDLED_BY_ID, BUNDLED_HADITHS } from '../data/bundled';
+import { getDailyHadith } from './dailyHadithService';
+import { lookupByReference, resolveGrading, searchHadithCorpus } from './hadithSearchEngine';
+import { getRelatedHadiths } from './relatedHadithEngine';
 import type {
   HadithEntry,
+  HadithGrading,
   HadithId,
+  HadithSearchPage,
   HadithSearchResult,
   HadithSource,
   HadithTopic,
   HadithTopicSummary,
-  LocalizedText,
 } from '../types';
-
-function scoreMatch(text: string, query: string): number {
-  const lower = text.toLowerCase();
-  const q = query.toLowerCase();
-  if (lower === q) return 100;
-  if (lower.startsWith(q)) return 80;
-  if (lower.includes(q)) return 50;
-  return 0;
-}
-
-function searchInLocalized(text: LocalizedText, query: string): number {
-  return Math.max(scoreMatch(text.en, query), scoreMatch(text.ur, query), scoreMatch(text.ar, query));
-}
 
 export class HadithRepository {
   static listAll(): HadithEntry[] {
@@ -40,52 +31,55 @@ export class HadithRepository {
     return BUNDLED_BY_ID[id] ?? null;
   }
 
-  static getRelated(id: HadithId): HadithEntry[] {
+  static getGrading(id: HadithId): HadithGrading | undefined {
     const entry = BUNDLED_BY_ID[id];
-    if (!entry?.relatedIds?.length) return [];
-    return entry.relatedIds
-      .map((rid) => BUNDLED_BY_ID[rid])
-      .filter((e): e is HadithEntry => e != null);
+    return entry ? resolveGrading(entry) : undefined;
+  }
+
+  static getRelated(id: HadithId) {
+    const entry = BUNDLED_BY_ID[id];
+    if (!entry) return [];
+    return getRelatedHadiths(entry, BUNDLED_HADITHS, BUNDLED_BY_ID).map((r) => r.entry);
+  }
+
+  static getRelatedDetailed(id: HadithId) {
+    const entry = BUNDLED_BY_ID[id];
+    if (!entry) return [];
+    return getRelatedHadiths(entry, BUNDLED_HADITHS, BUNDLED_BY_ID);
   }
 
   static search(
     query: string,
-    filters?: { source?: HadithSource | 'all'; topic?: HadithTopic | 'all' },
+    filters?: {
+      source?: HadithSource | 'all';
+      topic?: HadithTopic | 'all';
+      grading?: HadithGrading | 'all';
+    },
+    locale = 'en',
   ): HadithSearchResult[] {
-    const trimmed = query.trim();
-    if (!trimmed) return [];
+    return searchHadithCorpus(BUNDLED_HADITHS, query, { locale, filters }).results;
+  }
 
-    const results: HadithSearchResult[] = [];
+  static searchPaginated(
+    query: string,
+    page = 1,
+    pageSize = 20,
+    filters?: {
+      source?: HadithSource | 'all';
+      topic?: HadithTopic | 'all';
+      grading?: HadithGrading | 'all';
+    },
+    locale = 'en',
+  ): HadithSearchPage {
+    return searchHadithCorpus(BUNDLED_HADITHS, query, { locale, page, pageSize, filters });
+  }
 
-    for (const entry of BUNDLED_HADITHS) {
-      if (filters?.source && filters.source !== 'all' && entry.source !== filters.source) continue;
-      if (filters?.topic && filters.topic !== 'all' && !entry.topics.includes(filters.topic)) continue;
+  static lookupReference(source: HadithSource, hadithNumber: string, volume?: number) {
+    return lookupByReference(BUNDLED_HADITHS, source, hadithNumber, volume);
+  }
 
-      let score = 0;
-      score = Math.max(score, searchInLocalized(entry.title, trimmed));
-      score = Math.max(score, searchInLocalized(entry.text, trimmed) * 0.8);
-      score = Math.max(score, searchInLocalized(entry.summary, trimmed) * 0.6);
-
-      for (const topic of entry.topics) {
-        if (topic.includes(trimmed.toLowerCase())) score += 20;
-      }
-
-      if (entry.reference.hadithNumber?.includes(trimmed)) score += 40;
-      if (entry.reference.volume?.toString() === trimmed) score += 30;
-
-      if (score > 0) {
-        results.push({
-          id: entry.id,
-          title: entry.title.en,
-          snippet: entry.summary.en.slice(0, 140),
-          source: entry.source,
-          topics: entry.topics,
-          score,
-        });
-      }
-    }
-
-    return results.sort((a, b) => b.score - a.score);
+  static getDailyHadith(date?: Date) {
+    return getDailyHadith(date);
   }
 
   static filterEntries(filters: {
@@ -113,18 +107,6 @@ export class HadithRepository {
     return HADITH_TOPICS.map(({ id }) => {
       const entries = HadithRepository.listByTopic(id);
       const count = entries.length;
-      const en =
-        count > 0
-          ? `${entries.length} tradition${entries.length > 1 ? 's' : ''} on ${id.replace('_', ' ')} from Nahjul Balagha, Al-Kafi, and Bihar ul Anwar.`
-          : `No traditions tagged with this topic yet.`;
-      const ur =
-        count > 0
-          ? `${entries.length} روایات — نہج البلاغہ، الکافی، بحار الانوار سے۔`
-          : 'ابھی اس موضوع پر کوئی روایت نہیں۔';
-      const ar =
-        count > 0
-          ? `${entries.length} روايات من نهج البلاغة والكافي وبحار الأنوار.`
-          : 'لا روايات بهذا الموضوع بعد.';
 
       const topicLabels: Record<HadithTopic, { en: string; ur: string; ar: string }> = {
         ethics: { en: 'ethics and character', ur: 'اخلاق و کردار', ar: 'الأخلاق والخلق' },
@@ -137,23 +119,22 @@ export class HadithRepository {
         dua: { en: 'supplication and dua', ur: 'دعا و مناجات', ar: 'الدعاء والمناجاة' },
         karbala: { en: 'Karbala and Ashura', ur: 'کربلا و عاشورا', ar: 'كربلاء وعاشوراء' },
         taqwa: { en: 'taqwa and God-consciousness', ur: 'تقویٰ', ar: 'التقوى' },
+        fiqh: { en: 'fiqh and jurisprudence', ur: 'فقہ', ar: 'الفقه' },
+        tawhid: { en: 'tawhid and theology', ur: 'توحید', ar: 'التوحيد' },
+        akhira: { en: 'hereafter', ur: 'آخرت', ar: 'الآخرة' },
       };
 
       const label = topicLabels[id];
       const summaryEn =
         count > 0
-          ? `This collection covers ${label.en} across ${count} curated traditions from the three major Shia sources.`
-          : en;
+          ? `${count} curated tradition${count > 1 ? 's' : ''} on ${label.en} from Shia core sources.`
+          : `No traditions tagged with this topic yet.`;
       const summaryUr =
-        count > 0 ? `${label.ur} پر ${count} منتخب روایات — تین بڑے شیعہ ماخذ سے۔` : ur;
+        count > 0 ? `${label.ur} پر ${count} منتخب روایات۔` : 'ابھی اس موضوع پر کوئی روایت نہیں۔';
       const summaryAr =
-        count > 0 ? `${count} روايات منتقاة عن ${label.ar} من المصادر الثلاثة.` : ar;
+        count > 0 ? `${count} روايات منتقاة عن ${label.ar}.` : 'لا روايات بهذا الموضوع بعد.';
 
-      return {
-        topic: id,
-        count,
-        summary: { en: summaryEn, ur: summaryUr, ar: summaryAr },
-      };
+      return { topic: id, count, summary: { en: summaryEn, ur: summaryUr, ar: summaryAr } };
     });
   }
 }

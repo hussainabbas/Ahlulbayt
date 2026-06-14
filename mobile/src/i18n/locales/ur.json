@@ -127,6 +127,66 @@
     "completionProgress": "آج {{total}} میں سے {{done}} نمازیں",
     "markComplete": "{{prayer}} مکمل نشان زد کریں"
   },
+  "worshipGuide": {
+    "title": "عبادت گائیڈ",
+    "subtitle": "وضو، غسل اور نماز — فقہ جعفریہ، مرحلہ وار",
+    "continue": "آخری مرحلہ جاری رکھیں",
+    "continueSession": "{{title}} — مرحلہ {{step}}",
+    "startWudu": "وضو شروع کریں",
+    "startPrayer": "نماز گائیڈ",
+    "guided": "رہنمائی",
+    "stepOf": "مرحلہ {{current}} / {{total}}",
+    "minutesSteps": "{{minutes}} منٹ · {{steps}} مراحل",
+    "notFound": "گائیڈ نہیں ملی",
+    "disclaimer": "تعلیمی رہنمائی — احکام کے لیے مرجع سے رجوع کریں۔",
+    "invalidators": "طہارت کے باطل کن",
+    "salahHint": "۱۵ نمازیں — روزانہ واجب، عید، جمعہ، خاص و مستحب",
+    "sections": {
+      "taharah": "طہارت",
+      "salah": "نماز"
+    },
+    "mode": {
+      "beginner": "ابتدائی",
+      "standard": "معیاری",
+      "scholar": "فقیہانہ"
+    }
+  },
+  "prayerAcademy": {
+    "title": "Prayer Academy",
+    "subtitle": "فقہ جعفریہ کے مطابق مرحلہ وار نماز — واجب، مستحب و خاص",
+    "searchPlaceholder": "نمازیں تلاش کریں…",
+    "featured": "یہاں سے شروع کریں",
+    "startLearning": "سبق شروع کریں",
+    "guided": "رہنمائی",
+    "stepOf": "مرحلہ {{current}} از {{total}}",
+    "minutes": "منٹ",
+    "rakatStructure": "رکعتوں کی تفصیل",
+    "timing": "اوقات",
+    "conditions": "شرائط",
+    "jafariNotes": "جعفری نوٹ — سنی فرق",
+    "currentStep": "موجودہ مرحلہ",
+    "allSteps": "مرحلہ وار طریقہ",
+    "completed": "سبق مکمل",
+    "notFound": "نماز گائیڈ نہیں ملی۔",
+    "empty": "کوئی نماز نہیں ملی۔",
+    "disclaimer": "تعلیمی رہنمائی؛ لازمی احکام کے لیے اپنے مرجع سے رجوع کریں۔",
+    "filter": { "all": "تمام", "bookmarked": "محفوظ" },
+    "difficulty": { "beginner": "ابتدائی", "advanced": "اعلیٰ" },
+    "obligation": {
+      "wajib": "واجب",
+      "wajib_kifai": "واجب کفائی",
+      "mustahab": "مستحب",
+      "conditional": "مشروط"
+    },
+    "categories": {
+      "obligatory_daily": "روزانہ واجب",
+      "special_obligatory": "خصوصی واجب",
+      "special_recommended": "خصوصی مستحب",
+      "eid": "عید",
+      "jumuah": "جمعہ",
+      "nafl": "مستحب نفل"
+    }
+  },
   "adhan": {
     "title": "اذان اور یاددہانیاں",
     "master": "اذان نوٹیفیکیشن",
@@ -208,7 +268,22 @@
       "audioSaved": "آڈیو محفوظ",
       "addToQueue": "تلاوت کی قطار میں شامل کریں",
       "downloadAudio": "تلاوت آڈیو ڈاؤن لوڈ کریں",
-      "downloadingAudio": "آڈیو محفوظ {{percent}}%"
+      "downloadingAudio": "آڈیو محفوظ {{percent}}%",
+      "playSurah": "چلائیں"
+    },
+    "audio": {
+      "disabledTitle": "آڈیو جلد دستیاب",
+      "disabledMessage": "جدید ایپ ورژن کے لیے تلاوت پلے بیک اپ گریڈ ہو رہا ہے۔ پڑھنا اور آف لائن ڈاؤن لوڈ اب بھی کام کرتے ہیں۔"
+    },
+    "readerAudio": {
+      "idle": "سورت کی تلاوت کے لیے پلے دبائیں",
+      "surahPlaying": "مکمل سورت چل رہی ہے",
+      "ayah": "آیت {{number}}",
+      "play": "چلائیں",
+      "pause": "روکیں",
+      "prevAyah": "پچھلی آیت",
+      "nextAyah": "اگلی آیت",
+      "playAyah": "پہلی آیت چلائیں"
     },
     "display": {
       "stacked": "عربی + ترجمہ",
@@ -532,6 +607,16 @@
   },
   "more": {
     "title": "مزید",
+    "subtitle": "لائبریری، اوزار اور روحانی وسائل",
+    "guestBadge": "مہمان",
+    "signIn": "سائن ان",
+    "quickAccess": "فوری رسائی",
+    "sections": {
+      "personal": "ذاتی",
+      "library": "لائبریری و علم",
+      "worship": "عبادت و تقرب",
+      "tools": "اوزار و کیلنڈر"
+    },
     "mafatih": "مفاتیح الجنان",
     "sahifa": "صحیفہ سجادیہ",
     "masoomeen": "۱۴ معصومین",
@@ -542,6 +627,8 @@
     "ziyarat": "زیارت",
     "calendar": "کیلنڈر",
     "qibla": "قبلہ",
+    "worshipGuide": "عبادت گائیڈ",
+    "prayerAcademy": "Prayer Academy",
     "ai": "اہل البیت سے پوچھیں",
     "muharram": "محرم موڈ",
     "premium": "AhlulBayt+ Premium",
@@ -633,7 +720,20 @@
     },
     "featured": "نمایاں روایت",
     "topicsLabel": "موضوعات",
-    "stats": "{{count}} روایات · {{sources}} ماخذ",
+    "stats": "{{count}} دستیاب · {{sources}} ماخذ · {{corpusTotal}}+ منصوبہ",
+    "openDaily": "مکمل حدیث پڑھیں",
+    "share": "شیئر",
+    "explainAi": "AI سے وضاحت",
+    "explainPrompt": "اس حدیث کی سادہ وضاحت کریں: {{title}}",
+    "comingSoon": "جلد · ~{{total}}",
+    "grading": {
+      "sahih": "صحیح",
+      "hasan": "حسن",
+      "muwaththaq": "موثق",
+      "daif": "ضعیف",
+      "mawdu": "موضوع",
+      "unknown": "غیر درج"
+    },
     "allEntries": "تمام روایات · {{count}}",
     "searchResults": "تلاش کے نتائج · {{count}}",
     "sourcesLabel": "ماخذ",
@@ -653,7 +753,23 @@
       "kafi": "الکافی",
       "kafiDesc": "شیخ کلینی کی اصول و فروع الکافی",
       "bihar": "بحار الانوار",
-      "biharDesc": "علامہ مجلسی کی دائرہ المعارف"
+      "biharDesc": "علامہ مجلسی کی دائرہ المعارف",
+      "faqih": "من لا یحضرہ الفقیہ",
+      "faqihDesc": "شیخ صدوق — چوتھی کتاب",
+      "tahdhib": "تہذیب الاحکام",
+      "tahdhibDesc": "شیخ طوسی",
+      "istibsar": "الاستبصار",
+      "istibsarDesc": "شیخ طوسی",
+      "sahifa": "صحیفہ سجادیہ",
+      "sahifaDesc": "امام سجادؑ سے متعلق روایات",
+      "bukhari": "صحیح بخاری",
+      "bukhariDesc": "سنی حوالہ",
+      "muslim": "صحیح مسلم",
+      "muslimDesc": "سنی حوالہ",
+      "abudawud": "سنن ابوداؤد",
+      "abudawudDesc": "سنی حوالہ",
+      "tirmidhi": "جامع ترمذی",
+      "tirmidhiDesc": "سنی حوالہ"
     },
     "topics": {
       "ethics": "اخلاق",
@@ -665,7 +781,10 @@
       "justice": "عدل",
       "dua": "دعا",
       "karbala": "کربلا",
-      "taqwa": "تقویٰ"
+      "taqwa": "تقویٰ",
+      "fiqh": "فقہ",
+      "tawhid": "توحید",
+      "akhira": "آخرت"
     },
     "reference": {
       "title": "علمی حوالہ",
@@ -676,6 +795,7 @@
       "number": "حدیث نمبر",
       "page": "صفحہ",
       "grading": "درجہ",
+      "isnad": "سند",
       "narrators": "راوی",
       "chain": "سند",
       "alternate": "متبادل حوالہ"

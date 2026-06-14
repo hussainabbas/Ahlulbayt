@@ -1,4 +1,9 @@
-import { PermissionsAndroid, Platform } from 'react-native';
+import {
+  AppState,
+  InteractionManager,
+  PermissionsAndroid,
+  Platform,
+} from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 
 import { logger } from '@/core/logging/logger';
@@ -12,18 +17,63 @@ export const LocationPermission = {
   DENIED: 'denied' as LocationPermissionStatus,
 };
 
+function isActivityNotReadyError(error: unknown): boolean {
+  const message = error instanceof Error ? error.message : String(error);
+  return message.includes('not attached to an Activity');
+}
+
+function waitForAppActive(): Promise<void> {
+  if (AppState.currentState === 'active') {
+    return Promise.resolve();
+  }
+  return new Promise((resolve) => {
+    const subscription = AppState.addEventListener('change', (state) => {
+      if (state === 'active') {
+        subscription.remove();
+        resolve();
+      }
+    });
+  });
+}
+
+async function waitForAndroidActivityReady(): Promise<void> {
+  if (Platform.OS !== 'android') return;
+  await waitForAppActive();
+  await new Promise<void>((resolve) => {
+    InteractionManager.runAfterInteractions(() => resolve());
+  });
+  await new Promise<void>((resolve) => {
+    requestAnimationFrame(() => resolve());
+  });
+}
+
 async function requestAndroidLocationPermission(): Promise<boolean> {
-  const granted = await PermissionsAndroid.request(
-    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-    {
-      title: 'Location Permission',
-      message:
-        'AhlulBayt+ uses your location to calculate accurate Jafari prayer times and qibla direction.',
-      buttonPositive: 'Allow',
-      buttonNegative: 'Deny',
-    },
-  );
-  return granted === PermissionsAndroid.RESULTS.GRANTED;
+  await waitForAndroidActivityReady();
+
+  const maxAttempts = 3;
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Location Permission',
+          message:
+            'AhlulBayt+ uses your location to calculate accurate Jafari prayer times and qibla direction.',
+          buttonPositive: 'Allow',
+          buttonNegative: 'Deny',
+        },
+      );
+      return granted === PermissionsAndroid.RESULTS.GRANTED;
+    } catch (error) {
+      if (isActivityNotReadyError(error) && attempt < maxAttempts - 1) {
+        await new Promise((resolve) => setTimeout(resolve, 250 * (attempt + 1)));
+        await waitForAndroidActivityReady();
+        continue;
+      }
+      throw error;
+    }
+  }
+  return false;
 }
 
 export async function getForegroundPermissionsAsync(): Promise<{
@@ -47,9 +97,19 @@ export async function requestForegroundPermissionsAsync(): Promise<{
       const status = await Geolocation.requestAuthorization('whenInUse');
       return { status: status === 'granted' ? 'granted' : 'denied' };
     }
+
+    const existing = await getForegroundPermissionsAsync();
+    if (existing.status === 'granted') {
+      return existing;
+    }
+
     const granted = await requestAndroidLocationPermission();
     return { status: granted ? 'granted' : 'denied' };
   } catch (error) {
+    if (isActivityNotReadyError(error)) {
+      logger.warn('Location permission deferred — Android Activity not ready yet');
+      return { status: 'denied' };
+    }
     logger.error('Location permission request failed', error);
     return { status: 'denied' };
   }

@@ -127,6 +127,66 @@
     "completionProgress": "{{done}} من {{total}} صلوات اليوم",
     "markComplete": "تعليم {{prayer}} كمكتملة"
   },
+  "worshipGuide": {
+    "title": "دليل العبادة",
+    "subtitle": "تعلّم الوضوء والغسل والصلاة — الفقه الجعفري",
+    "continue": "متابعة آخر خطوة",
+    "continueSession": "{{title}} — الخطوة {{step}}",
+    "startWudu": "ابدأ الوضوء",
+    "startPrayer": "دليل الصلاة",
+    "guided": "مُوجَّه",
+    "stepOf": "الخطوة {{current}} من {{total}}",
+    "minutesSteps": "{{minutes}} د · {{steps}} خطوات",
+    "notFound": "الدليل غير موجود",
+    "disclaimer": "إرشاد تعليمي — راجع مرجعك للأحكام.",
+    "invalidators": "ما ينقض الطهارة",
+    "salahHint": "15 صلاة — يومية وعيد وجمعة وخاصة",
+    "sections": {
+      "taharah": "الطهارة",
+      "salah": "الصلاة"
+    },
+    "mode": {
+      "beginner": "مبتدئ",
+      "standard": "معياري",
+      "scholar": "فقهي"
+    }
+  },
+  "prayerAcademy": {
+    "title": "أكاديمية الصلاة",
+    "subtitle": "تعلّم الصلاة الجعفرية خطوة بخطوة — واجب ومستحب وخاص",
+    "searchPlaceholder": "ابحث عن صلاة…",
+    "featured": "ابدأ هنا",
+    "startLearning": "ابدأ الدرس",
+    "guided": "إرشاد",
+    "stepOf": "الخطوة {{current}} من {{total}}",
+    "minutes": "د",
+    "rakatStructure": "هيكل الركعات",
+    "timing": "الأوقات",
+    "conditions": "الشروط",
+    "jafariNotes": "ملاحظات جعفرية",
+    "currentStep": "الخطوة الحالية",
+    "allSteps": "الدليل خطوة بخطوة",
+    "completed": "اكتمل الدرس",
+    "notFound": "لم يُعثر على الدليل.",
+    "empty": "لا توجد نتائج.",
+    "disclaimer": "إرشاد تعليمي؛ للأحكام اللازمة راجع مرجعك.",
+    "filter": { "all": "الكل", "bookmarked": "المحفوظ" },
+    "difficulty": { "beginner": "مبتدئ", "advanced": "متقدم" },
+    "obligation": {
+      "wajib": "واجب",
+      "wajib_kifai": "واجب كفائي",
+      "mustahab": "مستحب",
+      "conditional": "مشروط"
+    },
+    "categories": {
+      "obligatory_daily": "الصلوات اليومية",
+      "special_obligatory": "واجب خاص",
+      "special_recommended": "مستحب خاص",
+      "eid": "صلاة العيد",
+      "jumuah": "الجمعة",
+      "nafl": "نوافل مستحبة"
+    }
+  },
   "adhan": {
     "title": "الأذان والتذكيرات",
     "master": "إشعارات الأذان",
@@ -208,7 +268,22 @@
       "audioSaved": "الصوت محفوظ",
       "addToQueue": "إضافة إلى قائمة التلاوة",
       "downloadAudio": "تنزيل صوت التلاوة",
-      "downloadingAudio": "حفظ الصوت {{percent}}%"
+      "downloadingAudio": "حفظ الصوت {{percent}}%",
+      "playSurah": "تشغيل"
+    },
+    "audio": {
+      "disabledTitle": "الصوت قريباً",
+      "disabledMessage": "يتم ترقية تشغيل التلاوة للإصدار الأحدث. القراءة والتنزيل دون اتصال ما زالا يعملان."
+    },
+    "readerAudio": {
+      "idle": "اضغط للاستماع إلى السورة",
+      "surahPlaying": "تشغيل السورة كاملة",
+      "ayah": "آية {{number}}",
+      "play": "تشغيل",
+      "pause": "إيقاف",
+      "prevAyah": "الآية السابقة",
+      "nextAyah": "الآية التالية",
+      "playAyah": "تشغيل أول آية"
     },
     "display": {
       "stacked": "عربي + ترجمة",
@@ -532,6 +607,16 @@
   },
   "more": {
     "title": "المزيد",
+    "subtitle": "المكتبة والأدوات والموارد الروحية",
+    "guestBadge": "زائر",
+    "signIn": "تسجيل الدخول",
+    "quickAccess": "وصول سريع",
+    "sections": {
+      "personal": "شخصي",
+      "library": "المكتبة والمعرفة",
+      "worship": "العبادة والتقرب",
+      "tools": "الأدوات والتقويم"
+    },
     "mafatih": "مفاتيح الجنان",
     "sahifa": "الصحيفة السجادية",
     "masoomeen": "الأئمة الـ١٤",
@@ -542,6 +627,8 @@
     "ziyarat": "الزيارات",
     "calendar": "التقويم",
     "qibla": "القبلة",
+    "worshipGuide": "دليل العبادة",
+    "prayerAcademy": "أكاديمية الصلاة",
     "ai": "اسأل أهل البيت",
     "muharram": "وضع محرم",
     "premium": "أهل البيت+ بريميوم",
@@ -633,7 +720,20 @@
     },
     "featured": "حديث بارز",
     "topicsLabel": "المواضيع",
-    "stats": "{{count}} حديث · {{sources}} مصادر",
+    "stats": "{{count}} متاح · {{sources}} مصادر · {{corpusTotal}}+ مخطط",
+    "openDaily": "اقرأ الحديث كاملاً",
+    "share": "مشاركة",
+    "explainAi": "اشرح بالذكاء",
+    "explainPrompt": "اشرح هذا الحديث ودروسه: {{title}}",
+    "comingSoon": "قريباً · ~{{total}}",
+    "grading": {
+      "sahih": "صحيح",
+      "hasan": "حسن",
+      "muwaththaq": "موثق",
+      "daif": "ضعيف",
+      "mawdu": "موضوع",
+      "unknown": "غير مصنف"
+    },
     "allEntries": "جميع الأحاديث · {{count}}",
     "searchResults": "نتائج البحث · {{count}}",
     "sourcesLabel": "المصادر",
@@ -653,7 +753,23 @@
       "kafi": "الكافي",
       "kafiDesc": "أصول وفروع الكافي للشيخ الكليني",
       "bihar": "بحار الأنوار",
-      "biharDesc": "موسوعة العلامة المجلسي"
+      "biharDesc": "موسوعة العلامة المجلسي",
+      "faqih": "من لا يحضره الفقيه",
+      "faqihDesc": "الشيخ الصدوق",
+      "tahdhib": "تهذيب الأحكام",
+      "tahdhibDesc": "الشيخ الطوسي",
+      "istibsar": "الاستبصار",
+      "istibsarDesc": "الشيخ الطوسي",
+      "sahifa": "الصحيفة السجادية",
+      "sahifaDesc": "روايات الإمام السجاد (ع)",
+      "bukhari": "صحيح البخاري",
+      "bukhariDesc": "مرجع سني",
+      "muslim": "صحيح مسلم",
+      "muslimDesc": "مرجع سني",
+      "abudawud": "سنن أبي داود",
+      "abudawudDesc": "مرجع سني",
+      "tirmidhi": "جامع الترمذي",
+      "tirmidhiDesc": "مرجع سني"
     },
     "topics": {
       "ethics": "الأخلاق",
@@ -665,7 +781,10 @@
       "justice": "العدل",
       "dua": "الدعاء",
       "karbala": "كربلاء",
-      "taqwa": "التقوى"
+      "taqwa": "التقوى",
+      "fiqh": "الفقه",
+      "tawhid": "التوحيد",
+      "akhira": "الآخرة"
     },
     "reference": {
       "title": "المرجع العلمي",
@@ -676,6 +795,7 @@
       "number": "رقم الحديث",
       "page": "الصفحة",
       "grading": "الدرجة",
+      "isnad": "السند",
       "narrators": "الرواة",
       "chain": "سلسلة الرواية",
       "alternate": "مراجع بديلة"

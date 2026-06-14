@@ -13,12 +13,14 @@ import { DatabaseModule } from './database/database.module';
 import { DuasModule } from './duas/duas.module';
 import { HealthController } from './health.controller';
 import { NotificationsModule } from './notifications/notifications.module';
+import { HadithModule } from './hadith/hadith.module';
+import { QuranAudioModule } from './quran-audio/quran-audio.module';
 import { PrayerModule } from './prayer/prayer.module';
 import { QuranModule } from './quran/quran.module';
 import { RedisModule } from './redis/redis.module';
 import { SyncModule } from './sync/sync.module';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
-import { UsersModule } from './users/users.module';
+import { WorshipGuideModule } from './worship-guide/worship-guide.module';
 import { ZiyaratModule } from './ziyarat/ziyarat.module';
 
 @Module({
@@ -31,6 +33,9 @@ import { ZiyaratModule } from './ziyarat/ziyarat.module';
     UsersModule,
     PrayerModule,
     QuranModule,
+    QuranAudioModule,
+    HadithModule,
+    WorshipGuideModule,
     DuasModule,
     ZiyaratModule,
     CalendarModule,

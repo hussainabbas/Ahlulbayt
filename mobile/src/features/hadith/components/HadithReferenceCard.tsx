@@ -56,6 +56,19 @@ export function HadithReferenceCard({ entry }: HadithReferenceCardProps) {
         </View>
       ))}
 
+      {entry.isnad?.links?.length ? (
+        <View style={styles.section}>
+          <Text variant="caption" color="tertiary">
+            {t('hadith.reference.isnad')}
+          </Text>
+          {entry.isnad.links.map((link) => (
+            <Text key={link.position} variant="bodySm" style={styles.narrator}>
+              {link.position + 1}. {pickLocalized(link.name, locale)}
+            </Text>
+          ))}
+        </View>
+      ) : null}
+
       {ref.narrators?.length ? (
         <View style={styles.section}>
           <Text variant="caption" color="tertiary">

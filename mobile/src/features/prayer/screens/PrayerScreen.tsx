@@ -140,6 +140,50 @@ export function PrayerScreen() {
           <Icon name="chevron" size={14} color={theme.colors.textTertiary} />
         </Pressable>
 
+        <Pressable
+          onPress={() => rootNavigation.navigate('WorshipGuide')}
+          style={[
+            styles.adhanBanner,
+            {
+              backgroundColor: theme.colors.accentPrimaryMuted,
+              borderColor: theme.colors.borderSubtle,
+              borderRadius: theme.radius.md,
+            },
+          ]}
+        >
+          <View style={{ flex: 1, gap: 2 }}>
+            <Text variant="bodySm" weight="600" color="accent">
+              {t('worshipGuide.title')}
+            </Text>
+            <Text variant="caption" color="secondary">
+              {t('worshipGuide.subtitle')}
+            </Text>
+          </View>
+          <Icon name="book" size={18} color={theme.colors.accentPrimary} />
+        </Pressable>
+
+        <Pressable
+          onPress={() => rootNavigation.navigate('PrayerAcademy')}
+          style={[
+            styles.adhanBanner,
+            {
+              backgroundColor: theme.colors.surfaceElevated,
+              borderColor: theme.colors.borderSubtle,
+              borderRadius: theme.radius.md,
+            },
+          ]}
+        >
+          <View style={{ flex: 1, gap: 2 }}>
+            <Text variant="bodySm" weight="600">
+              {t('prayerAcademy.title')}
+            </Text>
+            <Text variant="caption" color="secondary">
+              {t('prayerAcademy.subtitle')}
+            </Text>
+          </View>
+          <Icon name="book" size={18} color={theme.colors.accentPrimary} />
+        </Pressable>
+
         <View style={styles.progressRow}>
           <Text variant="caption" color="secondary">
             {t('prayer.completionProgress', { done: completions.length, total: 5 })}
