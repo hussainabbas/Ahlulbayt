@@ -11,6 +11,7 @@ import { logger } from '@/core/logging/logger';
 import { i18n } from '@/i18n';
 import { ThemeProvider } from '@/theme/ThemeContext';
 import { MuharramThemeBootstrap } from '@/features/muharram/components/MuharramThemeBootstrap';
+import { DynamicAppIconBootstrap } from '@/features/muharram/components/DynamicAppIconBootstrap';
 import { useAppStore } from '@/stores/appStore';
 import { OfflineBanner } from '@/components/feedback/OfflineBanner';
 import { ContentSyncBootstrap } from '@/core/offline/ContentSyncBootstrap';
@@ -63,6 +64,7 @@ export function AppProviders({ children }: AppProvidersProps) {
           <I18nextProvider i18n={i18n}>
             <ThemeProvider>
               <MuharramThemeBootstrap />
+              <DynamicAppIconBootstrap />
               <OfflineBanner />
               <PrayerTimesBootstrap />
               <ContentSyncBootstrap />

@@ -4,15 +4,17 @@
   "private": true,
   "scripts": {
     "start": "react-native start",
-    "android": "react-native run-android",
+    "android": "react-native run-android --main-activity .MainActivity",
     "ios": "react-native run-ios",
     "typecheck": "tsc --noEmit",
     "sync:adhan-sounds": "node scripts/sync-adhan-sounds.mjs",
-    "generate:worship-assets": "node scripts/generate-worship-assets.mjs"
+    "generate:worship-assets": "node scripts/generate-worship-assets.mjs",
+    "generate:app-icons": "node scripts/generate-app-icons.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
     "@invertase/react-native-apple-authentication": "^2.4.1",
+    "@notifee/react-native": "^9.1.8",
     "@react-native-community/netinfo": "12.0.1",
     "@react-native-firebase/app": "^22.4.0",
     "@react-native-firebase/messaging": "^22.4.0",
@@ -27,7 +29,8 @@
     "react-hook-form": "^7.78.0",
     "react-i18next": "^17.0.8",
     "react-native": "0.85.3",
-    "react-native-bootsplash": "^6.3.7",
+    "react-native-bootsplash": "^6.3.12",
+    "react-native-change-icon": "^5.0.0",
     "react-native-compass-heading": "^2.0.2",
     "react-native-config": "^1.5.5",
     "react-native-fs": "^2.20.0",
@@ -60,6 +63,7 @@
     "@react-native/typescript-config": "0.85.3",
     "@types/react": "~19.2.2",
     "babel-plugin-module-resolver": "^5.0.3",
+    "sharp": "^0.33.5",
     "typescript": "~6.0.3"
   }
 }

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F8F6F1"/>
+      <stop offset="100%" stop-color="#E8E4DC"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3D9B8A"/>
+      <stop offset="100%" stop-color="#1F5C52"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" rx="224" fill="url(#bg)"/>
+  <g opacity="0.08" stroke="#1F5C52" stroke-width="2" fill="none">
+    <path d="M128 512h768M512 128v768M256 256l512 512M768 256L256 768"/>
+    <circle cx="512" cy="512" r="320"/>
+    <circle cx="512" cy="512" r="220"/>
+  </g>
+  <circle cx="512" cy="512" r="300" fill="none" stroke="#1F5C52" stroke-width="6" opacity="0.35"/>
+  <path d="M512 268c-92 0-166 74-166 166 0 118 166 322 166 322s166-204 166-322c0-92-74-166-166-166z" fill="url(#accent)"/>
+  <ellipse cx="512" cy="468" rx="118" ry="28" fill="#E8E4DC" opacity="0.55"/>
+  <path d="M392 620 Q512 560 632 620 L632 700 Q512 660 392 700 Z" fill="url(#accent)" opacity="0.92"/>
+  <path d="M448 700 h128 v36 c0 18-28 32-64 32s-64-14-64-32z" fill="#B8956B" opacity="0.85"/>
+  <path d="M620 360 a88 88 0 0 1 0 176 a72 72 0 0 0 0-144 a16 16 0 0 1 0-32z" fill="#B8956B"/>
+  <text x="512" y="860" text-anchor="middle" font-family="Georgia, serif" font-size="72" font-weight="700" fill="#1F5C52">A+</text>
+</svg>
