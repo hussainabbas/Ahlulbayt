@@ -26,6 +26,7 @@ export function MainTabNavigator() {
       lazy: true,
       freezeOnBlur: false,
       tabBarShowLabel: true,
+      tabBarHideOnKeyboard: true,
     }),
     [],
   );

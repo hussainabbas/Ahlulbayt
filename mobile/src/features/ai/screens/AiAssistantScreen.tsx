@@ -1,17 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import {
-  FlatList,
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-  View,
-} from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 
 import { Screen } from '@/components/ui/Screen';
+import { useKeyboardInset } from '@/core/hooks/useKeyboardInset';
 import { useRootNavigation } from '@/navigation/hooks';
 import type { MainTabParamList } from '@/navigation/types';
 
@@ -37,6 +32,7 @@ export function AiAssistantScreen() {
   const [input, setInput] = useState('');
   const listRef = useRef<FlatList<AiMessage>>(null);
   const seedSent = useRef(false);
+  const keyboardInset = useKeyboardInset();
 
   useEffect(() => {
     const seed = route.params?.seedPrompt;
@@ -45,6 +41,12 @@ export function AiAssistantScreen() {
       void sendMessage(seed);
     }
   }, [route.params?.seedPrompt, messages.length, sendMessage]);
+
+  useEffect(() => {
+    if (keyboardInset > 0 && messages.length > 0) {
+      listRef.current?.scrollToEnd({ animated: true });
+    }
+  }, [keyboardInset, messages.length]);
 
   const handleSend = () => {
     const text = input.trim();
@@ -110,31 +112,27 @@ export function AiAssistantScreen() {
 
   return (
     <Screen padded={false} safeBottom={false}>
-      <KeyboardAvoidingView
-        style={styles.flex}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
-      >
-        <AiChatHeader onClear={clearMessages} canClear={messages.length > 0} />
-        <FlatList
-          ref={listRef}
-          style={styles.list}
-          data={messages}
-          keyExtractor={(item) => item.id}
-          renderItem={renderItem}
-          ListEmptyComponent={
-            <AiWelcomeView onSelectPrompt={sendPrompt} disabled={isThinking} />
+      <AiChatHeader onClear={clearMessages} canClear={messages.length > 0} />
+      <FlatList
+        ref={listRef}
+        style={styles.list}
+        data={messages}
+        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+        ListEmptyComponent={
+          <AiWelcomeView onSelectPrompt={sendPrompt} disabled={isThinking} />
+        }
+        ListFooterComponent={showTypingFooter ? AssistantTypingRow : null}
+        contentContainerStyle={messages.length === 0 ? styles.emptyContent : styles.chatContent}
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="interactive"
+        onContentSizeChange={() => {
+          if (messages.length > 0) {
+            listRef.current?.scrollToEnd({ animated: true });
           }
-          ListFooterComponent={showTypingFooter ? AssistantTypingRow : null}
-          contentContainerStyle={messages.length === 0 ? styles.emptyContent : styles.chatContent}
-          keyboardShouldPersistTaps="handled"
-          keyboardDismissMode="interactive"
-          onContentSizeChange={() => {
-            if (messages.length > 0) {
-              listRef.current?.scrollToEnd({ animated: true });
-            }
-          }}
-        />
+        }}
+      />
+      <View style={{ paddingBottom: keyboardInset }}>
         {messages.length > 0 ? (
           <SuggestedPromptStrip onSelect={sendPrompt} disabled={isThinking} />
         ) : null}
@@ -144,13 +142,12 @@ export function AiAssistantScreen() {
           onSend={handleSend}
           disabled={isThinking}
         />
-      </KeyboardAvoidingView>
+      </View>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  flex: { flex: 1 },
   list: { flex: 1 },
   emptyContent: {
     flexGrow: 1,
