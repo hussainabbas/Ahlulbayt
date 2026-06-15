@@ -104,7 +104,9 @@ function SurahAudioRowComponent({
           onPress={() => onPlayAudio(meta.number)}
           accent
         >
-          ▶
+          <Text variant="caption" color="accent" weight="600">
+            ▶
+          </Text>
         </RowAction>
         <RowAction label={t('quran.hub.queue')} onPress={() => onQueue(meta.number)}>
           <Icon name="plus" size={14} color={theme.colors.textSecondary} />

@@ -17,6 +17,7 @@ import { useTheme } from '@/theme/ThemeContext';
 import { usePrayerTimes } from '../hooks/usePrayerTimes';
 import { usePrayerClockStore } from '../stores/prayerClockStore';
 import {
+  completionsForDate,
   usePrayerCompletionStore,
   type TrackablePrayer,
 } from '../stores/prayerCompletionStore';
@@ -56,7 +57,9 @@ export function PrayerScreen() {
   const adhanEnabled = useAdhanStore((s) => s.masterEnabled);
   const togglePrayer = usePrayerCompletionStore((s) => s.togglePrayer);
   const dateKey = usePrayerClockStore((s) => s.dateKey);
-  const completions = usePrayerCompletionStore((s) => s.byDate[dateKey] ?? []);
+  const completions = usePrayerCompletionStore((s) =>
+    completionsForDate(s.byDate, dateKey),
+  );
 
   const methodLabel = t(
     PRAYER_METHODS[config.method === 'custom' ? 'leva' : config.method]?.labelKey ??
