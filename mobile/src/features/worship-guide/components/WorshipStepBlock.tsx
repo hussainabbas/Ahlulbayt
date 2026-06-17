@@ -1,8 +1,8 @@
 import { StyleSheet, View } from 'react-native';
 
-import { ReferenceList } from '@/components/references';
+import { CitationList } from '@/components/citations';
 import { Text } from '@/components/ui/Text';
-import { fiqhRefsToIslamic } from '@/core/references';
+import { citationsFromFiqhRefs, mergeCitations } from '@/core/citations';
 import { useLocale } from '@/i18n/useLocale';
 import { layout } from '@/theme/layout';
 import { useTheme } from '@/theme/ThemeContext';
@@ -30,6 +30,10 @@ export function WorshipStepBlock({
   const { locale } = useLocale();
   const { theme } = useTheme();
   const showScholar = mode === 'scholar';
+  const stepCitations = mergeCitations(
+    step.citations,
+    showScholar ? citationsFromFiqhRefs(step.fiqhRefs, locale) : undefined,
+  );
 
   return (
     <View
@@ -104,11 +108,8 @@ export function WorshipStepBlock({
         </View>
       ) : null}
 
-      {showScholar && step.fiqhRefs?.length ? (
-        <ReferenceList
-          references={fiqhRefsToIslamic(step.fiqhRefs, step.id)}
-          compact
-        />
+      {showScholar && stepCitations.length > 0 ? (
+        <CitationList citations={stepCitations} compact />
       ) : null}
     </View>
   );

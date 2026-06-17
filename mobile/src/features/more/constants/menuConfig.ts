@@ -17,7 +17,9 @@ export type MoreMenuKey =
   | 'prayerAcademy'
   | 'calendar'
   | 'qibla'
-  | 'muharram';
+  | 'muharram'
+  | 'ramadan'
+  | 'fasting';
 
 export type MoreMenuRoute = Extract<
   keyof RootStackParamList,
@@ -36,6 +38,8 @@ export type MoreMenuRoute = Extract<
   | 'Calendar'
   | 'Qibla'
   | 'MuharramMode'
+  | 'RamadanHub'
+  | 'Fasting'
 >;
 
 export interface MoreMenuItem {
@@ -75,6 +79,7 @@ export const MORE_MENU_SECTIONS: MoreMenuSection[] = [
       { key: 'dua', route: 'Duas' },
       { key: 'ziyarat', route: 'Ziyarat' },
       { key: 'tasbih', route: 'Tasbih' },
+      { key: 'fasting', route: 'Fasting' },
     ],
   },
   {
@@ -83,6 +88,7 @@ export const MORE_MENU_SECTIONS: MoreMenuSection[] = [
       { key: 'calendar', route: 'Calendar' },
       { key: 'qibla', route: 'Qibla' },
       { key: 'muharram', route: 'MuharramMode' },
+      { key: 'ramadan', route: 'RamadanHub' },
     ],
   },
 ];
@@ -98,7 +104,6 @@ export interface MenuIconConfig {
   icon?: MenuIconName;
   label?: string;
   tone: 'accent' | 'gold' | 'muted' | 'rose';
-  size?: 'md' | 'lg';
 }
 
 export const MENU_ICON_CONFIG: Record<MoreMenuKey, MenuIconConfig> = {
@@ -111,10 +116,12 @@ export const MENU_ICON_CONFIG: Record<MoreMenuKey, MenuIconConfig> = {
   nahjul: { icon: 'book', tone: 'rose' },
   tasbih: { label: '33', tone: 'accent' },
   dua: { icon: 'book', tone: 'accent' },
-  ziyarat: { label: 'ز', tone: 'muted', size: 'lg' },
-  worshipGuide: { label: '◉', tone: 'accent', size: 'lg' },
-  prayerAcademy: { label: '⌁', tone: 'muted', size: 'lg' },
-  calendar: { label: '◷', tone: 'muted', size: 'lg' },
-  qibla: { label: '⌖', tone: 'accent', size: 'lg' },
-  muharram: { label: '☾', tone: 'rose', size: 'lg' },
+  ziyarat: { label: 'ز', tone: 'muted' },
+  worshipGuide: { label: '◉', tone: 'accent' },
+  prayerAcademy: { label: '⌁', tone: 'muted' },
+  calendar: { label: '◷', tone: 'muted' },
+  qibla: { label: '⌖', tone: 'accent' },
+  muharram: { label: '☾', tone: 'rose' },
+  ramadan: { label: '☪', tone: 'gold' },
+  fasting: { label: '◌', tone: 'accent' },
 };

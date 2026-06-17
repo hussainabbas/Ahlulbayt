@@ -2,6 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'reac
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { GuidedNavigationBar } from '@/components/guided/GuidedNavigationBar';
 import { GuidedProgressHeader } from '@/components/guided/GuidedProgressHeader';
@@ -34,9 +35,12 @@ const DIFFICULTY_LABELS: Record<GuideDifficulty, string> = {
   advanced: 'prayerAcademy.difficulty.advanced',
 };
 
+const GUIDED_NAV_BAR_HEIGHT = 220;
+
 export function PrayerAcademyGuideScreen() {
   const { t, locale } = useLocale();
   const { theme } = useTheme();
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const route = useRoute<GuideRoute>();
   const { prayerId } = route.params;
@@ -59,6 +63,7 @@ export function PrayerAcademyGuideScreen() {
   );
 
   const { pose, isTransitioning, animationAssetKey, goToStep } = useWorshipSimulator(steps);
+  const footerSpacer = Math.max(0, GUIDED_NAV_BAR_HEIGHT + insets.bottom + 12);
 
   useEffect(() => {
     if (guided) void goToStep(stepIndex);
@@ -122,7 +127,10 @@ export function PrayerAcademyGuideScreen() {
 
   const renderGuidedStep = useCallback(
     (step: PrayerAcademyStep, index: number) => (
-      <ScrollView contentContainerStyle={styles.pageContent} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={[styles.pageContent, { paddingBottom: footerSpacer }]}
+        showsVerticalScrollIndicator={false}
+      >
         {index === stepIndex ? (
           <WorshipAvatarStage
             pose={pose}
@@ -143,7 +151,15 @@ export function PrayerAcademyGuideScreen() {
         />
       </ScrollView>
     ),
-    [stepIndex, pose, isTransitioning, animationAssetKey, readerPrefs, theme.colors.surfaceMuted],
+    [
+      footerSpacer,
+      stepIndex,
+      pose,
+      isTransitioning,
+      animationAssetKey,
+      readerPrefs,
+      theme.colors.surfaceMuted,
+    ],
   );
 
   if (!bundle) {
@@ -181,7 +197,7 @@ export function PrayerAcademyGuideScreen() {
       ) : (
         <ScrollView
           style={styles.scrollView}
-          contentContainerStyle={styles.scroll}
+          contentContainerStyle={[styles.scroll, { paddingBottom: footerSpacer }]}
           showsVerticalScrollIndicator={false}
         >
           <Text variant="bodySm" color="secondary">

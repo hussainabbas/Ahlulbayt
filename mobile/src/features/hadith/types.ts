@@ -1,3 +1,5 @@
+import type { IslamicCitation } from '@/core/citations';
+
 export type HadithId = `hd_${string}`;
 
 /** Primary Shia collections + Sunni cross-reference sources */
@@ -86,6 +88,7 @@ export interface HadithEntry {
   arabic?: string;
   text: LocalizedText;
   reference: HadithReference;
+  citations?: IslamicCitation[];
   summary: LocalizedText;
   grading?: HadithGrading;
   gradingNotes?: LocalizedText;

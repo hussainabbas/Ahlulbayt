@@ -4,14 +4,14 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RouteProp } from '@react-navigation/native';
 
+import { CitationList } from '@/components/citations';
 import { Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
+import { mergeCitations, citationsFromReferences } from '@/core/citations';
+import { duaSourceToReference } from '@/core/references';
 import { useLocale } from '@/i18n/useLocale';
 import type { RootStackParamList } from '@/navigation/types';
 import { useTheme } from '@/theme/ThemeContext';
-
-import { ReferenceList } from '@/components/references';
-import { duaSourceToReference } from '@/core/references';
 import { DuaAudioBar } from '../components/DuaAudioBar';
 import { DuaReaderToolbar } from '../components/DuaReaderToolbar';
 import { DuaSectionBlock } from '../components/DuaSectionBlock';
@@ -84,6 +84,14 @@ export function DuaReaderScreen() {
 
   const translationLabel = translationLayer === 'en' ? 'EN' : 'UR';
 
+  const duaCitations = mergeCitations(
+    meta.citations,
+    citationsFromReferences(
+      [duaSourceToReference(duaId, meta.source, meta.titles.en)],
+      locale,
+    ),
+  );
+
   return (
     <View style={[styles.root, { backgroundColor: theme.colors.backgroundPrimary }]}>
       <FlatList
@@ -101,13 +109,7 @@ export function DuaReaderScreen() {
             <Text variant="caption" color="tertiary">
               {time}
             </Text>
-            <ReferenceList
-              references={[
-                duaSourceToReference(duaId, meta.source, meta.titles.en),
-              ]}
-              compact
-              filterMarja={false}
-            />
+            <CitationList citations={duaCitations} compact />
 
             <DuaReaderToolbar
               bookmarked={isBookmarked}

@@ -32,6 +32,7 @@ Get-ChildItem drizzle/migrations/*.sql | Sort-Object Name | ForEach-Object {
 ```bash
 psql $DATABASE_URL -f drizzle/seeds/001_quran_surahs.sql
 psql $DATABASE_URL -f drizzle/seeds/002_calendar_events.sql
+node scripts/seed-admin-user.mjs   # default admin@ahlulbayt.com (see script)
 ```
 
 ## Production checklist

@@ -6,19 +6,23 @@ import { useTheme } from '@/theme/ThemeContext';
 
 import { MENU_ICON_CONFIG, type MoreMenuKey } from '../constants/menuConfig';
 
+export type MenuItemIconVariant = 'list' | 'tile';
+
 interface MenuItemIconProps {
   itemKey: MoreMenuKey;
+  variant?: MenuItemIconVariant;
 }
 
+/** Unified icon metrics — list rows and quick-action tiles each get one consistent size. */
 const SIZE = {
-  md: { wrap: 36, icon: 16, label: 13, radius: 10 },
-  lg: { wrap: 44, icon: 20, label: 18, radius: 12 },
+  list: { wrap: 40, icon: 18, label: 15, radius: 10 },
+  tile: { wrap: 48, icon: 22, label: 17, radius: 12 },
 } as const;
 
-export function MenuItemIcon({ itemKey }: MenuItemIconProps) {
+export function MenuItemIcon({ itemKey, variant = 'list' }: MenuItemIconProps) {
   const { theme } = useTheme();
   const config = MENU_ICON_CONFIG[itemKey];
-  const dim = SIZE[config.size ?? 'md'];
+  const dim = SIZE[variant];
 
   const palette = {
     accent: {
@@ -56,8 +60,15 @@ export function MenuItemIcon({ itemKey }: MenuItemIconProps) {
       ) : (
         <Text
           variant="caption"
-          weight="600"
-          style={{ color: palette.fg, fontSize: dim.label, lineHeight: dim.label + 4 }}
+          weight="700"
+          style={[
+            styles.glyph,
+            {
+              color: palette.fg,
+              fontSize: dim.label,
+              lineHeight: dim.label + 2,
+            },
+          ]}
         >
           {config.label}
         </Text>
@@ -70,5 +81,9 @@ const styles = StyleSheet.create({
   wrap: {
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  glyph: {
+    includeFontPadding: false,
+    textAlign: 'center',
   },
 });

@@ -41,6 +41,12 @@ export type RootStackParamList = {
   Qibla: undefined;
   Calendar: undefined;
   MuharramMode: undefined;
+  MuharramDayDetail: { day: number };
+  KarbalaTimeline: undefined;
+  MartyrsList: undefined;
+  MartyrProfile: { martyrId: string };
+  ArbaeenJourney: undefined;
+  SafarEvents: undefined;
   Masoomeen: undefined;
   MasoomeenProfile: { masoomeenId: string };
   Hadith: undefined;
@@ -51,6 +57,11 @@ export type RootStackParamList = {
   PrayerAcademyGuide: { prayerId: string; step?: number };
   WorshipGuide: undefined;
   WorshipGuideSession: { guideId: string; step?: number };
+  Fasting: undefined;
+  RamadanHub: undefined;
+  LaylatAlQadr: undefined;
+  KaffaraCalculator: undefined;
+  FidyaCalculator: undefined;
 };
 
 declare global {

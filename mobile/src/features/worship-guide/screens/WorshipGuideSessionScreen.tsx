@@ -2,6 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'reac
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { GuidedNavigationBar } from '@/components/guided/GuidedNavigationBar';
 import { GuidedProgressHeader } from '@/components/guided/GuidedProgressHeader';
@@ -27,9 +28,14 @@ type SessionRoute = RouteProp<RootStackParamList, 'WorshipGuideSession'>;
 
 const MODES: GuideLearningMode[] = ['beginner', 'standard', 'scholar'];
 
+// Space reserved so step content never sits behind the bottom navigation bar.
+// Kept intentionally a bit generous to handle the swipe hint + button row across devices.
+const GUIDED_NAV_BAR_HEIGHT = 220;
+
 export function WorshipGuideSessionScreen() {
   const { t, locale } = useLocale();
   const { theme } = useTheme();
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const route = useRoute<SessionRoute>();
   const { guideId: guideIdParam } = route.params;
@@ -46,6 +52,8 @@ export function WorshipGuideSessionScreen() {
   const bundle = useMemo(() => WorshipGuideRepository.getBundle(guideId), [guideId]);
   const steps = useMemo(() => StepProgressionEngine.getSteps(guideId, mode), [guideId, mode]);
   const { pose, isTransitioning, animationAssetKey, goToStep } = useWorshipSimulator(steps);
+
+  const footerSpacer = Math.max(0, GUIDED_NAV_BAR_HEIGHT + insets.bottom + 12);
 
   useEffect(() => {
     if (guided) void goToStep(stepIndex);
@@ -114,7 +122,7 @@ export function WorshipGuideSessionScreen() {
 
       return (
         <ScrollView
-          contentContainerStyle={styles.pageContent}
+          contentContainerStyle={[styles.pageContent, { paddingBottom: footerSpacer }]}
           showsVerticalScrollIndicator={false}
         >
           {index === stepIndex ? (
@@ -208,7 +216,7 @@ export function WorshipGuideSessionScreen() {
       ) : (
         <ScrollView
           style={styles.scrollView}
-          contentContainerStyle={styles.scroll}
+          contentContainerStyle={[styles.scroll, { paddingBottom: footerSpacer }]}
           showsVerticalScrollIndicator={false}
         >
           <GuidedProgressHeader

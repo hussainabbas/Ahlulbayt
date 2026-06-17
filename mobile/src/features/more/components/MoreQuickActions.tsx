@@ -2,7 +2,6 @@ import { Pressable, StyleSheet, View } from 'react-native';
 
 import { Text } from '@/components/ui/Text';
 import { useLocale } from '@/i18n/useLocale';
-import { layout } from '@/theme/layout';
 import { useTheme } from '@/theme/ThemeContext';
 
 import { MORE_QUICK_ACTIONS, type MoreMenuItem } from '../constants/menuConfig';
@@ -35,7 +34,9 @@ export function MoreQuickActions({ onPress }: MoreQuickActionsProps) {
               },
             ]}
           >
-            <MenuItemIcon itemKey={item.key} />
+            <View style={styles.iconSlot}>
+              <MenuItemIcon itemKey={item.key} variant="tile" />
+            </View>
             <Text variant="caption" weight="600" numberOfLines={2} style={styles.label}>
               {t(`more.${item.key}`)}
             </Text>
@@ -45,6 +46,8 @@ export function MoreQuickActions({ onPress }: MoreQuickActionsProps) {
     </View>
   );
 }
+
+const ICON_SLOT = 48;
 
 const styles = StyleSheet.create({
   wrap: {
@@ -59,13 +62,22 @@ const styles = StyleSheet.create({
     width: '47%',
     flexGrow: 1,
     minWidth: '46%',
-    paddingVertical: 14,
+    minHeight: 108,
+    paddingVertical: 16,
     paddingHorizontal: 12,
     alignItems: 'center',
-    gap: 8,
+    justifyContent: 'center',
+    gap: 10,
     borderWidth: StyleSheet.hairlineWidth,
+  },
+  iconSlot: {
+    width: ICON_SLOT,
+    height: ICON_SLOT,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   label: {
     textAlign: 'center',
+    minHeight: 32,
   },
 });

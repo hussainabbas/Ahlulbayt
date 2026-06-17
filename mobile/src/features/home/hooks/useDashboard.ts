@@ -1,12 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
+import { getIslamicEventsSnapshot } from '@/core/islamic-events';
+import { useHijriClock } from '@/features/calendar/hooks/useHijriClock';
 import { useLocale } from '@/i18n/useLocale';
 import { useAuthStore } from '@/stores/authStore';
 import { useSettingsStore } from '@/stores/settingsStore';
 import { usePrayerClockStore } from '@/features/prayer/stores/prayerClockStore';
 
 import { useRecommendations } from '@/features/ai/recommendations/hooks/useRecommendations';
+import { getIslamicCalendarAiSnapshot } from '@/core/islamic-calendar-ai';
+
+import { getRamadanDay } from '@/features/ramadan/engine/ramadanRepository';
 
 import { getAiRecommendations } from '../data/aiSuggestions';
 import { getTodaysDua, getTodaysHadith, getTodaysVerse } from '../data/dailyContent';
@@ -30,9 +35,14 @@ export function useDashboard() {
   const nextPrayerTime = usePrayerClockStore((s) => s.nextPrayerTime);
   const timezone = usePrayerClockStore((s) => s.timezone);
   const gpsReady = usePrayerClockStore((s) => s.gpsReady);
-  const [now] = useState(() => new Date());
+  const now = useHijriClock();
   const hijri = useMemo(() => getHijriDate(now, locale), [now, locale]);
   const gregorian = useMemo(() => getGregorianFormatted(now, locale), [now, locale]);
+
+  const islamicEvents = useMemo(
+    () => getIslamicEventsSnapshot(now, locale),
+    [now, locale],
+  );
 
   const weatherQuery = useQuery({
     queryKey: ['weather', latitude, longitude],
@@ -51,6 +61,11 @@ export function useDashboard() {
     [hijri.month, hijri.day],
   );
 
+  const calendarAi = useMemo(
+    () => getIslamicCalendarAiSnapshot(now, locale),
+    [now, locale],
+  );
+
   const recommendations = useMemo(
     () =>
       aiEnabled
@@ -62,7 +77,16 @@ export function useDashboard() {
   const personalizedRecs = useRecommendations(6);
 
   const showMuharramBanner =
-    hijri.isMuharram || hijri.isAshuraPeriod || (hijri.month === 12 && hijri.day >= 20);
+    !hijri.isRamadan &&
+    (hijri.isMuharram || hijri.isAshuraPeriod || (hijri.month === 12 && hijri.day >= 20));
+
+  const showRamadanExperience = hijri.isRamadan;
+
+  const ramadanDay = hijri.isRamadan ? hijri.day : 1;
+  const ramadanDaily = useMemo(
+    () => (showRamadanExperience ? getRamadanDay(ramadanDay) : undefined),
+    [showRamadanExperience, ramadanDay],
+  );
 
   return {
     t,
@@ -85,8 +109,15 @@ export function useDashboard() {
     hadith,
     dua,
     events,
+    calendarAi,
     recommendations,
     personalizedRecs,
     showMuharramBanner,
+    showRamadanExperience,
+    ramadanDaily,
+    islamicContext: islamicEvents.context,
+    homePriorities: islamicEvents.homePriorities,
+    dailyTimeline: islamicEvents.dailyTimeline,
+    featuredSeasonal: islamicEvents.featuredContent,
   };
 }

@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { Text } from '@/components/ui/Text';
 import {
   filterReferencesByMarja,
+  mergeReferences,
   shouldShowReferenceWarning,
   verifyReferences,
   type IslamicReference,
@@ -31,7 +32,8 @@ export function ReferenceList({
 }: ReferenceListProps) {
   const { t } = useLocale();
   const marja = useSettingsStore((s) => s.marja);
-  const visible = filterMarja ? filterReferencesByMarja(references, marja) : references;
+  const filtered = filterMarja ? filterReferencesByMarja(references, marja) : references;
+  const visible = mergeReferences(filtered);
   const report = verifyReferences(visible);
 
   if (visible.length === 0) {

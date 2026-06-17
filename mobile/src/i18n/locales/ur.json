@@ -63,6 +63,17 @@
       "external": "بیرونی"
     }
   },
+  "citations": {
+    "source": "ماخذ",
+    "volume": "جلد",
+    "page": "صفحہ",
+    "hadithNumber": "حدیث نمبر",
+    "narrator": "راوی",
+    "scholar": "عالم",
+    "unverified": "غیر تصدیق شدہ",
+    "references": "حوالہ جات",
+    "unverifiedDisclaimer": "یہ مواد بنیادی مآخذ سے تصدیق شدہ نہیں۔ براہ کرم کسی مجاز عالم سے تصدیق کریں۔"
+  },
   "tabs": {
     "home": "ہوم",
     "prayer": "نماز",
@@ -1092,6 +1103,14 @@
     "readingMinutes": "پڑھنے کے منٹ",
     "prayerBreakdown": "نماز کی تفصیل"
   },
+  "islamicCalendarAi": {
+    "widget": {
+      "title": "آج اسلامی کیلنڈر میں",
+      "viewCalendar": "کیلنڈر",
+      "recommended": "آج کی سفارشات",
+      "unverified": "کچھ مآخذ علمی جائزے کے منتظر ہیں"
+    }
+  },
   "errors": {
     "networkOffline": "انٹرنیٹ کنکشن نہیں",
     "networkTimeout": "درخواست کا وقت ختم",
@@ -1488,6 +1507,41 @@
         "amalSteps": "1. Recite Ziyarat Warith\n2. Visit graves if possible\n3. 100× Salawat\n4. Renew allegiance to Imam Husayn (as)\n5. Plan ongoing remembrance through Safar"
       }
     }
+  },
+  "muharramModule": {
+    "sources": "مصادر",
+    "narrative": "کیا ہوا",
+    "significance": "اہمیت",
+    "relatedFigures": "اہل بیت",
+    "openDayDetail": "مکمل دن گائیڈ ←",
+    "noDuas": "اس دن کے لیے کوئی دعا منسلک نہیں۔",
+    "tabs": { "events": "واقعات", "amaal": "اعمال", "duas": "دعائیں", "ziyarat": "زیارت", "quran": "قرآن" },
+    "dayDetail": { "title": "محرم کا دن {{day}}" },
+    "hub": {
+      "dayDetail": "دن {{day}} گائیڈ",
+      "dayDetailSub": "تاریخ، اعمال، دعائیں، زیارت",
+      "karbalaTimeline": "کربلا ٹائم لائن",
+      "karbalaTimelineSub": "جنگ کے واقعات",
+      "martyrs": "شہدائے کربلا",
+      "martyrsSub": "حوالوں کے ساتھ",
+      "ahlulBayt": "اہل بیت سیر",
+      "ahlulBaytSub": "چودہ معصومین",
+      "arbaeen": "اربعین سفر",
+      "arbaeenSub": "اسیری سے زيارت تک",
+      "safar": "صفر کے واقعات",
+      "safarSub": "اربعین و شہادتیں"
+    },
+    "timeline": { "title": "کربلا جنگ ٹائم لائن", "subtitle": "۱–۱۳ محرم ۶۱ ہجری" },
+    "martyrs": {
+      "subtitle": "جو امام حسینؑ کے ساتھ کھڑے ہوئے",
+      "profile": "شہید پروفائل",
+      "notFound": "نہیں ملا",
+      "shahadatDay": "شہادت · {{day}} محرم",
+      "openMasoomeen": "مکمل پروفائل"
+    },
+    "arbaeen": { "title": "اربعین کا سفر", "subtitle": "عاشورا کے چالیس دن بعد", "stage": "صفر {{day}}" },
+    "safar": { "title": "صفر مناسبات", "subtitle": "محرم کے بعد", "dayLabel": "صفر {{day}}" },
+    "quran": { "title": "تجویز کردہ تلاوت", "surah": "سورہ {{number}}", "none": "کوئی سورہ منسلک نہیں" }
   },
   "ai": {
     "title": "اہل البیت سے پوچھیں",

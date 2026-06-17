@@ -35,6 +35,7 @@ export type LocalizedText = { en: string; ur: string; ar: string };
 
 export type PartialLocalizedText = Partial<LocalizedText>;
 
+import type { IslamicCitation } from '@/core/citations';
 import type { FiqhReference as CoreFiqhReference, MarjaId } from '@/core/references';
 
 export type FiqhReference = CoreFiqhReference;
@@ -113,6 +114,7 @@ export interface PrayerGuideStep {
   transliteration?: LocalizedText;
   checklist?: LocalizedText[];
   fiqhRefs?: FiqhReference[];
+  citations?: IslamicCitation[];
   audioCueId?: string;
   /** Worship simulator pose + asset (see worship-simulator module) */
   animationPose?: string;

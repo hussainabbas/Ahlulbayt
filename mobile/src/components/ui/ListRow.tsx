@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
     marginVertical: 2,
   },
   leading: {
+    width: 40,
     alignItems: 'center',
     justifyContent: 'center',
   },

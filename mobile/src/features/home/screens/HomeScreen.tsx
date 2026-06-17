@@ -8,12 +8,22 @@ import { layout } from '@/theme/layout';
 import { DashboardHeader } from '../components/DashboardHeader';
 import { AiRecommendationsWidget } from '../components/widgets/AiRecommendationsWidget';
 import { PersonalizedRecommendationFeed } from '../components/widgets/PersonalizedRecommendationFeed';
+import { DailyTimelineWidget } from '../components/widgets/DailyTimelineWidget';
+import { FeaturedSeasonalWidget } from '../components/widgets/FeaturedSeasonalWidget';
+import { CalendarTodayWidget } from '../components/widgets/CalendarTodayWidget';
 import { DuaWidget } from '../components/widgets/DuaWidget';
 import { HadithWidget } from '../components/widgets/HadithWidget';
 import { IslamicDateWidget } from '../components/widgets/IslamicDateWidget';
 import { MuharramBanner } from '../components/widgets/MuharramBanner';
+import { useFastingHub } from '@/features/fasting/hooks/useFastingHub';
+import { FastingWidget } from '@/features/fasting/components/FastingWidget';
+import { LaylatAlQadrBanner } from '@/features/ramadan/components/LaylatAlQadrBanner';
+import { QuranGoalWidget } from '@/features/ramadan/components/QuranGoalWidget';
+import { RamadanDailyWidget } from '@/features/ramadan/components/RamadanDailyWidget';
+import { RamadanHeroWidget } from '@/features/ramadan/components/RamadanHeroWidget';
 import { NextPrayerWidget } from '../components/widgets/NextPrayerWidget';
 import { QuranVerseWidget } from '../components/widgets/QuranVerseWidget';
+import { SeasonalPrioritiesWidget } from '../components/widgets/SeasonalPrioritiesWidget';
 import { TasbihWidget } from '../components/widgets/TasbihWidget';
 import { UpcomingEventsWidget } from '../components/widgets/UpcomingEventsWidget';
 import { WeatherWidget } from '../components/widgets/WeatherWidget';
@@ -21,6 +31,7 @@ import { useDashboard } from '../hooks/useDashboard';
 
 export const HomeScreen = memo(function HomeScreen() {
   const rootNavigation = useRootNavigation();
+  const fastingHub = useFastingHub();
   const {
     t,
     displayName,
@@ -41,9 +52,16 @@ export const HomeScreen = memo(function HomeScreen() {
     hadith,
     dua,
     events,
+    calendarAi,
     recommendations,
     personalizedRecs,
     showMuharramBanner,
+    showRamadanExperience,
+    ramadanDaily,
+    islamicContext,
+    homePriorities,
+    dailyTimeline,
+    featuredSeasonal,
   } = useDashboard();
 
   return (
@@ -75,12 +93,58 @@ export const HomeScreen = memo(function HomeScreen() {
 
         {showMuharramBanner ? <MuharramBanner hijri={hijri} /> : null}
 
-        <NextPrayerWidget
-          nextPrayer={nextPrayer}
-          countdown={countdown}
-          nextPrayerTime={nextPrayerTime}
-          timezone={timezone}
-        />
+        {showRamadanExperience ? (
+          <>
+            <RamadanHeroWidget
+              countdown={fastingHub.countdown}
+              formatTime={fastingHub.formatTime}
+              isFasted={fastingHub.isFasted()}
+              onToggleFast={() => fastingHub.toggleFast('ramadan')}
+              onOpenHub={() => rootNavigation.navigate('RamadanHub')}
+            />
+            {hijri.isLastTenNights ? (
+              <LaylatAlQadrBanner
+                hijriDay={hijri.day}
+                isOddNight={hijri.day % 2 === 1}
+                onPress={() => rootNavigation.navigate('LaylatAlQadr')}
+              />
+            ) : null}
+            <QuranGoalWidget onOpenHub={() => rootNavigation.navigate('RamadanHub')} />
+            {ramadanDaily ? <RamadanDailyWidget daily={ramadanDaily} /> : null}
+          </>
+        ) : null}
+
+        {calendarAi.homeWidgetPlan.includes('calendar_today') &&
+        (calendarAi.todayEvents.length > 0 || calendarAi.recommendations.length > 0) ? (
+          <CalendarTodayWidget
+            context={calendarAi.context}
+            events={calendarAi.todayEvents}
+            recommendations={calendarAi.recommendations}
+          />
+        ) : null}
+
+        {islamicContext.season !== 'general' ? (
+          <>
+            <DailyTimelineWidget entries={dailyTimeline} />
+            <SeasonalPrioritiesWidget
+              seasonLabelKey={islamicContext.seasonLabelKey}
+              priorities={homePriorities}
+            />
+            <FeaturedSeasonalWidget items={featuredSeasonal} />
+          </>
+        ) : null}
+
+        {!showRamadanExperience ? (
+          <>
+            <FastingWidget />
+            <NextPrayerWidget
+            nextPrayer={nextPrayer}
+            countdown={countdown}
+            nextPrayerTime={nextPrayerTime}
+            timezone={timezone}
+          />
+          </>
+        ) : null}
 
         <TasbihWidget />
 
@@ -92,18 +156,20 @@ export const HomeScreen = memo(function HomeScreen() {
 
         <AiRecommendationsWidget recommendations={recommendations} />
 
-        <QuranVerseWidget verse={verse} />
-
-        <HadithWidget
-          hadith={hadith}
-          onPress={
-            hadith.hadithId
-              ? () => rootNavigation.navigate('HadithDetail', { hadithId: hadith.hadithId! })
-              : undefined
-          }
-        />
-
-        <DuaWidget dua={dua} />
+        {!showRamadanExperience ? (
+          <>
+            <QuranVerseWidget verse={verse} />
+            <HadithWidget
+              hadith={hadith}
+              onPress={
+                hadith.hadithId
+                  ? () => rootNavigation.navigate('HadithDetail', { hadithId: hadith.hadithId! })
+                  : undefined
+              }
+            />
+            <DuaWidget dua={dua} />
+          </>
+        ) : null}
 
         <UpcomingEventsWidget events={events} />
       </View>

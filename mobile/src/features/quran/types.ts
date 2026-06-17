@@ -48,10 +48,13 @@ export interface AyahTranslations {
   roman_ur?: string;
 }
 
+import type { IslamicCitation } from '@/core/citations';
+
 export interface AyahTafsir {
   en?: string;
   ur?: string;
   source?: string;
+  citations?: IslamicCitation[];
 }
 
 export interface QuranAyah {

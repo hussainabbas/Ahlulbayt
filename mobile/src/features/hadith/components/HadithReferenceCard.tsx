@@ -1,7 +1,12 @@
 import { StyleSheet, View } from 'react-native';
 
+import { CitationList } from '@/components/citations';
 import { Card } from '@/components/ui/Card';
 import { Text } from '@/components/ui/Text';
+import {
+  citationsFromHadithReference,
+  mergeCitations,
+} from '@/core/citations';
 import { useLocale } from '@/i18n/useLocale';
 import { useTheme } from '@/theme/ThemeContext';
 
@@ -18,28 +23,12 @@ export function HadithReferenceCard({ entry }: HadithReferenceCardProps) {
   const { theme } = useTheme();
   const ref = entry.reference;
   const sourceMeta = SOURCE_BY_ID[entry.source];
+  const sourceLabel = t(sourceMeta.nameKey);
 
-  const rows: Array<{ label: string; value: string }> = [];
-
-  rows.push({ label: t('hadith.reference.source'), value: t(sourceMeta.nameKey) });
-  if (ref.volume != null) {
-    rows.push({ label: t('hadith.reference.volume'), value: String(ref.volume) });
-  }
-  if (ref.book) {
-    rows.push({ label: t('hadith.reference.book'), value: pickLocalized(ref.book, locale) });
-  }
-  if (ref.chapter) {
-    rows.push({ label: t('hadith.reference.chapter'), value: pickLocalized(ref.chapter, locale) });
-  }
-  if (ref.hadithNumber) {
-    rows.push({ label: t('hadith.reference.number'), value: ref.hadithNumber });
-  }
-  if (ref.page) {
-    rows.push({ label: t('hadith.reference.page'), value: ref.page });
-  }
-  if (ref.grading) {
-    rows.push({ label: t('hadith.reference.grading'), value: pickLocalized(ref.grading, locale) });
-  }
+  const citations = mergeCitations(
+    entry.citations,
+    citationsFromHadithReference(ref, sourceLabel, locale),
+  );
 
   return (
     <Card style={styles.card}>
@@ -47,14 +36,16 @@ export function HadithReferenceCard({ entry }: HadithReferenceCardProps) {
         {t('hadith.reference.title')}
       </Text>
 
-      {rows.map((row) => (
-        <View key={row.label} style={[styles.row, { borderBottomColor: theme.colors.borderSubtle }]}>
+      <CitationList citations={citations} compact />
+
+      {ref.grading ? (
+        <View style={[styles.row, { borderBottomColor: theme.colors.borderSubtle }]}>
           <Text variant="caption" color="tertiary" style={styles.label}>
-            {row.label}
+            {t('hadith.reference.grading')}
           </Text>
-          <Text variant="bodySm">{row.value}</Text>
+          <Text variant="bodySm">{pickLocalized(ref.grading, locale)}</Text>
         </View>
-      ))}
+      ) : null}
 
       {entry.isnad?.links?.length ? (
         <View style={styles.section}>

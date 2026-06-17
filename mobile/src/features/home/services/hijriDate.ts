@@ -33,6 +33,9 @@ export function getHijriDate(date: Date = new Date(), locale = 'en'): HijriDate 
   const monthName = HIJRI_MONTHS_EN[month - 1] ?? 'Muharram';
   const isMuharram = month === 1;
   const isAshuraPeriod = month === 1 && day >= 1 && day <= 10;
+  const isRamadan = month === 9;
+  const isRamadanSeason = month === 9 || (month === 8 && day >= 15);
+  const isLastTenNights = month === 9 && day >= 21;
   const daysUntilAshura = month === 1 ? Math.max(0, 10 - day) : month === 12 ? null : null;
 
   let ashuraCountdown: number | null = null;
@@ -41,6 +44,13 @@ export function getHijriDate(date: Date = new Date(), locale = 'en'): HijriDate 
   } else if (month === 12) {
     const daysLeftInMonth = 30 - day;
     ashuraCountdown = daysLeftInMonth + 10;
+  }
+
+  let ramadanCountdown: number | null = null;
+  if (month === 9) {
+    ramadanCountdown = 0;
+  } else if (month === 8) {
+    ramadanCountdown = Math.max(0, 30 - day);
   }
 
   const formatted = new Intl.DateTimeFormat(`${locale}-u-ca-islamic`, {
@@ -58,7 +68,11 @@ export function getHijriDate(date: Date = new Date(), locale = 'en'): HijriDate 
     formatted,
     isMuharram,
     isAshuraPeriod,
+    isRamadan,
+    isRamadanSeason,
+    isLastTenNights,
     daysUntilAshura: ashuraCountdown,
+    daysUntilRamadan: ramadanCountdown,
   };
 }
 

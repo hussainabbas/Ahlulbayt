@@ -130,6 +130,49 @@ export function RootNavigator() {
         options={stack.base}
       />
       <Stack.Screen
+        name="MuharramDayDetail"
+        getComponent={lazyScreen(
+          () =>
+            require('@/features/muharram/screens/MuharramDayDetailScreen').MuharramDayDetailScreen,
+        )}
+        options={stack.base}
+      />
+      <Stack.Screen
+        name="KarbalaTimeline"
+        getComponent={lazyScreen(
+          () => require('@/features/muharram/screens/KarbalaTimelineScreen').KarbalaTimelineScreen,
+        )}
+        options={stack.base}
+      />
+      <Stack.Screen
+        name="MartyrsList"
+        getComponent={lazyScreen(
+          () => require('@/features/muharram/screens/MartyrsListScreen').MartyrsListScreen,
+        )}
+        options={stack.base}
+      />
+      <Stack.Screen
+        name="MartyrProfile"
+        getComponent={lazyScreen(
+          () => require('@/features/muharram/screens/MartyrProfileScreen').MartyrProfileScreen,
+        )}
+        options={stack.base}
+      />
+      <Stack.Screen
+        name="ArbaeenJourney"
+        getComponent={lazyScreen(
+          () => require('@/features/muharram/screens/ArbaeenJourneyScreen').ArbaeenJourneyScreen,
+        )}
+        options={stack.base}
+      />
+      <Stack.Screen
+        name="SafarEvents"
+        getComponent={lazyScreen(
+          () => require('@/features/muharram/screens/SafarEventsScreen').SafarEventsScreen,
+        )}
+        options={stack.base}
+      />
+      <Stack.Screen
         name="Calendar"
         getComponent={lazyScreen(
           () => require('@/features/calendar/screens/CalendarScreen').CalendarScreen,
@@ -207,6 +250,42 @@ export function RootNavigator() {
             require('@/features/worship-guide/screens/WorshipGuideSessionScreen').WorshipGuideSessionScreen,
         )}
         options={stack.base}
+      />
+      <Stack.Screen
+        name="Fasting"
+        getComponent={lazyScreen(
+          () => require('@/features/fasting/screens/FastingHubScreen').FastingHubScreen,
+        )}
+        options={stack.titled()}
+      />
+      <Stack.Screen
+        name="RamadanHub"
+        getComponent={lazyScreen(
+          () => require('@/features/ramadan/screens/RamadanHubScreen').RamadanHubScreen,
+        )}
+        options={stack.base}
+      />
+      <Stack.Screen
+        name="LaylatAlQadr"
+        getComponent={lazyScreen(
+          () => require('@/features/ramadan/screens/LaylatAlQadrScreen').LaylatAlQadrScreen,
+        )}
+        options={stack.base}
+      />
+      <Stack.Screen
+        name="KaffaraCalculator"
+        getComponent={lazyScreen(
+          () =>
+            require('@/features/fasting/screens/KaffaraCalculatorScreen').KaffaraCalculatorScreen,
+        )}
+        options={stack.titled()}
+      />
+      <Stack.Screen
+        name="FidyaCalculator"
+        getComponent={lazyScreen(
+          () => require('@/features/fasting/screens/FidyaCalculatorScreen').FidyaCalculatorScreen,
+        )}
+        options={stack.titled()}
       />
       <Stack.Screen
         name="Paywall"

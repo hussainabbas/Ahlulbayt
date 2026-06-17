@@ -63,6 +63,17 @@
       "external": "External"
     }
   },
+  "citations": {
+    "source": "Source",
+    "volume": "Volume",
+    "page": "Page",
+    "hadithNumber": "Hadith no.",
+    "narrator": "Narrator",
+    "scholar": "Scholar",
+    "unverified": "Unverified",
+    "references": "References",
+    "unverifiedDisclaimer": "This content has not been verified against primary sources. Please confirm with a qualified scholar."
+  },
   "tabs": {
     "home": "Home",
     "prayer": "Prayer",
@@ -102,8 +113,24 @@
       "title": "Muharram — Month of Imam Husayn (as)",
       "ashuraTitle": "Ashura — Remembering Karbala",
       "countdown": "{{days}} days until Ashura",
-      "subtitle": "Reflect on the sacrifice of Imam Husayn (as) and the martyrs of Karbala.",
-      "enterMode": "Enter Muharram Mode"
+      "subtitle": "Timeline, martyrs, amaal, duas & ziyarat — fully offline.",
+      "enterMode": "Explore Muharram & Karbala"
+    },
+    "ramadan": {
+      "label": "Ramadan",
+      "sehriAt": "Sehri ends at {{time}}",
+      "iftarAt": "Iftar at {{time}}",
+      "fastingToday": "Today's fast",
+      "tapToMark": "Tap to mark",
+      "quranGoal": "Quran goal",
+      "hadith": "Hadith of the day",
+      "day": "Day {{day}}",
+      "enterHub": "Open Ramadan Hub",
+      "laylatLabel": "Last ten nights",
+      "laylatOdd": "Night {{day}} — seek Laylat al-Qadr",
+      "laylatLastTen": "Day {{day}} — prepare for worship",
+      "laylatSubtitle": "Increase Quran, dua, and charity in the blessed nights.",
+      "laylatAction": "Laylat al-Qadr guide"
     },
     "ai": {
       "title": "For You",
@@ -924,6 +951,64 @@
       }
     }
   },
+  "muharramModule": {
+    "sources": "Sources & references",
+    "narrative": "What happened",
+    "significance": "Why it matters",
+    "relatedFigures": "Related Ahlul Bayt",
+    "openDayDetail": "Tap for full day guide →",
+    "noDuas": "No specific dua linked for this day.",
+    "tabs": {
+      "events": "Events",
+      "amaal": "Amaal",
+      "duas": "Duas",
+      "ziyarat": "Ziyarat",
+      "quran": "Quran"
+    },
+    "dayDetail": {
+      "title": "Muharram Day {{day}}"
+    },
+    "hub": {
+      "dayDetail": "Day {{day}} guide",
+      "dayDetailSub": "History, amaal, duas, ziyarat & Quran",
+      "karbalaTimeline": "Karbala timeline",
+      "karbalaTimelineSub": "Battle events from arrival to Ashura",
+      "martyrs": "Martyrs of Karbala",
+      "martyrsSub": "Profiles with scholarly references",
+      "ahlulBayt": "Ahlul Bayt biographies",
+      "ahlulBaytSub": "Full profiles of the Fourteen Masoomeen",
+      "arbaeen": "Arbaeen journey",
+      "arbaeenSub": "From captivity to the walk of millions",
+      "safar": "Safar events",
+      "safarSub": "Arbaeen, shahadat observances & remembrance"
+    },
+    "timeline": {
+      "title": "Karbala battle timeline",
+      "subtitle": "Key moments from 1–13 Muharram 61 AH with cited sources."
+    },
+    "martyrs": {
+      "subtitle": "Those who stood with Imam Husayn (as) at Karbala.",
+      "profile": "Martyr profile",
+      "notFound": "Martyr profile not found.",
+      "shahadatDay": "Shahadat · {{day}} Muharram",
+      "openMasoomeen": "Open full Masoomeen profile"
+    },
+    "arbaeen": {
+      "title": "The Arbaeen journey",
+      "subtitle": "Forty days from Ashura to Jabir's visitation at Karbala.",
+      "stage": "Safar {{day}}"
+    },
+    "safar": {
+      "title": "Safar observances",
+      "subtitle": "Events continuing the mourning season after Muharram.",
+      "dayLabel": "Safar {{day}}"
+    },
+    "quran": {
+      "title": "Recommended recitation",
+      "surah": "Surah {{number}}",
+      "none": "No specific surah linked for this day."
+    }
+  },
   "calendar": {
     "title": "Islamic Calendar",
     "subtitle": "Shia Hijri observances — Wiladat, Shahadat, Muharram, Arbaeen, Ghadeer & Mubahila.",
@@ -1209,10 +1294,12 @@
     "hadith": "Hadith Database",
     "nahjul": "Nahjul Balagha",
     "tasbih": "Smart Tasbih",
+    "fasting": "Fasting Hub",
     "dua": "Duas & Amaal",
     "ziyarat": "Ziyarat",
     "calendar": "Calendar",
     "muharram": "Muharram Mode",
+    "ramadan": "Ramadan Hub",
     "qibla": "Qibla",
     "worshipGuide": "Worship Guide",
     "prayerAcademy": "Prayer Academy",
@@ -1686,6 +1773,489 @@
     "ayahsRead": "Ayahs read",
     "readingMinutes": "Reading minutes",
     "prayerBreakdown": "Prayer breakdown"
+  },
+  "fasting": {
+    "title": "Fasting",
+    "subtitle": "Sehri & iftar times, fast tracking, qada, and fiqh calculators — offline.",
+    "ramadanHub": "Open Ramadan Mode hub",
+    "sehri": {
+      "title": "Sehri ends",
+      "endsAt": "Imsak at",
+      "hint": "Stop eating and drinking before imsak (Jafari prayer times)."
+    },
+    "iftar": {
+      "title": "Iftar in",
+      "at": "Maghrib at",
+      "hint": "Break your fast at maghrib adhan."
+    },
+    "banner": {
+      "label": "Ramadan",
+      "title": "Fasting Hub",
+      "enter": "Open fasting tracker"
+    },
+    "widget": {
+      "title": "Fasting",
+      "ramadan": "Ramadan fasting",
+      "open": "Open hub"
+    },
+    "tracker": {
+      "title": "Today's fast",
+      "markToday": "Mark as fasted",
+      "unmarkToday": "Unmark today",
+      "marked": "Fasted today",
+      "unmarked": "Not marked yet"
+    },
+    "progress": {
+      "title": "Ramadan progress",
+      "days": "{{fasted}} / {{total}} days fasted",
+      "streak": "{{count}}-day streak",
+      "missed": "{{count}} missed (qada pending)"
+    },
+    "calendar": {
+      "title": "Ramadan calendar",
+      "status": {
+        "fasted": "Fasted",
+        "missed": "Missed",
+        "pending": "Pending",
+        "today": "Today"
+      }
+    },
+    "missed": {
+      "title": "Missed fasts & qada",
+      "empty": "No missed fasts logged.",
+      "log": "Log missed fast",
+      "logToday": "Log today as missed",
+      "markQada": "Mark qada done",
+      "qadaDone": "{{count}} qada completed",
+      "reasons": {
+        "illness": "Illness",
+        "travel": "Travel",
+        "menstruation": "Menstruation",
+        "pregnancy": "Pregnancy",
+        "other": "Other"
+      }
+    },
+    "tools": {
+      "title": "Fiqh tools"
+    },
+    "kaffara": {
+      "title": "Kaffara Calculator",
+      "subtitle": "Educational guide for breaking the fast — consult your marja for your case.",
+      "breakType": "How was the fast broken?",
+      "invalidator": "What invalidated the fast?",
+      "daysBroken": "Days broken",
+      "result": "Estimated obligations",
+      "breakTypes": {
+        "intentional": "Intentional",
+        "forgetful": "Forgetful",
+        "coerced": "Under compulsion"
+      },
+      "invalidators": {
+        "food_drink": "Food or drink",
+        "sexual": "Sexual intercourse",
+        "other": "Other invalidator"
+      },
+      "rules": {
+        "forgetful": {
+          "summary": "No kaffara if truly forgetful",
+          "detail": "If one eats or drinks forgetfully while fasting, the fast remains valid per general Jafari guidance."
+        },
+        "coerced": {
+          "summary": "Compulsion may waive kaffara",
+          "detail": "Breaking the fast under genuine compulsion has distinct rulings — verify with your marja."
+        },
+        "nonRamadan": {
+          "summary": "Non-Ramadan broken oath/vow fast",
+          "detail": "Voluntary or vowed fasts have different make-up rules than Ramadan."
+        },
+        "fast60": {
+          "summary": "Fast 60 consecutive days",
+          "detail": "General Jafari principle for deliberate Ramadan invalidation: two months of fasting in succession."
+        },
+        "feed60": {
+          "summary": "Feed 60 poor people",
+          "detail": "Alongside or alternatively per marja: feed sixty needy persons (often ~750g staple food each)."
+        },
+        "sistaniNote": {
+          "summary": "Sistani — verify current ruling",
+          "detail": "See Islamic Laws (Sistani) fasting chapter for combined kaffara details."
+        },
+        "khameneiNote": {
+          "summary": "Khamenei — verify current ruling",
+          "detail": "See latest resalah for kaffara sequencing and alternatives."
+        }
+      }
+    },
+    "fidya": {
+      "title": "Fidya Calculator",
+      "subtitle": "For those unable to fast due to permanent illness or old age.",
+      "missedDays": "Missed days",
+      "result": "Estimated fidya",
+      "resultSummary": "{{days}} days × {{grams}}g = {{total}}g staple food",
+      "resultDetail": "Default {{defaultGrams}}g wheat/rice/flour per day per poor person (Sistani general guidance). Pay or distribute per your marja."
+    },
+    "calculators": {
+      "disclaimer": "Educational only — not a fatwa. Rulings vary by case and marja. Always consult a qualified scholar.",
+      "unverifiedTitle": "Unverified fiqh summary",
+      "unverified": "Unverified — confirm with your marja",
+      "consultMarja": "Consult your marja for a binding ruling"
+    },
+    "rulings": {
+      "sehri": {
+        "summary": "Sehri ends at imsak",
+        "detail": "In Jafari prayer times, imsak is before fajr; stop eating at imsak."
+      },
+      "iftar": {
+        "summary": "Iftar at maghrib",
+        "detail": "Break the fast at maghrib when the sun has set."
+      },
+      "qada": {
+        "summary": "Make up missed Ramadan fasts",
+        "detail": "Missed obligatory fasts must be made up (qada) before the next Ramadan when able."
+      }
+    },
+    "units": {
+      "consecutiveDays": "consecutive days",
+      "poorPersons": "poor persons"
+    }
+  },
+  "islamicEvents": {
+    "seasons": {
+      "muharram": "Sacred Month of Muharram",
+      "safar": "Month of Safar",
+      "arbaeen": "Arbaeen",
+      "ramadan": "Blessed Ramadan",
+      "laylatAlQadr": "Laylat al-Qadr",
+      "eidFitr": "Eid al-Fitr",
+      "eidAdha": "Eid al-Adha",
+      "eidGhadeer": "Eid al-Ghadeer",
+      "mubahila": "Day of Mubahila",
+      "general": "Islamic Calendar"
+    },
+    "home": {
+      "viewAll": "View calendar",
+      "muharram": {
+        "timeline": "Karbala Timeline",
+        "timelineSub": "Day-by-day events with sources",
+        "dailyEvents": "Today's Muharram Events",
+        "dailyEventsSub": "Historical moments for this Hijri day",
+        "ziyaratAshura": "Ziyarat Ashura",
+        "dailyAmaal": "Daily Amaal",
+        "recommendedDuas": "Recommended Duas",
+        "majalis": "Majlis Themes",
+        "historical": "Historical Events",
+        "books": "Featured Books"
+      },
+      "ramadan": {
+        "fasting": "Fasting Tracker",
+        "fastingSub": "Track your fasts this Ramadan",
+        "sehri": "Sehri Countdown",
+        "iftar": "Iftar Countdown",
+        "quranGoal": "Daily Quran Goal",
+        "laylatQadr": "Laylat al-Qadr",
+        "amaal": "Ramadan Amaal"
+      },
+      "eid": {
+        "prayerGuide": "Eid Prayer Guide",
+        "amaal": "Eid Amaal",
+        "takbirat": "Takbirat",
+        "qurbani": "Qurbani Guide"
+      },
+      "arbaeen": {
+        "ziyarat": "Ziyarat Arbaeen",
+        "amaal": "Arbaeen Amaal"
+      },
+      "ghadeer": {
+        "amaal": "Ghadeer Amaal",
+        "duas": "Wilayah Duas"
+      },
+      "mubahila": {
+        "reflection": "Mubahila Reflection",
+        "quran": "Quran 3:61"
+      },
+      "general": {
+        "calendar": "Islamic Calendar"
+      }
+    },
+    "timeline": {
+      "today": "Today's Timeline",
+      "open": "Open"
+    },
+    "references": {
+      "verified": "{{count}} verified source",
+      "verified_plural": "{{count}} verified sources",
+      "unverified": "Unverified — source pending",
+      "vol": "Vol.",
+      "p": "p."
+    },
+    "featured": {
+      "title": "Featured for this season",
+      "ziyaratAshura": "Ziyarat Ashura",
+      "ziyaratAshuraSub": "From Mafatih al-Jinan",
+      "duaKumail": "Dua Kumayl",
+      "quranPatience": "Quran on patience",
+      "ramadanDua": "Ramadan supplications",
+      "quranRamadan": "Quran on fasting",
+      "eidPrayer": "Eid prayer guide",
+      "arbaeen": "Ziyarat Arbaeen",
+      "kind": {
+        "book": "Book",
+        "dua": "Dua",
+        "ziyarat": "Ziyarat",
+        "hadith": "Hadith",
+        "quran": "Quran",
+        "amaal": "Amaal",
+        "majalis": "Majlis",
+        "guide": "Guide"
+      }
+    },
+    "muharram": {
+      "d1": {
+        "title": "1 Muharram — Hijri New Year",
+        "body": "The sacred month begins. Imam Husayn (as) witnessed the start of Muharram as the caravan approached Karbala."
+      },
+      "d2": {
+        "title": "2 Muharram — Arrival at Karbala",
+        "body": "The camp of Imam Husayn (as) reached the plain of Karbala and halted at the command of Allah."
+      },
+      "d3": {
+        "title": "3 Muharram — Camp established",
+        "body": "The tents were pitched and the companions prepared for the days ahead."
+      },
+      "d4": {
+        "title": "4 Muharram — Siege tightens",
+        "body": "The army of Yazid surrounded the camp and restricted movement."
+      },
+      "d5": {
+        "title": "5 Muharram — Water denied",
+        "body": "Access to the Euphrates was blocked; thirst began to afflict the camp."
+      },
+      "d6": {
+        "title": "6 Muharram — Final appeals",
+        "body": "Imam Husayn (as) continued to call the people to truth and justice."
+      },
+      "d7": {
+        "title": "7 Muharram — Water cut off",
+        "body": "Water was fully cut from the camp of Imam Husayn (as) and his family."
+      },
+      "d8": {
+        "title": "8 Muharram — Eve of tragedy",
+        "body": "The night before Ashura; the Imam prepared his companions for martyrdom."
+      },
+      "d9": {
+        "title": "9 Muharram — Tasua",
+        "body": "The day before Ashura; companions bid farewell and strengthened their covenant."
+      },
+      "d10": {
+        "title": "10 Muharram — Ashura",
+        "body": "The martyrdom of Imam Husayn (as) and the heroes of Karbala. Commemorate with ziyarat and amaal."
+      }
+    },
+    "safar": {
+      "arbaeen": {
+        "title": "20 Safar — Arbaeen",
+        "body": "Forty days after Ashura; ziyarat of Imam Husayn (as) and the martyrs of Karbala."
+      }
+    },
+    "ramadan": {
+      "start": {
+        "title": "Ramadan begins",
+        "body": "The month of fasting, Quran, and spiritual renewal begins."
+      },
+      "laylatQadr": {
+        "title": "Laylat al-Qadr",
+        "body": "Seek the Night of Power with prayer, Quran, and dua."
+      }
+    }
+  },
+  "islamicCalendarAi": {
+    "widget": {
+      "title": "Today in the Islamic Calendar",
+      "viewCalendar": "Calendar",
+      "recommended": "Recommended for today",
+      "unverified": "Some sources are pending scholarly review"
+    },
+    "notifications": {
+      "today": {
+        "title": "Today's observance",
+        "body": "Open {{action}} for this sacred day"
+      },
+      "eve": {
+        "title": "Tomorrow: {{event}}",
+        "body": "Prepare with {{action}}"
+      }
+    },
+    "events": {
+      "ashura": {
+        "significance": "Commemorate the martyrdom of Imam Husayn (as) and the heroes of Karbala."
+      },
+      "tasua": {
+        "significance": "The eve of Ashura — strengthen your covenant with the Ahlul Bayt (as)."
+      },
+      "arbaeen": {
+        "significance": "Forty days after Ashura — walk with Imam Husayn (as) in ziyarat and reflection."
+      },
+      "shahadat_imam_ali": {
+        "significance": "Martyrdom of Amir al-Muminin Imam Ali (as) in the mihrab of Kufa Mosque, 21 Ramadan."
+      },
+      "laylat_qadr": {
+        "significance": "Seek Laylat al-Qadr with prayer, Quran, and dua."
+      },
+      "eid_fitr": {
+        "significance": "Celebrate Eid al-Fitr after the blessed month of Ramadan."
+      },
+      "eid_adha": {
+        "significance": "Eid al-Adha — sacrifice, prayer, and remembrance of Prophet Ibrahim (as)."
+      },
+      "ghadeer": {
+        "significance": "Eid al-Ghadeer — the appointment of Imam Ali (as) as Mawla."
+      },
+      "mubahila": {
+        "significance": "The Day of Mubahila — the Ahlul Bayt (as) chosen by the Quran."
+      },
+      "wiladat_imam_mahdi": {
+        "significance": "Birth of Imam al-Mahdi (aj) — renew hope and dua for his advent."
+      }
+    },
+    "recs": {
+      "ziyaratAshura": {
+        "title": "Ziyarat Ashura",
+        "body": "Recite the ziyarat of Imam Husayn (as) on this day."
+      },
+      "ashuraHistory": {
+        "title": "Events of Ashura",
+        "body": "Follow the Karbala timeline in Muharram Mode."
+      },
+      "ashuraAmaal": {
+        "body": "Recommended acts of worship for Ashura."
+      },
+      "ziyaratWaritha": {
+        "title": "Ziyarat Waritha",
+        "body": "Recite ziyarat on the eve of Ashura."
+      },
+      "tasuaHistory": {
+        "title": "Tasua — 9 Muharram",
+        "body": "Reflect on the final night before Ashura."
+      },
+      "ziyaratArbaeen": {
+        "title": "Ziyarat Arbaeen",
+        "body": "Recite the ziyarat of Arbaeen."
+      },
+      "arbaeenAmaal": {
+        "body": "Acts of worship for the Arbaeen pilgrimage."
+      },
+      "imamAliProfile": {
+        "title": "Imam Ali (as)",
+        "body": "Read the biography and wisdom of Amir al-Muminin."
+      },
+      "duaTawassul": {
+        "title": "Dua Tawassul",
+        "body": "Seek intercession through the Ahlul Bayt (as)."
+      },
+      "ziyaratJamia": {
+        "title": "Ziyarat Jamia al-Kabira",
+        "body": "Comprehensive ziyarat of the Imams (as)."
+      },
+      "shahadatAliAmaal": {
+        "body": "Attend programs, recite ziyarat, and reflect on Imam Ali's (as) sacrifice."
+      },
+      "shahadatAliHistory": {
+        "title": "Martyrdom of Imam Ali (as)",
+        "body": "Study the final days and legacy of Amir al-Muminin."
+      },
+      "duaKumail": {
+        "title": "Dua Kumail",
+        "body": "Recommended for Laylat al-Qadr and Thursdays."
+      },
+      "qadrAmaal": {
+        "body": "Acts of worship for the Night of Power."
+      },
+      "eidFitr": {
+        "title": "Eid al-Fitr",
+        "body": "Eid prayer, zakat al-fitra, and celebration guidance."
+      },
+      "eidAdha": {
+        "title": "Eid al-Adha",
+        "body": "Eid prayer and qurbani guidance."
+      },
+      "duaNudba": {
+        "title": "Dua Nudba",
+        "body": "Recite on Eid al-Ghadeer and Friday mornings."
+      },
+      "ghadeerAmaal": {
+        "body": "Recommended acts for Eid al-Ghadeer."
+      },
+      "mubahilaAmaal": {
+        "body": "Reflect on the verse of Mubahila and the status of the Ahlul Bayt (as)."
+      },
+      "mubahilaHistory": {
+        "title": "Day of Mubahila",
+        "body": "The Quranic account of the challenge at Najran."
+      },
+      "imamMahdiProfile": {
+        "title": "Imam al-Mahdi (aj)",
+        "body": "Learn about the awaited Imam and our responsibilities."
+      },
+      "duaAhad": {
+        "title": "Dua Ahad",
+        "body": "Daily dua for the advent of Imam al-Mahdi (aj)."
+      }
+    }
+  },
+  "ramadanMode": {
+    "title": "Ramadan Hub",
+    "subtitle": "Daily duas, hadith, amaal, and worship guides for the blessed month.",
+    "subtitleActive": "Ramadan Mubarak — may your fasts and prayers be accepted.",
+    "notAvailable": "Content unavailable for this day.",
+    "offline": "Fully offline — all content bundled locally with scholarly references.",
+    "unverified": "unverified",
+    "selectDay": "Select day of Ramadan",
+    "dayTitle": "Day {{day}}",
+    "sehri": "Sehri",
+    "iftar": "Iftar",
+    "dailyDua": "Dua of the day",
+    "dailyHadith": "Hadith of the day",
+    "amaalGuide": "Recommended amaal",
+    "quranGoal": "Daily Quran goal",
+    "prayerTracker": "Prayer tracker",
+    "fastingTracker": "Fasting tracker",
+    "charityTracker": "Charity tracker",
+    "openReader": "Open in reader",
+    "laylatTitle": "Laylat al-Qadr",
+    "laylatIntro": "Seek the Night of Power in the odd nights of the last ten days of Ramadan.",
+    "laylatSelect": "Navigate to an odd night during Ramadan for tonight's guide.",
+    "laylatAllNights": "Candidate nights",
+    "laylatHub": "Laylat al-Qadr module",
+    "fastingHub": "Fasting hub (qada, kaffara, fidya)",
+    "modeLabel": "Ramadan mode",
+    "active": "Active",
+    "mode": {
+      "auto": "Auto",
+      "on": "On",
+      "off": "Off"
+    },
+    "quranUnit": {
+      "pages": "pages",
+      "ayahs": "ayahs",
+      "juz": "juz"
+    },
+    "fastStatus": {
+      "fasted": "Fasted",
+      "missed": "Missed",
+      "excused": "Excused",
+      "makeup": "Make-up"
+    },
+    "sadaqah": "Sadaqah",
+    "zakatFitr": "Zakat al-Fitr",
+    "zakatFitrNote": "Zakat al-Fitr intention",
+    "charityQuick": "Daily sadaqah",
+    "charityType": {
+      "sadaqah": "Sadaqah",
+      "zakat_fitr": "Zakat al-Fitr"
+    },
+    "fulfilled": "Fulfilled",
+    "pending": "Pending",
+    "makeupNote": "Marked missed — track qada in Fasting Hub"
   },
   "errors": {
     "networkOffline": "No internet connection",

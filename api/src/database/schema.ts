@@ -428,9 +428,371 @@ export const analyticsDailyRollups = pgTable(
   ],
 );
 
+// ─── Admin RBAC ───────────────────────────────────────────────────────────────
+
+export const adminUsers = pgTable(
+  'admin_users',
+  {
+    userId: uuid('user_id')
+      .primaryKey()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    department: varchar('department', { length: 50 }),
+    title: varchar('title', { length: 100 }),
+    lastLoginAt: timestamp('last_login_at', { withTimezone: true }),
+    mfaEnabled: boolean('mfa_enabled').notNull().default(false),
+    invitedBy: uuid('invited_by').references(() => users.id),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [index('idx_admin_users_department').on(table.department)],
+);
+
+export const roles = pgTable(
+  'roles',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    slug: varchar('slug', { length: 50 }).notNull().unique(),
+    name: varchar('name', { length: 100 }).notNull(),
+    description: text('description'),
+    isSystem: boolean('is_system').notNull().default(false),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+);
+
+export const permissions = pgTable(
+  'permissions',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    slug: varchar('slug', { length: 80 }).notNull().unique(),
+    resource: varchar('resource', { length: 50 }).notNull(),
+    action: varchar('action', { length: 30 }).notNull(),
+    description: text('description'),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [uniqueIndex('uq_permissions_resource_action').on(table.resource, table.action)],
+);
+
+export const rolePermissions = pgTable(
+  'role_permissions',
+  {
+    roleId: uuid('role_id')
+      .notNull()
+      .references(() => roles.id, { onDelete: 'cascade' }),
+    permissionId: uuid('permission_id')
+      .notNull()
+      .references(() => permissions.id, { onDelete: 'cascade' }),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    uniqueIndex('uq_role_permissions').on(table.roleId, table.permissionId),
+    index('idx_role_permissions_role').on(table.roleId),
+  ],
+);
+
+export const adminUserRoles = pgTable(
+  'admin_user_roles',
+  {
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    roleId: uuid('role_id')
+      .notNull()
+      .references(() => roles.id, { onDelete: 'cascade' }),
+    assignedBy: uuid('assigned_by').references(() => users.id),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    uniqueIndex('uq_admin_user_roles').on(table.userId, table.roleId),
+    index('idx_admin_user_roles_user').on(table.userId),
+  ],
+);
+
+// ─── Feature flags ────────────────────────────────────────────────────────────
+
+export const featureFlags = pgTable(
+  'feature_flags',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    key: varchar('key', { length: 80 }).notNull().unique(),
+    name: varchar('name', { length: 120 }).notNull(),
+    description: text('description'),
+    enabled: boolean('enabled').notNull().default(false),
+    rolloutPct: integer('rollout_pct').notNull().default(0),
+    metadata: jsonb('metadata').notNull().default({}),
+    createdBy: uuid('created_by').references(() => users.id),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [index('idx_feature_flags_enabled').on(table.enabled)],
+);
+
+export const flagOverrides = pgTable(
+  'flag_overrides',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    flagId: uuid('flag_id')
+      .notNull()
+      .references(() => featureFlags.id, { onDelete: 'cascade' }),
+    userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }),
+    segment: jsonb('segment').notNull().default({}),
+    enabled: boolean('enabled').notNull(),
+    reason: text('reason'),
+    createdBy: uuid('created_by').references(() => users.id),
+    expiresAt: timestamp('expires_at', { withTimezone: true }),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    index('idx_flag_overrides_flag').on(table.flagId),
+    index('idx_flag_overrides_user').on(table.userId),
+  ],
+);
+
+// ─── Islamic CMS (polymorphic) ────────────────────────────────────────────────
+
+export const cmsContent = pgTable(
+  'cms_content',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    contentType: varchar('content_type', { length: 30 }).notNull(),
+    slug: varchar('slug', { length: 120 }).notNull(),
+    title: varchar('title', { length: 300 }).notNull(),
+    titleAr: varchar('title_ar', { length: 300 }),
+    body: jsonb('body').notNull().default({}),
+    locale: varchar('locale', { length: 10 }).notNull().default('en'),
+    status: varchar('status', { length: 20 }).notNull().default('draft'),
+    version: integer('version').notNull().default(1),
+    publishedAt: timestamp('published_at', { withTimezone: true }),
+    metadata: jsonb('metadata').notNull().default({}),
+    createdBy: uuid('created_by').references(() => users.id),
+    updatedBy: uuid('updated_by').references(() => users.id),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+    deletedAt: timestamp('deleted_at', { withTimezone: true }),
+  },
+  (table) => [
+    uniqueIndex('uq_cms_content_type_slug')
+      .on(table.contentType, table.slug, table.locale)
+      .where(sql`${table.deletedAt} IS NULL`),
+    index('idx_cms_content_type_status').on(table.contentType, table.status),
+  ],
+);
+
+export const contentCitations = pgTable(
+  'content_citations',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    contentId: uuid('content_id')
+      .notNull()
+      .references(() => cmsContent.id, { onDelete: 'cascade' }),
+    sourceType: varchar('source_type', { length: 30 }).notNull(),
+    sourceRef: varchar('source_ref', { length: 200 }).notNull(),
+    title: varchar('title', { length: 300 }),
+    titleAr: varchar('title_ar', { length: 300 }),
+    excerpt: text('excerpt'),
+    excerptAr: text('excerpt_ar'),
+    surah: integer('surah'),
+    ayahFrom: integer('ayah_from'),
+    ayahTo: integer('ayah_to'),
+    hadithCollection: varchar('hadith_collection', { length: 50 }),
+    hadithNumber: varchar('hadith_number', { length: 30 }),
+    pageRef: varchar('page_ref', { length: 50 }),
+    verificationStatus: varchar('verification_status', { length: 20 }).notNull().default('pending'),
+    sortOrder: integer('sort_order').notNull().default(0),
+    metadata: jsonb('metadata').notNull().default({}),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    index('idx_content_citations_content').on(table.contentId, table.sortOrder),
+    index('idx_content_citations_source').on(table.sourceType, table.sourceRef),
+  ],
+);
+
+// ─── Notifications (extended) ─────────────────────────────────────────────────
+
+export const notificationTemplates = pgTable(
+  'notification_templates',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    key: varchar('key', { length: 80 }).notNull().unique(),
+    name: varchar('name', { length: 120 }).notNull(),
+    titleTemplate: varchar('title_template', { length: 200 }).notNull(),
+    bodyTemplate: text('body_template').notNull(),
+    channel: varchar('channel', { length: 20 }).notNull().default('push'),
+    locale: varchar('locale', { length: 10 }).notNull().default('en'),
+    variables: jsonb('variables').notNull().default([]),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+);
+
+export const notificationDeliveries = pgTable(
+  'notification_deliveries',
+  {
+    id: bigint('id', { mode: 'number' }).primaryKey().generatedAlwaysAsIdentity(),
+    campaignId: uuid('campaign_id')
+      .notNull()
+      .references(() => notificationCampaigns.id, { onDelete: 'cascade' }),
+    deviceId: uuid('device_id').references(() => devices.id, { onDelete: 'set null' }),
+    userId: uuid('user_id').references(() => users.id, { onDelete: 'set null' }),
+    status: varchar('status', { length: 20 }).notNull().default('pending'),
+    providerMessageId: varchar('provider_message_id', { length: 255 }),
+    errorCode: varchar('error_code', { length: 50 }),
+    sentAt: timestamp('sent_at', { withTimezone: true }),
+    openedAt: timestamp('opened_at', { withTimezone: true }),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    index('idx_notification_deliveries_campaign').on(table.campaignId, table.status),
+    index('idx_notification_deliveries_user').on(table.userId, table.createdAt),
+  ],
+);
+
+// ─── Islamic events calendar ──────────────────────────────────────────────────
+
+export const islamicEvents = pgTable(
+  'islamic_events',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    slug: varchar('slug', { length: 120 }).notNull().unique(),
+    title: varchar('title', { length: 200 }).notNull(),
+    titleAr: varchar('title_ar', { length: 200 }),
+    description: text('description'),
+    eventType: varchar('event_type', { length: 30 }).notNull(),
+    hijriMonth: integer('hijri_month'),
+    hijriDay: integer('hijri_day'),
+    gregorianDate: date('gregorian_date'),
+    isRecurring: boolean('is_recurring').notNull().default(true),
+    priority: integer('priority').notNull().default(0),
+    metadata: jsonb('metadata').notNull().default({}),
+    status: varchar('status', { length: 20 }).notNull().default('draft'),
+    publishedAt: timestamp('published_at', { withTimezone: true }),
+    createdBy: uuid('created_by').references(() => users.id),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    index('idx_islamic_events_hijri').on(table.hijriMonth, table.hijriDay),
+    index('idx_islamic_events_status').on(table.status),
+  ],
+);
+
+// ─── Media library ────────────────────────────────────────────────────────────
+
+export const mediaAssets = pgTable(
+  'media_assets',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    key: varchar('key', { length: 300 }).notNull().unique(),
+    filename: varchar('filename', { length: 255 }).notNull(),
+    mimeType: varchar('mime_type', { length: 100 }).notNull(),
+    sizeBytes: bigint('size_bytes', { mode: 'number' }).notNull(),
+    width: integer('width'),
+    height: integer('height'),
+    durationSeconds: integer('duration_seconds'),
+    storageProvider: varchar('storage_provider', { length: 20 }).notNull().default('r2'),
+    bucket: varchar('bucket', { length: 100 }),
+    url: text('url'),
+    cdnUrl: text('cdn_url'),
+    altText: varchar('alt_text', { length: 300 }),
+    tags: jsonb('tags').notNull().default([]),
+    uploadedBy: uuid('uploaded_by').references(() => users.id),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    deletedAt: timestamp('deleted_at', { withTimezone: true }),
+  },
+  (table) => [
+    index('idx_media_assets_mime').on(table.mimeType),
+    index('idx_media_assets_uploaded').on(table.uploadedBy, table.createdAt),
+  ],
+);
+
+// ─── API logs & security ──────────────────────────────────────────────────────
+
+export const apiRequestLogs = pgTable(
+  'api_request_logs',
+  {
+    id: bigint('id', { mode: 'number' }).primaryKey().generatedAlwaysAsIdentity(),
+    requestId: varchar('request_id', { length: 36 }).notNull(),
+    method: varchar('method', { length: 10 }).notNull(),
+    path: varchar('path', { length: 500 }).notNull(),
+    statusCode: integer('status_code').notNull(),
+    durationMs: integer('duration_ms').notNull(),
+    userId: uuid('user_id').references(() => users.id, { onDelete: 'set null' }),
+    ipAddress: varchar('ip_address', { length: 45 }),
+    userAgent: varchar('user_agent', { length: 500 }),
+    errorCode: varchar('error_code', { length: 50 }),
+    metadata: jsonb('metadata').notNull().default({}),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    index('idx_api_request_logs_created').on(table.createdAt),
+    index('idx_api_request_logs_path').on(table.path, table.createdAt),
+    index('idx_api_request_logs_status').on(table.statusCode, table.createdAt),
+    index('idx_api_request_logs_user').on(table.userId, table.createdAt),
+  ],
+);
+
+export const securityEvents = pgTable(
+  'security_events',
+  {
+    id: bigint('id', { mode: 'number' }).primaryKey().generatedAlwaysAsIdentity(),
+    eventType: varchar('event_type', { length: 50 }).notNull(),
+    severity: varchar('severity', { length: 20 }).notNull().default('info'),
+    userId: uuid('user_id').references(() => users.id, { onDelete: 'set null' }),
+    ipAddress: varchar('ip_address', { length: 45 }),
+    userAgent: varchar('user_agent', { length: 500 }),
+    description: text('description'),
+    metadata: jsonb('metadata').notNull().default({}),
+    resolvedAt: timestamp('resolved_at', { withTimezone: true }),
+    resolvedBy: uuid('resolved_by').references(() => users.id),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    index('idx_security_events_type').on(table.eventType, table.createdAt),
+    index('idx_security_events_severity').on(table.severity, table.createdAt),
+    index('idx_security_events_user').on(table.userId, table.createdAt),
+  ],
+);
+
+/** Future sync: Ramadan Quran goals, charity intentions, fasting notes (mobile-first bundled data today). */
+export const ramadanProgress = pgTable(
+  'ramadan_progress',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    hijriYear: integer('hijri_year').notNull(),
+    hijriMonth: integer('hijri_month').notNull().default(9),
+    hijriDay: integer('hijri_day').notNull(),
+    quranUnit: varchar('quran_unit', { length: 10 }),
+    quranTarget: integer('quran_target'),
+    quranProgress: integer('quran_progress').notNull().default(0),
+    fastStatus: varchar('fast_status', { length: 20 }),
+    charityLog: jsonb('charity_log').notNull().default([]),
+    notes: text('notes'),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    index('idx_ramadan_progress_user').on(table.userId, table.hijriYear, table.hijriMonth),
+    uniqueIndex('ramadan_progress_user_day').on(
+      table.userId,
+      table.hijriYear,
+      table.hijriMonth,
+      table.hijriDay,
+    ),
+  ],
+);
+
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
 export type UserPreferences = typeof userPreferences.$inferSelect;
 export type QadhaRecord = typeof qadhaRecords.$inferSelect;
 export type Bookmark = typeof bookmarks.$inferSelect;
 export type Device = typeof devices.$inferSelect;
+export type CmsContent = typeof cmsContent.$inferSelect;
+export type ContentCitation = typeof contentCitations.$inferSelect;
+export type FeatureFlag = typeof featureFlags.$inferSelect;
+export type IslamicEvent = typeof islamicEvents.$inferSelect;
+export type MediaAsset = typeof mediaAssets.$inferSelect;

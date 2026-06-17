@@ -1,3 +1,5 @@
+import type { IslamicCitation } from '@/core/citations';
+
 export type DuaId =
   | 'dua_kumail'
   | 'dua_tawassul'
@@ -32,6 +34,7 @@ export interface DuaMeta {
   description: { en: string; ur: string };
   /** Attribution / source line. */
   source: { en: string; ur: string };
+  citations?: IslamicCitation[];
   sectionCount: number;
   estimatedMinutes: number;
   hasAudio: boolean;

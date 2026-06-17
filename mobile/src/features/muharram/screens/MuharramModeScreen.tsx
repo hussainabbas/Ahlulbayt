@@ -14,6 +14,7 @@ import { DailyZiyaratCard } from '../components/DailyZiyaratCard';
 import { KarbalaEventCard } from '../components/KarbalaEventCard';
 import { MajlisContentCard } from '../components/MajlisContentCard';
 import { MuharramDayPicker } from '../components/MuharramDayPicker';
+import { MuharramHubSection } from '../components/MuharramHubSection';
 import { MuharramModeControls } from '../components/MuharramModeControls';
 import { useMuharramMode } from '../hooks/useMuharramMode';
 
@@ -63,6 +64,31 @@ export function MuharramModeScreen() {
     }
   };
 
+  const openDayDetail = () => {
+    navigation.navigate('MuharramDayDetail', { day: currentDay });
+  };
+
+  const handleHubNavigate = (
+    route:
+      | 'MuharramDayDetail'
+      | 'KarbalaTimeline'
+      | 'MartyrsList'
+      | 'ArbaeenJourney'
+      | 'SafarEvents'
+      | 'Masoomeen',
+    params?: { day?: number },
+  ) => {
+    if (route === 'Masoomeen') {
+      navigation.navigate('Masoomeen');
+      return;
+    }
+    if (route === 'MuharramDayDetail') {
+      navigation.navigate('MuharramDayDetail', { day: params?.day ?? currentDay });
+      return;
+    }
+    navigation.navigate(route);
+  };
+
   if (!daily) {
     return (
       <Screen>
@@ -102,7 +128,9 @@ export function MuharramModeScreen() {
           onSelect={setSelectedDay}
         />
 
-        <KarbalaEventCard day={currentDay} content={daily} />
+        <MuharramHubSection currentDay={currentDay} onNavigate={handleHubNavigate} />
+
+        <KarbalaEventCard day={currentDay} content={daily} onPress={openDayDetail} />
         <MajlisContentCard content={daily} />
         <DailyAmalCard content={daily} onOpenDua={daily.duaId ? openDua : undefined} />
         <DailyZiyaratCard content={daily} onOpen={openZiyarat} />

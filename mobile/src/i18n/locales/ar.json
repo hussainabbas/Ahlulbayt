@@ -63,6 +63,17 @@
       "external": "خارجي"
     }
   },
+  "citations": {
+    "source": "المصدر",
+    "volume": "المجلد",
+    "page": "الصفحة",
+    "hadithNumber": "رقم الحديث",
+    "narrator": "الراوي",
+    "scholar": "العالم",
+    "unverified": "غير موثّق",
+    "references": "المراجع",
+    "unverifiedDisclaimer": "لم يُتحقق من هذا المحتوى مقابل المصادر الأولية. يرجى التأكد من عالم مؤهل."
+  },
   "tabs": {
     "home": "الرئيسية",
     "prayer": "الصلاة",
@@ -1092,6 +1103,14 @@
     "readingMinutes": "دقائق القراءة",
     "prayerBreakdown": "تفصيل الصلوات"
   },
+  "islamicCalendarAi": {
+    "widget": {
+      "title": "اليوم في التقويم الإسلامي",
+      "viewCalendar": "التقويم",
+      "recommended": "موصى به لليوم",
+      "unverified": "بعض المصادر قيد المراجعة العلمية"
+    }
+  },
   "errors": {
     "networkOffline": "لا يوجد اتصال بالإنترنت",
     "networkTimeout": "انتهت مهلة الطلب",
@@ -1488,6 +1507,41 @@
         "amalSteps": "1. Recite Ziyarat Warith\n2. Visit graves if possible\n3. 100× Salawat\n4. Renew allegiance to Imam Husayn (as)\n5. Plan ongoing remembrance through Safar"
       }
     }
+  },
+  "muharramModule": {
+    "sources": "المصادر",
+    "narrative": "ما حدث",
+    "significance": "الأهمية",
+    "relatedFigures": "أهل البيت",
+    "openDayDetail": "دليل اليوم الكامل ←",
+    "noDuas": "لا دعاء محدد لهذا اليوم.",
+    "tabs": { "events": "الأحداث", "amaal": "الأعمال", "duas": "الأدعية", "ziyarat": "الزيارات", "quran": "القرآن" },
+    "dayDetail": { "title": "يوم {{day}} محرم" },
+    "hub": {
+      "dayDetail": "دليل اليوم {{day}}",
+      "dayDetailSub": "التاريخ والأعمال والأدعية والزيارات",
+      "karbalaTimeline": "جدول كربلاء",
+      "karbalaTimelineSub": "أحداث المعركة",
+      "martyrs": "شهداء كربلاء",
+      "martyrsSub": "سير مع مصادر",
+      "ahlulBayt": "سير أهل البيت",
+      "ahlulBaytSub": "المعصومون الـ١٤",
+      "arbaeen": "رحلة الأربعين",
+      "arbaeenSub": "من الأسر إلى زيارة جابر",
+      "safar": "أحداث صفر",
+      "safarSub": "الأربعين والشهادات"
+    },
+    "timeline": { "title": "جدول معركة كربلاء", "subtitle": "أحداث ١–١٣ محرم ٦١ هـ" },
+    "martyrs": {
+      "subtitle": "من وقف مع الإمام الحسين",
+      "profile": "سيرة الشهيد",
+      "notFound": "غير موجود",
+      "shahadatDay": "الشهادة · {{day}} محرم",
+      "openMasoomeen": "الملف الكامل"
+    },
+    "arbaeen": { "title": "رحلة الأربعين", "subtitle": "أربعون يوماً بعد عاشوراء", "stage": "صفر {{day}}" },
+    "safar": { "title": "مناسبات صفر", "subtitle": "بعد محرم", "dayLabel": "صفر {{day}}" },
+    "quran": { "title": "تلاوة موصى بها", "surah": "سورة {{number}}", "none": "لا سورة محددة" }
   },
   "ai": {
     "title": "اسأل أهل البيت",

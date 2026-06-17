@@ -124,9 +124,17 @@ export function AyahBlock({ ayah, activeWordIndex, onPlayAyah, isPlaying }: Ayah
 
       <View style={styles.header}>
 
-        <View style={[styles.badge, { backgroundColor: theme.colors.backgroundPrimary }]}>
-
-          <Text variant="label" color="accent" weight="600">
+        <View
+          style={[
+            styles.badge,
+            {
+              backgroundColor: theme.colors.surfaceElevated,
+              borderColor: theme.colors.borderStrong,
+              borderWidth: StyleSheet.hairlineWidth,
+            },
+          ]}
+        >
+          <Text variant="label" color="primary" weight="600">
 
             {ayah.surah}:{ayah.ayah}
 
@@ -198,7 +206,7 @@ export function AyahBlock({ ayah, activeWordIndex, onPlayAyah, isPlaying }: Ayah
 
             {
 
-              backgroundColor: theme.colors.backgroundPrimary,
+              backgroundColor: theme.colors.surfaceElevated,
 
               borderRightColor: theme.colors.accentGold,
 
@@ -268,7 +276,7 @@ export function AyahBlock({ ayah, activeWordIndex, onPlayAyah, isPlaying }: Ayah
 
       {note ? (
 
-        <View style={[styles.notePreview, { backgroundColor: theme.colors.backgroundPrimary }]}>
+        <View style={[styles.notePreview, { backgroundColor: theme.colors.surfaceElevated }]}>
 
           <Text variant="caption" color="tertiary">
 
@@ -389,11 +397,11 @@ function ActionBtn({
 
             : pressed
 
-              ? theme.colors.surfaceElevated
+              ? theme.colors.surfaceMuted
 
-              : theme.colors.backgroundPrimary,
+              : theme.colors.surfaceElevated,
 
-          borderColor: theme.colors.borderSubtle,
+          borderColor: theme.colors.borderStrong,
 
         },
 
@@ -411,13 +419,15 @@ function ActionBtn({
 
           filled={filled}
 
-          color={active ? theme.colors.accentPrimary : theme.colors.textSecondary}
+          color={active ? theme.colors.accentPrimary : theme.colors.textPrimary}
 
         />
 
       ) : (
 
-        <Text variant="bodySm">{label}</Text>
+        <Text variant="bodySm" color={active ? 'accent' : 'primary'}>
+          {label}
+        </Text>
 
       )}
 

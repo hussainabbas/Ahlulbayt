@@ -22,6 +22,7 @@ export type GhuslMethod = 'tartibi' | 'irtimasi';
 
 export type LocalizedText = { en: string; ur: string; ar: string };
 
+import type { IslamicCitation } from '@/core/citations';
 import type { FiqhReference as CoreFiqhReference, MarjaId } from '@/core/references';
 
 export type FiqhReference = CoreFiqhReference;
@@ -79,6 +80,7 @@ export interface WorshipGuideStep {
   transliteration?: LocalizedText;
   isRequired: boolean;
   fiqhRefs?: FiqhReference[];
+  citations?: IslamicCitation[];
   commonErrors?: LocalizedText[];
   visualHint?: WorshipVisualHint;
   checklist?: LocalizedText[];

@@ -1,7 +1,8 @@
 import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 
-import { ReferenceList } from '@/components/references';
+import { CitationList } from '@/components/citations';
 import { Text } from '@/components/ui/Text';
+import { citationsFromReferences, mergeCitations } from '@/core/citations';
 import { quranTafsirReferences } from '@/core/references';
 import { useLocale } from '@/i18n/useLocale';
 import { useTheme } from '@/theme/ThemeContext';
@@ -16,12 +17,16 @@ interface TafsirPanelProps {
 }
 
 export function TafsirPanel({ visible, ayahRef, tafsir, onClose }: TafsirPanelProps) {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
   const { theme } = useTheme();
 
   if (!tafsir) return null;
 
   const references = quranTafsirReferences(ayahRef, tafsir);
+  const citations = mergeCitations(
+    tafsir.citations,
+    citationsFromReferences(references, locale),
+  );
 
   return (
     <Modal visible={visible} animationType="slide" transparent onRequestClose={onClose}>
@@ -38,7 +43,7 @@ export function TafsirPanel({ visible, ayahRef, tafsir, onClose }: TafsirPanelPr
         >
           <View style={styles.handle} />
           <Text variant="headingSm">{t('quran.tafsir')}</Text>
-          <ReferenceList references={references} compact filterMarja={false} />
+          <CitationList citations={citations} compact />
           <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
             {tafsir.en ? (
               <Text variant="bodyMd" color="secondary" style={styles.block}>

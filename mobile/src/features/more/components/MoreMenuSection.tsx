@@ -31,7 +31,7 @@ export function MoreMenuSection({ section, items, onPress }: MoreMenuSectionProp
             key={item.key}
             title={t(`more.${item.key}`)}
             onPress={() => onPress(item)}
-            leading={<MenuItemIcon itemKey={item.key} />}
+            leading={<MenuItemIcon itemKey={item.key} variant="list" />}
             isLast={index === items.length - 1}
           />
         ))}

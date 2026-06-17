@@ -46,7 +46,8 @@ export function QuranReaderScreen() {
       headerShown: true,
       title,
       headerStyle: { backgroundColor: theme.colors.backgroundPrimary },
-      headerTintColor: theme.colors.accentPrimary,
+      // Use high-contrast tint in dark/Muharram themes; reserve accent for highlights.
+      headerTintColor: theme.colors.textPrimary,
       headerShadowVisible: false,
       headerRight: () => (
         <Pressable
@@ -56,7 +57,7 @@ export function QuranReaderScreen() {
           accessibilityRole="button"
           accessibilityLabel={t('quran.readerSettings')}
         >
-          <Icon name="settings" size={20} color={theme.colors.accentPrimary} />
+          <Icon name="settings" size={20} color={theme.colors.textPrimary} />
         </Pressable>
       ),
     });

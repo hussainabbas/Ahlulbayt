@@ -13,6 +13,10 @@ export interface HijriDate {
   isMuharram: boolean;
   isAshuraPeriod: boolean;
   daysUntilAshura: number | null;
+  isRamadan: boolean;
+  isRamadanSeason: boolean;
+  isLastTenNights: boolean;
+  daysUntilRamadan: number | null;
 }
 
 export interface WeatherInfo {
