@@ -10,7 +10,7 @@ import { useTheme } from '@/theme/ThemeContext';
 
 
 
-import type { AyahTranslations, TranslationLayer } from '../types';
+import type { AyahTranslations, TranslationLayer, TranslationSources } from '../types';
 
 
 
@@ -19,6 +19,10 @@ interface TranslationBlockProps {
   translations: AyahTranslations;
 
   layers: TranslationLayer[];
+
+  translationSources?: TranslationSources;
+
+  arabicSource?: string;
 
   fontSize?: number;
 
@@ -38,7 +42,13 @@ const LAYER_LABEL: Record<TranslationLayer, string> = {
 
 
 
-export function TranslationBlock({ translations, layers, fontSize = 16 }: TranslationBlockProps) {
+export function TranslationBlock({
+  translations,
+  layers,
+  translationSources,
+  arabicSource,
+  fontSize = 16,
+}: TranslationBlockProps) {
 
   const { t } = useLocale();
 
@@ -50,11 +60,19 @@ export function TranslationBlock({ translations, layers, fontSize = 16 }: Transl
 
     <View style={styles.wrap}>
 
+      {arabicSource ? (
+        <Text variant="caption" color="tertiary" style={styles.source}>
+          {arabicSource}
+        </Text>
+      ) : null}
+
       {layers.map((layer) => {
 
         const text = translations[layer];
 
         if (!text) return null;
+
+        const sourceLabel = translationSources?.[layer];
 
         return (
 
@@ -80,11 +98,21 @@ export function TranslationBlock({ translations, layers, fontSize = 16 }: Transl
 
           >
 
-            <Text variant="overline" color="tertiary">
+            <View style={styles.labelRow}>
 
-              {t(LAYER_LABEL[layer])}
+              <Text variant="overline" color="tertiary">
 
-            </Text>
+                {t(LAYER_LABEL[layer])}
+
+              </Text>
+
+              {sourceLabel ? (
+                <Text variant="caption" color="tertiary">
+                  {sourceLabel}
+                </Text>
+              ) : null}
+
+            </View>
 
             <Text
 
@@ -139,6 +167,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
 
     borderLeftWidth: 3,
+
+  },
+
+  labelRow: {
+
+    flexDirection: 'row',
+
+    justifyContent: 'space-between',
+
+    alignItems: 'center',
+
+    gap: 8,
+
+  },
+
+  source: {
+
+    paddingHorizontal: 4,
 
   },
 

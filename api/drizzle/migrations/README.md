@@ -25,7 +25,8 @@ Get-ChildItem drizzle/migrations/*.sql | Sort-Object Name | ForEach-Object {
 | `0004_subscriptions.sql` | Premium | IAP subscriptions, family, tier sync trigger |
 | `0005_ai_extended.sql` | AI | Citations, rate limits, pgvector RAG |
 | `0006_community.sql` | Social | Community events, RSVPs, tasbih |
-| `0009_admin.sql` | Admin | Audit log, campaigns, AI config |
+| `0012_admin_platform.sql` | Admin | Platform admin extensions |
+| `0013_quran_corpus.sql` | Content | Quran indexes, tafsir, audio tracks, translation_source |
 
 ## Seeds (optional, after 0003)
 

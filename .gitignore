@@ -48,6 +48,11 @@ coverage/
 api/dist/
 api/coverage/
 
+# Quran corpus (Tanzil — fetch via npm run quran:fetch)
+api/data/quran/source/
+api/data/quran/bundles/
+mobile/src/features/quran/data/bundled/generated/surah-*.json
+
 # --- Mobile (React Native) ---
 mobile/android/app/build/
 mobile/android/build/

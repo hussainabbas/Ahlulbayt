@@ -1,4 +1,4 @@
-import { BUNDLED_SURAHS } from '@/features/quran/data/bundled/surah001';
+import { BUNDLED_SURAHS } from '@/features/quran/data/bundled';
 
 /** Join bundled ayah Arabic for a surah, or fall back to inline text. */
 function joinSurahAyahs(surahNumber: number): string {

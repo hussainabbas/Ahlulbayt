@@ -11,6 +11,8 @@ Enterprise architecture for the production-scale Shia Ithna Ashari Islamic super
 | [ENGINES.md](./ENGINES.md) | Prayer times, Qibla, Quran data, AI pipeline |
 | [OFFLINE_FIRST_SYNC.md](./OFFLINE_FIRST_SYNC.md) | Offline-first design, Quran/Duas/Ziyarat/Prayer sync strategy |
 | [NOTIFICATION_ENGINE.md](./NOTIFICATION_ENGINE.md) | Intelligent local notification orchestration |
+| [QURAN_DATA_INTEGRITY.md](./QURAN_DATA_INTEGRITY.md) | Verified Tanzil corpus, validation pipeline, offline bundles |
+| [ADMIN_PLATFORM_REBUILD.md](./ADMIN_PLATFORM_REBUILD.md) | Admin audit, CMS architecture, realtime sync, rebuild roadmap |
 
 ## Tech Stack
 

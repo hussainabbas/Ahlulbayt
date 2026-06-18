@@ -2,7 +2,7 @@ import RNFS from 'react-native-fs';
 
 import { CONTENT_PATHS, contentManifestService } from '@/core/offline/contentManifestService';
 
-import { BUNDLED_SURAHS } from '../data/bundled/surah001';
+import { BUNDLED_SURAHS, getBundledSurah } from '../data/bundled';
 import { SURAH_METADATA, getSurahMeta } from '../constants/surahMetadata';
 import type { SurahBundle } from '../types';
 
@@ -42,7 +42,7 @@ export async function saveSurahBundleCache(bundle: SurahBundle): Promise<void> {
 }
 
 export async function isSurahTextStored(number: number): Promise<boolean> {
-  if (number in BUNDLED_SURAHS) return true;
+  if (getBundledSurah(number)) return true;
 
   const stored = await loadStoredSurahBundle(number);
   if (!stored?.ayahs.length || stored.bundleVersion <= 0) return false;
@@ -54,7 +54,7 @@ export async function isSurahTextStored(number: number): Promise<boolean> {
 }
 
 export async function removeSurahBundleCache(number: number): Promise<void> {
-  if (number in BUNDLED_SURAHS) return;
+  if (getBundledSurah(number)) return;
 
   const path = cachePath(number);
   if (await RNFS.exists(path)) {
@@ -64,7 +64,11 @@ export async function removeSurahBundleCache(number: number): Promise<void> {
 
 /** Returns surah numbers with full text available offline (bundled + saved cache). */
 export async function listOfflineTextSurahNumbers(): Promise<number[]> {
-  const offline = new Set<number>(Object.keys(BUNDLED_SURAHS).map(Number));
+  const offline = new Set<number>();
+  for (const key of Object.keys(BUNDLED_SURAHS)) {
+    const number = Number(key);
+    if (getBundledSurah(number)) offline.add(number);
+  }
 
   await contentManifestService.ensureContentDirs();
   const dirExists = await RNFS.exists(CONTENT_PATHS.quran);

@@ -48,6 +48,14 @@ export interface AyahTranslations {
   roman_ur?: string;
 }
 
+/** Per-layer translation attribution (licensor / API edition). */
+export type TranslationSources = Partial<Record<TranslationLayer, string>>;
+
+export interface CorpusAttribution {
+  arabic: string;
+  translations?: TranslationSources;
+}
+
 import type { IslamicCitation } from '@/core/citations';
 
 export interface AyahTafsir {
@@ -66,6 +74,8 @@ export interface QuranAyah {
   words: QuranWord[];
   segments?: TajweedSegment[];
   translations: AyahTranslations;
+  /** Source label per translation layer, e.g. "Sahih International". */
+  translationSources?: TranslationSources;
   tafsir?: AyahTafsir;
   hasSajdah?: boolean;
   bismillahBefore?: boolean;
@@ -89,6 +99,8 @@ export interface SurahBundle {
   audioUrl?: string;
   audioDurationMs?: number;
   bundleVersion: number;
+  /** Corpus attribution — Arabic from Tanzil; translations from licensed sources. */
+  attribution?: CorpusAttribution;
 }
 
 export interface QuranBookmark {

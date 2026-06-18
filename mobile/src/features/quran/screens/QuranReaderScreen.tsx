@@ -91,6 +91,8 @@ export function QuranReaderScreen() {
       return (
         <AyahBlock
           ayah={item}
+          surahName={bundle?.meta.nameEnglish}
+          arabicSource={bundle?.attribution?.arabic}
           activeWordIndex={
             activeAyah?.surah === item.surah && activeAyah?.ayah === item.ayah
               ? activeWordIndex
@@ -101,7 +103,7 @@ export function QuranReaderScreen() {
         />
       );
     },
-    [activeAyah, activeWordIndex, ayahPlaying, loadAyah],
+    [activeAyah, activeWordIndex, ayahPlaying, bundle, loadAyah],
   );
 
   if (loading) {

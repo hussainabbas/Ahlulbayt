@@ -1,6 +1,6 @@
 import { logger } from '@/core/logging/logger';
 
-import { BUNDLED_SURAHS } from '../data/bundled/surah001';
+import { getBundledSurah } from '../data/bundled';
 import type { SurahBundle, SurahMeta } from '../types';
 
 import {
@@ -21,9 +21,9 @@ export async function downloadSurahText(
   currentBundle?: SurahBundle | null,
   onProgress?: (progress: number) => void,
 ): Promise<SurahBundle> {
-  if (meta.number in BUNDLED_SURAHS) {
+  if (getBundledSurah(meta.number)) {
     onProgress?.(1);
-    return BUNDLED_SURAHS[meta.number]!;
+    return getBundledSurah(meta.number)!;
   }
 
   onProgress?.(0.15);

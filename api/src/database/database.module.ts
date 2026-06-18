@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { drizzle, NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 
+import { pgSslOptions } from '../common/pg.util';
 import * as schema from './schema';
 
 export const DRIZZLE = Symbol('DRIZZLE');
@@ -16,8 +17,10 @@ export type DrizzleDB = NodePgDatabase<typeof schema>;
       provide: DRIZZLE,
       inject: [ConfigService],
       useFactory: (config: ConfigService) => {
+        const connectionString = config.getOrThrow<string>('DATABASE_URL');
         const pool = new Pool({
-          connectionString: config.getOrThrow<string>('DATABASE_URL'),
+          connectionString,
+          ssl: pgSslOptions(connectionString),
         });
         return drizzle(pool, { schema });
       },

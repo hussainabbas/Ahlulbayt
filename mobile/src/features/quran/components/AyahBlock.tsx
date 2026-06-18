@@ -40,6 +40,10 @@ interface AyahBlockProps {
 
   ayah: QuranAyah;
 
+  surahName?: string;
+
+  arabicSource?: string;
+
   activeWordIndex?: number | null;
 
   onPlayAyah?: (ayah: QuranAyah) => void;
@@ -50,7 +54,14 @@ interface AyahBlockProps {
 
 
 
-export function AyahBlock({ ayah, activeWordIndex, onPlayAyah, isPlaying }: AyahBlockProps) {
+export function AyahBlock({
+  ayah,
+  surahName,
+  arabicSource,
+  activeWordIndex,
+  onPlayAyah,
+  isPlaying,
+}: AyahBlockProps) {
 
   const { t } = useLocale();
 
@@ -135,9 +146,7 @@ export function AyahBlock({ ayah, activeWordIndex, onPlayAyah, isPlaying }: Ayah
           ]}
         >
           <Text variant="label" color="primary" weight="600">
-
-            {ayah.surah}:{ayah.ayah}
-
+            {surahName ? `${surahName} · ${ayah.ayah}` : `${ayah.surah}:${ayah.ayah}`}
           </Text>
 
         </View>
@@ -261,13 +270,11 @@ export function AyahBlock({ ayah, activeWordIndex, onPlayAyah, isPlaying }: Ayah
       {showTranslation && !showWordByWord ? (
 
         <TranslationBlock
-
           translations={ayah.translations}
-
           layers={translationLayers}
-
+          translationSources={ayah.translationSources}
+          arabicSource={arabicSource}
           fontSize={translationFontSize}
-
         />
 
       ) : null}

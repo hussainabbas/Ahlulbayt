@@ -34,6 +34,12 @@ function findEditionAyahs(data: RemoteSurah[], identifier: string): RemoteAyah[]
   return data.find((surah) => surah.edition?.identifier === identifier)?.ayahs;
 }
 
+const TRANSLATION_SOURCE_LABELS: Record<string, string> = {
+  'en.sahih': 'Sahih International',
+  'ur.jalandhry': 'Jalandhry',
+  'quran-uthmani': 'Tanzil.net Uthmani v1.1',
+};
+
 function mapAyahs(
   meta: SurahMeta,
   arabicAyahs: RemoteAyah[],
@@ -47,6 +53,10 @@ function mapAyahs(
         ? Boolean(sajda.obligatory || sajda.recommended)
         : Boolean(sajda);
 
+    const translationSources: QuranAyah['translationSources'] = {};
+    if (enAyahs?.[index]) translationSources.en = TRANSLATION_SOURCE_LABELS['en.sahih'];
+    if (urAyahs?.[index]) translationSources.ur = TRANSLATION_SOURCE_LABELS['ur.jalandhry'];
+
     return {
       surah: meta.number,
       ayah: ayah.numberInSurah,
@@ -58,6 +68,7 @@ function mapAyahs(
         en: enAyahs?.[index] ? cleanText(enAyahs[index].text) : undefined,
         ur: urAyahs?.[index] ? cleanText(urAyahs[index].text) : undefined,
       },
+      translationSources,
       hasSajdah,
     };
   });
@@ -71,6 +82,13 @@ function mapRemoteResponse(meta: SurahMeta, data: RemoteSurah[]): SurahBundle | 
     surah: meta.number,
     meta,
     bundleVersion: 1,
+    attribution: {
+      arabic: TRANSLATION_SOURCE_LABELS['quran-uthmani'],
+      translations: {
+        en: TRANSLATION_SOURCE_LABELS['en.sahih'],
+        ur: TRANSLATION_SOURCE_LABELS['ur.jalandhry'],
+      },
+    },
     ayahs: mapAyahs(
       meta,
       arabicAyahs,

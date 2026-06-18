@@ -3,16 +3,21 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "nest build",
+    "build": "npm run quran:validate -- --if-present && nest build",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:prod": "node dist/main",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
+    "db:migrate": "node scripts/apply-migrations.mjs",
     "db:seed:admin": "node scripts/seed-admin-user.mjs",
     "db:seed:rbac": "node scripts/seed-rbac.mjs",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "quran:fetch": "node scripts/quran/fetch-tanzil-uthmani.mjs",
+    "quran:build": "node scripts/quran/build-surah-bundles.mjs",
+    "quran:validate": "node scripts/quran/validate-quran-corpus.mjs",
+    "quran:test": "node --test scripts/quran/validate-quran-corpus.test.mjs"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.12",

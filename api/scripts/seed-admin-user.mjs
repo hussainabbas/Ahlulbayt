@@ -33,7 +33,11 @@ function describeDatabaseTarget(url) {
 
 const BCRYPT_ROUNDS = 12;
 
-const client = new Client({ connectionString });
+function pgSsl(url) {
+  return /sslmode=require|ssl=true/i.test(url) ? { rejectUnauthorized: false } : undefined;
+}
+
+const client = new Client({ connectionString, ssl: pgSsl(connectionString) });
 
 console.log(`Connecting to PostgreSQL at ${describeDatabaseTarget(connectionString)} ...`);
 

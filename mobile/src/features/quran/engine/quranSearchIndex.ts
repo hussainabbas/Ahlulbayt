@@ -1,3 +1,4 @@
+import { isGeneratedCorpusReady } from '../data/bundled';
 import { SURAH_METADATA } from '../constants/surahMetadata';
 import { QuranRepository } from './quranRepository';
 import type { SearchResult, TranslationLayer } from '../types';
@@ -10,6 +11,7 @@ function normalize(text: string): string {
     .trim();
 }
 
+/** Snippets only — never truncate full Arabic in the reader UI. */
 function snippet(text: string, query: string, maxLen = 80): string {
   const idx = normalize(text).indexOf(normalize(query));
   if (idx < 0) return text.slice(0, maxLen);
@@ -18,6 +20,10 @@ function snippet(text: string, query: string, maxLen = 80): string {
 }
 
 export class QuranSearchIndex {
+  static isOfflineCorpusReady(): boolean {
+    return isGeneratedCorpusReady() || QuranRepository.getAllIndexedAyahs().length > 0;
+  }
+
   static search(query: string, limit = 30): SearchResult[] {
     const q = normalize(query);
     if (q.length < 2) return [];
@@ -41,7 +47,8 @@ export class QuranSearchIndex {
       }
     }
 
-    for (const ayah of QuranRepository.getAllIndexedAyahs()) {
+    const indexedAyahs = QuranRepository.getAllIndexedAyahs();
+    for (const ayah of indexedAyahs) {
       const meta = SURAH_METADATA.find((s) => s.number === ayah.surah);
       const arabicNorm = normalize(ayah.arabic);
       if (arabicNorm.includes(q)) {
@@ -65,7 +72,7 @@ export class QuranSearchIndex {
             surah: ayah.surah,
             ayah: ayah.ayah,
             surahName: meta?.nameEnglish ?? '',
-            snippetArabic: ayah.arabic.slice(0, 40),
+            snippetArabic: ayah.arabic,
             snippetTranslation: snippet(text, query),
             matchField: 'translation',
           });
