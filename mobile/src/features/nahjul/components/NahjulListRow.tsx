@@ -5,6 +5,7 @@ import { useLocale } from '@/i18n/useLocale';
 import { useTheme } from '@/theme/ThemeContext';
 
 import type { NahjulMeta } from '../types';
+import { pickNahjulMetaText } from '../utils/pickNahjulTranslation';
 
 interface NahjulListRowProps {
   meta: NahjulMeta;
@@ -23,9 +24,10 @@ export function NahjulListRow({ meta, bookmarked, offline, onPress }: NahjulList
   const { t, locale } = useLocale();
   const { theme } = useTheme();
 
-  const title =
-    locale === 'ur' ? meta.titles.ur : locale === 'ar' ? meta.titles.ar : meta.titles.en;
-  const excerpt = locale === 'ur' ? meta.excerpt.ur : meta.excerpt.en;
+  const contentLocale =
+    locale === 'ur' || locale === 'ar' ? locale : ('en' as const);
+  const title = pickNahjulMetaText(meta, 'titles', contentLocale);
+  const excerpt = pickNahjulMetaText(meta, 'excerpt', contentLocale);
 
   return (
     <Pressable
@@ -54,8 +56,15 @@ export function NahjulListRow({ meta, bookmarked, offline, onPress }: NahjulList
             ) : null}
           </View>
         </View>
-        <Text variant="headingSm">{title}</Text>
-        <Text variant="bodySm" color="secondary" numberOfLines={2}>
+        <Text variant="headingSm" style={contentLocale !== 'en' ? styles.rtl : undefined}>
+          {title}
+        </Text>
+        <Text
+          variant="bodySm"
+          color="secondary"
+          style={contentLocale !== 'en' ? styles.rtl : undefined}
+          numberOfLines={2}
+        >
           {excerpt}
         </Text>
         <Text variant="caption" color="tertiary">
@@ -92,5 +101,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 999,
+  },
+  rtl: {
+    textAlign: 'right',
+    writingDirection: 'rtl',
   },
 });

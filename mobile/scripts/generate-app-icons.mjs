@@ -172,7 +172,7 @@ async function writeAndroidIcons(variant, suffix, sourcePath) {
     fs.mkdirSync(path.dirname(colorsPath), { recursive: true });
     fs.writeFileSync(
       colorsPath,
-      `<?xml version="1.0" encoding="utf-8"?>\n<resources>\n  <color name="ic_launcher_background">${palette.bg}</color>\n  <color name="ic_launcher_muharram_background">${PALETTES.muharram.bg}</color>\n</resources>\n`,
+      `<?xml version="1.0" encoding="utf-8"?>\n<resources>\n  <color name="ic_launcher_background">${palette.bg}</color>\n  <color name="ic_launcher_muharram_background">${PALETTES.muharram.bg}</color>\n  <color name="bootsplash_background">#f8f6f1</color>\n</resources>\n`,
     );
 
     const anydpi = path.join(resRoot, 'mipmap-anydpi-v26');

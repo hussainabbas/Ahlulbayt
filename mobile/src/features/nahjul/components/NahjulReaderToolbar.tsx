@@ -4,15 +4,21 @@ import { Text } from '@/components/ui/Text';
 import { useLocale } from '@/i18n/useLocale';
 import { useTheme } from '@/theme/ThemeContext';
 
+import {
+  NAHJUL_CONTENT_LOCALES,
+  NAHJUL_LOCALE_LABELS,
+} from '../hooks/useNahjulReader';
+import type { NahjulTranslationLayer } from '../types';
+
 interface NahjulReaderToolbarProps {
   bookmarked: boolean;
+  translationLayer: NahjulTranslationLayer;
   onToggleBookmark: () => void;
   onToggleDisplay: () => void;
-  onToggleTranslation: () => void;
+  onTranslationLayerChange: (layer: NahjulTranslationLayer) => void;
   onIncreaseFont: () => void;
   onDecreaseFont: () => void;
   displayLabel: string;
-  translationLabel: string;
 }
 
 export function NahjulReaderToolbar(props: NahjulReaderToolbarProps) {
@@ -30,12 +36,60 @@ export function NahjulReaderToolbar(props: NahjulReaderToolbarProps) {
         },
       ]}
     >
-      <ToolbarButton label={props.bookmarked ? '★' : '☆'} active={props.bookmarked} onPress={props.onToggleBookmark} accessibilityLabel={t('nahjul.reader.bookmark')} />
+      <ToolbarButton
+        label={props.bookmarked ? '★' : '☆'}
+        active={props.bookmarked}
+        onPress={props.onToggleBookmark}
+        accessibilityLabel={t('nahjul.reader.bookmark')}
+      />
       <ToolbarButton label={props.displayLabel} onPress={props.onToggleDisplay} />
-      <ToolbarButton label={props.translationLabel} onPress={props.onToggleTranslation} />
+      <View style={styles.localeGroup}>
+        {NAHJUL_CONTENT_LOCALES.map((locale) => (
+          <LocaleChip
+            key={locale}
+            label={NAHJUL_LOCALE_LABELS[locale]}
+            active={props.translationLayer === locale}
+            onPress={() => props.onTranslationLayerChange(locale)}
+          />
+        ))}
+      </View>
       <ToolbarButton label="A−" onPress={props.onDecreaseFont} />
       <ToolbarButton label="A+" onPress={props.onIncreaseFont} />
     </View>
+  );
+}
+
+function LocaleChip({
+  label,
+  active,
+  onPress,
+}: {
+  label: string;
+  active: boolean;
+  onPress: () => void;
+}) {
+  const { theme } = useTheme();
+
+  return (
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => [
+        styles.localeChip,
+        {
+          backgroundColor: active
+            ? theme.colors.accentPrimaryMuted
+            : pressed
+              ? theme.colors.surfaceElevated
+              : 'transparent',
+          borderColor: active ? theme.colors.accentPrimary : theme.colors.borderSubtle,
+          borderRadius: theme.radius.md,
+        },
+      ]}
+    >
+      <Text variant="caption" color={active ? 'accent' : 'secondary'} weight="600">
+        {label}
+      </Text>
+    </Pressable>
   );
 }
 
@@ -79,9 +133,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    gap: 6,
     padding: 6,
     borderWidth: 1,
     marginBottom: 12,
+  },
+  localeGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  localeChip: {
+    paddingHorizontal: 8,
+    paddingVertical: 6,
+    minWidth: 36,
+    alignItems: 'center',
+    borderWidth: StyleSheet.hairlineWidth,
   },
   btn: {
     paddingHorizontal: 10,

@@ -2,4 +2,5 @@
 <resources>
   <color name="ic_launcher_background">#F8F6F1</color>
   <color name="ic_launcher_muharram_background">#050506</color>
+  <color name="bootsplash_background">#f8f6f1</color>
 </resources>

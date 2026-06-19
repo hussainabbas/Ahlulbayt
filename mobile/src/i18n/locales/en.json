@@ -587,7 +587,9 @@
   "nahjul": {
     "title": "Nahjul Balagha",
     "subtitle": "Peak of Eloquence — sermons, letters, and wisdom of Imam Ali (AS).",
+    "subtitleStats": "{{sermons}} sermons · {{letters}} letters · {{sayings}} selections · {{bundled}} with full text",
     "source": "Imam Ali ibn Abi Talib (AS)",
+    "sourceAttribution": "English text source",
     "filterAll": "All",
     "filterBookmarked": "Bookmarked",
     "noBookmarks": "No bookmarked entries yet.",
@@ -610,7 +612,8 @@
       "bookmark": "Bookmark",
       "modeStacked": "Both",
       "modeArabic": "Arabic",
-      "modeTranslation": "Translation"
+      "modeTranslation": "Translation",
+      "translationUnavailable": "Urdu/Arabic translation not yet available for this section — showing English."
     },
     "audio": {
       "listen": "Listen to recitation",

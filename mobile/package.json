@@ -9,7 +9,9 @@
     "typecheck": "tsc --noEmit",
     "sync:adhan-sounds": "node scripts/sync-adhan-sounds.mjs",
     "generate:worship-assets": "node scripts/generate-worship-assets.mjs",
-    "generate:app-icons": "node scripts/generate-app-icons.mjs"
+    "generate:app-icons": "node scripts/generate-app-icons.mjs",
+    "generate:bootsplash": "react-native-bootsplash generate assets/brand/icon-source.svg --platforms=android,ios --background=F8F6F1 --logo-width=120 --assets-output=assets/bootsplash --flavor=main",
+    "import:nahjul": "node scripts/import-nahjul-duas-org.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",

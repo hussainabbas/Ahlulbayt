@@ -1,5 +1,10 @@
-import type { NahjulCategory, NahjulId, NahjulMeta } from '../types';
-import { NAHJUL_ENTRIES, nahjulId } from './entries';
+import type { NahjulCategory, NahjulId, NahjulMeta, NahjulSource } from '../types';
+import {
+  NAHJUL_CATALOG as IMPORTED_CATALOG,
+  NAHJUL_SOURCE,
+} from '../data/bundled';
+
+export { NAHJUL_SOURCE };
 
 export const NAHJUL_CATEGORIES: Array<{
   id: NahjulCategory;
@@ -19,12 +24,6 @@ export const NAHJUL_RECITERS = [
 export const NAHJUL_AUDIO_CDN =
   'https://raw.githubusercontent.com/IslamicNetwork/audio/main/placeholder';
 
-export const BUNDLED_NAHJUL_NUMBERS: Record<NahjulCategory, number[]> = {
-  sermon: [1, 2, 3, 24, 109],
-  letter: [1, 31, 47, 53],
-  saying: [1, 2, 3, 4, 5, 10, 15, 20, 25, 30],
-};
-
 export function getNahjulAudioDir(reciterId: string): string {
   return `nahjul-audio/${reciterId}`;
 }
@@ -41,21 +40,20 @@ export function buildNahjulTrackId(reciterId: string, id: NahjulId): string {
   return `nahjul:${reciterId}:${id}`;
 }
 
-export const NAHJUL_CATALOG: NahjulMeta[] = NAHJUL_ENTRIES.map((e) => ({
-  id: nahjulId(e.category, e.number),
-  number: e.number,
-  slug: e.slug,
-  category: e.category,
-  titles: { en: e.en, ur: e.ur, ar: e.ar },
-  subtitles: { en: e.subtitleEn, ur: e.subtitleUr },
-  description: { en: e.subtitleEn, ur: e.subtitleUr },
-  themes: e.themes,
-  excerpt: { en: e.excerptEn, ur: e.excerptUr },
-  sectionCount: e.sections,
-  estimatedMinutes: e.minutes,
-  hasAudio: true,
-  bundled: BUNDLED_NAHJUL_NUMBERS[e.category].includes(e.number),
-}));
+export const NAHJUL_CATALOG: NahjulMeta[] = IMPORTED_CATALOG;
+
+export function getNahjulCatalogStats(): {
+  sermons: number;
+  letters: number;
+  sayings: number;
+  bundled: number;
+} {
+  const sermons = NAHJUL_CATALOG.filter((n) => n.category === 'sermon').length;
+  const letters = NAHJUL_CATALOG.filter((n) => n.category === 'letter').length;
+  const sayings = NAHJUL_CATALOG.filter((n) => n.category === 'saying').length;
+  const bundled = NAHJUL_CATALOG.filter((n) => n.bundled).length;
+  return { sermons, letters, sayings, bundled };
+}
 
 export function getNahjulMeta(id: NahjulId): NahjulMeta | undefined {
   return NAHJUL_CATALOG.find((n) => n.id === id);
@@ -70,4 +68,8 @@ export function getNahjulMetaByNumber(
   number: number,
 ): NahjulMeta | undefined {
   return NAHJUL_CATALOG.find((n) => n.category === category && n.number === number);
+}
+
+export function getNahjulSource(): NahjulSource {
+  return NAHJUL_SOURCE;
 }

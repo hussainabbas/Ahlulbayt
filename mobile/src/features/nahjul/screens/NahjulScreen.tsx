@@ -13,7 +13,7 @@ import { useTheme } from '@/theme/ThemeContext';
 import { NahjulCategoryTabs } from '../components/NahjulCategoryTabs';
 import { NahjulListRow } from '../components/NahjulListRow';
 import { NahjulQuoteCard } from '../components/NahjulQuoteCard';
-import { NAHJUL_RECITERS } from '../constants/catalog';
+import { NAHJUL_RECITERS, getNahjulCatalogStats } from '../constants/catalog';
 import { NahjulRepository } from '../engine/nahjulRepository';
 import { useNahjulSearch } from '../hooks/useNahjulSearch';
 import { useNahjulBookmarkStore } from '../stores/nahjulBookmarkStore';
@@ -68,6 +68,7 @@ export function NahjulScreen() {
   }, [isSearching, results, category, listFilter, bookmarkedIds]);
 
   const featuredQuotes = useMemo(() => NahjulRepository.getFeaturedQuotes(6), []);
+  const catalogStats = useMemo(() => getNahjulCatalogStats(), []);
 
   const openReader = useCallback(
     (id: NahjulId) => {
@@ -92,7 +93,7 @@ export function NahjulScreen() {
       <View style={styles.header}>
         <Text variant="displayMd">{t('nahjul.title')}</Text>
         <Text variant="bodySm" color="secondary">
-          {t('nahjul.subtitle')}
+          {t('nahjul.subtitleStats', catalogStats)}
         </Text>
 
         <TextInput
@@ -180,6 +181,7 @@ export function NahjulScreen() {
       openReader,
       toggleBookmark,
       listData.length,
+      catalogStats,
     ],
   );
 

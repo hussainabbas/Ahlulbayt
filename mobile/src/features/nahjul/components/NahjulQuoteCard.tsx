@@ -5,6 +5,7 @@ import { useLocale } from '@/i18n/useLocale';
 import { useTheme } from '@/theme/ThemeContext';
 
 import type { NahjulMeta } from '../types';
+import { pickNahjulMetaText } from '../utils/pickNahjulTranslation';
 
 interface NahjulQuoteCardProps {
   meta: NahjulMeta;
@@ -17,8 +18,11 @@ export function NahjulQuoteCard({ meta, bookmarked, onPress, onToggleBookmark }:
   const { locale } = useLocale();
   const { theme } = useTheme();
 
-  const quote = locale === 'ur' ? meta.excerpt.ur : meta.excerpt.en;
-  const arabic = meta.titles.ar;
+  const contentLocale =
+    locale === 'ur' || locale === 'ar' ? locale : ('en' as const);
+  const quote = pickNahjulMetaText(meta, 'excerpt', contentLocale);
+  const attribution = pickNahjulMetaText(meta, 'titles', contentLocale);
+  const arabic = meta.titles.ar?.trim();
 
   return (
     <Pressable
@@ -34,18 +38,25 @@ export function NahjulQuoteCard({ meta, bookmarked, onPress, onToggleBookmark }:
     >
       <View style={[styles.accentBar, { backgroundColor: theme.colors.accentPrimary }]} />
       <View style={styles.body}>
+        {arabic ? (
+          <Text
+            style={[styles.arabic, { color: theme.colors.textPrimary }]}
+            numberOfLines={3}
+          >
+            {arabic}
+          </Text>
+        ) : null}
         <Text
-          style={[styles.arabic, { color: theme.colors.textPrimary }]}
+          variant="bodyMd"
+          color="secondary"
+          style={[styles.quote, contentLocale !== 'en' && styles.rtl]}
           numberOfLines={3}
         >
-          {arabic}
-        </Text>
-        <Text variant="bodyMd" color="secondary" style={styles.quote} numberOfLines={3}>
           "{quote}"
         </Text>
         <View style={styles.footer}>
           <Text variant="caption" color="tertiary">
-            — {locale === 'ur' ? meta.titles.ur : meta.titles.en}
+            — {attribution}
           </Text>
           {onToggleBookmark ? (
             <Pressable onPress={onToggleBookmark} hitSlop={8}>
@@ -84,6 +95,10 @@ const styles = StyleSheet.create({
   },
   quote: {
     fontStyle: 'italic',
+  },
+  rtl: {
+    textAlign: 'right',
+    writingDirection: 'rtl',
   },
   footer: {
     flexDirection: 'row',

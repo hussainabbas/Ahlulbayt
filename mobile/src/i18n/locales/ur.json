@@ -564,7 +564,9 @@
   "nahjul": {
     "title": "نہج البلاغہ",
     "subtitle": "بلاغت کی چوٹی — امام علیؑ کے خطبات، خطوط، اور حکمت۔",
+    "subtitleStats": "{{sermons}} خطبات · {{letters}} خطوط · {{sayings}} انتخاب · {{bundled}} مکمل متن",
     "source": "امام علیؑ ابنِ ابی طالبؑ",
+    "sourceAttribution": "انگریزی متن کا ماخذ",
     "filterAll": "تمام",
     "filterBookmarked": "محفوظ",
     "noBookmarks": "ابھی کوئی محفوظ اندراج نہیں۔",
@@ -587,7 +589,8 @@
       "bookmark": "محفوظ",
       "modeStacked": "دونوں",
       "modeArabic": "عربی",
-      "modeTranslation": "ترجمہ"
+      "modeTranslation": "ترجمہ",
+      "translationUnavailable": "اس حصے کا اردو/عربی ترجمہ ابھی دستیاب نہیں — انگریزی دکھایا جا رہا ہے۔"
     },
     "audio": {
       "listen": "تلاوت سنیں",

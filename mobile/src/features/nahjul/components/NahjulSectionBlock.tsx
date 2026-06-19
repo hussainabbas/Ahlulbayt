@@ -1,10 +1,10 @@
 import { StyleSheet, View } from 'react-native';
 
 import { Text } from '@/components/ui/Text';
-import { useLocale } from '@/i18n/useLocale';
 import { useTheme } from '@/theme/ThemeContext';
 
 import type { NahjulDisplayMode, NahjulSection, NahjulTranslationLayer } from '../types';
+import { pickNahjulTranslation } from '../utils/pickNahjulTranslation';
 
 interface NahjulSectionBlockProps {
   section: NahjulSection;
@@ -14,6 +14,15 @@ interface NahjulSectionBlockProps {
   isQuote?: boolean;
 }
 
+function pickSectionTitle(
+  section: NahjulSection,
+  layer: NahjulTranslationLayer,
+): string | undefined {
+  if (layer === 'ar') return section.title?.ar?.trim() || section.title?.en;
+  if (layer === 'ur') return section.title?.ur?.trim() || section.title?.en;
+  return section.title?.en;
+}
+
 export function NahjulSectionBlock({
   section,
   displayMode,
@@ -21,33 +30,44 @@ export function NahjulSectionBlock({
   fontScale = 1,
   isQuote,
 }: NahjulSectionBlockProps) {
-  const { locale } = useLocale();
   const { theme } = useTheme();
 
-  const sectionTitle = locale === 'ur' ? section.title?.ur : section.title?.en;
-  const translation =
-    translationLayer === 'ur'
-      ? section.translations.ur ?? section.translations.en
-      : section.translations.en;
+  const isCommentary = section.kind === 'commentary';
+  const sectionTitle = pickSectionTitle(section, translationLayer);
+  const { text: translation } = pickNahjulTranslation(section, translationLayer);
 
-  const showArabic = displayMode !== 'translation_only';
-  const showTranslation = displayMode !== 'arabic_only';
+  const showArabic = displayMode !== 'translation_only' && Boolean(section.arabic?.trim());
+  const showTranslation = displayMode !== 'arabic_only' && Boolean(translation?.trim());
+  const isRtl = translationLayer === 'ur' || translationLayer === 'ar';
 
   return (
     <View
       style={[
         styles.block,
         isQuote && styles.quoteBlock,
+        isCommentary && styles.commentaryBlock,
         {
-          backgroundColor: theme.colors.surfaceElevated,
-          borderColor: isQuote ? theme.colors.accentPrimary : theme.colors.borderSubtle,
+          backgroundColor: isCommentary
+            ? theme.colors.surfaceMuted
+            : theme.colors.surfaceElevated,
+          borderColor: isQuote
+            ? theme.colors.accentPrimary
+            : isCommentary
+              ? theme.colors.borderSubtle
+              : theme.colors.borderSubtle,
           borderRadius: theme.radius.lg,
         },
       ]}
     >
       {sectionTitle && !isQuote ? (
-        <Text variant="overline" color="accent">
+        <Text variant="overline" color={isCommentary ? 'tertiary' : 'accent'}>
           {sectionTitle}
+        </Text>
+      ) : null}
+
+      {isCommentary ? (
+        <Text variant="caption" color="tertiary">
+          Commentary
         </Text>
       ) : null}
 
@@ -67,15 +87,19 @@ export function NahjulSectionBlock({
         </Text>
       ) : null}
 
-      {showTranslation && translation ? (
+      {showTranslation ? (
         <Text
           variant="bodyMd"
-          color="secondary"
+          color={isCommentary ? 'tertiary' : 'secondary'}
           style={[
             styles.translation,
-            locale === 'ur' && styles.urdu,
+            isRtl && styles.rtl,
             isQuote && styles.quoteTranslation,
-            { fontSize: 16 * fontScale, lineHeight: 28 * fontScale },
+            isCommentary && styles.commentaryText,
+            {
+              fontSize: (isCommentary ? 13 : 16) * fontScale,
+              lineHeight: (isCommentary ? 22 : 28) * fontScale,
+            },
           ]}
         >
           {isQuote ? `"${translation}"` : translation}
@@ -95,6 +119,11 @@ const styles = StyleSheet.create({
   quoteBlock: {
     borderLeftWidth: 3,
   },
+  commentaryBlock: {
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    gap: 6,
+  },
   arabic: {
     textAlign: 'right',
     writingDirection: 'rtl',
@@ -109,7 +138,10 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     textAlign: 'center',
   },
-  urdu: {
+  commentaryText: {
+    fontStyle: 'italic',
+  },
+  rtl: {
     textAlign: 'right',
     writingDirection: 'rtl',
   },

@@ -12,6 +12,8 @@
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		B7A4E9012F1C0A0000ADHAN01 /* azan.wav in Resources */ = {isa = PBXBuildFile; fileRef = B7A4E9002F1C0A0000ADHAN01 /* azan.wav */; };
+		626A4623EDAE44A69B1E3E98 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D14B5D97B06428C83437DD4 /* BootSplash.storyboard */; };
+		3ACBA600028A4E14A04768D0 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F48414A013B4C50B7DCC69E /* Colors.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = AhlulBaytPlus/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B7A4E9002F1C0A0000ADHAN01 /* azan.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = azan.wav; path = AhlulBaytPlus/Sounds/azan.wav; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		6D14B5D97B06428C83437DD4 /* BootSplash.storyboard */ = {isa = PBXFileReference; name = "BootSplash.storyboard"; path = "AhlulBaytPlus/BootSplash.storyboard"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3F48414A013B4C50B7DCC69E /* Colors.xcassets */ = {isa = PBXFileReference; name = "Colors.xcassets"; path = "AhlulBaytPlus/Colors.xcassets"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = folder.assetcatalog; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +53,8 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
 				B7A4E9002F1C0A0000ADHAN01 /* azan.wav */,
+				6D14B5D97B06428C83437DD4 /* BootSplash.storyboard */,
+				3F48414A013B4C50B7DCC69E /* Colors.xcassets */,
 			);
 			name = AhlulBaytPlus;
 			sourceTree = "<group>";
@@ -163,6 +169,8 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				B7A4E9012F1C0A0000ADHAN01 /* azan.wav in Resources */,
+				626A4623EDAE44A69B1E3E98 /* BootSplash.storyboard in Resources */,
+				3ACBA600028A4E14A04768D0 /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

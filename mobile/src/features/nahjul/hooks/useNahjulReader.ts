@@ -2,7 +2,15 @@ import { useMemo } from 'react';
 
 import { NahjulRepository } from '../engine/nahjulRepository';
 import { useNahjulReaderStore } from '../stores/nahjulReaderStore';
-import type { NahjulBundle, NahjulId } from '../types';
+import type { NahjulBundle, NahjulId, NahjulTranslationLayer } from '../types';
+
+export const NAHJUL_CONTENT_LOCALES: NahjulTranslationLayer[] = ['en', 'ur', 'ar'];
+
+export const NAHJUL_LOCALE_LABELS: Record<NahjulTranslationLayer, string> = {
+  en: 'EN',
+  ur: 'UR',
+  ar: 'AR',
+};
 
 export function useNahjulReader(nahjulId: NahjulId) {
   const displayMode = useNahjulReaderStore((s) => s.displayMode);
@@ -21,8 +29,8 @@ export function useNahjulReader(nahjulId: NahjulId) {
     setDisplayMode(modes[(idx + 1) % modes.length]!);
   };
 
-  const cycleTranslation = () => {
-    setTranslationLayer(translationLayer === 'en' ? 'ur' : 'en');
+  const setContentLocale = (layer: NahjulTranslationLayer) => {
+    setTranslationLayer(layer);
   };
 
   return {
@@ -33,7 +41,8 @@ export function useNahjulReader(nahjulId: NahjulId) {
     translationLayer,
     fontScale,
     cycleDisplayMode,
-    cycleTranslation,
+    setContentLocale,
+    setTranslationLayer: setContentLocale,
     setFontScale,
     setLastRead,
   };

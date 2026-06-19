@@ -2,15 +2,26 @@ export type NahjulId = `nb_${string}`;
 
 export type NahjulCategory = 'sermon' | 'letter' | 'saying';
 
-export type NahjulTranslationLayer = 'en' | 'ur';
+export type NahjulTranslationLayer = 'en' | 'ur' | 'ar';
 
 export type NahjulDisplayMode = 'stacked' | 'arabic_only' | 'translation_only';
 
+export type NahjulSectionKind = 'body' | 'commentary';
+
 export interface NahjulSection {
   id: string;
-  title?: { en?: string; ur?: string };
-  arabic: string;
+  title?: { en?: string; ur?: string; ar?: string };
+  arabic?: string;
   translations: Partial<Record<NahjulTranslationLayer, string>>;
+  kind?: NahjulSectionKind;
+  sourceRef?: string;
+}
+
+export interface NahjulSource {
+  title: string;
+  url: string;
+  edition: string;
+  attribution?: string;
 }
 
 export interface NahjulMeta {
@@ -34,6 +45,7 @@ export interface NahjulBundle {
   meta: NahjulMeta;
   sections: NahjulSection[];
   bundleVersion: number;
+  source?: NahjulSource;
 }
 
 export interface NahjulBookmark {

@@ -86,9 +86,12 @@ export class NahjulRepository {
       if (bundle) {
         for (const section of bundle.sections) {
           const sectionText = [
+            section.title?.en,
+            section.title?.ur,
             section.arabic,
             section.translations.en,
             section.translations.ur,
+            section.translations.ar,
           ]
             .filter(Boolean)
             .join(' ');
@@ -98,10 +101,15 @@ export class NahjulRepository {
 
       if (score > 0) {
         const title = meta.titles.en;
+        const bodySnippet =
+          bundle?.sections.find((s) => s.kind !== 'commentary' && s.translations.en)?.translations
+            .en ?? meta.excerpt.en;
+        const snippet =
+          bodySnippet.length > 160 ? `${bodySnippet.slice(0, 157)}…` : bodySnippet;
         results.push({
           id: meta.id,
           title,
-          snippet: meta.excerpt.en,
+          snippet,
           category: meta.category,
           score,
         });
@@ -112,7 +120,14 @@ export class NahjulRepository {
   }
 
   static getFeaturedQuotes(limit = 5): NahjulMeta[] {
-    return NAHJUL_CATALOG.filter((n) => n.category === 'saying' && n.bundled).slice(0, limit);
+    const bundledSayings = NAHJUL_CATALOG.filter((n) => n.category === 'saying' && n.bundled);
+    if (bundledSayings.length >= limit) {
+      return bundledSayings.slice(0, limit);
+    }
+    const bundledSermons = NAHJUL_CATALOG.filter(
+      (n) => n.category === 'sermon' && n.bundled && [1, 2, 3, 7, 28, 109].includes(n.number),
+    );
+    return [...bundledSayings, ...bundledSermons].slice(0, limit);
   }
 
   static clearCache(): void {

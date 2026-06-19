@@ -516,7 +516,9 @@
   "nahjul": {
     "title": "نهج البلاغة",
     "subtitle": "ذروة البلاغة — خطب ورسائل وحكم الإمام علي (ع).",
+    "subtitleStats": "{{sermons}} خطبة · {{letters}} رسالة · {{sayings}} مختارات · {{bundled}} بنص كامل",
     "source": "الإمام علي بن أبي طالب (ع)",
+    "sourceAttribution": "مصدر النص الإنجليزي",
     "filterAll": "الكل",
     "filterBookmarked": "المحفوظ",
     "noBookmarks": "لا توجد مدخلات محفوظة بعد.",
@@ -539,7 +541,8 @@
       "bookmark": "حفظ",
       "modeStacked": "كلاهما",
       "modeArabic": "عربي",
-      "modeTranslation": "ترجمة"
+      "modeTranslation": "ترجمة",
+      "translationUnavailable": "الترجمة الأردية/العربية غير متوفرة لهذا القسم بعد — يُعرض النص الإنجليزي."
     },
     "audio": {
       "listen": "استمع للتلاوة",
