@@ -30,6 +30,9 @@ export type RootStackParamList = {
   MafatihReader: { ref: string };
   Duas: undefined;
   DuaReader: { duaId: string };
+  DailyLifeDuas: undefined;
+  DailyLifeCategory: { categoryId: string };
+  DailyLifeDuaReader: { duaId: string };
   Ziyarat: undefined;
   ZiyaratReader: { ziyaratId: string };
   Sahifa: undefined;

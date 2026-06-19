@@ -1,4 +1,5 @@
 import { getDailyHadithForHome } from '@/features/hadith/engine/dailyHadithService';
+import { DailyLifeDuaRepository } from '@/features/daily-life-duas/engine/dailyLifeDuaRepository';
 
 import type { DailyDua, DailyHadith, DailyVerse } from '../types';
 
@@ -164,7 +165,27 @@ export function getTodaysHadith(date?: Date, locale = 'en'): DailyHadith {
   return getDailyHadithForHome(date, locale);
 }
 
-export function getTodaysDua(date?: Date): DailyDua {
-  const idx = getDailyIndex(date) % DAILY_DUAS.length;
-  return DAILY_DUAS[idx]!;
+export function getTodaysDua(date?: Date, locale = 'en'): DailyDua {
+  const meta = DailyLifeDuaRepository.getTodaysDua(date);
+  const bundle = DailyLifeDuaRepository.getBundle(meta.id);
+  const section = bundle?.sections[0];
+  const title =
+    locale === 'ur'
+      ? meta.titles.ur
+      : locale === 'ar' && meta.titles.ar
+        ? meta.titles.ar
+        : meta.titles.en;
+  const benefit = locale === 'ur' ? meta.description.ur : meta.description.en;
+  const translation =
+    locale === 'ur'
+      ? section?.translations.ur ?? section?.translations.en
+      : section?.translations.en;
+
+  return {
+    duaId: meta.id,
+    title,
+    arabic: section?.arabic,
+    translation,
+    benefit,
+  };
 }

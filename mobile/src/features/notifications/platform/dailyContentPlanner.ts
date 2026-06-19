@@ -26,7 +26,8 @@ function isInQuietHours(date: Date, prefs: NotificationPreferences): boolean {
   return h >= quietStartHour || h < quietEndHour;
 }
 
-function truncate(text: string, max = 120): string {
+function truncate(text: string | undefined, max = 120): string {
+  if (!text) return '';
   const trimmed = text.trim();
   if (trimmed.length <= max) return trimmed;
   return `${trimmed.slice(0, max - 1)}…`;
@@ -155,8 +156,8 @@ export function planDailyDuaDigestNotifications(
     if (triggerAt.getTime() <= ctx.now.getTime()) continue;
     if (isInQuietHours(triggerAt, prefs)) continue;
 
-    const dua = getTodaysDua(targetDate);
-    const preview = truncate(dua.translation);
+    const dua = getTodaysDua(targetDate, ctx.locale);
+    const preview = truncate(dua.translation ?? dua.benefit);
 
     planned.push({
       id: buildSmartNotificationId('duas', 'daily_dua', dateKeyFromDate(targetDate)),
@@ -169,7 +170,8 @@ export function planDailyDuaDigestNotifications(
       priority: 'default',
       data: {
         category: 'duas',
-        route: 'Duas',
+        route: dua.duaId ? 'DailyLifeDuaReader' : 'DailyLifeDuas',
+        routeParams: dua.duaId ? { duaId: dua.duaId } : undefined,
         ruleId: 'daily_dua',
         scholarlyReference: {
           source: 'Mafatih al-Jinan',

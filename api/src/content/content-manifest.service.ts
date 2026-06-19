@@ -17,7 +17,13 @@ export class ContentManifestService {
     const cached = await this.cache.get<ContentManifest>('content:manifest');
     if (cached) return cached;
 
-    const cdnBase = this.config.get<string>('CONTENT_CDN_BASE_URL') ?? '';
+    const cdnBase =
+      this.config.get<string>('CONTENT_CDN_BASE_URL') ??
+      this.config.get<string>('APP_PUBLIC_URL') ??
+      (this.config.get<string>('RAILWAY_PUBLIC_DOMAIN')
+        ? `https://${this.config.get<string>('RAILWAY_PUBLIC_DOMAIN')}`
+        : '');
+
     const manifest: ContentManifest = {
       version: MANIFEST_VERSION,
       generatedAt: new Date().toISOString(),

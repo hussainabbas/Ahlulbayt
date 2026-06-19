@@ -67,6 +67,32 @@ export function RootNavigator() {
         options={stack.base}
       />
       <Stack.Screen
+        name="DailyLifeDuas"
+        getComponent={lazyScreen(
+          () =>
+            require('@/features/daily-life-duas/screens/DailyLifeDuasScreen').DailyLifeDuasScreen,
+        )}
+        options={stack.titled()}
+      />
+      <Stack.Screen
+        name="DailyLifeCategory"
+        getComponent={lazyScreen(
+          () =>
+            require('@/features/daily-life-duas/screens/DailyLifeCategoryScreen')
+              .DailyLifeCategoryScreen,
+        )}
+        options={stack.titled()}
+      />
+      <Stack.Screen
+        name="DailyLifeDuaReader"
+        getComponent={lazyScreen(
+          () =>
+            require('@/features/daily-life-duas/screens/DailyLifeDuaReaderScreen')
+              .DailyLifeDuaReaderScreen,
+        )}
+        options={stack.base}
+      />
+      <Stack.Screen
         name="Ziyarat"
         getComponent={lazyScreen(
           () => require('@/features/ziyarat/screens/ZiyaratScreen').ZiyaratScreen,

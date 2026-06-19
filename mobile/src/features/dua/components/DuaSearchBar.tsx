@@ -8,9 +8,10 @@ import { useTheme } from '@/theme/ThemeContext';
 interface DuaSearchBarProps {
   value: string;
   onChangeText: (text: string) => void;
+  placeholderKey?: string;
 }
 
-export function DuaSearchBar({ value, onChangeText }: DuaSearchBarProps) {
+export function DuaSearchBar({ value, onChangeText, placeholderKey = 'dua.searchPlaceholder' }: DuaSearchBarProps) {
   const { t } = useLocale();
   const { theme } = useTheme();
 
@@ -29,7 +30,7 @@ export function DuaSearchBar({ value, onChangeText }: DuaSearchBarProps) {
       <TextInput
         value={value}
         onChangeText={onChangeText}
-        placeholder={t('dua.searchPlaceholder')}
+        placeholder={t(placeholderKey)}
         placeholderTextColor={theme.colors.textTertiary}
         returnKeyType="search"
         style={[styles.input, { color: theme.colors.textPrimary }]}

@@ -2,6 +2,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { Icon } from '@/components/ui/Icon';
 import { Text } from '@/components/ui/Text';
+import { useLocale } from '@/i18n/useLocale';
 import { useTheme } from '@/theme/ThemeContext';
 
 import { MENU_ICON_CONFIG, type MoreMenuKey } from '../constants/menuConfig';
@@ -13,10 +14,10 @@ interface MenuItemIconProps {
   variant?: MenuItemIconVariant;
 }
 
-/** Unified icon metrics — list rows and quick-action tiles each get one consistent size. */
+/** Unified icon metrics — every list row and tile uses the same visual weight. */
 const SIZE = {
-  list: { wrap: 40, icon: 18, label: 15, radius: 10 },
-  tile: { wrap: 48, icon: 22, label: 17, radius: 12 },
+  list: { wrap: 44, icon: 20, label: 18, radius: 12 },
+  tile: { wrap: 52, icon: 24, label: 22, radius: 14 },
 } as const;
 
 export function MenuItemIcon({ itemKey, variant = 'list' }: MenuItemIconProps) {
@@ -34,8 +35,8 @@ export function MenuItemIcon({ itemKey, variant = 'list' }: MenuItemIconProps) {
       fg: '#A8843A',
     },
     muted: {
-      bg: theme.colors.surfaceMuted,
-      fg: theme.colors.textSecondary,
+      bg: theme.colors.accentPrimaryMuted,
+      fg: theme.colors.accentPrimary,
     },
     rose: {
       bg: 'rgba(139, 58, 58, 0.12)',
@@ -66,7 +67,7 @@ export function MenuItemIcon({ itemKey, variant = 'list' }: MenuItemIconProps) {
             {
               color: palette.fg,
               fontSize: dim.label,
-              lineHeight: dim.label + 2,
+              lineHeight: dim.label + 4,
             },
           ]}
         >

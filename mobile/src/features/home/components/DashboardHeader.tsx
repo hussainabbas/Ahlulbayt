@@ -2,6 +2,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 
 import { Icon } from '@/components/ui/Icon';
 import { Text } from '@/components/ui/Text';
+import { useLocale } from '@/i18n/useLocale';
 import { useRootNavigation } from '@/navigation/hooks';
 import { layout } from '@/theme/layout';
 import { useTheme } from '@/theme/ThemeContext';
@@ -19,6 +20,7 @@ export function DashboardHeader({
   city,
   locationLoading = false,
 }: DashboardHeaderProps) {
+  const { t } = useLocale();
   const { theme } = useTheme();
   const rootNavigation = useRootNavigation();
   const firstName = name?.split(' ')[0];
@@ -34,21 +36,45 @@ export function DashboardHeader({
           <View style={[styles.cityPlaceholder, { backgroundColor: theme.colors.surfaceMuted }]} />
         )}
 
-        <Pressable
-          onPress={() => rootNavigation.navigate('Settings')}
-          style={({ pressed }) => [
-            styles.settingsBtn,
-            {
-              backgroundColor: theme.colors.surfaceMuted,
-              opacity: pressed ? 0.7 : 1,
-            },
-          ]}
-          accessibilityRole="button"
-          accessibilityLabel="Settings"
-          hitSlop={8}
-        >
-          <Icon name="settings" size={18} color={theme.colors.textSecondary} />
-        </Pressable>
+        <View style={styles.actions}>
+          <Pressable
+            onPress={() => rootNavigation.navigate('Qibla')}
+            style={({ pressed }) => [
+              styles.qiblaBtn,
+              {
+                backgroundColor: theme.colors.accentPrimaryMuted,
+                borderColor: theme.colors.borderSubtle,
+                opacity: pressed ? 0.85 : 1,
+              },
+            ]}
+            accessibilityRole="button"
+            accessibilityLabel={t('home.qibla.open')}
+            hitSlop={4}
+          >
+            <Text variant="caption" color="accent">
+              🕋
+            </Text>
+            <Text variant="caption" color="accent" weight="600">
+              {t('tabs.qibla')}
+            </Text>
+          </Pressable>
+
+          <Pressable
+            onPress={() => rootNavigation.navigate('Settings')}
+            style={({ pressed }) => [
+              styles.settingsBtn,
+              {
+                backgroundColor: theme.colors.surfaceMuted,
+                opacity: pressed ? 0.7 : 1,
+              },
+            ]}
+            accessibilityRole="button"
+            accessibilityLabel="Settings"
+            hitSlop={8}
+          >
+            <Icon name="settings" size={18} color={theme.colors.textSecondary} />
+          </Pressable>
+        </View>
       </View>
 
       <View style={styles.greetingBlock}>
@@ -84,6 +110,20 @@ const styles = StyleSheet.create({
     maxWidth: 140,
     height: 10,
     borderRadius: 4,
+  },
+  actions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  qiblaBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 7,
+    borderRadius: 999,
+    borderWidth: StyleSheet.hairlineWidth,
   },
   settingsBtn: {
     width: 36,

@@ -12,6 +12,7 @@ Enterprise architecture for the production-scale Shia Ithna Ashari Islamic super
 | [OFFLINE_FIRST_SYNC.md](./OFFLINE_FIRST_SYNC.md) | Offline-first design, Quran/Duas/Ziyarat/Prayer sync strategy |
 | [NOTIFICATION_ENGINE.md](./NOTIFICATION_ENGINE.md) | Intelligent local notification orchestration |
 | [QURAN_DATA_INTEGRITY.md](./QURAN_DATA_INTEGRITY.md) | Verified Tanzil corpus, validation pipeline, offline bundles |
+| [DAILY_LIFE_DUAS.md](./DAILY_LIFE_DUAS.md) | Daily life duas module — schema, categories, search, offline, UI, API |
 | [ADMIN_PLATFORM_REBUILD.md](./ADMIN_PLATFORM_REBUILD.md) | Admin audit, CMS architecture, realtime sync, rebuild roadmap |
 
 ## Tech Stack

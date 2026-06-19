@@ -12,6 +12,7 @@ Luxury Islamic aesthetics · Apple-level quality · Minimal · Spiritual · Prem
 | [ACCESSIBILITY.md](./ACCESSIBILITY.md) | WCAG 2.2, screen readers, motion, testing |
 | [SCREEN_SPECIFICATIONS.md](./SCREEN_SPECIFICATIONS.md) | Screen layouts and flows |
 | [ONBOARDING.md](./ONBOARDING.md) | 7-step onboarding UX & copy |
+| [QIBLA_UX_REDESIGN.md](./QIBLA_UX_REDESIGN.md) | Qibla 1-tap access — home card, tab bar, widgets |
 | [tokens/tokens.json](./tokens/tokens.json) | Machine-readable design tokens |
 
 ## Design Philosophy

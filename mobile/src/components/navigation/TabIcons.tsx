@@ -78,6 +78,29 @@ export function TabGlyph({ name, color, size = 24, focused = false, style }: Tab
     );
   }
 
+  if (name === 'ai') {
+    return (
+      <View style={[styles.box, { width: s, height: s }, style]}>
+        <View
+          style={[
+            styles.aiBubble,
+            {
+              width: inner * 0.82,
+              height: inner * 0.62,
+              borderColor: color,
+              borderWidth: STROKE,
+              backgroundColor: focused ? `${color}16` : 'transparent',
+            },
+          ]}
+        />
+        <View style={[styles.aiTail, { borderTopColor: color }]} />
+        <View style={[styles.aiDot, { backgroundColor: color, left: s * 0.28, opacity: 0.9 }]} />
+        <View style={[styles.aiDot, { backgroundColor: color, left: s * 0.44, opacity: 0.65 }]} />
+        <View style={[styles.aiDot, { backgroundColor: color, left: s * 0.6, opacity: 0.45 }]} />
+      </View>
+    );
+  }
+
   if (name === 'quran') {
     return (
       <View style={[styles.box, { width: s, height: s, flexDirection: 'row', gap: 2 }, style]}>
@@ -114,29 +137,6 @@ export function TabGlyph({ name, color, size = 24, focused = false, style }: Tab
             },
           ]}
         />
-      </View>
-    );
-  }
-
-  if (name === 'ai') {
-    return (
-      <View style={[styles.box, { width: s, height: s }, style]}>
-        <View
-          style={[
-            styles.aiBubble,
-            {
-              width: inner * 0.82,
-              height: inner * 0.62,
-              borderColor: color,
-              borderWidth: STROKE,
-              backgroundColor: focused ? `${color}16` : 'transparent',
-            },
-          ]}
-        />
-        <View style={[styles.aiTail, { borderTopColor: color }]} />
-        <View style={[styles.aiDot, { backgroundColor: color, left: s * 0.28, opacity: 0.9 }]} />
-        <View style={[styles.aiDot, { backgroundColor: color, left: s * 0.44, opacity: 0.65 }]} />
-        <View style={[styles.aiDot, { backgroundColor: color, left: s * 0.6, opacity: 0.45 }]} />
       </View>
     );
   }

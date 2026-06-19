@@ -11,3 +11,8 @@ export function navigateFromNotification(
   if (!navigationRef.isReady()) return;
   navigationRef.navigate(screen as never, params as never);
 }
+
+export function resetRootRoute(screen: keyof RootStackParamList): void {
+  if (!navigationRef.isReady()) return;
+  navigationRef.reset({ index: 0, routes: [{ name: screen }] });
+}

@@ -110,10 +110,10 @@ android {
             keyPassword 'android'
         }
         release {
-            storeFile file('D:\\Offices\\Keystores\\wayhopper.jks')
-            storePassword 'wayhopper'
+            storeFile file('D:\\Offices\\Keystores\\ahlulbayt.jks')
+            storePassword 'ahlulbayt'
             keyAlias 'key0'
-            keyPassword 'wayhopper'
+            keyPassword 'ahlulbayt'
         }
     }
     buildTypes {

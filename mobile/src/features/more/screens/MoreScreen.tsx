@@ -1,13 +1,15 @@
 import { useCallback, useMemo } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 
 import { Screen } from '@/components/ui/Screen';
+import { useAuth } from '@/features/auth/hooks/useAuth';
 import { shouldShowSubscriptionUi } from '@/features/monetization/config';
 import { useLocale } from '@/i18n/useLocale';
 import { useRootNavigation } from '@/navigation/hooks';
 import { useAuthStore } from '@/stores/authStore';
 import { layout } from '@/theme/layout';
 
+import { MoreAccountSection } from '../components/MoreAccountSection';
 import { MoreMenuSection } from '../components/MoreMenuSection';
 import { MoreProfileHero } from '../components/MoreProfileHero';
 import { MoreQuickActions } from '../components/MoreQuickActions';
@@ -16,9 +18,11 @@ import { MORE_MENU_SECTIONS, type MoreMenuItem } from '../constants/menuConfig';
 export function MoreScreen() {
   const { t } = useLocale();
   const rootNavigation = useRootNavigation();
+  const { signOut } = useAuth();
   const displayName = useAuthStore((s) => s.user?.displayName);
   const email = useAuthStore((s) => s.user?.email);
   const isGuest = useAuthStore((s) => s.isGuest);
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const showSubscription = shouldShowSubscriptionUi();
 
   const openItem = useCallback(
@@ -27,6 +31,26 @@ export function MoreScreen() {
     },
     [rootNavigation],
   );
+
+  const handleSignOut = useCallback(() => {
+    Alert.alert(
+      isGuest ? t('more.exitGuestTitle') : t('more.signOutTitle'),
+      isGuest ? t('more.exitGuestConfirm') : t('more.signOutConfirm'),
+      [
+        { text: t('common.cancel'), style: 'cancel' },
+        {
+          text: isGuest ? t('more.exitGuest') : t('more.signOut'),
+          style: 'destructive',
+          onPress: () => {
+            void (async () => {
+              await signOut();
+              rootNavigation.reset('Auth');
+            })();
+          },
+        },
+      ],
+    );
+  }, [isGuest, rootNavigation, signOut, t]);
 
   const sections = useMemo(
     () =>
@@ -61,6 +85,10 @@ export function MoreScreen() {
             onPress={openItem}
           />
         ))}
+
+        {isAuthenticated ? (
+          <MoreAccountSection isGuest={isGuest} onSignOut={handleSignOut} />
+        ) : null}
       </View>
     </Screen>
   );

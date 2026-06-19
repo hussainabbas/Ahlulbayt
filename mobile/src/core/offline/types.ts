@@ -39,6 +39,7 @@ export interface SyncPlanItem {
   sha256: string;
   sizeBytes: number;
   priority: number;
+  optional?: boolean;
 }
 
 export interface DomainSyncResult {

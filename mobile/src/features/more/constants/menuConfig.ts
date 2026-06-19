@@ -119,7 +119,7 @@ export const MENU_ICON_CONFIG: Record<MoreMenuKey, MenuIconConfig> = {
   ziyarat: { label: 'ز', tone: 'muted' },
   worshipGuide: { label: '◉', tone: 'accent' },
   prayerAcademy: { label: '⌁', tone: 'muted' },
-  calendar: { label: '◷', tone: 'muted' },
+  calendar: { label: '◷', tone: 'accent' },
   qibla: { label: '⌖', tone: 'accent' },
   muharram: { label: '☾', tone: 'rose' },
   ramadan: { label: '☪', tone: 'gold' },

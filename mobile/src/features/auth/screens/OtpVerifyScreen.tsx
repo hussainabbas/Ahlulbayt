@@ -13,6 +13,7 @@ import type { AuthStackParamList } from '@/navigation/types';
 
 import { AuthInput } from '../components/AuthInput';
 import { useAuth } from '../hooks/useAuth';
+import { useEnterApp } from '../hooks/useEnterApp';
 import type { OtpPurpose } from '../types';
 
 export function OtpVerifyScreen() {
@@ -21,6 +22,7 @@ export function OtpVerifyScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
   const route = useRoute<RouteProp<AuthStackParamList, 'VerifyOtp'>>();
   const { loading, error, sendOtp, verifyOtp } = useAuth();
+  const enterApp = useEnterApp();
 
   const [email, setEmail] = useState(route.params?.email ?? '');
   const [code, setCode] = useState('');
@@ -30,7 +32,9 @@ export function OtpVerifyScreen() {
     const res = await verifyOtp(email.trim(), code.trim(), purpose);
     if (res && 'verified' in res) {
       navigation.replace('Login');
+      return;
     }
+    enterApp(res);
   };
 
   return (

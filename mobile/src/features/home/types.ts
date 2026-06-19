@@ -43,9 +43,10 @@ export interface DailyHadith {
 }
 
 export interface DailyDua {
+  duaId?: string;
   title: string;
-  arabic: string;
-  translation: string;
+  arabic?: string;
+  translation?: string;
   benefit: string;
 }
 

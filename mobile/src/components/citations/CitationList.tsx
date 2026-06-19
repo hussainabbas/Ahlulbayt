@@ -14,6 +14,7 @@ interface CitationListProps {
   titleKey?: string;
   compact?: boolean;
   showDisclaimer?: boolean;
+  showTitle?: boolean;
 }
 
 export function CitationList({
@@ -21,6 +22,7 @@ export function CitationList({
   titleKey = 'citations.references',
   compact,
   showDisclaimer = true,
+  showTitle = true,
 }: CitationListProps) {
   const { t } = useLocale();
 
@@ -32,9 +34,11 @@ export function CitationList({
 
   return (
     <View style={styles.root}>
-      <Text variant="label" color="tertiary">
-        {t(titleKey)}
-      </Text>
+      {showTitle ? (
+        <Text variant="label" color="tertiary">
+          {t(titleKey)}
+        </Text>
+      ) : null}
       {showDisclaimer && !verified ? <UnverifiedDisclaimer compact /> : null}
       {citations.map((citation, index) => (
         <CitationCard

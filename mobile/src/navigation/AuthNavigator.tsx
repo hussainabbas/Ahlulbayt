@@ -1,31 +1,29 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useEffect, type ReactNode } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { AuthWelcomeScreen } from '@/features/auth/screens/AuthWelcomeScreen';
 import { EmailLoginScreen } from '@/features/auth/screens/EmailLoginScreen';
 import { EmailRegisterScreen } from '@/features/auth/screens/EmailRegisterScreen';
 import { ForgotPasswordScreen } from '@/features/auth/screens/ForgotPasswordScreen';
 import { OtpVerifyScreen } from '@/features/auth/screens/OtpVerifyScreen';
+import { resetRootRoute } from '@/navigation/navigationRef';
 import { useAuthStore } from '@/stores/authStore';
 import { useTheme } from '@/theme/ThemeContext';
 
-import type { AuthStackParamList, RootStackParamList } from './types';
+import type { AuthStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
 
 function AuthGate({ children }: { children: ReactNode }) {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const isGuest = useAuthStore((s) => s.isGuest);
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   useEffect(() => {
-    // Guests are "authenticated" locally — still allow the Auth stack for sign-in.
+    // Signed-in users should not stay on the auth stack (guests can open it to upgrade).
     if (isAuthenticated && !isGuest) {
-      navigation.reset({ index: 0, routes: [{ name: 'Main' }] });
+      resetRootRoute('Main');
     }
-  }, [isAuthenticated, isGuest, navigation]);
+  }, [isAuthenticated, isGuest]);
 
   return <>{children}</>;
 }

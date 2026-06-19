@@ -12,18 +12,20 @@ import type { AuthStackParamList } from '@/navigation/types';
 
 import { AuthInput } from '../components/AuthInput';
 import { useAuth } from '../hooks/useAuth';
+import { useEnterApp } from '../hooks/useEnterApp';
 
 export function EmailLoginScreen() {
   const { theme } = useTheme();
   const { t } = useLocale();
   const navigation = useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
   const { loading, error, login } = useAuth();
+  const enterApp = useEnterApp();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = () => {
-    void login(email.trim(), password);
+  const handleSubmit = async () => {
+    enterApp(await login(email.trim(), password));
   };
 
   return (

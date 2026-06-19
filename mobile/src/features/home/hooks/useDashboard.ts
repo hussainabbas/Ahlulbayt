@@ -54,7 +54,7 @@ export function useDashboard() {
 
   const verse = useMemo(() => getTodaysVerse(now), [now]);
   const hadith = useMemo(() => getTodaysHadith(now, locale), [now, locale]);
-  const dua = useMemo(() => getTodaysDua(now), [now]);
+  const dua = useMemo(() => getTodaysDua(now, locale), [now, locale]);
 
   const events = useMemo(
     () => getUpcomingEvents(hijri.month, hijri.day),

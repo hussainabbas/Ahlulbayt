@@ -3,11 +3,18 @@ import RNFS from 'react-native-fs';
 import { logger } from '@/core/logging/logger';
 
 import { CONTENT_PATHS, contentManifestService } from '../contentManifestService';
+import { resolveBundleUrl } from '../resolveBundleUrl';
 import type { DomainSyncResult, SyncPlanItem } from '../types';
 
 async function downloadBundle(item: SyncPlanItem): Promise<boolean> {
   const dir = CONTENT_PATHS[item.domain as keyof typeof CONTENT_PATHS];
   if (!dir) return false;
+
+  const downloadUrl = resolveBundleUrl(item.url);
+  if (!downloadUrl) {
+    logger.warn('Bundle download skipped — invalid URL', { id: item.bundleId, url: item.url });
+    return false;
+  }
 
   await contentManifestService.ensureContentDirs();
   const filename = `${item.bundleId}.json`;
@@ -15,7 +22,7 @@ async function downloadBundle(item: SyncPlanItem): Promise<boolean> {
 
   try {
     const result = await RNFS.downloadFile({
-      fromUrl: item.url,
+      fromUrl: downloadUrl,
       toFile: localPath,
     }).promise;
 
@@ -35,7 +42,11 @@ async function downloadBundle(item: SyncPlanItem): Promise<boolean> {
 
     return true;
   } catch (error) {
-    logger.error('Bundle download error', error, { id: item.bundleId });
+    if (item.optional) {
+      logger.warn('Optional bundle download skipped', { id: item.bundleId, error: String(error) });
+    } else {
+      logger.warn('Bundle download error', { id: item.bundleId, error: String(error) });
+    }
     return false;
   }
 }

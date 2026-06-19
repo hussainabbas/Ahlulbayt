@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import appleAuth from '@invertase/react-native-apple-authentication';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 
 import { env } from '@/core/config/env';
+import { AppError } from '@/core/errors/AppError';
 import { getErrorMessage, normalizeError } from '@/core/errors/errorHandler';
 import { networkManager } from '@/core/offline/network';
+import { useLocale } from '@/i18n/useLocale';
 import { useAuthStore } from '@/stores/authStore';
 import { useSettingsStore } from '@/stores/settingsStore';
 
@@ -19,6 +21,7 @@ GoogleSignin.configure({
 });
 
 export function useAuth() {
+  const { t } = useLocale();
   const setAuth = useAuthStore((s) => s.setAuth);
   const setLocalGuestAuth = useAuthStore((s) => s.setLocalGuestAuth);
   const clearAuth = useAuthStore((s) => s.clearAuth);
@@ -103,30 +106,59 @@ export function useAuth() {
     [handleAuthResponse, handleLocalGuestAuth, run],
   );
 
-  const loginWithGoogle = useCallback(async () => {
-    if (Platform.OS === 'android') {
-      await GoogleSignin.hasPlayServices();
-    }
-    const result = await GoogleSignin.signIn();
-    const idToken = result.data?.idToken;
-    if (!idToken) return null;
-    return run(async () => handleAuthResponse(await authApi.google(idToken)));
-  }, [handleAuthResponse, run]);
+  const loginWithGoogle = useCallback(
+    () =>
+      run(async () => {
+        if (!env.googleWebClientId) {
+          throw new AppError('VALIDATION', t('auth.errors.googleNotConfigured'));
+        }
 
-  const loginWithApple = useCallback(async () => {
-    if (Platform.OS !== 'ios') return null;
-    const credential = await appleAuth.performRequest({
-      requestedOperation: appleAuth.Operation.LOGIN,
-      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
-    });
-    if (!credential.identityToken) return null;
-    const fullName = credential.fullName
-      ? [credential.fullName.givenName, credential.fullName.familyName].filter(Boolean).join(' ')
-      : undefined;
-    return run(async () =>
-      handleAuthResponse(await authApi.apple(credential.identityToken!, fullName)),
-    );
-  }, [handleAuthResponse, run]);
+        if (Platform.OS === 'android') {
+          await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+        }
+
+        try {
+          const result = await GoogleSignin.signIn();
+          const idToken = result.data?.idToken;
+          if (!idToken) {
+            throw new AppError('VALIDATION', t('auth.errors.googleCancelled'));
+          }
+          return handleAuthResponse(await authApi.google(idToken));
+        } catch (err) {
+          const code = (err as { code?: string })?.code;
+          if (code === statusCodes.SIGN_IN_CANCELLED) {
+            throw new AppError('VALIDATION', t('auth.errors.googleCancelled'));
+          }
+          if (code === statusCodes.IN_PROGRESS) {
+            throw new AppError('VALIDATION', t('auth.errors.googleInProgress'));
+          }
+          if (code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+            throw new AppError('VALIDATION', t('auth.errors.googlePlayServices'));
+          }
+          throw err;
+        }
+      }),
+    [handleAuthResponse, run, t],
+  );
+
+  const loginWithApple = useCallback(
+    () =>
+      run(async () => {
+        if (Platform.OS !== 'ios') return null;
+        const credential = await appleAuth.performRequest({
+          requestedOperation: appleAuth.Operation.LOGIN,
+          requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+        });
+        if (!credential.identityToken) {
+          throw new AppError('VALIDATION', t('auth.errors.appleCancelled'));
+        }
+        const fullName = credential.fullName
+          ? [credential.fullName.givenName, credential.fullName.familyName].filter(Boolean).join(' ')
+          : undefined;
+        return handleAuthResponse(await authApi.apple(credential.identityToken, fullName));
+      }),
+    [handleAuthResponse, run, t],
+  );
 
   const forgotPassword = useCallback(
     (email: string) => run(() => authApi.forgotPassword(email)),

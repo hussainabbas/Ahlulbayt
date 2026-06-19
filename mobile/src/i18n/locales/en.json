@@ -79,6 +79,7 @@
     "prayer": "Prayer",
     "quran": "Quran",
     "ai": "Ask",
+    "qibla": "Qibla",
     "profile": "Profile",
     "switchHint": "Switch to {{tab}}"
   },
@@ -93,6 +94,10 @@
     "quranVerse": "Verse of the Day",
     "hadith": "Hadith of the Day",
     "dua": "Dua of the Day",
+    "qibla": {
+      "title": "Qibla",
+      "open": "Open Qibla"
+    },
     "weatherConditions": {
       "clear": "Clear skies",
       "mainlyClear": "Mainly clear",
@@ -487,6 +492,54 @@
       "offline": "Available offline",
       "downloading": "Downloading {{percent}}%",
       "removeOffline": "Remove"
+    }
+  },
+  "dailyLifeDuas": {
+    "title": "Daily Life Duas",
+    "subtitle": "Quick supplications for everyday situations — home, travel, food, and more.",
+    "searchPlaceholder": "Search by situation, category, or theme…",
+    "searchResults": "Search results · {{count}}",
+    "noResults": "No duas match your search.",
+    "notFound": "Dua not found.",
+    "todaysDua": "Today's Dua",
+    "randomDua": "Discover a Dua",
+    "categories": "Categories",
+    "browseCategories": "Browse by everyday situation",
+    "browse": "Browse",
+    "readDua": "Read supplication",
+    "shuffle": "Shuffle",
+    "discoverHint": "Tap to explore a random supplication",
+    "stats": "{{count}} supplications · Offline ready",
+    "categoryCount": "{{count}}",
+    "categorySupplications": "{{count}} supplications",
+    "inThisCategory": "In this category",
+    "offlineNote": "All supplications in this category are available offline.",
+    "verifiedSource": "Verified source",
+    "transliteration": "Transliteration",
+    "reader": {
+      "textSize": "Text size"
+    },
+    "pendingImport": "Pending",
+    "pendingBody": "Full Arabic text, translations, and audio will appear after verified import from Mafatih al-Jinan.",
+    "references": "References",
+    "sourceBook": "Source",
+    "narrator": "Narrator",
+    "repeatCount": "Recommended repetition: {{count}}×",
+    "quickActions": {
+      "title": "Quick Actions",
+      "morning": "Morning Dua",
+      "evening": "Evening Dua",
+      "travel": "Travel Dua",
+      "home": "Home Dua"
+    },
+    "notifications": {
+      "todaysDua": "Today's Dua",
+      "morningBody": "Start your day with remembrance",
+      "eveningBody": "Dua before sleeping",
+      "leavingHomeTitle": "Leaving home",
+      "leavingHomeBody": "Dua before leaving home",
+      "fridayTitle": "Friday Recommended Dua",
+      "fridayBody": "Supplication for Jumu'ah"
     }
   },
   "sahifa": {
@@ -1280,8 +1333,15 @@
     "subtitle": "Library, tools, and spiritual resources",
     "guestBadge": "Guest",
     "signIn": "Sign in",
+    "signOut": "Sign out",
+    "signOutTitle": "Sign out?",
+    "signOutConfirm": "You will need to sign in again to sync your library and preferences.",
+    "exitGuest": "Exit guest mode",
+    "exitGuestTitle": "Exit guest mode?",
+    "exitGuestConfirm": "Your offline guest session will be cleared. You can sign in or continue as guest again.",
     "quickAccess": "Quick access",
     "sections": {
+      "account": "Account",
       "personal": "Personal",
       "library": "Library & knowledge",
       "worship": "Worship & devotion",
@@ -1721,7 +1781,15 @@
       "google": "Continue with Google",
       "apple": "Continue with Apple",
       "guest": "Continue as guest",
-      "guestNote": "Guest mode works offline. Sign in anytime to sync."
+      "guestNote": "Guest mode works offline. Sign in anytime to sync.",
+      "orEmail": "or continue with email"
+    },
+    "errors": {
+      "googleNotConfigured": "Google sign-in is not configured for this build. Use email or continue as guest.",
+      "googleCancelled": "Google sign-in was cancelled.",
+      "googleInProgress": "Google sign-in is already in progress.",
+      "googlePlayServices": "Google Play Services is unavailable on this device.",
+      "appleCancelled": "Apple sign-in was cancelled."
     },
     "login": {
       "title": "Welcome back",

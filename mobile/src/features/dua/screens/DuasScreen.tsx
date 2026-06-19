@@ -1,5 +1,5 @@
 import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { Animated, StyleSheet, View } from 'react-native';
+import { Animated, Pressable, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
@@ -159,6 +159,20 @@ export function DuasScreen() {
           <DuaFeaturedCard meta={featured} onPress={() => openReader(featured.id)} />
         ) : null}
 
+        {!showingSearch && filter === 'all' ? (
+          <Pressable
+            onPress={() => navigation.navigate('DailyLifeDuas')}
+            style={({ pressed }) => [styles.dailyLifeCard, pressed && { opacity: 0.92 }]}
+          >
+            <Card style={styles.dailyLifeCardInner}>
+              <Text variant="label">{t('dailyLifeDuas.title')}</Text>
+              <Text variant="bodySm" color="secondary">
+                {t('dailyLifeDuas.subtitle')}
+              </Text>
+            </Card>
+          </Pressable>
+        ) : null}
+
         <Text variant="overline" color="secondary" style={styles.listLabel}>
           {showingSearch
             ? t('dua.searchResults', { count: duas.length })
@@ -166,7 +180,7 @@ export function DuasScreen() {
         </Text>
       </View>
     ),
-    [duas.length, featured, filter, openReader, showingSearch, t],
+    [duas.length, featured, filter, navigation, openReader, showingSearch, t],
   );
 
   return (
@@ -229,6 +243,12 @@ const styles = StyleSheet.create({
   },
   listLabel: {
     marginTop: layout.sectionGap,
+  },
+  dailyLifeCard: {
+    marginTop: layout.blockGap,
+  },
+  dailyLifeCardInner: {
+    gap: 6,
   },
   entryRowWrap: {
     marginHorizontal: layout.screenPaddingX,

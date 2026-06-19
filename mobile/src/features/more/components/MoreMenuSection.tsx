@@ -4,7 +4,6 @@ import { Card } from '@/components/ui/Card';
 import { ListRow } from '@/components/ui/ListRow';
 import { Text } from '@/components/ui/Text';
 import { useLocale } from '@/i18n/useLocale';
-import { layout } from '@/theme/layout';
 
 import type { MoreMenuItem, MoreMenuSection as MoreMenuSectionConfig } from '../constants/menuConfig';
 import { MenuItemIcon } from './MenuItemIcon';
@@ -25,7 +24,7 @@ export function MoreMenuSection({ section, items, onPress }: MoreMenuSectionProp
       <Text variant="overline" color="secondary">
         {t(`more.sections.${section.id}`)}
       </Text>
-      <Card padded={false}>
+      <Card padded={false} style={styles.card}>
         {items.map((item, index) => (
           <ListRow
             key={item.key}
@@ -43,5 +42,8 @@ export function MoreMenuSection({ section, items, onPress }: MoreMenuSectionProp
 const styles = StyleSheet.create({
   wrap: {
     gap: 10,
+  },
+  card: {
+    overflow: 'hidden',
   },
 });

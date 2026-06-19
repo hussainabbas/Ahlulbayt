@@ -79,6 +79,7 @@
     "prayer": "نماز",
     "quran": "قرآن",
     "ai": "پوچھیں",
+    "qibla": "قبلہ",
     "profile": "پروفائل",
     "switchHint": "{{tab}} پر جائیں"
   },
@@ -93,6 +94,10 @@
     "quranVerse": "آج کی آیت",
     "hadith": "آج کی حدیث",
     "dua": "آج کی دعا",
+    "qibla": {
+      "title": "قبلہ",
+      "open": "قبلہ کھولیں"
+    },
     "weatherConditions": {
       "clear": "صاف آسمان",
       "mainlyClear": "زیادہ تر صاف",
@@ -466,6 +471,54 @@
       "removeOffline": "ہٹائیں"
     }
   },
+  "dailyLifeDuas": {
+    "title": "روزمرہ دعائیں",
+    "subtitle": "گھر، سفر، کھانا وغیرہ — روزمرہ کے مواقع کی دعائیں۔",
+    "searchPlaceholder": "موقع، زمرہ، یا موضوع سے تلاش…",
+    "searchResults": "تلاش کے نتائج · {{count}}",
+    "noResults": "کوئی دعا نہیں ملی۔",
+    "notFound": "دعا نہیں ملی۔",
+    "todaysDua": "آج کی دعا",
+    "randomDua": "ایک دعا دریافت کریں",
+    "categories": "زمرے",
+    "browseCategories": "روزمرہ کے مواقع کے مطابق دیکھیں",
+    "browse": "دیکھیں",
+    "readDua": "دعا پڑھیں",
+    "shuffle": "بدلیں",
+    "discoverHint": "کسی بھی دعا کو دریافت کرنے کے لیے ٹیپ کریں",
+    "stats": "{{count}} دعائیں · آف لائن دستیاب",
+    "categoryCount": "{{count}}",
+    "categorySupplications": "{{count}} دعائیں",
+    "inThisCategory": "اس زمرے میں",
+    "offlineNote": "اس زمرے کی تمام دعائیں آف لائن دستیاب ہیں۔",
+    "verifiedSource": "تصدیق شدہ ماخذ",
+    "transliteration": "تلفظ",
+    "reader": {
+      "textSize": "متن کا سائز"
+    },
+    "pendingImport": "زیرِ التوا",
+    "pendingBody": "مکمل عربی متن، ترجمے اور آڈیو مفاتیح الجنان سے تصدیق شدہ درآمد کے بعد دستیاب ہوں گے۔",
+    "references": "حوالہ جات",
+    "sourceBook": "ماخذ",
+    "narrator": "راوی",
+    "repeatCount": "تجویز کردہ تکرار: {{count}}×",
+    "quickActions": {
+      "title": "فوری اقدامات",
+      "morning": "صبح کی دعا",
+      "evening": "شام کی دعا",
+      "travel": "سفر کی دعا",
+      "home": "گھر کی دعا"
+    },
+    "notifications": {
+      "todaysDua": "آج کی دعا",
+      "morningBody": "اپنے دن کا آغاز ذکر سے کریں",
+      "eveningBody": "سونے سے پہلے کی دعا",
+      "leavingHomeTitle": "گھر سے نکلتے وقت",
+      "leavingHomeBody": "گھر سے نکلنے کی دعا",
+      "fridayTitle": "جمعہ کی تجویز کردہ دعا",
+      "fridayBody": "جمعہ کی دعا"
+    }
+  },
   "sahifa": {
     "title": "صحیفہ سجادیہ",
     "subtitle": "زبور اسلام — امام زین العابدینؑ کی 54 دعائیں۔",
@@ -665,8 +718,15 @@
     "subtitle": "لائبریری، اوزار اور روحانی وسائل",
     "guestBadge": "مہمان",
     "signIn": "سائن ان",
+    "signOut": "سائن آؤٹ",
+    "signOutTitle": "سائن آؤٹ؟",
+    "signOutConfirm": "اپنی لائبریری اور ترجیحات سنک کرنے کے لیے دوبارہ سائن ان کرنا ہوگا۔",
+    "exitGuest": "مہمان موڈ سے نکلیں",
+    "exitGuestTitle": "مہمان موڈ سے نکلیں؟",
+    "exitGuestConfirm": "آپ کا آف لائن مہمان سیشن ختم ہو جائے گا۔ آپ دوبارہ سائن ان یا مہمان کے طور پر جاری رکھ سکتے ہیں۔",
     "quickAccess": "فوری رسائی",
     "sections": {
+      "account": "اکاؤنٹ",
       "personal": "ذاتی",
       "library": "لائبریری و علم",
       "worship": "عبادت و تقرب",
@@ -1050,7 +1110,15 @@
       "google": "Google سے جاری رکھیں",
       "apple": "Apple سے جاری رکھیں",
       "guest": "مہمان کے طور پر جاری رکھیں",
-      "guestNote": "مہمان موڈ آف لائن کام کرتا ہے۔ ہم آہنگی کے لیے کسی بھی وقت سائن ان کریں۔"
+      "guestNote": "مہمان موڈ آف لائن کام کرتا ہے۔ ہم آہنگی کے لیے کسی بھی وقت سائن ان کریں۔",
+      "orEmail": "یا ای میل سے جاری رکھیں"
+    },
+    "errors": {
+      "googleNotConfigured": "اس بلڈ میں Google سائن ان ترتیب نہیں ہے۔ ای میل استعمال کریں یا مہمان کے طور پر جاری رکھیں۔",
+      "googleCancelled": "Google سائن ان منسوخ کر دیا گیا۔",
+      "googleInProgress": "Google سائن ان پہلے سے جاری ہے۔",
+      "googlePlayServices": "اس آلہ پر Google Play Services دستیاب نہیں۔",
+      "appleCancelled": "Apple سائن ان منسوخ کر دیا گیا۔"
     },
     "login": {
       "title": "خوش آمدید",

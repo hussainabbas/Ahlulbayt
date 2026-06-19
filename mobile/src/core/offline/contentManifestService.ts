@@ -4,6 +4,9 @@ import { apiGet } from '@/core/api/client';
 import { logger } from '@/core/logging/logger';
 import { getString, setString } from '@/core/storage/mmkv';
 
+import { resolveBundleUrl } from './resolveBundleUrl';
+import { isBundleShippedInApp } from './shippedBundles';
+
 import type {
   ContentBundle,
   ContentManifest,
@@ -81,21 +84,30 @@ export const contentManifestService = {
     const plans: SyncPlanItem[] = [];
 
     for (const bundle of manifest.bundles) {
+      if (isBundleShippedInApp(bundle.domain, bundle.id)) continue;
+
       const key = bundleKey(bundle.domain, bundle.id);
       const local = state.bundleVersions[key];
       const localVersion = local?.version ?? 0;
 
       if (localVersion >= bundle.version) continue;
 
+      const url = resolveBundleUrl(bundle.url);
+      if (!url) {
+        logger.debug('Skipping bundle — URL not resolvable', { id: bundle.id });
+        continue;
+      }
+
       plans.push({
         domain: bundle.domain,
         bundleId: bundle.id,
         fromVersion: localVersion,
         toVersion: bundle.version,
-        url: bundle.url,
+        url,
         sha256: bundle.sha256,
         sizeBytes: bundle.sizeBytes,
         priority: computePriority(bundle),
+        optional: bundle.optional,
       });
     }
 

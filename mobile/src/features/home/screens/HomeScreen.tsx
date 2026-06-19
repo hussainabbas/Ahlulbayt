@@ -16,7 +16,6 @@ import { HadithWidget } from '../components/widgets/HadithWidget';
 import { IslamicDateWidget } from '../components/widgets/IslamicDateWidget';
 import { MuharramBanner } from '../components/widgets/MuharramBanner';
 import { useFastingHub } from '@/features/fasting/hooks/useFastingHub';
-import { FastingWidget } from '@/features/fasting/components/FastingWidget';
 import { LaylatAlQadrBanner } from '@/features/ramadan/components/LaylatAlQadrBanner';
 import { QuranGoalWidget } from '@/features/ramadan/components/QuranGoalWidget';
 import { RamadanDailyWidget } from '@/features/ramadan/components/RamadanDailyWidget';
@@ -135,15 +134,12 @@ export const HomeScreen = memo(function HomeScreen() {
         ) : null}
 
         {!showRamadanExperience ? (
-          <>
-            <FastingWidget />
-            <NextPrayerWidget
+          <NextPrayerWidget
             nextPrayer={nextPrayer}
             countdown={countdown}
             nextPrayerTime={nextPrayerTime}
             timezone={timezone}
           />
-          </>
         ) : null}
 
         <TasbihWidget />
