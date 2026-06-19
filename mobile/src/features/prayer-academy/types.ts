@@ -112,6 +112,8 @@ export interface PrayerGuideStep {
   advancedBody?: LocalizedText;
   arabic?: string;
   transliteration?: LocalizedText;
+  /** English/Urdu/Ar — meaning of arabic recitation */
+  translation?: LocalizedText;
   checklist?: LocalizedText[];
   fiqhRefs?: FiqhReference[];
   citations?: IslamicCitation[];
@@ -172,10 +174,14 @@ export interface PrayerAcademyProgress {
   guidedModeEnabled: boolean;
 }
 
+import type { GuideContentLocale } from '@/components/guided/types';
+
 export interface PrayerAcademyReaderPrefs {
   defaultDifficulty: GuideDifficulty;
   guidedModeDefault: boolean;
   showArabic: boolean;
   showTransliteration: boolean;
   showFiqhRefs: boolean;
+  contentLocale: GuideContentLocale;
+  fontScale: number;
 }

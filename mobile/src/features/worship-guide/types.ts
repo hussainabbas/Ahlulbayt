@@ -2,6 +2,9 @@
 
 export type WorshipGuideId =
   | 'wudu_standard'
+  | 'tayammum_standard'
+  | 'adhan_guide'
+  | 'iqama_guide'
   | 'ghusl_janabat'
   | 'ghusl_mayyit'
   | 'ghusl_haiz'
@@ -12,7 +15,7 @@ export type WorshipGuideId =
 
 export type WorshipGuideDomain = 'taharah';
 
-export type WorshipGuideCategory = 'wudu' | 'ghusl' | 'invalidators';
+export type WorshipGuideCategory = 'wudu' | 'ghusl' | 'invalidators' | 'adhan';
 
 export type GuideLearningMode = 'beginner' | 'standard' | 'scholar';
 
@@ -78,6 +81,8 @@ export interface WorshipGuideStep {
   body: LocalizedText;
   arabicText?: string;
   transliteration?: LocalizedText;
+  /** English/Urdu/Ar — meaning of arabic recitation */
+  translation?: LocalizedText;
   isRequired: boolean;
   fiqhRefs?: FiqhReference[];
   citations?: IslamicCitation[];
@@ -88,6 +93,8 @@ export interface WorshipGuideStep {
   confirmPrompt?: LocalizedText;
   audioAssetKey?: string;
   audioUrl?: string;
+  /** Worship simulator asset key */
+  animationAssetKey?: string;
 }
 
 export interface WorshipGuideMeta {
@@ -138,6 +145,8 @@ export interface WorshipGuideLastSession {
   updatedAt: string;
 }
 
+import type { GuideContentLocale } from '@/components/guided/types';
+
 export interface WorshipGuideReaderPrefs {
   defaultMode: GuideLearningMode;
   guidedModeDefault: boolean;
@@ -145,6 +154,8 @@ export interface WorshipGuideReaderPrefs {
   showTransliteration: boolean;
   hapticsEnabled: boolean;
   autoPreloadAudio: boolean;
+  contentLocale: GuideContentLocale;
+  fontScale: number;
 }
 
 export interface WorshipGuideBookmark {

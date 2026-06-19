@@ -34,6 +34,10 @@ export function WorshipGuideHubScreen() {
     () => WORSHIP_GUIDE_CATALOG.filter((c) => c.category === 'ghusl'),
     [],
   );
+  const adhanGuides = useMemo(
+    () => WORSHIP_GUIDE_CATALOG.filter((c) => c.category === 'adhan'),
+    [],
+  );
 
   const openGuide = useCallback(
     (guideId: WorshipGuideId, step?: number) => {
@@ -125,6 +129,17 @@ export function WorshipGuideHubScreen() {
             />
           ))}
           {ghuslGuides.map((meta) => (
+            <WorshipGuideRow
+              key={meta.id}
+              meta={meta}
+              progressPercent={progressPercent(meta.id)}
+              onPress={() => openGuide(meta.id)}
+            />
+          ))}
+        </Section>
+
+        <Section title={t('worshipGuide.sections.adhan')}>
+          {adhanGuides.map((meta) => (
             <WorshipGuideRow
               key={meta.id}
               meta={meta}

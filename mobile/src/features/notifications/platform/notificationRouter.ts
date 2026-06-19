@@ -3,7 +3,10 @@ import { AppState } from 'react-native';
 
 import { scheduleNotificationAsync } from '@/core/native/notifications';
 import { logger } from '@/core/logging/logger';
-import { navigateFromNotification } from '@/navigation/navigationRef';
+import {
+  flushPendingNotificationNavigation,
+  navigateFromNotification,
+} from '@/navigation/navigationRef';
 import type { RootStackParamList } from '@/navigation/types';
 
 import { useForegroundNotificationStore } from './foregroundNotificationStore';
@@ -117,6 +120,16 @@ export function registerNotificationEventHandlers(): void {
   notifee.onForegroundEvent((event) => {
     void handleNotificationEvent(event);
   });
+}
+
+/** Opens the screen linked to the notification that launched the app (cold start). */
+export async function handleInitialNotificationOpen(): Promise<void> {
+  const initial = await notifee.getInitialNotification();
+  if (!initial?.notification?.data) return;
+
+  const data = normalizeData(initial.notification.data as Record<string, unknown>);
+  navigateFromNotificationData(data);
+  flushPendingNotificationNavigation();
 }
 
 export async function handleBackgroundNotificationEvent(event: Event): Promise<void> {

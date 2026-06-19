@@ -1,4 +1,5 @@
 import { BUNDLED_SURAHS } from '@/features/quran/data/bundled';
+import { FATIHA, QADR } from './recitationContent';
 
 /** Join bundled ayah Arabic for a surah, or fall back to inline text. */
 function joinSurahAyahs(surahNumber: number): string {
@@ -40,9 +41,9 @@ const INLINE_SURAHS: Record<number, readonly string[]> = {
   ],
 };
 
-export const SURAH_AL_FATIHA_ARABIC = joinSurahAyahs(1);
+export const SURAH_AL_FATIHA_ARABIC = joinSurahAyahs(1) || FATIHA.arabic;
 export const SURAH_AL_IKHLAS_ARABIC = joinSurahAyahs(112);
-export const SURAH_AL_QADR_ARABIC = joinSurahAyahs(97);
+export const SURAH_AL_QADR_ARABIC = joinSurahAyahs(97) || QADR.arabic;
 export const SURAH_AL_FALAQ_ARABIC = joinSurahAyahs(113);
 export const SURAH_AN_NAS_ARABIC = joinSurahAyahs(114);
 

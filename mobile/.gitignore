@@ -16,6 +16,7 @@ node_modules/
 *.key
 *.mobileprovision
 android/app/build/
+android/app/release/
 android/build/
 android/.gradle/
 android/.cxx/
@@ -24,6 +25,11 @@ android/local.properties
 ios/build/
 ios/Pods/
 DerivedData/
+
+# Release binaries
+*.apk
+*.aab
+*.ipa
 
 # Metro / Expo
 .metro-health-check*

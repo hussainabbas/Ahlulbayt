@@ -4,17 +4,18 @@ import {
   COMMON_CONDITIONS,
   COMMON_SUNNI_DIFFERENCES,
   dailyTimingRules,
-  fourRakatWajibSteps,
   L,
   wajibRakats,
 } from '../../shared/contentHelpers';
+import { dailyPrayerSteps } from '../../shared/dailyPrayerDetailedSteps';
 
 const meta = getCatalogMeta('salat_isha');
 const name = meta.titles;
+const ISHA_STEPS = dailyPrayerSteps('isha');
 
 export const SALAT_ISHA: PrayerAcademyBundle = {
-  meta,
-  bundleVersion: 1,
+  meta: { ...meta, estimatedMinutes: 15 },
+  bundleVersion: 2,
   rakatStructure: [
     ...wajibRakats(4, name),
     {
@@ -44,9 +45,9 @@ export const SALAT_ISHA: PrayerAcademyBundle = {
   conditions: COMMON_CONDITIONS,
   sunniDifferences: COMMON_SUNNI_DIFFERENCES,
   steps: {
-    beginner: fourRakatWajibSteps(name, true),
+    beginner: ISHA_STEPS,
     advanced: [
-      ...fourRakatWajibSteps(name, true),
+      ...ISHA_STEPS,
       {
         id: 'shaf_witr',
         kind: 'fiqh_note',

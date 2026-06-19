@@ -1,20 +1,21 @@
 import { getCatalogMeta } from '../../../constants/catalog';
 import type { PrayerAcademyBundle } from '../../../types';
+import { dailyPrayerSteps } from '../../shared/dailyPrayerDetailedSteps';
 import {
   COMMON_CONDITIONS,
   COMMON_SUNNI_DIFFERENCES,
   dailyTimingRules,
-  fourRakatWajibSteps,
   L,
   wajibRakats,
 } from '../../shared/contentHelpers';
 
 const meta = getCatalogMeta('salat_dhuhr');
 const name = meta.titles;
+const STEPS = dailyPrayerSteps('dhuhr');
 
 export const SALAT_DHUHR: PrayerAcademyBundle = {
-  meta,
-  bundleVersion: 1,
+  meta: { ...meta, estimatedMinutes: 15 },
+  bundleVersion: 2,
   rakatStructure: [
     {
       id: 'mustahab_before',
@@ -42,7 +43,7 @@ export const SALAT_DHUHR: PrayerAcademyBundle = {
   conditions: COMMON_CONDITIONS,
   sunniDifferences: COMMON_SUNNI_DIFFERENCES,
   steps: {
-    beginner: fourRakatWajibSteps(name, false),
-    advanced: fourRakatWajibSteps(name, false),
+    beginner: STEPS,
+    advanced: STEPS,
   },
 };

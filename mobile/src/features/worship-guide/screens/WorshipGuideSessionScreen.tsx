@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -6,6 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { GuidedNavigationBar } from '@/components/guided/GuidedNavigationBar';
 import { GuidedProgressHeader } from '@/components/guided/GuidedProgressHeader';
+import { GuidedReaderToolbar } from '@/components/guided/GuidedReaderToolbar';
 import { GuidedStepPager } from '@/components/guided/GuidedStepPager';
 import { Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
@@ -15,8 +16,6 @@ import { layout } from '@/theme/layout';
 import { useTheme } from '@/theme/ThemeContext';
 
 import { WorshipStepBlock } from '../components/WorshipStepBlock';
-import { WorshipAvatarStage } from '@/features/worship-simulator/components/WorshipAvatarStage';
-import { useWorshipSimulator } from '@/features/worship-simulator/hooks/useWorshipSimulator';
 import { StepProgressionEngine } from '../engine/stepProgressionEngine';
 import { WorshipGuideRepository } from '../engine/worshipGuideRepository';
 import { useWorshipGuideProgressStore } from '../stores/progressStore';
@@ -51,13 +50,8 @@ export function WorshipGuideSessionScreen() {
 
   const bundle = useMemo(() => WorshipGuideRepository.getBundle(guideId), [guideId]);
   const steps = useMemo(() => StepProgressionEngine.getSteps(guideId, mode), [guideId, mode]);
-  const { pose, isTransitioning, animationAssetKey, goToStep } = useWorshipSimulator(steps);
 
   const footerSpacer = Math.max(0, GUIDED_NAV_BAR_HEIGHT + insets.bottom + 12);
-
-  useEffect(() => {
-    if (guided) void goToStep(stepIndex);
-  }, [guided, stepIndex, goToStep]);
 
   useLayoutEffect(() => {
     if (!bundle) return;
@@ -125,23 +119,14 @@ export function WorshipGuideSessionScreen() {
           contentContainerStyle={[styles.pageContent, { paddingBottom: footerSpacer }]}
           showsVerticalScrollIndicator={false}
         >
-          {index === stepIndex ? (
-            <WorshipAvatarStage
-              pose={pose}
-              isTransitioning={isTransitioning}
-              animationAssetKey={animationAssetKey}
-              subtitle={step.arabicText ?? null}
-            />
-          ) : (
-            <View style={[styles.avatarPlaceholder, { backgroundColor: theme.colors.surfaceMuted }]} />
-          )}
-
           <WorshipStepBlock
             step={step}
             index={index}
             mode={mode}
             showArabic={readerPrefs.showArabic}
             showTransliteration={readerPrefs.showTransliteration}
+            contentLocale={readerPrefs.contentLocale}
+            fontScale={readerPrefs.fontScale}
             active
           />
 
@@ -172,15 +157,23 @@ export function WorshipGuideSessionScreen() {
     [
       stepIndex,
       confirmed,
-      pose,
-      isTransitioning,
-      animationAssetKey,
       mode,
-      readerPrefs.showArabic,
-      readerPrefs.showTransliteration,
+      readerPrefs,
       locale,
       theme.colors,
+      footerSpacer,
     ],
+  );
+
+  const readerToolbar = (inset?: boolean) => (
+    <View style={inset ? styles.toolbarWrapInset : styles.toolbarWrap}>
+      <GuidedReaderToolbar
+        contentLocale={readerPrefs.contentLocale}
+        onContentLocaleChange={readerPrefs.setContentLocale}
+        onDecreaseFont={readerPrefs.decreaseFontScale}
+        onIncreaseFont={readerPrefs.increaseFontScale}
+      />
+    </View>
   );
 
   if (!bundle) {
@@ -203,6 +196,7 @@ export function WorshipGuideSessionScreen() {
             current={stepIndex + 1}
             total={steps.length}
           />
+          {readerToolbar()}
           <GuidedStepPager
             steps={steps}
             stepIndex={stepIndex}
@@ -225,6 +219,7 @@ export function WorshipGuideSessionScreen() {
             current={1}
             total={steps.length}
           />
+          {readerToolbar(true)}
           {steps.map((step, index) => (
             <WorshipStepBlock
               key={step.id}
@@ -233,6 +228,8 @@ export function WorshipGuideSessionScreen() {
               mode={mode}
               showArabic={readerPrefs.showArabic}
               showTransliteration={readerPrefs.showTransliteration}
+              contentLocale={readerPrefs.contentLocale}
+              fontScale={readerPrefs.fontScale}
             />
           ))}
 
@@ -280,9 +277,12 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
     gap: layout.blockGap,
   },
-  avatarPlaceholder: {
-    height: 220,
-    borderRadius: 16,
+  toolbarWrap: {
+    paddingHorizontal: layout.screenPaddingX,
+    paddingBottom: 8,
+  },
+  toolbarWrapInset: {
+    paddingBottom: 8,
   },
   confirm: {
     padding: layout.blockGap,

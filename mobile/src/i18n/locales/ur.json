@@ -25,6 +25,15 @@
     "finish": "مکمل",
     "swipeHint": "مراحل بدلنے کے لیے دائیں یا بائیں سوائپ کریں"
   },
+  "guided": {
+    "reader": {
+      "textSize": "متن کا سائز",
+      "language": "زبان",
+      "langEn": "انگریزی",
+      "langUr": "اردو",
+      "langAr": "عربی"
+    }
+  },
   "references": {
     "title": "حوالہ",
     "sourcesUsed": "استعمال شدہ مآخذ",
@@ -203,6 +212,7 @@
     "salahHint": "۱۵ نمازیں — روزانہ واجب، عید، جمعہ، خاص و مستحب",
     "sections": {
       "taharah": "طہارت",
+      "adhan": "اذان و اقامت",
       "salah": "نماز"
     },
     "mode": {
@@ -562,6 +572,8 @@
     "notFound": "اندراج نہیں ملا۔",
     "searchPlaceholder": "خطبات، خطوط، اقوال، موضوعات تلاش کریں…",
     "featuredQuotes": "نمایاں اقوال",
+    "allEntries": "تمام اندراجات · {{count}}",
+    "searchResults": "تلاش کے نتائج · {{count}}",
     "categories": {
       "sermons": "خطبات",
       "letters": "خطوط",

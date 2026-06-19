@@ -1,12 +1,12 @@
-import { useLayoutEffect, useMemo, useState } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import { FlatList, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-import { Card } from '@/components/ui/Card';
 import { Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
 import { useLocale } from '@/i18n/useLocale';
+import { layout } from '@/theme/layout';
 import type { RootStackParamList } from '@/navigation/types';
 import { useTheme } from '@/theme/ThemeContext';
 
@@ -69,9 +69,12 @@ export function NahjulScreen() {
 
   const featuredQuotes = useMemo(() => NahjulRepository.getFeaturedQuotes(6), []);
 
-  const openReader = (id: NahjulId) => {
-    navigation.navigate('NahjulReader', { nahjulId: id });
-  };
+  const openReader = useCallback(
+    (id: NahjulId) => {
+      navigation.navigate('NahjulReader', { nahjulId: id });
+    },
+    [navigation],
+  );
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -82,10 +85,11 @@ export function NahjulScreen() {
   }, [navigation, t, theme]);
 
   const showQuotesGrid = !isSearching && category === 'saying' && listFilter === 'all';
+  const showFeatured = !isSearching && category === 'all' && listFilter === 'all';
 
-  return (
-    <Screen padded={false}>
-      <View style={[styles.header, { paddingHorizontal: theme.spacing[5] }]}>
+  const listHeader = useMemo(
+    () => (
+      <View style={styles.header}>
         <Text variant="displayMd">{t('nahjul.title')}</Text>
         <Text variant="bodySm" color="secondary">
           {t('nahjul.subtitle')}
@@ -135,77 +139,133 @@ export function NahjulScreen() {
             </View>
           </>
         ) : null}
-      </View>
 
-      {!isSearching && category === 'all' && listFilter === 'all' ? (
-        <View style={[styles.featured, { paddingHorizontal: theme.spacing[5] }]}>
-          <Text variant="overline" color="secondary">
-            {t('nahjul.featuredQuotes')}
-          </Text>
-          {featuredQuotes.map((q) => (
-            <NahjulQuoteCard
-              key={q.id}
-              meta={q}
-              bookmarked={bookmarkedIds.has(q.id)}
-              onPress={() => openReader(q.id)}
-              onToggleBookmark={() => toggleBookmark(q.id, q.titles.en)}
-            />
-          ))}
-        </View>
-      ) : null}
-
-      <Card padded={false} style={styles.listCard}>
-        {showQuotesGrid ? (
-          <FlatList
-            data={listData}
-            keyExtractor={(item) => item.id}
-            contentContainerStyle={[styles.listContent, { paddingHorizontal: 12 }]}
-            renderItem={({ item }) => (
+        {showFeatured ? (
+          <View style={styles.featured}>
+            <Text variant="overline" color="secondary">
+              {t('nahjul.featuredQuotes')}
+            </Text>
+            {featuredQuotes.map((q) => (
               <NahjulQuoteCard
-                meta={item}
-                bookmarked={bookmarkedIds.has(item.id)}
-                onPress={() => openReader(item.id)}
-                onToggleBookmark={() => toggleBookmark(item.id, item.titles.en)}
+                key={q.id}
+                meta={q}
+                bookmarked={bookmarkedIds.has(q.id)}
+                onPress={() => openReader(q.id)}
+                onToggleBookmark={() => toggleBookmark(q.id, q.titles.en)}
               />
-            )}
-            ListEmptyComponent={
-              <Text variant="bodyMd" color="secondary" style={styles.empty}>
-                {t('nahjul.noResults')}
-              </Text>
-            }
-            showsVerticalScrollIndicator={false}
+            ))}
+          </View>
+        ) : null}
+
+        {listData.length > 0 && (isSearching || showFeatured) ? (
+          <Text variant="overline" color="secondary" style={styles.listLabel}>
+            {isSearching
+              ? t('nahjul.searchResults', { count: listData.length })
+              : t('nahjul.allEntries', { count: listData.length })}
+          </Text>
+        ) : null}
+      </View>
+    ),
+    [
+      t,
+      query,
+      setQuery,
+      theme.colors,
+      isSearching,
+      category,
+      listFilter,
+      showFeatured,
+      featuredQuotes,
+      bookmarkedIds,
+      openReader,
+      toggleBookmark,
+      listData.length,
+    ],
+  );
+
+  const renderItem = useCallback(
+    ({ item, index }: { item: NahjulMeta; index: number }) => {
+      if (showQuotesGrid) {
+        return (
+          <View style={styles.quoteItem}>
+            <NahjulQuoteCard
+              meta={item}
+              bookmarked={bookmarkedIds.has(item.id)}
+              onPress={() => openReader(item.id)}
+              onToggleBookmark={() => toggleBookmark(item.id, item.titles.en)}
+            />
+          </View>
+        );
+      }
+
+      return (
+        <View
+          style={[
+            styles.rowWrap,
+            {
+              backgroundColor: theme.colors.surfaceElevated,
+              borderColor: theme.colors.borderSubtle,
+              borderTopLeftRadius: index === 0 ? theme.radius.lg : 0,
+              borderTopRightRadius: index === 0 ? theme.radius.lg : 0,
+              borderBottomLeftRadius: index === listData.length - 1 ? theme.radius.lg : 0,
+              borderBottomRightRadius: index === listData.length - 1 ? theme.radius.lg : 0,
+              borderTopWidth: index === 0 ? StyleSheet.hairlineWidth : 0,
+              borderBottomWidth: index === listData.length - 1 ? StyleSheet.hairlineWidth : 0,
+              borderLeftWidth: StyleSheet.hairlineWidth,
+              borderRightWidth: StyleSheet.hairlineWidth,
+            },
+          ]}
+        >
+          <NahjulListRow
+            meta={item}
+            bookmarked={bookmarkedIds.has(item.id)}
+            offline={offlineIds.has(item.id)}
+            onPress={() => openReader(item.id)}
           />
-        ) : (
-          <FlatList
-            data={listData}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <NahjulListRow
-                meta={item}
-                bookmarked={bookmarkedIds.has(item.id)}
-                offline={offlineIds.has(item.id)}
-                onPress={() => openReader(item.id)}
-              />
-            )}
-            ListEmptyComponent={
-              <Text variant="bodyMd" color="secondary" style={styles.empty}>
-                {isSearching ? t('nahjul.noResults') : t('nahjul.noBookmarks')}
-              </Text>
-            }
-            contentContainerStyle={styles.listContent}
-            showsVerticalScrollIndicator={false}
-            keyboardShouldPersistTaps="handled"
-          />
-        )}
-      </Card>
+        </View>
+      );
+    },
+    [
+      showQuotesGrid,
+      bookmarkedIds,
+      offlineIds,
+      openReader,
+      toggleBookmark,
+      theme,
+      listData.length,
+    ],
+  );
+
+  return (
+    <Screen padded={false} safeTop={false}>
+      <FlatList
+        style={styles.list}
+        data={listData}
+        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+        ListHeaderComponent={listHeader}
+        ListEmptyComponent={
+          <Text variant="bodyMd" color="secondary" style={styles.empty}>
+            {isSearching ? t('nahjul.noResults') : t('nahjul.noBookmarks')}
+          </Text>
+        }
+        contentContainerStyle={styles.listContent}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        initialNumToRender={12}
+      />
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
+  list: {
+    flex: 1,
+  },
   header: {
-    paddingTop: 16,
-    paddingBottom: 12,
+    paddingHorizontal: layout.screenPaddingX,
+    paddingTop: layout.listGap,
+    paddingBottom: layout.blockGap,
     gap: 10,
   },
   search: {
@@ -227,15 +287,21 @@ const styles = StyleSheet.create({
   },
   featured: {
     gap: 8,
-    marginBottom: 8,
+    marginTop: layout.blockGap,
   },
-  listCard: {
-    flex: 1,
-    marginHorizontal: 16,
-    marginBottom: 8,
+  listLabel: {
+    marginTop: layout.sectionGap,
+  },
+  quoteItem: {
+    paddingHorizontal: layout.screenPaddingX,
+  },
+  rowWrap: {
+    marginHorizontal: layout.screenPaddingX,
+    overflow: 'hidden',
   },
   listContent: {
     paddingBottom: 40,
+    flexGrow: 1,
   },
   empty: {
     padding: 24,

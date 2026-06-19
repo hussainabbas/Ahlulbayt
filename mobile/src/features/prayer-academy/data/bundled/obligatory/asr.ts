@@ -1,20 +1,21 @@
 import { getCatalogMeta } from '../../../constants/catalog';
 import type { PrayerAcademyBundle } from '../../../types';
+import { dailyPrayerSteps } from '../../shared/dailyPrayerDetailedSteps';
 import {
   COMMON_CONDITIONS,
   COMMON_SUNNI_DIFFERENCES,
   dailyTimingRules,
-  fourRakatWajibSteps,
   L,
   wajibRakats,
 } from '../../shared/contentHelpers';
 
 const meta = getCatalogMeta('salat_asr');
 const name = meta.titles;
+const STEPS = dailyPrayerSteps('asr');
 
 export const SALAT_ASR: PrayerAcademyBundle = {
-  meta,
-  bundleVersion: 1,
+  meta: { ...meta, estimatedMinutes: 15 },
+  bundleVersion: 2,
   rakatStructure: wajibRakats(4, name),
   timingRules: [
     ...dailyTimingRules(
@@ -36,7 +37,7 @@ export const SALAT_ASR: PrayerAcademyBundle = {
     },
   ],
   steps: {
-    beginner: fourRakatWajibSteps(name, false),
-    advanced: fourRakatWajibSteps(name, false),
+    beginner: STEPS,
+    advanced: STEPS,
   },
 };

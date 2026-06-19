@@ -25,6 +25,15 @@
     "finish": "Complete",
     "swipeHint": "Swipe left or right between steps"
   },
+  "guided": {
+    "reader": {
+      "textSize": "Text size",
+      "language": "Language",
+      "langEn": "English",
+      "langUr": "Urdu",
+      "langAr": "Arabic"
+    }
+  },
   "references": {
     "title": "Reference",
     "sourcesUsed": "Sources Used",
@@ -219,6 +228,7 @@
     "salahHint": "15 prayers — daily wajib, Eid, Jumu'ah, special & nafl",
     "sections": {
       "taharah": "Taharah (Purification)",
+      "adhan": "Adhan & Iqama",
       "salah": "Salah (Prayer)"
     },
     "mode": {
@@ -585,6 +595,8 @@
     "notFound": "Entry not found.",
     "searchPlaceholder": "Search sermons, letters, quotes, themes…",
     "featuredQuotes": "Featured Quotes",
+    "allEntries": "All entries · {{count}}",
+    "searchResults": "Search results · {{count}}",
     "categories": {
       "sermons": "Sermons",
       "letters": "Letters",

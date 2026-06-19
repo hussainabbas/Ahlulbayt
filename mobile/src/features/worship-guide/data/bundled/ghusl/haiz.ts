@@ -1,65 +1,58 @@
 import { getCatalogMeta } from '../../../constants/catalog';
 import type { WorshipGuideBundle } from '../../../types';
-import { ghuslTartibiSteps, L } from '../../shared/taharahHelpers';
+import {
+  assembleGhuslBundle,
+  GHUSL_HAYD_FIQH,
+  GHUSL_JUMUAH_FIQH,
+  GHUSL_NIFAS_FIQH,
+} from '../../shared/ghuslDetailedContent';
+import { L } from '../../shared/taharahHelpers';
 
-const title = { en: 'Hayd', ur: 'حیض', ar: 'الحيض' };
+const haydTitle = { en: 'Hayd', ur: 'حیض', ar: 'الحيض' };
+const nifasTitle = { en: 'Nifas', ur: 'نفاس', ar: 'النفاس' };
+const jumuahTitle = { en: 'Jumu\'ah', ur: 'جمعہ', ar: 'الجمعة' };
 
 export const GHUSL_HAIZ: WorshipGuideBundle = {
   meta: getCatalogMeta('ghusl_haiz'),
-  bundleVersion: 1,
-  steps: {
-    beginner: ghuslTartibiSteps(
-      'haiz',
-      title,
-      L('Hayd ghusl complete. Salah and fasting may resume per fiqh rules.', 'غسل حیض مکمل۔', 'اكتمل غسل الحيض.'),
+  bundleVersion: 2,
+  ...assembleGhuslBundle(
+    'haiz',
+    haydTitle,
+    GHUSL_HAYD_FIQH,
+    L(
+      'Hayd ghusl complete. You may resume salah, fasting, and other acts requiring taharah.',
+      'غسل حیض مکمل۔ اب نماز، روزہ اور طہارت والے اعمال کر سکتے ہیں۔',
+      'اكتمل غسل الحيض. يجوز لك استئناف الصلاة والصوم وما يشترط فيه الطهارة.',
     ),
-    standard: [
-      ...ghuslTartibiSteps('haiz', title, L('Complete.', 'مکمل۔', 'اكتمل.')),
-    ],
-    scholar: ghuslTartibiSteps('haiz', title, L('Complete.', 'مکمل۔', 'اكتمل.')),
-  },
+  ),
 };
 
 export const GHUSL_NIFAS: WorshipGuideBundle = {
   meta: getCatalogMeta('ghusl_nifas'),
-  bundleVersion: 1,
-  steps: {
-    beginner: ghuslTartibiSteps(
-      'nifas',
-      { en: 'Nifas', ur: 'نفاس', ar: 'النفاس' },
-      L('Nifas ghusl complete.', 'غسل نفاس مکمل۔', 'اكتمل غسل النفاس.'),
+  bundleVersion: 2,
+  ...assembleGhuslBundle(
+    'nifas',
+    nifasTitle,
+    GHUSL_NIFAS_FIQH,
+    L(
+      'Nifas ghusl complete. You may resume salah and acts requiring taharah.',
+      'غسل نفاس مکمل۔ اب نماز اور طہارت والے اعمال کر سکتے ہیں۔',
+      'اكتمل غسل النفاس. يجوز لك استئناف الصلاة وما يشترط فيه الطهارة.',
     ),
-    standard: ghuslTartibiSteps(
-      'nifas',
-      { en: 'Nifas', ur: 'نفاس', ar: 'النفاس' },
-      L('Complete.', 'مکمل۔', 'اكتمل.'),
-    ),
-    scholar: ghuslTartibiSteps(
-      'nifas',
-      { en: 'Nifas', ur: 'نفاس', ar: 'النفاس' },
-      L('Complete.', 'مکمل۔', 'اكتمل.'),
-    ),
-  },
+  ),
 };
 
 export const GHUSL_JUMUAH: WorshipGuideBundle = {
   meta: getCatalogMeta('ghusl_jumuah'),
-  bundleVersion: 1,
-  steps: {
-    beginner: ghuslTartibiSteps(
-      'jumuah',
-      { en: 'Jumu\'ah', ur: 'جمعہ', ar: 'الجمعة' },
-      L('Mustahab ghusl for Jumu\'ah complete.', 'غسل جمعہ مکمل۔', 'اكتمل غسل الجمعة.'),
+  bundleVersion: 2,
+  ...assembleGhuslBundle(
+    'jumuah',
+    jumuahTitle,
+    GHUSL_JUMUAH_FIQH,
+    L(
+      'Mustahab ghusl for Jumu\'ah complete.',
+      'مستحب غسل جمعہ مکمل۔',
+      'اكتمل غسل الجمعة المستحب.',
     ),
-    standard: ghuslTartibiSteps(
-      'jumuah',
-      { en: 'Jumu\'ah', ur: 'جمعہ', ar: 'الجمعة' },
-      L('Complete.', 'مکمل۔', 'اكتمل.'),
-    ),
-    scholar: ghuslTartibiSteps(
-      'jumuah',
-      { en: 'Jumu\'ah', ur: 'جمعہ', ar: 'الجمعة' },
-      L('Complete.', 'مکمل۔', 'اكتمل.'),
-    ),
-  },
+  ),
 };

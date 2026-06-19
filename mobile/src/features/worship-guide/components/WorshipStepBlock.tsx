@@ -1,6 +1,8 @@
 import { StyleSheet, View } from 'react-native';
 
 import { CitationList } from '@/components/citations';
+import { RecitationPanel, isRecitationKind } from '@/components/guided/RecitationPanel';
+import type { GuideContentLocale } from '@/components/guided/types';
 import { Text } from '@/components/ui/Text';
 import { citationsFromFiqhRefs, mergeCitations } from '@/core/citations';
 import { useLocale } from '@/i18n/useLocale';
@@ -16,6 +18,8 @@ interface WorshipStepBlockProps {
   mode: 'beginner' | 'standard' | 'scholar';
   showArabic: boolean;
   showTransliteration: boolean;
+  contentLocale: GuideContentLocale;
+  fontScale?: number;
   active?: boolean;
 }
 
@@ -25,6 +29,8 @@ export function WorshipStepBlock({
   mode,
   showArabic,
   showTransliteration,
+  contentLocale,
+  fontScale = 1,
   active,
 }: WorshipStepBlockProps) {
   const { locale } = useLocale();
@@ -34,6 +40,10 @@ export function WorshipStepBlock({
     step.citations,
     showScholar ? citationsFromFiqhRefs(step.fiqhRefs, locale) : undefined,
   );
+
+  const titleSize = 16 * fontScale;
+  const bodySize = 14 * fontScale;
+  const bodyLineHeight = 22 * fontScale;
 
   return (
     <View
@@ -52,43 +62,63 @@ export function WorshipStepBlock({
           </Text>
         </View>
         <View style={styles.titleCol}>
-          <Text variant="bodyMd" weight="600">
-            {pickLocalized(step.title, locale)}
+          <Text
+            variant="bodyMd"
+            weight="600"
+            style={{ fontSize: titleSize, lineHeight: titleSize * 1.4 }}
+          >
+            {pickLocalized(step.title, contentLocale)}
           </Text>
           {!step.isRequired ? (
-            <Text variant="caption" color="tertiary">
-              {pickLocalized({ en: 'Recommended', ur: 'مستحب', ar: 'مستحب' }, locale)}
+            <Text
+              variant="caption"
+              color="tertiary"
+              style={{ fontSize: 12 * fontScale, lineHeight: 18 * fontScale }}
+            >
+              {pickLocalized({ en: 'Recommended', ur: 'مستحب', ar: 'مستحب' }, contentLocale)}
             </Text>
           ) : null}
         </View>
       </View>
 
-      <Text variant="bodySm" color="secondary">
-        {pickLocalized(step.body, locale)}
+      <Text
+        variant="bodySm"
+        color="secondary"
+        style={{ fontSize: bodySize, lineHeight: bodyLineHeight }}
+      >
+        {pickLocalized(step.body, contentLocale)}
       </Text>
 
       {showScholar && step.scholarBody ? (
-        <Text variant="caption" color="tertiary" style={styles.scholar}>
-          {pickLocalized(step.scholarBody, locale)}
+        <Text
+          variant="caption"
+          color="tertiary"
+          style={[styles.scholar, { fontSize: 12 * fontScale, lineHeight: 18 * fontScale }]}
+        >
+          {pickLocalized(step.scholarBody, contentLocale)}
         </Text>
       ) : null}
 
-      {showArabic && step.arabicText ? (
-        <Text variant="bodyMd" style={[styles.arabic, { color: theme.colors.textPrimary }]}>
-          {step.arabicText}
-        </Text>
-      ) : null}
-
-      {showTransliteration && step.transliteration ? (
-        <Text variant="caption" color="tertiary" style={styles.translit}>
-          {pickLocalized(step.transliteration, locale)}
-        </Text>
-      ) : null}
+      <RecitationPanel
+        arabic={step.arabicText}
+        transliteration={step.transliteration}
+        translation={step.translation}
+        showArabic={showArabic}
+        showTransliteration={showTransliteration}
+        forceShowArabic={isRecitationKind(step.kind) || Boolean(step.arabicText && step.translation)}
+        contentLocale={contentLocale}
+        fontScale={fontScale}
+      />
 
       {step.checklist?.length ? (
         <View style={styles.checklist}>
-          {pickLocalizedList(step.checklist, locale).map((line, i) => (
-            <Text key={i} variant="bodySm" color="secondary">
+          {pickLocalizedList(step.checklist, contentLocale).map((line, i) => (
+            <Text
+              key={i}
+              variant="bodySm"
+              color="secondary"
+              style={{ fontSize: bodySize, lineHeight: bodyLineHeight }}
+            >
               ☐ {line}
             </Text>
           ))}
@@ -97,11 +127,21 @@ export function WorshipStepBlock({
 
       {showScholar && step.commonErrors?.length ? (
         <View style={[styles.errors, { backgroundColor: theme.colors.surfaceMuted }]}>
-          <Text variant="caption" weight="600" color="accent">
-            {pickLocalized({ en: 'Common mistakes', ur: 'عام غلطیاں', ar: 'أخطاء شائعة' }, locale)}
+          <Text
+            variant="caption"
+            weight="600"
+            color="accent"
+            style={{ fontSize: 12 * fontScale, lineHeight: 18 * fontScale }}
+          >
+            {pickLocalized({ en: 'Common mistakes', ur: 'عام غلطیاں', ar: 'أخطاء شائعة' }, contentLocale)}
           </Text>
-          {pickLocalizedList(step.commonErrors, locale).map((err, i) => (
-            <Text key={i} variant="caption" color="secondary">
+          {pickLocalizedList(step.commonErrors, contentLocale).map((err, i) => (
+            <Text
+              key={i}
+              variant="caption"
+              color="secondary"
+              style={{ fontSize: 12 * fontScale, lineHeight: 18 * fontScale }}
+            >
               • {err}
             </Text>
           ))}
@@ -131,8 +171,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   titleCol: { flex: 1, gap: 2 },
-  arabic: { textAlign: 'right', writingDirection: 'rtl', lineHeight: 32, fontSize: 20 },
-  translit: { fontStyle: 'italic' },
   checklist: { gap: 4 },
   errors: { padding: 10, borderRadius: 8, gap: 4 },
   scholar: { marginTop: 4 },

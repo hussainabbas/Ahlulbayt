@@ -142,6 +142,8 @@ export function buildScheduleRequests(
                 kind: 'preparation',
                 dayKey,
                 minutes: settings.preparationMinutes,
+                category: 'prayer',
+                route: 'Prayer',
               },
             }),
           );
@@ -165,6 +167,8 @@ export function buildScheduleRequests(
                 kind: 'smart',
                 dayKey,
                 minutes: settings.smartReminderMinutes,
+                category: 'prayer',
+                route: 'Prayer',
               },
             }),
           );

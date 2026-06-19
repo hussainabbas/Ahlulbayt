@@ -1,20 +1,21 @@
 import { getCatalogMeta } from '../../../constants/catalog';
 import type { PrayerAcademyBundle } from '../../../types';
+import { dailyPrayerSteps } from '../../shared/dailyPrayerDetailedSteps';
 import {
   COMMON_CONDITIONS,
   COMMON_SUNNI_DIFFERENCES,
   dailyTimingRules,
   L,
-  threeRakatWajibSteps,
   wajibRakats,
 } from '../../shared/contentHelpers';
 
 const meta = getCatalogMeta('salat_maghrib');
 const name = meta.titles;
+const STEPS = dailyPrayerSteps('maghrib');
 
 export const SALAT_MAGHRIB: PrayerAcademyBundle = {
-  meta,
-  bundleVersion: 1,
+  meta: { ...meta, estimatedMinutes: 12 },
+  bundleVersion: 2,
   rakatStructure: [
     ...wajibRakats(3, name),
     {
@@ -37,7 +38,7 @@ export const SALAT_MAGHRIB: PrayerAcademyBundle = {
   conditions: COMMON_CONDITIONS,
   sunniDifferences: COMMON_SUNNI_DIFFERENCES,
   steps: {
-    beginner: threeRakatWajibSteps(name),
-    advanced: threeRakatWajibSteps(name),
+    beginner: STEPS,
+    advanced: STEPS,
   },
 };

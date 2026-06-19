@@ -55,6 +55,7 @@ mobile/src/features/quran/data/bundled/generated/surah-*.json
 
 # --- Mobile (React Native) ---
 mobile/android/app/build/
+mobile/android/app/release/
 mobile/android/build/
 mobile/android/.gradle/
 mobile/android/local.properties
@@ -67,6 +68,13 @@ mobile/.rn-scaffold/
 mobile/.kotlin/
 mobile/.expo/
 mobile/.expo-shared/
+
+# Mobile release binaries (never commit)
+*.apk
+*.aab
+*.ipa
+*.app
+*.dSYM.zip
 
 # Native signing & secrets (never commit)
 *.jks

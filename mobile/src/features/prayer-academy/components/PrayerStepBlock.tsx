@@ -1,6 +1,8 @@
 import { StyleSheet, View } from 'react-native';
 
 import { CitationList } from '@/components/citations';
+import { RecitationPanel, isRecitationKind } from '@/components/guided/RecitationPanel';
+import type { GuideContentLocale } from '@/components/guided/types';
 import { Text } from '@/components/ui/Text';
 import { citationsFromFiqhRefs, mergeCitations } from '@/core/citations';
 import { useLocale } from '@/i18n/useLocale';
@@ -16,6 +18,8 @@ interface PrayerStepBlockProps {
   showArabic: boolean;
   showTransliteration: boolean;
   showFiqhRefs: boolean;
+  contentLocale: GuideContentLocale;
+  fontScale?: number;
   active?: boolean;
 }
 
@@ -25,6 +29,8 @@ export function PrayerStepBlock({
   showArabic,
   showTransliteration,
   showFiqhRefs,
+  contentLocale,
+  fontScale = 1,
   active,
 }: PrayerStepBlockProps) {
   const { locale } = useLocale();
@@ -34,6 +40,10 @@ export function PrayerStepBlock({
     step.citations,
     showFiqhRefs ? citationsFromFiqhRefs(step.fiqhRefs, locale) : undefined,
   );
+
+  const titleSize = 16 * fontScale;
+  const bodySize = 14 * fontScale;
+  const bodyLineHeight = 22 * fontScale;
 
   return (
     <View
@@ -51,37 +61,53 @@ export function PrayerStepBlock({
             {index + 1}
           </Text>
         </View>
-        <Text variant="bodyMd" weight="600" style={styles.title}>
-          {pickLocalized(step.titles, locale)}
+        <Text
+          variant="bodyMd"
+          weight="600"
+          style={[styles.title, { fontSize: titleSize, lineHeight: titleSize * 1.4 }]}
+        >
+          {pickLocalized(step.titles, contentLocale)}
         </Text>
       </View>
 
-      <Text variant="bodySm" color="secondary">
-        {pickLocalized(step.body, locale)}
+      <Text
+        variant="bodySm"
+        color="secondary"
+        style={{ fontSize: bodySize, lineHeight: bodyLineHeight }}
+      >
+        {pickLocalized(step.body, contentLocale)}
       </Text>
 
       {step.advancedBody ? (
-        <Text variant="caption" color="tertiary" style={styles.advanced}>
-          {pickLocalized(step.advancedBody, locale)}
+        <Text
+          variant="caption"
+          color="tertiary"
+          style={[styles.advanced, { fontSize: 12 * fontScale, lineHeight: 18 * fontScale }]}
+        >
+          {pickLocalized(step.advancedBody, contentLocale)}
         </Text>
       ) : null}
 
-      {showArabic && step.arabic ? (
-        <Text variant="bodyMd" style={[styles.arabic, { color: theme.colors.textPrimary }]}>
-          {step.arabic}
-        </Text>
-      ) : null}
-
-      {showTransliteration && step.transliteration ? (
-        <Text variant="caption" color="tertiary" style={styles.translit}>
-          {pickLocalized(step.transliteration, locale)}
-        </Text>
-      ) : null}
+      <RecitationPanel
+        arabic={step.arabic}
+        transliteration={step.transliteration}
+        translation={step.translation}
+        showArabic={showArabic}
+        showTransliteration={showTransliteration}
+        forceShowArabic={isRecitationKind(step.kind)}
+        contentLocale={contentLocale}
+        fontScale={fontScale}
+      />
 
       {step.checklist?.length ? (
         <View style={styles.checklist}>
-          {pickLocalizedList(step.checklist, locale).map((line, i) => (
-            <Text key={i} variant="bodySm" color="secondary">
+          {pickLocalizedList(step.checklist, contentLocale).map((line, i) => (
+            <Text
+              key={i}
+              variant="bodySm"
+              color="secondary"
+              style={{ fontSize: bodySize, lineHeight: bodyLineHeight }}
+            >
               {i + 1}. {line}
             </Text>
           ))}
@@ -111,13 +137,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: { flex: 1 },
-  arabic: {
-    textAlign: 'right',
-    writingDirection: 'rtl',
-    lineHeight: 32,
-    fontSize: 20,
-  },
-  translit: { fontStyle: 'italic' },
   checklist: { gap: 4, marginTop: 4 },
   advanced: { marginTop: 4 },
 });

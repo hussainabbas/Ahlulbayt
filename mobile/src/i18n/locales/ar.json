@@ -25,6 +25,15 @@
     "finish": "إكمال",
     "swipeHint": "اسحب يميناً أو يساراً بين الخطوات"
   },
+  "guided": {
+    "reader": {
+      "textSize": "حجم النص",
+      "language": "اللغة",
+      "langEn": "الإنجليزية",
+      "langUr": "الأردية",
+      "langAr": "العربية"
+    }
+  },
   "references": {
     "title": "المرجع",
     "sourcesUsed": "المصادر المستخدمة",
@@ -203,6 +212,7 @@
     "salahHint": "15 صلاة — يومية وعيد وجمعة وخاصة",
     "sections": {
       "taharah": "الطهارة",
+      "adhan": "الأذان والإقامة",
       "salah": "الصلاة"
     },
     "mode": {
@@ -514,6 +524,8 @@
     "notFound": "المدخل غير موجود.",
     "searchPlaceholder": "ابحث في الخطب والرسائل والحكم…",
     "featuredQuotes": "حكم مميزة",
+    "allEntries": "جميع المدخلات · {{count}}",
+    "searchResults": "نتائج البحث · {{count}}",
     "categories": {
       "sermons": "خطب",
       "letters": "رسائل",

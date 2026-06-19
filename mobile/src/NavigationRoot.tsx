@@ -3,7 +3,8 @@ import { useMemo } from 'react';
 import { StatusBar, View, StyleSheet } from 'react-native';
 
 import { RootNavigator } from '@/navigation';
-import { navigationRef } from '@/navigation/navigationRef';
+import { flushPendingNotificationNavigation, navigationRef } from '@/navigation/navigationRef';
+import { handleInitialNotificationOpen } from '@/features/notifications/platform/notificationRouter';
 import { NotificationEventHandler } from '@/features/notifications/components/NotificationEventHandler';
 import { useTheme } from '@/theme/ThemeContext';
 
@@ -41,7 +42,14 @@ export function NavigationRoot() {
   return (
     <NavigationThemeProvider value={navigationTheme}>
       <StatusBar barStyle={theme.isDark ? 'light-content' : 'dark-content'} />
-      <NavigationContainer ref={navigationRef} theme={navigationTheme}>
+      <NavigationContainer
+        ref={navigationRef}
+        theme={navigationTheme}
+        onReady={() => {
+          flushPendingNotificationNavigation();
+          void handleInitialNotificationOpen();
+        }}
+      >
         <View style={styles.root}>
           <RootNavigator />
           <NotificationEventHandler />

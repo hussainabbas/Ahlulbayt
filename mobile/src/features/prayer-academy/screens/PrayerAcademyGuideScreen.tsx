@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -6,6 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { GuidedNavigationBar } from '@/components/guided/GuidedNavigationBar';
 import { GuidedProgressHeader } from '@/components/guided/GuidedProgressHeader';
+import { GuidedReaderToolbar } from '@/components/guided/GuidedReaderToolbar';
 import { GuidedStepPager } from '@/components/guided/GuidedStepPager';
 import { Icon } from '@/components/ui/Icon';
 import { Screen } from '@/components/ui/Screen';
@@ -18,14 +19,11 @@ import { useTheme } from '@/theme/ThemeContext';
 import { DifficultyToggle } from '../components/DifficultyToggle';
 import { PrayerRakatBreakdown } from '../components/PrayerRakatBreakdown';
 import { PrayerStepBlock } from '../components/PrayerStepBlock';
-import { WorshipAvatarStage } from '@/features/worship-simulator/components/WorshipAvatarStage';
-import { useWorshipSimulator } from '@/features/worship-simulator/hooks/useWorshipSimulator';
 import { PrayerAcademyRepository } from '../engine/prayerAcademyRepository';
 import { usePrayerAcademyBookmarkStore } from '../stores/bookmarkStore';
 import { usePrayerAcademyProgressStore } from '../stores/progressStore';
 import { usePrayerAcademyReaderStore } from '../stores/readerStore';
 import type { GuideDifficulty, PrayerAcademyStep } from '../types';
-import { getAvatarSubtitle } from '../utils/avatarSubtitle';
 import { pickLocalized } from '../utils/localizedText';
 
 type GuideRoute = RouteProp<RootStackParamList, 'PrayerAcademyGuide'>;
@@ -62,12 +60,7 @@ export function PrayerAcademyGuideScreen() {
     [prayerId, difficulty],
   );
 
-  const { pose, isTransitioning, animationAssetKey, goToStep } = useWorshipSimulator(steps);
   const footerSpacer = Math.max(0, GUIDED_NAV_BAR_HEIGHT + insets.bottom + 12);
-
-  useEffect(() => {
-    if (guided) void goToStep(stepIndex);
-  }, [guided, stepIndex, goToStep]);
 
   const cycleDifficulty = useCallback(() => {
     setDifficulty((d) => (d === 'beginner' ? 'advanced' : 'beginner'));
@@ -131,16 +124,6 @@ export function PrayerAcademyGuideScreen() {
         contentContainerStyle={[styles.pageContent, { paddingBottom: footerSpacer }]}
         showsVerticalScrollIndicator={false}
       >
-        {index === stepIndex ? (
-          <WorshipAvatarStage
-            pose={pose}
-            isTransitioning={isTransitioning}
-            animationAssetKey={animationAssetKey}
-            subtitle={getAvatarSubtitle(step)}
-          />
-        ) : (
-          <View style={[styles.avatarPlaceholder, { backgroundColor: theme.colors.surfaceMuted }]} />
-        )}
         <PrayerStepBlock
           step={step}
           index={index}
@@ -148,18 +131,23 @@ export function PrayerAcademyGuideScreen() {
           showArabic={readerPrefs.showArabic}
           showTransliteration={readerPrefs.showTransliteration}
           showFiqhRefs={readerPrefs.showFiqhRefs}
+          contentLocale={readerPrefs.contentLocale}
+          fontScale={readerPrefs.fontScale}
         />
       </ScrollView>
     ),
-    [
-      footerSpacer,
-      stepIndex,
-      pose,
-      isTransitioning,
-      animationAssetKey,
-      readerPrefs,
-      theme.colors.surfaceMuted,
-    ],
+    [footerSpacer, readerPrefs],
+  );
+
+  const readerToolbar = (inset?: boolean) => (
+    <View style={inset ? styles.toolbarWrapInset : styles.toolbarWrap}>
+      <GuidedReaderToolbar
+        contentLocale={readerPrefs.contentLocale}
+        onContentLocaleChange={readerPrefs.setContentLocale}
+        onDecreaseFont={readerPrefs.decreaseFontScale}
+        onIncreaseFont={readerPrefs.increaseFontScale}
+      />
+    </View>
   );
 
   if (!bundle) {
@@ -184,6 +172,7 @@ export function PrayerAcademyGuideScreen() {
             current={stepIndex + 1}
             total={steps.length}
           />
+          {readerToolbar()}
           <GuidedStepPager
             steps={steps}
             stepIndex={stepIndex}
@@ -200,6 +189,8 @@ export function PrayerAcademyGuideScreen() {
           contentContainerStyle={[styles.scroll, { paddingBottom: footerSpacer }]}
           showsVerticalScrollIndicator={false}
         >
+          {readerToolbar(true)}
+
           <Text variant="bodySm" color="secondary">
             {pickLocalized(bundle.meta.purpose, locale)}
           </Text>
@@ -246,6 +237,8 @@ export function PrayerAcademyGuideScreen() {
                 showArabic={readerPrefs.showArabic}
                 showTransliteration={readerPrefs.showTransliteration}
                 showFiqhRefs={readerPrefs.showFiqhRefs}
+                contentLocale={readerPrefs.contentLocale}
+                fontScale={readerPrefs.fontScale}
                 active={progress?.lastStepId === step.id}
               />
             ))}
@@ -294,9 +287,12 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
     gap: layout.blockGap,
   },
-  avatarPlaceholder: {
-    height: 220,
-    borderRadius: 16,
+  toolbarWrap: {
+    paddingHorizontal: layout.screenPaddingX,
+    paddingBottom: 8,
+  },
+  toolbarWrapInset: {
+    paddingBottom: 8,
   },
   section: { gap: layout.listGap },
   infoBox: { padding: layout.blockGap, borderRadius: 14, gap: 4 },
