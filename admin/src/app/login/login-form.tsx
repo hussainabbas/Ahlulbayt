@@ -41,12 +41,8 @@ export function LoginForm() {
       const data = (await res.json().catch(() => ({}))) as { message?: string };
 
       if (!res.ok) {
-        const payload = data as { message?: string; apiBase?: string; code?: string };
-        let message = payload.message ?? 'Login failed';
-        if (payload.code === 'API_UNREACHABLE' && payload.apiBase) {
-          message = `${message} (configured API: ${payload.apiBase})`;
-        }
-        setError(message);
+        const payload = data as { message?: string; code?: string };
+        setError(payload.message ?? 'Login failed');
         return;
       }
 
@@ -72,15 +68,6 @@ export function LoginForm() {
             <code className="rounded bg-muted px-1">admin</code> or{' '}
             <code className="rounded bg-muted px-1">super_admin</code>.
           </p>
-          <p className="mt-2 text-xs text-muted-foreground">
-            API: <code className="rounded bg-muted px-1">{API_BASE}</code>
-          </p>
-          {!localApi ? (
-            <p className="mt-1 text-xs text-amber-700 dark:text-amber-400">
-              Production API — use your Railway admin password, not the local default{' '}
-              <code className="rounded bg-muted px-1">{LOCAL_DEFAULT_PASSWORD}</code>.
-            </p>
-          ) : null}
         </div>
 
         <form onSubmit={onSubmit} className="space-y-4">

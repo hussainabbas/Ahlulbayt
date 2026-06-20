@@ -78,14 +78,13 @@ export async function POST(request: Request) {
         : 'Invalid email or password';
     const devHint =
       process.env.NODE_ENV === 'development' && loginRes.status === 401
-        ? ` (API: ${API_BASE} — use local credentials only against localhost, or production password against Railway)`
+        ? ' Invalid email or password.'
         : '';
     return NextResponse.json(
       {
         message: extractMessage(data, fallback) + devHint,
         code: loginRes.status >= 500 ? 'API_ERROR' : 'AUTH_FAILED',
         apiStatus: loginRes.status,
-        ...devApiHint(),
       },
       { status: loginRes.status >= 400 ? loginRes.status : 401 },
     );
