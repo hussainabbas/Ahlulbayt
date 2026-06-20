@@ -26,10 +26,21 @@ Open [http://localhost:3001](http://localhost:3001)
 
 ## Environment
 
+Admin and mobile must point at the **same API / database**.
+
+| App | Variable | Production example |
+|-----|----------|-------------------|
+| **Mobile** | `API_BASE_URL` in `mobile/.env` | `https://ahlulbayt-production.up.railway.app/v1` |
+| **Admin** | `NEXT_PUBLIC_API_URL` in `admin/.env.local` | `https://ahlulbayt-production.up.railway.app` |
+
 ```env
-# admin/.env.local
-NEXT_PUBLIC_API_URL=http://localhost:3000
+# admin/.env.local (production — matches mobile)
+NEXT_PUBLIC_API_URL=https://ahlulbayt-production.up.railway.app
 ```
+
+For local full-stack dev, set both to `http://localhost:3000` (admin) and `http://localhost:3000/v1` (mobile).
+
+Restart the admin dev server after changing `.env.local`.
 
 ## Auth (phase 1)
 

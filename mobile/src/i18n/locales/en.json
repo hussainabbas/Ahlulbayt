@@ -1424,6 +1424,9 @@
     "crypto": {
       "title": "Crypto wallets",
       "subtitle": "Copy an address or scan the QR code in your wallet app. Always verify the network before sending.",
+      "sectionTitle": "Cryptocurrency",
+      "sectionSubtitle": "Copy an address or scan QR in your wallet app",
+      "preferred": "Recommended",
       "address": "Wallet address",
       "copy": "Copy address",
       "showQr": "Show QR code",
@@ -1434,6 +1437,26 @@
       "noAddressBody": "Wallet addresses are being set up. Please check back soon.",
       "configureInAdmin": "Configure in admin",
       "instructionsNote": "We do not process payments in the app. You send crypto directly from your own wallet."
+    },
+    "bank": {
+      "title": "Bank transfer",
+      "subtitle": "Copy the details below and send a transfer from your bank app. We do not process payments in the app.",
+      "sectionTitle": "Bank transfer",
+      "sectionSubtitle": "IBAN and account details for manual transfer",
+      "cardSubtitle": "Send from your bank app — copy details below",
+      "hubLink": "Prefer a bank transfer? View IBAN and account details.",
+      "viewDetails": "View bank details",
+      "accountName": "Account holder",
+      "bankName": "Bank name",
+      "iban": "IBAN",
+      "swift": "SWIFT / BIC",
+      "accountNumber": "Account number",
+      "referenceNote": "Reference note",
+      "copy": "Copy",
+      "copyIban": "Copy IBAN",
+      "copiedTitle": "Copied",
+      "copiedBody": "{{label}} copied to clipboard.",
+      "disclaimer": "Always verify bank details with your institution before sending. Transfers may take several business days."
     },
     "transparency": {
       "title": "Where Your Support Goes",

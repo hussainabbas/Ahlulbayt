@@ -27,6 +27,16 @@ export interface SupportCampaign {
   body: string;
 }
 
+export interface SupportBankDetails {
+  accountName?: string;
+  bankName?: string;
+  iban?: string;
+  swift?: string;
+  accountNumber?: string;
+  referenceNote?: string;
+  instructions?: string;
+}
+
 export interface SupportConfig {
   homeCardEnabled: boolean;
   campaign: SupportCampaign | null;
@@ -35,6 +45,7 @@ export interface SupportConfig {
   options: SupportOption[];
   preferredNetwork?: SupportNetwork | null;
   reminderCooldownDays: number;
+  bankDetails: SupportBankDetails | null;
 }
 
 export type SupporterTier = 'supporter' | 'gold' | 'founding';

@@ -4,6 +4,13 @@ import axios, {
   type InternalAxiosRequestConfig,
 } from 'axios';
 
+declare module 'axios' {
+  export interface AxiosRequestConfig {
+    /** Suppress user-facing error logging for optional endpoints with local fallbacks. */
+    silentErrors?: boolean;
+  }
+}
+
 import { API_TIMEOUT_MS } from '@/core/config/constants';
 import { env } from '@/core/config/env';
 import { handleError } from '@/core/errors/errorHandler';
@@ -49,7 +56,10 @@ apiClient.interceptors.request.use(
 
     return config;
   },
-  (error) => Promise.reject(handleError(error, 'api:request')),
+  (error) => {
+    const silent = (error.config as InternalAxiosRequestConfig | undefined)?.silentErrors ?? false;
+    return Promise.reject(handleError(error, 'api:request', { silent }));
+  },
 );
 
 apiClient.interceptors.response.use(
@@ -62,8 +72,9 @@ apiClient.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
+    const silent = originalRequest?.silentErrors ?? false;
     const appError =
-      error instanceof AppError ? error : handleError(error, 'api:response');
+      error instanceof AppError ? error : handleError(error, 'api:response', { silent });
 
     const isAuthEndpoint =
       originalRequest?.url?.includes('/auth/login') ||

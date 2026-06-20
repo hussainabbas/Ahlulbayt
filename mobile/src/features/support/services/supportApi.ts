@@ -20,7 +20,10 @@ export const supportApi = {
     }
 
     try {
-      const data = await apiGet<SupportConfig>('/support/config', { params: { locale } });
+      const data = await apiGet<SupportConfig>('/support/config', {
+        params: { locale },
+        silentErrors: true,
+      });
       cachedConfig = { ...DEFAULT_SUPPORT_CONFIG, ...data };
       cachedAt = Date.now();
       return cachedConfig;

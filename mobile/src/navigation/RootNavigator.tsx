@@ -335,6 +335,13 @@ export function RootNavigator() {
         options={stack.base}
       />
       <Stack.Screen
+        name="SupportBank"
+        getComponent={lazyScreen(
+          () => require('@/features/support/screens/SupportBankScreen').SupportBankScreen,
+        )}
+        options={stack.titled()}
+      />
+      <Stack.Screen
         name="SupportTransparency"
         getComponent={lazyScreen(
           () =>

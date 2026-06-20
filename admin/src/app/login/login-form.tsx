@@ -1,18 +1,27 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useMemo, useState } from 'react';
+
+const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000';
+const LOCAL_DEFAULT_EMAIL = 'admin@ahlulbayt.com';
+const LOCAL_DEFAULT_PASSWORD = 'Ahlulbayt@512';
+
+function isLocalApi(url: string): boolean {
+  return /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?\/?$/i.test(url.replace(/\/+$/, ''));
+}
 
 export function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const next = searchParams.get('next') ?? '/dashboard';
+  const localApi = useMemo(() => isLocalApi(API_BASE), []);
 
   const [email, setEmail] = useState(
-    process.env.NODE_ENV === 'development' ? 'admin@ahlulbayt.com' : '',
+    process.env.NODE_ENV === 'development' && localApi ? LOCAL_DEFAULT_EMAIL : '',
   );
   const [password, setPassword] = useState(
-    process.env.NODE_ENV === 'development' ? 'Ahlulbayt@512' : '',
+    process.env.NODE_ENV === 'development' && localApi ? LOCAL_DEFAULT_PASSWORD : '',
   );
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -32,7 +41,12 @@ export function LoginForm() {
       const data = (await res.json().catch(() => ({}))) as { message?: string };
 
       if (!res.ok) {
-        setError(data.message ?? 'Login failed');
+        const payload = data as { message?: string; apiBase?: string; code?: string };
+        let message = payload.message ?? 'Login failed';
+        if (payload.code === 'API_UNREACHABLE' && payload.apiBase) {
+          message = `${message} (configured API: ${payload.apiBase})`;
+        }
+        setError(message);
         return;
       }
 
@@ -58,6 +72,15 @@ export function LoginForm() {
             <code className="rounded bg-muted px-1">admin</code> or{' '}
             <code className="rounded bg-muted px-1">super_admin</code>.
           </p>
+          <p className="mt-2 text-xs text-muted-foreground">
+            API: <code className="rounded bg-muted px-1">{API_BASE}</code>
+          </p>
+          {!localApi ? (
+            <p className="mt-1 text-xs text-amber-700 dark:text-amber-400">
+              Production API — use your Railway admin password, not the local default{' '}
+              <code className="rounded bg-muted px-1">{LOCAL_DEFAULT_PASSWORD}</code>.
+            </p>
+          ) : null}
         </div>
 
         <form onSubmit={onSubmit} className="space-y-4">

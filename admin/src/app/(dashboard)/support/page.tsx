@@ -10,7 +10,7 @@ export default async function SupportPage() {
     <>
       <PageHeader
         title="Community Support"
-        description="Manage crypto wallet addresses, campaigns, and home card settings. No payment processing — addresses only."
+        description="Manage crypto wallets, bank/IBAN details, campaigns, and home card. Display-only — no payment processing."
       />
       <DataShell>
         <SupportAdminPanel token={token} />

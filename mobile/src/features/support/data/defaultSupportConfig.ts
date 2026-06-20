@@ -76,4 +76,5 @@ export const DEFAULT_SUPPORT_CONFIG: SupportConfig = {
   ],
   preferredNetwork: 'btc',
   reminderCooldownDays: 30,
+  bankDetails: null,
 };

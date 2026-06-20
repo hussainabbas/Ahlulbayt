@@ -56,14 +56,23 @@ const EXPECTED_NETWORK_CODES: ReadonlySet<AppErrorCode> = new Set([
   'NETWORK_TIMEOUT',
 ]);
 
-export function handleError(error: unknown, scope: string): AppError {
+export type HandleErrorOptions = {
+  /** Optional endpoints with local fallbacks — avoid user-facing error toasts. */
+  silent?: boolean;
+};
+
+export function handleError(
+  error: unknown,
+  scope: string,
+  options?: HandleErrorOptions,
+): AppError {
   const appError = normalizeError(error);
   const context = {
     code: appError.code,
     statusCode: appError.statusCode,
   };
 
-  if (EXPECTED_NETWORK_CODES.has(appError.code)) {
+  if (EXPECTED_NETWORK_CODES.has(appError.code) || options?.silent) {
     logger.debug(`[${scope}] ${appError.message}`, context);
   } else {
     logger.error(`[${scope}] ${appError.message}`, appError, context);

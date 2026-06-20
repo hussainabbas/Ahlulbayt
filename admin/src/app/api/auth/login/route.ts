@@ -21,6 +21,10 @@ function extractMessage(data: AuthLoginResponse, fallback: string): string {
   return fallback;
 }
 
+function devApiHint(): { apiBase?: string } {
+  return process.env.NODE_ENV === 'development' ? { apiBase: API_BASE } : {};
+}
+
 async function readApiJson<T>(res: Response): Promise<T> {
   const text = await res.text();
   if (!text) return {} as T;
@@ -59,6 +63,7 @@ export async function POST(request: Request) {
       {
         message: `Cannot reach the API at ${API_BASE}. Start it with: cd api && npm run start:dev`,
         code: 'API_UNREACHABLE',
+        ...devApiHint(),
       },
       { status: 503 },
     );
@@ -71,11 +76,16 @@ export async function POST(request: Request) {
       loginRes.status >= 500
         ? 'API error — is PostgreSQL running and migrations applied?'
         : 'Invalid email or password';
+    const devHint =
+      process.env.NODE_ENV === 'development' && loginRes.status === 401
+        ? ` (API: ${API_BASE} — use local credentials only against localhost, or production password against Railway)`
+        : '';
     return NextResponse.json(
       {
-        message: extractMessage(data, fallback),
+        message: extractMessage(data, fallback) + devHint,
         code: loginRes.status >= 500 ? 'API_ERROR' : 'AUTH_FAILED',
         apiStatus: loginRes.status,
+        ...devApiHint(),
       },
       { status: loginRes.status >= 400 ? loginRes.status : 401 },
     );

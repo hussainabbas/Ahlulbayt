@@ -106,16 +106,22 @@ Push to the connected branch. Railway will:
 
 Health check: `GET /health` → `{ "status": "ok" }`
 
-## 5. Seed admin (one-time)
+## 5. Seed admin (one-time or on every deploy)
 
-After first successful deploy, open **Railway shell** on the API service:
+If `ADMIN_SEED_EMAIL` and `ADMIN_SEED_PASSWORD` are set on the **API service**, each deploy runs `seed-admin-user.mjs` and creates/updates that admin (password synced to `ADMIN_SEED_PASSWORD`).
+
+**Setting variables alone does not create a user** until seed runs (deploy or shell).
+
+After first successful deploy, or anytime login fails with 401, open **Railway shell** on the API service:
 
 ```bash
 npm run db:seed:admin
 npm run db:seed:rbac   # optional
 ```
 
-Unset or rotate `ADMIN_SEED_PASSWORD` after seeding if you stored it in variables.
+Sign in with the exact `ADMIN_SEED_EMAIL` and `ADMIN_SEED_PASSWORD` from Railway Variables (not the local default unless you set that on Railway too).
+
+Unset or rotate `ADMIN_SEED_PASSWORD` after seeding if you stored it in variables only for bootstrap.
 
 ## 6. Point clients at the API
 

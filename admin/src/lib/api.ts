@@ -71,8 +71,20 @@ export interface SupportConfigRow {
   id: string;
   homeCardEnabled: boolean;
   transparency: Record<string, string>;
+  bankDetails?: Record<string, unknown>;
   preferredNetwork: string | null;
   reminderCooldownDays: number;
+}
+
+export interface SupportBankDetailsRow {
+  enabled: boolean;
+  accountName: string;
+  bankName: string;
+  iban: string;
+  swift: string;
+  accountNumber: string;
+  referenceNote: string;
+  instructionsEn: string;
 }
 
 export interface SupportAdminSnapshot {

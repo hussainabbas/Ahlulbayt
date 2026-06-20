@@ -67,6 +67,7 @@ export type RootStackParamList = {
   FidyaCalculator: undefined;
   Support: undefined;
   SupportCrypto: { optionId: string };
+  SupportBank: undefined;
   SupportTransparency: undefined;
 };
 

@@ -15,6 +15,11 @@ loadEnv();
 
 const { Client } = pg;
 
+if (process.env.NODE_ENV === 'production' && !process.env.ADMIN_SEED_PASSWORD) {
+  console.log('Skipping admin seed (set ADMIN_SEED_PASSWORD on Railway to create/update admin).');
+  process.exit(0);
+}
+
 const email = (process.env.ADMIN_SEED_EMAIL ?? 'admin@ahlulbayt.com').toLowerCase().trim();
 const password = process.env.ADMIN_SEED_PASSWORD ?? 'Ahlulbayt@512';
 const displayName = process.env.ADMIN_SEED_DISPLAY_NAME ?? 'Admin';
