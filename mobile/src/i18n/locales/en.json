@@ -1444,6 +1444,7 @@
       "sectionTitle": "Bank transfer",
       "sectionSubtitle": "IBAN and account details for manual transfer",
       "cardSubtitle": "Send from your bank app — copy details below",
+      "orCrypto": "Or use cryptocurrency",
       "hubLink": "Prefer a bank transfer? View IBAN and account details.",
       "viewDetails": "View bank details",
       "accountName": "Account holder",

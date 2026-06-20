@@ -32,6 +32,8 @@ export function SupportCryptoScreen() {
     [config.options, route.params.optionId],
   );
 
+  const hasBank = Boolean(config.bankDetails);
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: option ? t(option.titleKey) : t('support.crypto.title'),
@@ -66,29 +68,31 @@ export function SupportCryptoScreen() {
       >
         {option ? (
           <Card variant="inset" style={styles.hero}>
-            <Text variant="headingLg" style={styles.heroIcon}>
+            <Text variant="headingMd" style={styles.heroIcon}>
               {option.icon}
             </Text>
             <Text variant="headingSm">{t(option.titleKey)}</Text>
-            <Text variant="bodySm" color="secondary" style={styles.heroBody}>
-              {t(option.descriptionKey)}
-            </Text>
+            {!hasBank ? (
+              <Text variant="bodySm" color="secondary" style={styles.heroBody}>
+                {t(option.descriptionKey)}
+              </Text>
+            ) : null}
           </Card>
         ) : null}
 
-        <View
-          style={[
-            styles.notice,
-            {
-              backgroundColor: theme.colors.accentPrimaryMuted,
-              borderRadius: theme.radius.md,
-            },
-          ]}
-        >
-          <Text variant="caption" color="secondary" style={styles.noticeText}>
-            {t('support.crypto.instructionsNote')}
-          </Text>
-        </View>
+        {config.bankDetails ? (
+          <BankDetailsCard details={config.bankDetails} featured />
+        ) : null}
+
+        {hasBank ? (
+          <View style={styles.dividerRow}>
+            <View style={[styles.dividerLine, { backgroundColor: theme.colors.borderSubtle }]} />
+            <Text variant="caption" color="tertiary" style={styles.dividerText}>
+              {t('support.bank.orCrypto')}
+            </Text>
+            <View style={[styles.dividerLine, { backgroundColor: theme.colors.borderSubtle }]} />
+          </View>
+        ) : null}
 
         <View style={styles.section}>
           <SupportSectionHeader
@@ -107,16 +111,9 @@ export function SupportCryptoScreen() {
           </View>
         </View>
 
-        {config.bankDetails ? (
-          <View style={styles.section}>
-            <SupportSectionHeader
-              icon="🏦"
-              title={t('support.bank.sectionTitle')}
-              subtitle={t('support.bank.sectionSubtitle')}
-            />
-            <BankDetailsCard details={config.bankDetails} />
-          </View>
-        ) : null}
+        <Text variant="caption" color="tertiary" style={styles.footerNote}>
+          {t('support.crypto.instructionsNote')}
+        </Text>
       </ScrollView>
     </Screen>
   );
@@ -129,30 +126,40 @@ const styles = StyleSheet.create({
   },
   hero: {
     alignItems: 'center',
-    gap: 8,
-    paddingVertical: 20,
+    gap: 6,
+    paddingVertical: 14,
   },
   heroIcon: {
-    fontSize: 36,
-    lineHeight: 42,
+    fontSize: 28,
+    lineHeight: 32,
   },
   heroBody: {
     textAlign: 'center',
-    lineHeight: 22,
-    maxWidth: 320,
+    lineHeight: 20,
   },
-  notice: {
-    paddingHorizontal: 14,
-    paddingVertical: 12,
+  dividerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginVertical: 4,
   },
-  noticeText: {
-    lineHeight: 18,
-    textAlign: 'center',
+  dividerLine: {
+    flex: 1,
+    height: StyleSheet.hairlineWidth,
+  },
+  dividerText: {
+    textTransform: 'uppercase',
+    letterSpacing: 0.8,
   },
   section: {
     gap: 12,
   },
   walletList: {
     gap: 12,
+  },
+  footerNote: {
+    lineHeight: 18,
+    textAlign: 'center',
+    marginTop: -4,
   },
 });

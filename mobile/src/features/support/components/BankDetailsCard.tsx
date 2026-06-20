@@ -13,67 +13,33 @@ import type { SupportBankDetails } from '../types';
 
 interface BankDetailsCardProps {
   details: SupportBankDetails;
+  featured?: boolean;
 }
 
-function DetailRow({
-  label,
-  value,
-  onCopy,
-  copyLabel,
-  highlight,
-}: {
-  label: string;
-  value?: string;
-  onCopy?: () => void;
-  copyLabel: string;
-  highlight?: boolean;
-}) {
-  const { theme } = useTheme();
-  if (!value) return null;
+type Field = { key: string; label: string; value?: string };
 
+function CopyChip({ label, onPress }: { label: string; onPress: () => void }) {
+  const { theme } = useTheme();
   return (
-    <View
+    <Pressable
+      onPress={onPress}
       style={[
-        styles.row,
+        styles.copyChip,
         {
-          backgroundColor: highlight
-            ? theme.colors.accentPrimaryMuted
-            : theme.colors.backgroundSecondary,
-          borderRadius: theme.radius.md,
-          borderColor: highlight ? theme.colors.accentPrimary : theme.colors.borderSubtle,
-          borderWidth: highlight ? 1 : StyleSheet.hairlineWidth,
+          backgroundColor: theme.colors.surfaceElevated,
+          borderColor: theme.colors.borderSubtle,
+          borderRadius: theme.radius.full,
         },
       ]}
     >
-      <View style={styles.rowText}>
-        <Text variant="caption" color="tertiary" style={styles.rowLabel}>
-          {label}
-        </Text>
-        <Text variant="bodySm" selectable style={highlight ? styles.highlightValue : undefined}>
-          {value}
-        </Text>
-      </View>
-      {onCopy ? (
-        <Pressable
-          onPress={onCopy}
-          style={[
-            styles.copyBtn,
-            {
-              backgroundColor: theme.colors.surfaceElevated,
-              borderRadius: theme.radius.sm,
-            },
-          ]}
-        >
-          <Text variant="caption" color="accent">
-            {copyLabel}
-          </Text>
-        </Pressable>
-      ) : null}
-    </View>
+      <Text variant="caption" color="accent">
+        {label}
+      </Text>
+    </Pressable>
   );
 }
 
-export function BankDetailsCard({ details }: BankDetailsCardProps) {
+export function BankDetailsCard({ details, featured = false }: BankDetailsCardProps) {
   const { t } = useLocale();
   const { theme } = useTheme();
 
@@ -86,18 +52,36 @@ export function BankDetailsCard({ details }: BankDetailsCardProps) {
     [t],
   );
 
+  const fields: Field[] = [
+    { key: 'accountName', label: t('support.bank.accountName'), value: details.accountName },
+    { key: 'bankName', label: t('support.bank.bankName'), value: details.bankName },
+    { key: 'swift', label: t('support.bank.swift'), value: details.swift },
+    { key: 'accountNumber', label: t('support.bank.accountNumber'), value: details.accountNumber },
+    { key: 'referenceNote', label: t('support.bank.referenceNote'), value: details.referenceNote },
+  ].filter((f) => Boolean(f.value?.trim()));
+
   return (
-    <Card style={styles.card}>
-      <View style={styles.header}>
+    <Card
+      style={[
+        styles.card,
+        featured
+          ? {
+              borderColor: theme.colors.accentPrimary,
+              borderWidth: 1.5,
+            }
+          : null,
+      ]}
+    >
+      <View style={styles.titleRow}>
         <View
           style={[
-            styles.bankIcon,
+            styles.icon,
             { backgroundColor: theme.colors.accentPrimaryMuted, borderRadius: theme.radius.full },
           ]}
         >
           <Text variant="headingMd">🏦</Text>
         </View>
-        <View style={styles.headerText}>
+        <View style={styles.titleText}>
           <Text variant="headingSm">{t('support.bank.title')}</Text>
           <Text variant="caption" color="tertiary">
             {t('support.bank.cardSubtitle')}
@@ -111,53 +95,59 @@ export function BankDetailsCard({ details }: BankDetailsCardProps) {
         </Text>
       ) : null}
 
-      <View style={styles.fields}>
-        <DetailRow
-          label={t('support.bank.accountName')}
-          value={details.accountName}
-          copyLabel={t('support.bank.copy')}
-          onCopy={() => copyValue(t('support.bank.accountName'), details.accountName)}
-        />
-        <DetailRow
-          label={t('support.bank.bankName')}
-          value={details.bankName}
-          copyLabel={t('support.bank.copy')}
-          onCopy={() => copyValue(t('support.bank.bankName'), details.bankName)}
-        />
-        <DetailRow
-          label={t('support.bank.iban')}
-          value={details.iban}
-          copyLabel={t('support.bank.copy')}
-          highlight
-          onCopy={() => copyValue(t('support.bank.iban'), details.iban)}
-        />
-        <DetailRow
-          label={t('support.bank.swift')}
-          value={details.swift}
-          copyLabel={t('support.bank.copy')}
-          onCopy={() => copyValue(t('support.bank.swift'), details.swift)}
-        />
-        <DetailRow
-          label={t('support.bank.accountNumber')}
-          value={details.accountNumber}
-          copyLabel={t('support.bank.copy')}
-          onCopy={() => copyValue(t('support.bank.accountNumber'), details.accountNumber)}
-        />
-        <DetailRow
-          label={t('support.bank.referenceNote')}
-          value={details.referenceNote}
-          copyLabel={t('support.bank.copy')}
-          onCopy={() => copyValue(t('support.bank.referenceNote'), details.referenceNote)}
-        />
-      </View>
-
       {details.iban ? (
-        <Button
-          label={t('support.bank.copyIban')}
-          onPress={() => copyValue(t('support.bank.iban'), details.iban)}
-          size="md"
-          variant="primary"
-        />
+        <View
+          style={[
+            styles.ibanBlock,
+            {
+              backgroundColor: theme.colors.accentPrimaryMuted,
+              borderRadius: theme.radius.lg,
+            },
+          ]}
+        >
+          <Text variant="caption" color="tertiary" style={styles.fieldLabel}>
+            {t('support.bank.iban')}
+          </Text>
+          <Text variant="bodyMd" selectable style={styles.ibanValue}>
+            {details.iban}
+          </Text>
+          <Button
+            label={t('support.bank.copyIban')}
+            onPress={() => copyValue(t('support.bank.iban'), details.iban)}
+            size="md"
+            variant="primary"
+            style={styles.ibanButton}
+          />
+        </View>
+      ) : null}
+
+      {fields.length > 0 ? (
+        <View style={styles.fieldList}>
+          {fields.map((field) => (
+            <View
+              key={field.key}
+              style={[
+                styles.fieldRow,
+                {
+                  borderBottomColor: theme.colors.borderSubtle,
+                },
+              ]}
+            >
+              <View style={styles.fieldContent}>
+                <Text variant="caption" color="tertiary" style={styles.fieldLabel}>
+                  {field.label}
+                </Text>
+                <Text variant="bodySm" selectable>
+                  {field.value}
+                </Text>
+              </View>
+              <CopyChip
+                label={t('support.bank.copy')}
+                onPress={() => copyValue(field.label, field.value)}
+              />
+            </View>
+          ))}
+        </View>
       ) : null}
 
       <Text variant="caption" color="tertiary" style={styles.disclaimer}>
@@ -169,53 +159,64 @@ export function BankDetailsCard({ details }: BankDetailsCardProps) {
 
 const styles = StyleSheet.create({
   card: {
-    gap: layout.blockGap,
+    gap: 16,
   },
-  header: {
+  titleRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
   },
-  bankIcon: {
-    width: 48,
-    height: 48,
+  icon: {
+    width: 44,
+    height: 44,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  headerText: {
+  titleText: {
     flex: 1,
     gap: 2,
   },
   instructions: {
     lineHeight: 20,
   },
-  fields: {
+  ibanBlock: {
+    padding: 16,
     gap: 8,
   },
-  row: {
+  ibanValue: {
+    fontFamily: 'monospace',
+    lineHeight: 24,
+    letterSpacing: 0.3,
+  },
+  ibanButton: {
+    marginTop: 4,
+  },
+  fieldList: {
+    gap: 0,
+  },
+  fieldRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: 12,
-    padding: 14,
+    paddingVertical: 12,
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  rowText: {
+  fieldContent: {
     flex: 1,
     gap: 4,
   },
-  rowLabel: {
+  fieldLabel: {
     textTransform: 'uppercase',
-    letterSpacing: 0.5,
+    letterSpacing: 0.6,
   },
-  highlightValue: {
-    fontFamily: 'monospace',
-    lineHeight: 22,
-  },
-  copyBtn: {
+  copyChip: {
+    paddingHorizontal: 12,
     paddingVertical: 6,
-    paddingHorizontal: 10,
+    borderWidth: StyleSheet.hairlineWidth,
   },
   disclaimer: {
     lineHeight: 18,
+    marginTop: 4,
   },
 });
