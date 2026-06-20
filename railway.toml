@@ -1,10 +1,9 @@
-# Monorepo: API lives in api/ — Railway must build from api/Dockerfile.
-# If deploy still fails, set Service → Settings → Root Directory = api
-# (then api/railway.toml is used instead of this file).
+# Monorepo: build from repo root using ./Dockerfile (copies api/).
+# Alternative: set Service → Root Directory = api (uses api/Dockerfile).
 
 [build]
 builder = "DOCKERFILE"
-dockerfilePath = "api/Dockerfile"
+dockerfilePath = "Dockerfile"
 
 [deploy]
 startCommand = "node dist/main.js"
