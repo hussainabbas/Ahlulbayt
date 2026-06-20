@@ -13,6 +13,7 @@ Enterprise architecture for the production-scale Shia Ithna Ashari Islamic super
 | [NOTIFICATION_ENGINE.md](./NOTIFICATION_ENGINE.md) | Intelligent local notification orchestration |
 | [QURAN_DATA_INTEGRITY.md](./QURAN_DATA_INTEGRITY.md) | Verified Tanzil corpus, validation pipeline, offline bundles |
 | [DAILY_LIFE_DUAS.md](./DAILY_LIFE_DUAS.md) | Daily life duas module — schema, categories, search, offline, UI, API |
+| [SUPPORT_DONATIONS.md](./SUPPORT_DONATIONS.md) | Community support — crypto donations, admin config, analytics, App Store compliance |
 | [ADMIN_PLATFORM_REBUILD.md](./ADMIN_PLATFORM_REBUILD.md) | Admin audit, CMS architecture, realtime sync, rebuild roadmap |
 
 ## Tech Stack

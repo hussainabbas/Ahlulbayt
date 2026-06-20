@@ -6,6 +6,7 @@ import {
   Calendar,
   Flag,
   FolderOpen,
+  HeartHandshake,
   LayoutDashboard,
   Library,
   ScrollText,
@@ -59,6 +60,7 @@ export const NAV_SECTIONS: { title: string; items: NavItem[] }[] = [
     title: 'Platform',
     items: [
       { label: 'Feature Flags', href: '/flags', icon: Flag },
+      { label: 'Community Support', href: '/support', icon: HeartHandshake },
       { label: 'AI Management', href: '/ai', icon: Bot },
       { label: 'Platform Health', href: '/health', icon: Activity },
       { label: 'API Logs', href: '/logs', icon: FolderOpen },

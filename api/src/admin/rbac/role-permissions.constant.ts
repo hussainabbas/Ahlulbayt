@@ -14,6 +14,7 @@ export const ROLE_PERMISSIONS: Record<AdminRole, string[]> = {
     'notifications.read',
     'media.read',
     'audit.read',
+    'support.read',
   ],
   admin: [
     'users.read',
@@ -39,6 +40,8 @@ export const ROLE_PERMISSIONS: Record<AdminRole, string[]> = {
     'media.write',
     'rbac.read',
     'audit.read',
+    'support.read',
+    'support.write',
   ],
   super_admin: [
     'users.read',
@@ -68,6 +71,8 @@ export const ROLE_PERMISSIONS: Record<AdminRole, string[]> = {
     'rbac.read',
     'rbac.write',
     'audit.read',
+    'support.read',
+    'support.write',
   ],
 };
 

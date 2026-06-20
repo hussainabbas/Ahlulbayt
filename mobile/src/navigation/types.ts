@@ -65,6 +65,9 @@ export type RootStackParamList = {
   LaylatAlQadr: undefined;
   KaffaraCalculator: undefined;
   FidyaCalculator: undefined;
+  Support: undefined;
+  SupportCrypto: { optionId: string };
+  SupportTransparency: undefined;
 };
 
 declare global {

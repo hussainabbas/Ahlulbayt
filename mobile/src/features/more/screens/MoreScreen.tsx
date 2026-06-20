@@ -12,6 +12,7 @@ import { layout } from '@/theme/layout';
 import { MoreAccountSection } from '../components/MoreAccountSection';
 import { MoreMenuSection } from '../components/MoreMenuSection';
 import { MoreProfileHero } from '../components/MoreProfileHero';
+import { MoreSupportSection } from '../components/MoreSupportSection';
 import { MoreQuickActions } from '../components/MoreQuickActions';
 import { MORE_MENU_SECTIONS, type MoreMenuItem } from '../constants/menuConfig';
 
@@ -76,6 +77,8 @@ export function MoreScreen() {
         />
 
         <MoreQuickActions onPress={openItem} />
+
+        <MoreSupportSection />
 
         {sections.map(({ section, items }) => (
           <MoreMenuSection

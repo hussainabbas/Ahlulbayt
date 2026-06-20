@@ -19,7 +19,8 @@ export type MoreMenuKey =
   | 'qibla'
   | 'muharram'
   | 'ramadan'
-  | 'fasting';
+  | 'fasting'
+  | 'support';
 
 export type MoreMenuRoute = Extract<
   keyof RootStackParamList,
@@ -40,6 +41,7 @@ export type MoreMenuRoute = Extract<
   | 'MuharramMode'
   | 'RamadanHub'
   | 'Fasting'
+  | 'Support'
 >;
 
 export interface MoreMenuItem {
@@ -58,6 +60,7 @@ export const MORE_MENU_SECTIONS: MoreMenuSection[] = [
     id: 'personal',
     items: [
       { key: 'insights', route: 'Insights' },
+      { key: 'support', route: 'Support' },
       { key: 'premium', route: 'Paywall', subscriptionOnly: true },
     ],
   },
@@ -124,4 +127,5 @@ export const MENU_ICON_CONFIG: Record<MoreMenuKey, MenuIconConfig> = {
   muharram: { label: '☾', tone: 'rose' },
   ramadan: { label: '☪', tone: 'gold' },
   fasting: { label: '◌', tone: 'accent' },
+  support: { label: '💚', tone: 'accent' },
 };

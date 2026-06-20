@@ -1379,7 +1379,88 @@
     "worshipGuide": "Worship Guide",
     "prayerAcademy": "Prayer Academy",
     "ai": "Ask AhlulBayt",
-    "insights": "My Insights"
+    "insights": "My Insights",
+    "support": "Support AhlulBayt+"
+  },
+  "support": {
+    "homeCard": {
+      "title": "Support AhlulBayt+",
+      "body": "Ad-free and community-supported. Your voluntary contribution helps keep worship tools free for everyone.",
+      "cta": "Support Now",
+      "dismiss": "Dismiss"
+    },
+    "hub": {
+      "title": "Support AhlulBayt+",
+      "subtitle": "Voluntary community support keeps the app ad-free. Choose an option below — we share crypto wallet addresses only; there is no in-app payment processing.",
+      "transparencyLink": "Where your support goes",
+      "disclaimer": "Donations are voluntary and not tax-deductible unless stated otherwise. We never sell your data or show ads."
+    },
+    "moreSection": {
+      "title": "Community support",
+      "viewAll": "View all support options"
+    },
+    "options": {
+      "oneTime": {
+        "title": "One-Time Donation",
+        "description": "Send a single gift in crypto to help cover hosting and development."
+      },
+      "coffee": {
+        "title": "Buy Me A Coffee",
+        "description": "A small thank-you — like buying a cup of coffee for the team."
+      },
+      "monthly": {
+        "title": "Monthly Supporter",
+        "description": "Recurring monthly support helps us plan sustainably."
+      },
+      "annual": {
+        "title": "Annual Supporter",
+        "description": "One year of support at a time — deeply appreciated."
+      },
+      "founding": {
+        "title": "Founding Supporter",
+        "description": "For early believers who want to help establish long-term sustainability."
+      }
+    },
+    "crypto": {
+      "title": "Crypto wallets",
+      "subtitle": "Copy an address or scan the QR code in your wallet app. Always verify the network before sending.",
+      "address": "Wallet address",
+      "copy": "Copy address",
+      "showQr": "Show QR code",
+      "hideQr": "Hide QR code",
+      "copiedTitle": "Address copied",
+      "copiedBody": "Paste it in your crypto wallet app. Double-check the network.",
+      "noAddressTitle": "Not configured yet",
+      "noAddressBody": "Wallet addresses are being set up. Please check back soon.",
+      "configureInAdmin": "Configure in admin",
+      "instructionsNote": "We do not process payments in the app. You send crypto directly from your own wallet."
+    },
+    "transparency": {
+      "title": "Where Your Support Goes",
+      "subtitle": "Every contribution helps keep AhlulBayt+ free, ad-free, and focused on worship.",
+      "footer": "We publish this breakdown so you know how community support is used. Amounts vary by month.",
+      "hosting": {
+        "title": "Hosting & infrastructure",
+        "default": "Server hosting, CDN, and database costs"
+      },
+      "notifications": {
+        "title": "Notifications",
+        "default": "Push notification delivery and scheduling"
+      },
+      "ai": {
+        "title": "AI assistant",
+        "default": "AI infrastructure for the Ask AhlulBayt feature"
+      },
+      "development": {
+        "title": "Development",
+        "default": "App development, maintenance, and content updates"
+      }
+    },
+    "badge": {
+      "supporter": "Supporter",
+      "gold": "Gold Supporter",
+      "founding": "Founding Supporter"
+    }
   },
   "masoomeen": {
     "title": "14 Masoomeen",

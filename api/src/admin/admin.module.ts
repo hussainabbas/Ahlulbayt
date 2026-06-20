@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 
 import { AnalyticsModule } from '../analytics/analytics.module';
 import { ContentModule } from '../content/content.module';
+import { SupportModule } from '../support/support.module';
 import { AdminAiController } from './ai/admin-ai.controller';
 import { AdminAiService } from './ai/admin-ai.service';
 import { AdminAnalyticsController } from './analytics/admin-analytics.controller';
@@ -30,6 +31,8 @@ import { AdminRbacController } from './rbac/admin-rbac.controller';
 import { AdminRbacService } from './rbac/admin-rbac.service';
 import { AdminSecurityController } from './security/admin-security.controller';
 import { AdminSecurityService } from './security/admin-security.service';
+import { AdminSupportController } from './support/admin-support.controller';
+import { AdminSupportService } from './support/admin-support.service';
 import { AdminAuthGuard } from './guards/admin-auth.guard';
 import { PermissionsGuard } from './guards/permissions.guard';
 import { RolesGuard } from './guards/roles.guard';
@@ -37,7 +40,7 @@ import { AdminUsersController } from './users/admin-users.controller';
 import { AdminUsersService } from './users/admin-users.service';
 
 @Module({
-  imports: [ContentModule, AnalyticsModule],
+  imports: [ContentModule, AnalyticsModule, SupportModule],
   controllers: [
     AdminOverviewController,
     AdminUsersController,
@@ -54,6 +57,7 @@ import { AdminUsersService } from './users/admin-users.service';
     AdminMediaController,
     AdminRbacController,
     AdminAuditController,
+    AdminSupportController,
   ],
   providers: [
     AdminOverviewService,
@@ -71,6 +75,7 @@ import { AdminUsersService } from './users/admin-users.service';
     AdminMediaService,
     AdminRbacService,
     AdminAuditService,
+    AdminSupportService,
     AdminAuthGuard,
     RolesGuard,
     PermissionsGuard,

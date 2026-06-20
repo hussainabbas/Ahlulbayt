@@ -20,6 +20,7 @@ import { QuranModule } from './quran/quran.module';
 import { RedisModule } from './redis/redis.module';
 import { SyncModule } from './sync/sync.module';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
+import { SupportModule } from './support/support.module';
 import { UsersModule } from './users/users.module';
 import { WorshipGuideModule } from './worship-guide/worship-guide.module';
 import { ZiyaratModule } from './ziyarat/ziyarat.module';
@@ -46,6 +47,7 @@ import { ZiyaratModule } from './ziyarat/ziyarat.module';
     SyncModule,
     SubscriptionsModule,
     AnalyticsModule,
+    SupportModule,
     AdminModule,
   ],
   controllers: [HealthController],

@@ -785,6 +785,50 @@ export const ramadanProgress = pgTable(
   ],
 );
 
+// ─── Community support (crypto config — no payment processing) ────────────────
+
+export const supportWallets = pgTable(
+  'support_wallets',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    network: varchar('network', { length: 20 }).notNull(),
+    label: varchar('label', { length: 120 }).notNull(),
+    address: varchar('address', { length: 256 }).notNull().default(''),
+    enabled: boolean('enabled').notNull().default(true),
+    sortOrder: integer('sort_order').notNull().default(0),
+    instructions: jsonb('instructions').notNull().default({}),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [index('idx_support_wallets_enabled').on(table.enabled, table.sortOrder)],
+);
+
+export const supportCampaigns = pgTable(
+  'support_campaigns',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    slug: varchar('slug', { length: 80 }).notNull().unique(),
+    title: jsonb('title').notNull().default({}),
+    body: jsonb('body').notNull().default({}),
+    active: boolean('active').notNull().default(false),
+    startsAt: timestamp('starts_at', { withTimezone: true }),
+    endsAt: timestamp('ends_at', { withTimezone: true }),
+    sortOrder: integer('sort_order').notNull().default(0),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [index('idx_support_campaigns_active').on(table.active, table.sortOrder)],
+);
+
+export const supportConfig = pgTable('support_config', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  homeCardEnabled: boolean('home_card_enabled').notNull().default(true),
+  transparency: jsonb('transparency').notNull().default({}),
+  preferredNetwork: varchar('preferred_network', { length: 20 }),
+  reminderCooldownDays: integer('reminder_cooldown_days').notNull().default(30),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+});
+
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
 export type UserPreferences = typeof userPreferences.$inferSelect;
@@ -796,3 +840,6 @@ export type ContentCitation = typeof contentCitations.$inferSelect;
 export type FeatureFlag = typeof featureFlags.$inferSelect;
 export type IslamicEvent = typeof islamicEvents.$inferSelect;
 export type MediaAsset = typeof mediaAssets.$inferSelect;
+export type SupportWallet = typeof supportWallets.$inferSelect;
+export type SupportCampaign = typeof supportCampaigns.$inferSelect;
+export type SupportConfig = typeof supportConfig.$inferSelect;

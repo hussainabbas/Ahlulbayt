@@ -24,6 +24,7 @@ import { NextPrayerWidget } from '../components/widgets/NextPrayerWidget';
 import { QuranVerseWidget } from '../components/widgets/QuranVerseWidget';
 import { SeasonalPrioritiesWidget } from '../components/widgets/SeasonalPrioritiesWidget';
 import { TasbihWidget } from '../components/widgets/TasbihWidget';
+import { SupportHomeCardWidget } from '../components/widgets/SupportHomeCardWidget';
 import { UpcomingEventsWidget } from '../components/widgets/UpcomingEventsWidget';
 import { WeatherWidget } from '../components/widgets/WeatherWidget';
 import { useDashboard } from '../hooks/useDashboard';
@@ -143,6 +144,8 @@ export const HomeScreen = memo(function HomeScreen() {
         ) : null}
 
         <TasbihWidget />
+
+        <SupportHomeCardWidget />
 
         <PersonalizedRecommendationFeed
           items={personalizedRecs.items}

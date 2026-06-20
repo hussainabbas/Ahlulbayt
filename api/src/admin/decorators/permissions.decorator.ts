@@ -34,4 +34,6 @@ export const PERMISSION_SLUGS = {
   RBAC_READ: 'rbac.read',
   RBAC_WRITE: 'rbac.write',
   AUDIT_READ: 'audit.read',
+  SUPPORT_READ: 'support.read',
+  SUPPORT_WRITE: 'support.write',
 } as const;

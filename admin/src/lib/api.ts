@@ -48,6 +48,39 @@ export interface ExecutiveOverview {
   };
 }
 
+export interface SupportWalletRow {
+  id: string;
+  network: string;
+  label: string;
+  address: string;
+  enabled: boolean;
+  sortOrder: number;
+  instructions: Record<string, string>;
+}
+
+export interface SupportCampaignRow {
+  id: string;
+  slug: string;
+  title: Record<string, string>;
+  body: Record<string, string>;
+  active: boolean;
+  sortOrder: number;
+}
+
+export interface SupportConfigRow {
+  id: string;
+  homeCardEnabled: boolean;
+  transparency: Record<string, string>;
+  preferredNetwork: string | null;
+  reminderCooldownDays: number;
+}
+
+export interface SupportAdminSnapshot {
+  config: SupportConfigRow | null;
+  wallets: { items: SupportWalletRow[]; total: number };
+  campaigns: { items: SupportCampaignRow[]; total: number };
+}
+
 export const adminApi = {
   overview: (token?: string) =>
     adminFetch<ExecutiveOverview>('/v1/admin/overview', { token }),
@@ -97,6 +130,23 @@ export const adminApi = {
 
   rbacMatrix: (token?: string) =>
     adminFetch<RbacMatrix>('/v1/admin/rbac/matrix', { token }),
+
+  supportSnapshot: (token?: string) =>
+    adminFetch<SupportAdminSnapshot>('/v1/admin/support/config', { token }),
+
+  updateSupportConfig: (body: Record<string, unknown>, token?: string) =>
+    adminFetch<unknown>('/v1/admin/support/config', {
+      method: 'PATCH',
+      body: JSON.stringify(body),
+      token,
+    }),
+
+  updateSupportWallet: (id: string, body: Record<string, unknown>, token?: string) =>
+    adminFetch<unknown>(`/v1/admin/support/wallets/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(body),
+      token,
+    }),
 };
 
 export interface RbacRole {

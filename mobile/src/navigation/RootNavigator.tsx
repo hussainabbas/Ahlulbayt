@@ -320,6 +320,28 @@ export function RootNavigator() {
         )}
         options={stack.modal()}
       />
+      <Stack.Screen
+        name="Support"
+        getComponent={lazyScreen(
+          () => require('@/features/support/screens/SupportHubScreen').SupportHubScreen,
+        )}
+        options={stack.titled()}
+      />
+      <Stack.Screen
+        name="SupportCrypto"
+        getComponent={lazyScreen(
+          () => require('@/features/support/screens/SupportCryptoScreen').SupportCryptoScreen,
+        )}
+        options={stack.base}
+      />
+      <Stack.Screen
+        name="SupportTransparency"
+        getComponent={lazyScreen(
+          () =>
+            require('@/features/support/screens/SupportTransparencyScreen').SupportTransparencyScreen,
+        )}
+        options={stack.titled()}
+      />
     </Stack.Navigator>
   );
 }
