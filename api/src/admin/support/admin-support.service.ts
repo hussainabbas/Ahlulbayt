@@ -57,7 +57,7 @@ export class AdminSupportService {
         action: 'support.config.update',
         targetType: 'support_config',
         targetId: row!.id,
-        payload: dto as Record<string, unknown>,
+        payload: dto,
         ipAddress: ip,
       });
       return row;
@@ -92,7 +92,7 @@ export class AdminSupportService {
       action: 'support.config.update',
       targetType: 'support_config',
       targetId: row!.id,
-      payload: dto as Record<string, unknown>,
+      payload: dto,
       ipAddress: ip,
     });
     return row;
@@ -122,7 +122,7 @@ export class AdminSupportService {
       action: 'support.wallet.create',
       targetType: 'support_wallet',
       targetId: row!.id,
-      payload: dto as Record<string, unknown>,
+      payload: dto,
       ipAddress: ip,
     });
     return row;
@@ -151,7 +151,7 @@ export class AdminSupportService {
       action: 'support.wallet.update',
       targetType: 'support_wallet',
       targetId: id,
-      payload: dto as Record<string, unknown>,
+      payload: dto,
       ipAddress: ip,
     });
     return row;
@@ -201,7 +201,7 @@ export class AdminSupportService {
       action: 'support.campaign.create',
       targetType: 'support_campaign',
       targetId: row!.id,
-      payload: dto as Record<string, unknown>,
+      payload: dto,
       ipAddress: ip,
     });
     return row;
@@ -233,7 +233,7 @@ export class AdminSupportService {
       action: 'support.campaign.update',
       targetType: 'support_campaign',
       targetId: id,
-      payload: dto as Record<string, unknown>,
+      payload: dto,
       ipAddress: ip,
     });
     return row;
