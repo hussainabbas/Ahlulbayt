@@ -46,11 +46,12 @@ You do **not** need to create tables manually — the API release step runs migr
 
 ### Set root directory to `api`
 
-1. Click your **API / GitHub** service (not Postgres).
-2. Go to **Settings**.
-3. Find **Root Directory** (or **Source** → **Root directory**).
-4. Set it to: `api`
-5. Save. Railway will use `api/Dockerfile` and `api/railway.toml`.
+**Option A (recommended):** In Railway → API service → **Settings** → **Root Directory** → set `api`.  
+Railway then uses `api/Dockerfile` and `api/railway.toml` automatically.
+
+**Option B:** Leave root directory empty — the repo root `railway.toml` points at `api/Dockerfile`.
+
+If deploy fails with **"couldn't locate the dockerfile at path Dockerfile"**, the service is building from repo root without the root config. Use Option A or push the root `railway.toml` / `railway.json`.
 
 ### Link `DATABASE_URL` to the API
 
@@ -135,6 +136,7 @@ Optional: add a custom domain in Railway → **Settings** → **Networking**.
 | `ECONNREFUSED` to Postgres | Ensure Postgres plugin is linked to the API service |
 | SSL errors | `DATABASE_URL` should include `sslmode=require` (Railway default) |
 | Build fails | Run `npm run build` locally in `api/` |
+| `couldn't locate the dockerfile at path Dockerfile` | Set **Root Directory** = `api`, or push root `railway.toml` with `dockerfilePath = "api/Dockerfile"` |
 | Empty API logs in admin | Request logging middleware not wired yet — table exists, ingest is Phase 2 |
 
 ## Local Docker build (optional)
