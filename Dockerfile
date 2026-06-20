@@ -26,4 +26,4 @@ COPY --from=builder /app/drizzle ./drizzle
 
 EXPOSE 3000
 
-CMD ["node", "dist/main.js"]
+CMD ["node", "scripts/start-production.mjs"]

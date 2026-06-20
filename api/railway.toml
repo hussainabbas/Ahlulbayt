@@ -6,9 +6,9 @@ builder = "DOCKERFILE"
 dockerfilePath = "Dockerfile"
 
 [deploy]
-startCommand = "node dist/main.js"
+startCommand = "node scripts/start-production.mjs"
 healthcheckPath = "/health"
 healthcheckTimeout = 120
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 5
-preDeployCommand = "node scripts/apply-migrations.mjs && node scripts/seed-admin-user.mjs"
+preDeployCommand = "node scripts/apply-migrations.mjs"

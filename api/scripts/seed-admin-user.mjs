@@ -16,7 +16,7 @@ loadEnv();
 const { Client } = pg;
 
 if (process.env.NODE_ENV === 'production' && !process.env.ADMIN_SEED_PASSWORD) {
-  console.log('Skipping admin seed (set ADMIN_SEED_PASSWORD on Railway to create/update admin).');
+  console.log('[seed-admin] Skipped — set ADMIN_SEED_PASSWORD on Railway.');
   process.exit(0);
 }
 
@@ -44,7 +44,7 @@ function pgSsl(url) {
 
 const client = new Client({ connectionString, ssl: pgSsl(connectionString) });
 
-console.log(`Connecting to PostgreSQL at ${describeDatabaseTarget(connectionString)} ...`);
+console.log(`[seed-admin] Connecting to ${describeDatabaseTarget(connectionString)} ...`);
 
 try {
   await client.connect();
@@ -101,10 +101,9 @@ try {
     );
   }
 
-  console.log('Default admin ready.');
-  console.log(`  Email:    ${email}`);
-  console.log(`  Password: ${password}`);
-  console.log(`  Role:     super_admin`);
+  console.log('[seed-admin] Default admin ready.');
+  console.log(`[seed-admin]   Email: ${email}`);
+  console.log('[seed-admin]   Role:  super_admin');
 } catch (err) {
   const code = err?.code ?? '';
   const message = err?.message?.trim() || String(err);
