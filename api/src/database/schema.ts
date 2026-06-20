@@ -824,6 +824,7 @@ export const supportConfig = pgTable('support_config', {
   id: uuid('id').primaryKey().defaultRandom(),
   homeCardEnabled: boolean('home_card_enabled').notNull().default(true),
   transparency: jsonb('transparency').notNull().default({}),
+  bankDetails: jsonb('bank_details').notNull().default({}),
   preferredNetwork: varchar('preferred_network', { length: 20 }),
   reminderCooldownDays: integer('reminder_cooldown_days').notNull().default(30),
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),

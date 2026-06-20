@@ -14,7 +14,7 @@ export class AdminAuditService {
     action: string;
     targetType?: string;
     targetId?: string;
-    payload?: Record<string, unknown>;
+    payload?: Record<string, unknown> | object;
     ipAddress?: string;
   }) {
     await this.db.insert(adminAuditLog).values({
@@ -22,7 +22,7 @@ export class AdminAuditService {
       action: params.action,
       targetType: params.targetType,
       targetId: params.targetId,
-      payload: params.payload ?? {},
+      payload: (params.payload ?? {}) as Record<string, unknown>,
       ipAddress: params.ipAddress,
     });
   }

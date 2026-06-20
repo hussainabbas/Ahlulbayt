@@ -45,6 +45,7 @@ export class AdminSupportService {
         .values({
           homeCardEnabled: dto.homeCardEnabled ?? true,
           transparency: dto.transparency ?? {},
+          bankDetails: dto.bankDetails ?? {},
           preferredNetwork: dto.preferredNetwork ?? null,
           reminderCooldownDays: dto.reminderCooldownDays ?? 30,
           updatedAt: now,
@@ -56,17 +57,26 @@ export class AdminSupportService {
         action: 'support.config.update',
         targetType: 'support_config',
         targetId: row!.id,
-        payload: dto,
+        payload: dto as Record<string, unknown>,
         ipAddress: ip,
       });
       return row;
     }
+
+    const mergedBankDetails =
+      dto.bankDetails !== undefined
+        ? {
+            ...((existing.bankDetails as Record<string, unknown> | null) ?? {}),
+            ...dto.bankDetails,
+          }
+        : undefined;
 
     const [row] = await this.db
       .update(supportConfig)
       .set({
         ...(dto.homeCardEnabled !== undefined ? { homeCardEnabled: dto.homeCardEnabled } : {}),
         ...(dto.transparency !== undefined ? { transparency: dto.transparency } : {}),
+        ...(mergedBankDetails !== undefined ? { bankDetails: mergedBankDetails } : {}),
         ...(dto.preferredNetwork !== undefined ? { preferredNetwork: dto.preferredNetwork } : {}),
         ...(dto.reminderCooldownDays !== undefined
           ? { reminderCooldownDays: dto.reminderCooldownDays }
@@ -82,7 +92,7 @@ export class AdminSupportService {
       action: 'support.config.update',
       targetType: 'support_config',
       targetId: row!.id,
-      payload: dto,
+      payload: dto as Record<string, unknown>,
       ipAddress: ip,
     });
     return row;
@@ -112,7 +122,7 @@ export class AdminSupportService {
       action: 'support.wallet.create',
       targetType: 'support_wallet',
       targetId: row!.id,
-      payload: dto,
+      payload: dto as Record<string, unknown>,
       ipAddress: ip,
     });
     return row;
@@ -141,7 +151,7 @@ export class AdminSupportService {
       action: 'support.wallet.update',
       targetType: 'support_wallet',
       targetId: id,
-      payload: dto,
+      payload: dto as Record<string, unknown>,
       ipAddress: ip,
     });
     return row;
@@ -191,7 +201,7 @@ export class AdminSupportService {
       action: 'support.campaign.create',
       targetType: 'support_campaign',
       targetId: row!.id,
-      payload: dto,
+      payload: dto as Record<string, unknown>,
       ipAddress: ip,
     });
     return row;
@@ -223,7 +233,7 @@ export class AdminSupportService {
       action: 'support.campaign.update',
       targetType: 'support_campaign',
       targetId: id,
-      payload: dto,
+      payload: dto as Record<string, unknown>,
       ipAddress: ip,
     });
     return row;

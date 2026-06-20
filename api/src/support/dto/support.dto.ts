@@ -1,4 +1,5 @@
-import { IsBoolean, IsIn, IsInt, IsObject, IsOptional, IsString, MaxLength, Min } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsBoolean, IsIn, IsInt, IsObject, IsOptional, IsString, MaxLength, Min, ValidateNested } from 'class-validator';
 
 export const SUPPORT_NETWORKS = ['btc', 'eth', 'usdt_trc20', 'usdt_erc20'] as const;
 export type SupportNetwork = (typeof SUPPORT_NETWORKS)[number];
@@ -119,6 +120,57 @@ export class UpdateSupportCampaignDto {
   sortOrder?: number;
 }
 
+export interface SupportBankDetails {
+  enabled?: boolean;
+  accountName?: string;
+  bankName?: string;
+  iban?: string;
+  swift?: string;
+  accountNumber?: string;
+  referenceNote?: string;
+  instructions?: Record<string, string>;
+}
+
+export class SupportBankDetailsDto implements SupportBankDetails {
+  @IsOptional()
+  @IsBoolean()
+  enabled?: boolean;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(120)
+  accountName?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(120)
+  bankName?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(64)
+  iban?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(32)
+  swift?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(64)
+  accountNumber?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(256)
+  referenceNote?: string;
+
+  @IsOptional()
+  @IsObject()
+  instructions?: Record<string, string>;
+}
+
 export class UpdateSupportConfigDto {
   @IsOptional()
   @IsBoolean()
@@ -129,6 +181,11 @@ export class UpdateSupportConfigDto {
   transparency?: Record<string, string>;
 
   @IsOptional()
+  @ValidateNested()
+  @Type(() => SupportBankDetailsDto)
+  bankDetails?: SupportBankDetailsDto;
+
+  @IsOptional()
   @IsIn(SUPPORT_NETWORKS)
   preferredNetwork?: SupportNetwork | null;
 
@@ -136,6 +193,16 @@ export class UpdateSupportConfigDto {
   @IsInt()
   @Min(1)
   reminderCooldownDays?: number;
+}
+
+export interface PublicSupportBankDetails {
+  accountName?: string;
+  bankName?: string;
+  iban?: string;
+  swift?: string;
+  accountNumber?: string;
+  referenceNote?: string;
+  instructions?: string;
 }
 
 export interface SupportConfigResponse {
@@ -157,4 +224,5 @@ export interface SupportConfigResponse {
   }>;
   preferredNetwork?: SupportNetwork | null;
   reminderCooldownDays: number;
+  bankDetails: PublicSupportBankDetails | null;
 }

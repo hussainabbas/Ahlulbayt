@@ -4,7 +4,7 @@ import { asc, eq } from 'drizzle-orm';
 import { DRIZZLE, DrizzleDB } from '../database/database.module';
 import { supportCampaigns, supportConfig, supportWallets } from '../database/schema';
 import { CacheService } from '../redis/cache.service';
-import type { SupportConfigResponse } from './dto/support.dto';
+import type { SupportBankDetails, SupportConfigResponse } from './dto/support.dto';
 
 const CACHE_KEY = 'support:config:v1';
 const CACHE_TTL = 60;
@@ -94,8 +94,31 @@ export class SupportService {
       options: DEFAULT_OPTIONS,
       preferredNetwork: (cfg?.preferredNetwork as SupportConfigResponse['preferredNetwork']) ?? null,
       reminderCooldownDays: cfg?.reminderCooldownDays ?? 30,
+      bankDetails: formatBankDetails(cfg?.bankDetails as SupportBankDetails | undefined, locale),
     };
   }
+}
+
+function formatBankDetails(
+  raw: SupportBankDetails | undefined,
+  locale: string,
+): SupportConfigResponse['bankDetails'] {
+  if (!raw?.enabled) return null;
+  const iban = raw.iban?.trim();
+  const accountNumber = raw.accountNumber?.trim();
+  if (!iban && !accountNumber) return null;
+
+  return {
+    accountName: raw.accountName?.trim() || undefined,
+    bankName: raw.bankName?.trim() || undefined,
+    iban: iban || undefined,
+    swift: raw.swift?.trim() || undefined,
+    accountNumber: accountNumber || undefined,
+    referenceNote: raw.referenceNote?.trim() || undefined,
+    instructions: raw.instructions
+      ? pickLocale(raw.instructions, locale) || undefined
+      : undefined,
+  };
 }
 
 function pickLocale(map: Record<string, string> | null | undefined, locale: string): string {
