@@ -1,20 +1,13 @@
 {
+  "/api/auth/login/route": "app/api/auth/login/route.js",
+  "/api/auth/session/route": "app/api/auth/session/route.js",
   "/login/page": "app/login/page.js",
-  "/(dashboard)/support/page": "app/(dashboard)/support/page.js",
-  "/(dashboard)/users/page": "app/(dashboard)/users/page.js",
-  "/(dashboard)/settings/rbac/page": "app/(dashboard)/settings/rbac/page.js",
-  "/(dashboard)/analytics/page": "app/(dashboard)/analytics/page.js",
-  "/(dashboard)/analytics/screens/page": "app/(dashboard)/analytics/screens/page.js",
-  "/(dashboard)/notifications/page": "app/(dashboard)/notifications/page.js",
-  "/(dashboard)/events/page": "app/(dashboard)/events/page.js",
-  "/(dashboard)/media/page": "app/(dashboard)/media/page.js",
-  "/(dashboard)/flags/page": "app/(dashboard)/flags/page.js",
-  "/(dashboard)/cms/page": "app/(dashboard)/cms/page.js",
-  "/(dashboard)/guides/page": "app/(dashboard)/guides/page.js",
-  "/(dashboard)/health/page": "app/(dashboard)/health/page.js",
-  "/(dashboard)/ai/page": "app/(dashboard)/ai/page.js",
   "/(dashboard)/logs/page": "app/(dashboard)/logs/page.js",
-  "/(dashboard)/security/page": "app/(dashboard)/security/page.js",
   "/(dashboard)/audit/page": "app/(dashboard)/audit/page.js",
-  "/(dashboard)/settings/page": "app/(dashboard)/settings/page.js"
+  "/(dashboard)/settings/rbac/page": "app/(dashboard)/settings/rbac/page.js",
+  "/(dashboard)/users/page": "app/(dashboard)/users/page.js",
+  "/(dashboard)/analytics/page": "app/(dashboard)/analytics/page.js",
+  "/(dashboard)/settings/page": "app/(dashboard)/settings/page.js",
+  "/(dashboard)/analytics/screens/page": "app/(dashboard)/analytics/screens/page.js",
+  "/(dashboard)/notifications/page": "app/(dashboard)/notifications/page.js"
 }
