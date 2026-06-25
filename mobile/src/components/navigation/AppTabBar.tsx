@@ -1,7 +1,7 @@
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { memo, useMemo } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useEffectiveSafeInsets } from '@/core/native/safeArea';
 
 import { hapticTabSelection } from '@/core/haptics/navigationHaptics';
 import { useLocale } from '@/i18n/useLocale';
@@ -27,7 +27,7 @@ export const AppTabBar = memo(function AppTabBar({
 }: BottomTabBarProps) {
   const { theme } = useTheme();
   const { t } = useLocale();
-  const insets = useSafeAreaInsets();
+  const insets = useEffectiveSafeInsets();
 
   const barStyle = useMemo(
     () => [

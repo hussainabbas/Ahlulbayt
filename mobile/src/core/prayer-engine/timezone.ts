@@ -1,4 +1,7 @@
 import { getDeviceCalendars, getDeviceTimezone as readDeviceTimezone } from '@/core/native/localization';
+import tzlookup from 'tz-lookup';
+
+import type { Coordinates } from './types';
 
 const FALLBACK_TIMEZONE = 'UTC';
 
@@ -117,8 +120,33 @@ export function localTimeToDate(
   return result;
 }
 
-export function resolveTimezone(configTimezone: string): string {
-  return configTimezone === 'auto'
-    ? getDeviceTimezone()
-    : normalizeTimezone(configTimezone);
+/**
+ * Resolve IANA timezone for coordinates (offline). Returns null when lookup fails.
+ */
+export function getTimezoneFromCoordinates(coordinates: Coordinates): string | null {
+  const { latitude, longitude } = coordinates;
+  if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return null;
+
+  try {
+    const timezone = tzlookup(latitude, longitude);
+    return normalizeTimezone(timezone);
+  } catch {
+    return null;
+  }
+}
+
+export function resolveTimezone(
+  configTimezone: string,
+  coordinates?: Coordinates,
+): string {
+  if (configTimezone !== 'auto') {
+    return normalizeTimezone(configTimezone);
+  }
+
+  if (coordinates) {
+    const fromCoordinates = getTimezoneFromCoordinates(coordinates);
+    if (fromCoordinates) return fromCoordinates;
+  }
+
+  return getDeviceTimezone();
 }

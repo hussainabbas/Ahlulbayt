@@ -16,7 +16,7 @@ export function calculatePrayerTimes(
   coordinates: Coordinates,
   config: PrayerConfig,
 ): PrayerTimes {
-  const timezone = resolveTimezone(config.timezone);
+  const timezone = resolveTimezone(config.timezone, coordinates);
   const params = resolveMethodParams(config.method, config.methodParams);
   const { year, month, day } = getLocalDateParts(date, timezone);
   const jd = julianDay(year, month, day);
