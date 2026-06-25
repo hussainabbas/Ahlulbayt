@@ -43,7 +43,15 @@ export const PermissionStatus = {
 };
 
 export async function setupNotificationChannels(silentModeOverride: boolean): Promise<void> {
-  if (Platform.OS !== 'android') return;
+  if (Platform.OS === 'ios') {
+    await notifee.setNotificationCategories([
+      {
+        id: 'PRAYER_ACTIONS',
+        actions: [{ id: 'snooze_10', title: 'Snooze' }],
+      },
+    ]);
+    return;
+  }
 
   await notifee.createChannel({
     id: ADHAN_CHANNEL_ID,
@@ -147,7 +155,7 @@ export async function scheduleNotificationAsync(
               ? undefined
               : 'default',
         interruptionLevel: request.content.interruptionLevel ?? 'active',
-        categoryId: request.content.actions?.length ? 'PRAYER_ACTIONS' : undefined,
+        ...(request.content.actions?.length ? { categoryId: 'PRAYER_ACTIONS' } : {}),
       },
     },
     trigger,

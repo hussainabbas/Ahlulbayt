@@ -3,7 +3,7 @@ import { useEffect, useState, type ReactNode } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-context';
 
 import { createQueryClient } from '@/core/offline/queryClient';
 import { networkManager } from '@/core/offline/network';
@@ -59,7 +59,7 @@ export function AppProviders({ children }: AppProvidersProps) {
 
   return (
     <GestureHandlerRootView style={styles.root}>
-      <SafeAreaProvider>
+      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
         <QueryClientProvider client={queryClient}>
           <I18nextProvider i18n={i18n}>
             <ThemeProvider>

@@ -72,7 +72,7 @@ export interface PrayerConfig {
   methodParams: PrayerMethodParams;
   highLatitudeRule: HighLatitudeRule;
   manualOffsets: ManualOffsets;
-  /** IANA timezone, e.g. `Asia/Baghdad`. Use `auto` to resolve from device. */
+  /** IANA timezone, e.g. `Asia/Baghdad`. Use `auto` to resolve from coordinates. */
   timezone: string;
 }
 
