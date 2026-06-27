@@ -16,6 +16,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		B7A4E9012F1C0A0000ADHAN01 /* azan.wav in Resources */ = {isa = PBXBuildFile; fileRef = B7A4E9002F1C0A0000ADHAN01 /* azan.wav */; };
 		BF8659D72FEAF72900C05991 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF8659D62FEAF72900C05991 /* GoogleService-Info.plist */; };
+<<<<<<< HEAD
 		A72A3DABFE0D48D19F4B27CA /* Amiri-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1B00E3B1A84490389D17DFD /* Amiri-Bold.ttf */; };
 		04B066F3105845268215694D /* Amiri-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F5C226FC733443388102E87F /* Amiri-Regular.ttf */; };
 		8D57E833D1684F9097C0CB7C /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E90AE514E16453AA91E9B00 /* Inter-Medium.ttf */; };
@@ -26,6 +27,8 @@
 		56C4DCE6B5BE478A80D8DD36 /* ScheherazadeNew-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BDD2F558AADC419A8D4DABBB /* ScheherazadeNew-Bold.ttf */; };
 		4F3CE6391DF74DDDBCEC50F5 /* ScheherazadeNew-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BE0C0ADB82354AB3AE9D3EE6 /* ScheherazadeNew-Regular.ttf */; };
 		2FE6CC3C25734EA99723E778 /* SpaceMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 284E31C39B104DEBAC4789F0 /* SpaceMono-Regular.ttf */; };
+=======
+>>>>>>> 5777e87830d40f4f27e5aba14cebe4947068bd35
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +46,7 @@
 		B7A4E9002F1C0A0000ADHAN01 /* azan.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = azan.wav; path = AhlulBaytPlus/Sounds/azan.wav; sourceTree = "<group>"; };
 		BF8659D62FEAF72900C05991 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+<<<<<<< HEAD
 		F1B00E3B1A84490389D17DFD /* Amiri-Bold.ttf */ = {isa = PBXFileReference; name = "Amiri-Bold.ttf"; path = "../assets/fonts/Amiri-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		F5C226FC733443388102E87F /* Amiri-Regular.ttf */ = {isa = PBXFileReference; name = "Amiri-Regular.ttf"; path = "../assets/fonts/Amiri-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		4E90AE514E16453AA91E9B00 /* Inter-Medium.ttf */ = {isa = PBXFileReference; name = "Inter-Medium.ttf"; path = "../assets/fonts/Inter-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
@@ -53,6 +57,8 @@
 		BDD2F558AADC419A8D4DABBB /* ScheherazadeNew-Bold.ttf */ = {isa = PBXFileReference; name = "ScheherazadeNew-Bold.ttf"; path = "../assets/fonts/ScheherazadeNew-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		BE0C0ADB82354AB3AE9D3EE6 /* ScheherazadeNew-Regular.ttf */ = {isa = PBXFileReference; name = "ScheherazadeNew-Regular.ttf"; path = "../assets/fonts/ScheherazadeNew-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		284E31C39B104DEBAC4789F0 /* SpaceMono-Regular.ttf */ = {isa = PBXFileReference; name = "SpaceMono-Regular.ttf"; path = "../assets/fonts/SpaceMono-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+=======
+>>>>>>> 5777e87830d40f4f27e5aba14cebe4947068bd35
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,6 +223,7 @@
 				3ACBA600028A4E14A04768D0 /* Colors.xcassets in Resources */,
 				4F541EBF1A6618DAEC3AB892 /* PrivacyInfo.xcprivacy in Resources */,
 				BF8659D72FEAF72900C05991 /* GoogleService-Info.plist in Resources */,
+<<<<<<< HEAD
 				A72A3DABFE0D48D19F4B27CA /* Amiri-Bold.ttf in Resources */,
 				04B066F3105845268215694D /* Amiri-Regular.ttf in Resources */,
 				8D57E833D1684F9097C0CB7C /* Inter-Medium.ttf in Resources */,
@@ -227,6 +234,8 @@
 				56C4DCE6B5BE478A80D8DD36 /* ScheherazadeNew-Bold.ttf in Resources */,
 				4F3CE6391DF74DDDBCEC50F5 /* ScheherazadeNew-Regular.ttf in Resources */,
 				2FE6CC3C25734EA99723E778 /* SpaceMono-Regular.ttf in Resources */,
+=======
+>>>>>>> 5777e87830d40f4f27e5aba14cebe4947068bd35
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
