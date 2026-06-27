@@ -7,6 +7,9 @@ export const SCHEDULE_HORIZON_DAYS = 7;
 /** iOS local notification cap — stay well under 64 total with adhan. */
 export const MAX_SMART_NOTIFICATIONS = 40;
 
+/** Bump when notification title/body resolution changes — forces reschedule. */
+export const NOTIFICATION_COPY_VERSION = 2;
+
 export const NOTIFICATION_CHANNELS: Record<
   NotificationCategory,
   { id: string; nameKey: string; descriptionKey: string }

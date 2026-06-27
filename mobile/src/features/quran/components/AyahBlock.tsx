@@ -504,9 +504,11 @@ const styles = StyleSheet.create({
 
   arabicPanel: {
 
-    paddingVertical: 16,
+    paddingVertical: 20,
 
-    paddingHorizontal: 14,
+    paddingHorizontal: 18,
+
+    marginVertical: 2,
 
     borderRightWidth: 3,
 

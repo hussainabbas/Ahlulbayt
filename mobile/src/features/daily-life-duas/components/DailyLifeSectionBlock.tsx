@@ -1,10 +1,12 @@
 import { StyleSheet, View } from 'react-native';
 
+import { SacredText } from '@/components/ui/SacredText';
 import { Text } from '@/components/ui/Text';
 import { useLocale } from '@/i18n/useLocale';
 import { useTheme } from '@/theme/ThemeContext';
 import { getShadow } from '@/theme/shadows';
 import { layout } from '@/theme/layout';
+import { getSacredTextStyle } from '@/theme/typographySystem';
 
 import type { DailyLifeDuaSection } from '../types';
 
@@ -53,18 +55,16 @@ export function DailyLifeSectionBlock({
 
       <View style={styles.inner}>
         {showArabic ? (
-          <Text
-            style={[
-              styles.arabic,
-              {
-                color: theme.colors.textPrimary,
-                fontSize: 26 * fontScale,
-                lineHeight: 46 * fontScale,
-              },
-            ]}
+          <SacredText
+            role="duaArabic"
+            fontScale={fontScale * 1.18}
+            style={{
+              color: theme.colors.textPrimary,
+              textAlign: 'center',
+            }}
           >
             {section.arabic}
-          </Text>
+          </SacredText>
         ) : null}
 
         {showDivider ? (
@@ -76,7 +76,11 @@ export function DailyLifeSectionBlock({
             <Text variant="caption" color="tertiary" style={styles.translitLabel}>
               {t('dailyLifeDuas.transliteration')}
             </Text>
-            <Text variant="bodySm" color="secondary" style={styles.translit}>
+            <Text
+              variant="bodySm"
+              color="secondary"
+              style={getSacredTextStyle('transliteration', fontScale)}
+            >
               {section.transliteration}
             </Text>
           </View>
@@ -86,11 +90,8 @@ export function DailyLifeSectionBlock({
           <Text
             variant="bodyMd"
             color="secondary"
-            style={[
-              styles.translation,
-              translationLayer === 'ur' && styles.urdu,
-              { fontSize: 17 * fontScale, lineHeight: 28 * fontScale },
-            ]}
+            script={translationLayer === 'ur' ? 'urdu' : 'latin'}
+            style={getSacredTextStyle('translation', fontScale * 1.06)}
           >
             {translation}
           </Text>
@@ -115,10 +116,6 @@ const styles = StyleSheet.create({
     padding: layout.blockGap + 4,
     gap: 12,
   },
-  arabic: {
-    textAlign: 'center',
-    writingDirection: 'rtl',
-  },
   divider: {
     height: StyleSheet.hairlineWidth,
     marginVertical: 2,
@@ -131,16 +128,5 @@ const styles = StyleSheet.create({
   translitLabel: {
     textTransform: 'uppercase',
     letterSpacing: 0.6,
-  },
-  translit: {
-    fontStyle: 'italic',
-    lineHeight: 22,
-  },
-  translation: {
-    lineHeight: 28,
-  },
-  urdu: {
-    textAlign: 'right',
-    writingDirection: 'rtl',
   },
 });

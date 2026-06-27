@@ -709,6 +709,7 @@
     "filterBookmarked": "محفوظ",
     "noBookmarks": "ابھی کوئی محفوظ زیارت نہیں۔",
     "notFound": "زیارت نہیں ملی۔",
+    "transliteration": "حرفی نقل",
     "reciters": {
       "feiz": "مهدی فیض",
       "abbas": "عباس عابدی"
@@ -1297,6 +1298,16 @@
       "viewCalendar": "کیلنڈر",
       "recommended": "آج کی سفارشات",
       "unverified": "کچھ مآخذ علمی جائزے کے منتظر ہیں"
+    },
+    "notifications": {
+      "today": {
+        "title": "آج کی مناسبت",
+        "body": "اس مقدس دن کے لیے {{action}} کھولیں"
+      },
+      "eve": {
+        "title": "کل: {{event}}",
+        "body": "{{action}} سے تیاری کریں"
+      }
     }
   },
   "errors": {

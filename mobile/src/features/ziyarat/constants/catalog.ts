@@ -45,8 +45,8 @@ export const ZIYARAT_CATALOG: ZiyaratMeta[] = [
       ur: 'سب سے زیادہ پڑھی جانے والی زیارت — سید الشہداءؑ کی یاد میں۔',
     },
     source: { en: 'Kamil al-Ziyarat · Mafatih al-Jinan', ur: 'کامل الزيارات · مفاتیح الجنان' },
-    sectionCount: 7,
-    estimatedMinutes: 15,
+    sectionCount: 8,
+    estimatedMinutes: 22,
     hasAudio: true,
   },
   {

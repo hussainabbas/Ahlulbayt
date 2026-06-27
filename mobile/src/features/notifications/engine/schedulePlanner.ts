@@ -12,6 +12,7 @@ import {
   buildSmartNotificationId,
   dateKeyFromDate,
   DEFAULT_CATEGORY_HOURS,
+  NOTIFICATION_COPY_VERSION,
   SCHEDULE_HORIZON_DAYS,
 } from '../constants/channels';
 import type {
@@ -255,6 +256,7 @@ export function buildScheduleFingerprint(
   planned: PlannedNotification[],
 ): string {
   return JSON.stringify({
+    copyVersion: NOTIFICATION_COPY_VERSION,
     hijri: `${ctx.hijriYear}-${ctx.hijriMonth}-${ctx.hijriDay}`,
     prefs: {
       masterEnabled: prefs.masterEnabled,

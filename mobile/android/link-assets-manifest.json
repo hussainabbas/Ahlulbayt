@@ -1,0 +1,45 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/Amiri-Bold.ttf",
+      "sha1": "eb84bdc491cdb1a8d6b3d4a1fba9508759789836"
+    },
+    {
+      "path": "assets/fonts/Amiri-Regular.ttf",
+      "sha1": "a5f4fe8279d587ca8e65b01159c405788850c6d3"
+    },
+    {
+      "path": "assets/fonts/Inter-Medium.ttf",
+      "sha1": "97d4f3722d62c6cc5340bf6220ada3d64ca367b1"
+    },
+    {
+      "path": "assets/fonts/Inter-Regular.ttf",
+      "sha1": "97d4f3722d62c6cc5340bf6220ada3d64ca367b1"
+    },
+    {
+      "path": "assets/fonts/Inter-SemiBold.ttf",
+      "sha1": "97d4f3722d62c6cc5340bf6220ada3d64ca367b1"
+    },
+    {
+      "path": "assets/fonts/NotoNaskhArabic-Regular.ttf",
+      "sha1": "11056fff634e12cd83d546f663ed91b0508df1b9"
+    },
+    {
+      "path": "assets/fonts/NotoNastaliqUrdu-Regular.ttf",
+      "sha1": "a5ef36c04c3323dc986cee203c21e61d2ceba097"
+    },
+    {
+      "path": "assets/fonts/ScheherazadeNew-Bold.ttf",
+      "sha1": "02229f47fbad51a861379b024abb73676b3e2e11"
+    },
+    {
+      "path": "assets/fonts/ScheherazadeNew-Regular.ttf",
+      "sha1": "9deea08a3a74349a8cf37532d34146105d59818a"
+    },
+    {
+      "path": "assets/fonts/SpaceMono-Regular.ttf",
+      "sha1": "fae3a5a43b50e0408fd61e14383d94a023d332b0"
+    }
+  ]
+}

@@ -1,10 +1,12 @@
 import { StyleSheet, View } from 'react-native';
 
+import { SacredText } from '@/components/ui/SacredText';
 import { Text } from '@/components/ui/Text';
 import { useLocale } from '@/i18n/useLocale';
 import { useTheme } from '@/theme/ThemeContext';
+import { getSacredTextStyle } from '@/theme/typographySystem';
 
-import type { ZiyaratDisplayMode, ZiyaratSection, ZiyaratTranslationLayer } from '../types';
+import type { ZiyaratDisplayMode, ZiyaratLine, ZiyaratSection, ZiyaratTranslationLayer } from '../types';
 
 interface ZiyaratSectionBlockProps {
   section: ZiyaratSection;
@@ -25,8 +27,8 @@ export function ZiyaratSectionBlock({
   fontScale = 1.05,
   focusMode = false,
 }: ZiyaratSectionBlockProps) {
+  const { t, locale: appLocale } = useLocale();
   const { theme } = useTheme();
-  const { locale: appLocale } = useLocale();
 
   const sectionTitle =
     appLocale === 'ur' ? section.title?.ur : section.title?.en;
@@ -34,12 +36,79 @@ export function ZiyaratSectionBlock({
     translationLayer === 'ur'
       ? section.translations.ur ?? section.translations.en
       : section.translations.en;
+  const instruction =
+    appLocale === 'ur'
+      ? section.instruction?.ur ?? section.instruction?.en
+      : section.instruction?.en;
 
   const showArabic = displayMode !== 'translation_only';
   const showTranslation = displayMode !== 'arabic_only';
+  const hasLines = (section.lines?.length ?? 0) > 0;
+  const showDivider =
+    !hasLines &&
+    showArabic &&
+    showTranslation &&
+    (translation || section.transliteration);
 
-  const arabicSize = (focusMode ? 26 : 24) * fontScale;
-  const arabicLineHeight = (focusMode ? 48 : 44) * fontScale;
+  const arabicFontScale = fontScale * (focusMode ? 1.18 : 1.09);
+
+  const renderLine = (line: ZiyaratLine, lineIndex: number, totalLines: number) => {
+    const lineTranslation =
+      translationLayer === 'ur'
+        ? line.translations.ur ?? line.translations.en
+        : line.translations.en;
+
+    return (
+      <View
+        key={`${section.id}-line-${lineIndex}`}
+        style={[
+          styles.lineBlock,
+          lineIndex < totalLines - 1 && styles.lineBlockSpaced,
+        ]}
+      >
+        {showArabic ? (
+          <SacredText
+            role="duaArabic"
+            fontScale={arabicFontScale}
+            style={{
+              color: section.sacred ? theme.colors.accentGold : theme.colors.textPrimary,
+              textAlign: 'center',
+            }}
+          >
+            {line.arabic}
+          </SacredText>
+        ) : null}
+
+        {line.transliteration && showTranslation ? (
+          <Text
+            variant="bodySm"
+            color="tertiary"
+            style={getSacredTextStyle('transliteration', fontScale * 0.95)}
+          >
+            {line.transliteration}
+          </Text>
+        ) : null}
+
+        {showTranslation && lineTranslation ? (
+          <Text
+            variant="bodyMd"
+            color="secondary"
+            script={translationLayer === 'ur' ? 'urdu' : 'latin'}
+            style={[
+              styles.lineTranslation,
+              getSacredTextStyle('translation', fontScale * (focusMode ? 1.08 : 1)),
+            ]}
+          >
+            {lineTranslation}
+          </Text>
+        ) : null}
+
+        {lineIndex < totalLines - 1 ? (
+          <View style={[styles.lineDivider, { backgroundColor: theme.colors.borderSubtle }]} />
+        ) : null}
+      </View>
+    );
+  };
 
   return (
     <View
@@ -55,13 +124,28 @@ export function ZiyaratSectionBlock({
       ]}
     >
       <View style={styles.metaRow}>
-        {sectionTitle ? (
-          <Text variant="overline" color="accent">
-            {sectionTitle}
-          </Text>
-        ) : (
-          <View />
-        )}
+        <View style={styles.metaLeft}>
+          {sectionTitle ? (
+            <Text variant="overline" color="accent">
+              {sectionTitle}
+            </Text>
+          ) : null}
+          {section.repeatCount ? (
+            <View
+              style={[
+                styles.repeatBadge,
+                {
+                  backgroundColor: theme.colors.backgroundSecondary,
+                  borderColor: theme.colors.accentGold,
+                },
+              ]}
+            >
+              <Text variant="caption" color="accent">
+                {section.repeatCount}×
+              </Text>
+            </View>
+          ) : null}
+        </View>
         <Text variant="caption" color="tertiary">
           {index + 1}/{total}
         </Text>
@@ -71,37 +155,66 @@ export function ZiyaratSectionBlock({
         <View style={[styles.sacredLine, { backgroundColor: theme.colors.accentGold }]} />
       ) : null}
 
-      {showArabic ? (
-        <Text
-          style={[
-            styles.arabic,
-            {
-              color: section.sacred ? theme.colors.accentGold : theme.colors.textPrimary,
-              fontSize: arabicSize,
-              lineHeight: arabicLineHeight,
-            },
-          ]}
-        >
-          {section.arabic}
+      {instruction ? (
+        <Text variant="bodySm" color="secondary" style={styles.instruction}>
+          {instruction}
         </Text>
       ) : null}
 
-      {showTranslation && translation ? (
-        <Text
-          variant="bodyMd"
-          color="secondary"
-          style={[
-            styles.translation,
-            appLocale === 'ur' && styles.urdu,
-            {
-              fontSize: (focusMode ? 18 : 16) * fontScale,
-              lineHeight: (focusMode ? 32 : 28) * fontScale,
-            },
-          ]}
-        >
-          {translation}
-        </Text>
-      ) : null}
+      {hasLines ? (
+        <View style={styles.linesWrap}>
+          {section.lines!.map((line, lineIndex) =>
+            renderLine(line, lineIndex, section.lines!.length),
+          )}
+        </View>
+      ) : (
+        <>
+          {showArabic ? (
+            <SacredText
+              role="duaArabic"
+              fontScale={arabicFontScale}
+              style={{
+                color: section.sacred ? theme.colors.accentGold : theme.colors.textPrimary,
+              }}
+            >
+              {section.arabic}
+            </SacredText>
+          ) : null}
+
+          {showDivider ? (
+            <View style={[styles.divider, { backgroundColor: theme.colors.borderSubtle }]} />
+          ) : null}
+
+          {section.transliteration && showTranslation ? (
+            <View style={[styles.translitWrap, { backgroundColor: theme.colors.backgroundSecondary }]}>
+              <Text variant="caption" color="tertiary" style={styles.translitLabel}>
+                {t('ziyarat.transliteration')}
+              </Text>
+              <Text
+                variant="bodySm"
+                color="secondary"
+                style={getSacredTextStyle('transliteration', fontScale)}
+              >
+                {section.transliteration}
+              </Text>
+            </View>
+          ) : null}
+
+          {showTranslation && translation ? (
+            <Text
+              variant="bodyMd"
+              color="secondary"
+              script={translationLayer === 'ur' ? 'urdu' : 'latin'}
+              style={[
+                styles.translation,
+                getSacredTextStyle('translation', fontScale * (focusMode ? 1.12 : 1)),
+              ]}
+            >
+              {translation}
+            </Text>
+          ) : null}
+        </>
+      )}
     </View>
   );
 }
@@ -118,20 +231,59 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  metaLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    flexShrink: 1,
+  },
+  repeatBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 10,
+    borderWidth: StyleSheet.hairlineWidth,
+  },
   sacredLine: {
     height: 1,
     width: 48,
     opacity: 0.6,
   },
-  arabic: {
-    textAlign: 'right',
-    writingDirection: 'rtl',
+  instruction: {
+    fontStyle: 'italic',
+    lineHeight: 22,
+  },
+  divider: {
+    height: StyleSheet.hairlineWidth,
+    marginVertical: 2,
+  },
+  translitWrap: {
+    padding: 12,
+    borderRadius: 12,
+    gap: 4,
+  },
+  translitLabel: {
+    textTransform: 'uppercase',
+    letterSpacing: 0.6,
   },
   translation: {
     marginTop: 4,
   },
-  urdu: {
-    textAlign: 'right',
-    writingDirection: 'rtl',
+  linesWrap: {
+    gap: 4,
+  },
+  lineBlock: {
+    gap: 8,
+    alignItems: 'stretch',
+  },
+  lineBlockSpaced: {
+    paddingBottom: 4,
+  },
+  lineTranslation: {
+    textAlign: 'center',
+  },
+  lineDivider: {
+    height: StyleSheet.hairlineWidth,
+    marginTop: 12,
+    opacity: 0.7,
   },
 });

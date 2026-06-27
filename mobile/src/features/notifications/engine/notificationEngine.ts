@@ -54,18 +54,36 @@ export async function cancelAllSmartNotifications(): Promise<number> {
 }
 
 function enrichPlannedCopy(planned: PlannedNotification, t: TranslateFn): PlannedNotification {
+  const titleParams = { ...planned.titleParams };
+  const bodyParams = { ...planned.bodyParams };
+
   if (planned.data.eventId) {
     const event = getEventById(planned.data.eventId);
     if (event) {
       const eventTitle = t(event.titleKey);
-      return {
-        ...planned,
-        titleParams: { ...planned.titleParams, event: eventTitle },
-        bodyParams: { ...planned.bodyParams, event: eventTitle },
-      };
+      if (titleParams.event !== undefined) titleParams.event = eventTitle;
+      if (bodyParams.event !== undefined) bodyParams.event = eventTitle;
     }
   }
-  return planned;
+
+  for (const params of [titleParams, bodyParams]) {
+    for (const [key, value] of Object.entries(params)) {
+      if (typeof value === 'string' && value.includes('.')) {
+        params[key] = t(value);
+      }
+    }
+  }
+
+  const directTitle = planned.directTitle ?? (planned.titleKey ? t(planned.titleKey, titleParams) : undefined);
+  const directBody = planned.directBody ?? (planned.bodyKey ? t(planned.bodyKey, bodyParams) : undefined);
+
+  return {
+    ...planned,
+    titleParams,
+    bodyParams,
+    directTitle,
+    directBody,
+  };
 }
 
 function payloadToData(payload: PlannedNotification['data']): Record<string, string> {

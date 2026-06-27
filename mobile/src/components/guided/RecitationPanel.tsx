@@ -1,5 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 
+import { SacredText } from '@/components/ui/SacredText';
 import { Text } from '@/components/ui/Text';
 import type { GuideContentLocale } from '@/components/guided/types';
 import type { LocalizedText } from '@/features/prayer-academy/types';
@@ -7,6 +8,7 @@ import { pickLocalized } from '@/features/prayer-academy/utils/localizedText';
 import { useLocale } from '@/i18n/useLocale';
 import { layout } from '@/theme/layout';
 import { useTheme } from '@/theme/ThemeContext';
+import { getSacredTextStyle } from '@/theme/typographySystem';
 
 interface RecitationPanelProps {
   arabic?: string;
@@ -46,28 +48,18 @@ export function RecitationPanel({
     return null;
   }
 
-  const arabicFontSize = (emphasizeArabic ? 26 : 20) * fontScale;
-  const arabicLineHeight = (emphasizeArabic ? 44 : 34) * fontScale;
-  const bodyFontSize = 14 * fontScale;
-  const bodyLineHeight = 22 * fontScale;
+  const arabicFontScale = fontScale * (emphasizeArabic ? 1.18 : 0.91);
 
   return (
     <View style={styles.wrap}>
       {displayArabic ? (
-        <Text
-          variant="bodyMd"
-          weight={emphasizeArabic ? '600' : undefined}
-          style={[
-            styles.arabic,
-            {
-              color: theme.colors.textPrimary,
-              fontSize: arabicFontSize,
-              lineHeight: arabicLineHeight,
-            },
-          ]}
+        <SacredText
+          role="duaArabic"
+          fontScale={arabicFontScale}
+          style={{ color: theme.colors.textPrimary }}
         >
           {arabic}
-        </Text>
+        </SacredText>
       ) : null}
 
       {showTransliteration && transliterationText ? (
@@ -78,7 +70,7 @@ export function RecitationPanel({
           <Text
             variant="caption"
             color="tertiary"
-            style={[styles.translit, { fontSize: 12 * fontScale, lineHeight: 18 * fontScale }]}
+            style={getSacredTextStyle('transliteration', fontScale)}
           >
             {transliterationText}
           </Text>
@@ -93,10 +85,8 @@ export function RecitationPanel({
           <Text
             variant="bodySm"
             color="secondary"
-            style={[
-              contentLocale === 'ur' && styles.urdu,
-              { fontSize: bodyFontSize, lineHeight: bodyLineHeight },
-            ]}
+            script={contentLocale === 'ur' ? 'urdu' : 'latin'}
+            style={getSacredTextStyle('translation', fontScale * 0.88)}
           >
             {translationText}
           </Text>
@@ -125,11 +115,5 @@ export function isRecitationKind(kind: string): boolean {
 
 const styles = StyleSheet.create({
   wrap: { gap: layout.listGap, marginTop: 4 },
-  arabic: {
-    textAlign: 'right',
-    writingDirection: 'rtl',
-  },
   section: { gap: 4 },
-  translit: { fontStyle: 'italic' },
-  urdu: { writingDirection: 'rtl', textAlign: 'right' },
 });

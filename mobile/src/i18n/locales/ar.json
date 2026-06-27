@@ -661,6 +661,7 @@
     "filterBookmarked": "المفضلة",
     "noBookmarks": "لا توجد زيارات محفوظة بعد.",
     "notFound": "الزيارة غير موجودة.",
+    "transliteration": "النقل الحرفي",
     "reciters": {
       "feiz": "مهدي فيز",
       "abbas": "عباس عابدي"
@@ -1249,6 +1250,16 @@
       "viewCalendar": "التقويم",
       "recommended": "موصى به لليوم",
       "unverified": "بعض المصادر قيد المراجعة العلمية"
+    },
+    "notifications": {
+      "today": {
+        "title": "مناسبة اليوم",
+        "body": "افتح {{action}} لهذا اليوم المبارك"
+      },
+      "eve": {
+        "title": "غداً: {{event}}",
+        "body": "استعد بـ {{action}}"
+      }
     }
   },
   "errors": {

@@ -1,6 +1,10 @@
 import { Text as RNText, StyleSheet } from 'react-native';
 
 import { useTheme } from '@/theme/ThemeContext';
+import {
+  arabicLineHeight,
+  FONT_FAMILIES,
+} from '@/theme/typographySystem';
 
 import { getTajweedColor } from '../constants/tajweed';
 import type { QuranWord, TajweedRule, TajweedSegment } from '../types';
@@ -15,19 +19,31 @@ interface TajweedTextProps {
   onWordPress?: (index: number) => void;
 }
 
+const QURAN_LINE_HEIGHT_RATIO = 2.15;
+
 export function TajweedText({
   text,
   words,
   segments,
-  fontSize = 28,
+  fontSize = 26,
   showTajweed = true,
   activeWordIndex,
 }: TajweedTextProps) {
   const { theme } = useTheme();
+  const lineHeight = arabicLineHeight(fontSize, 'quran');
+  const baseStyle = [
+    styles.arabic,
+    {
+      fontFamily: FONT_FAMILIES.scheherazadeRegular,
+      fontSize,
+      lineHeight,
+      color: theme.colors.textPrimary,
+    },
+  ];
 
   if (words?.length) {
     return (
-      <RNText style={[styles.arabic, { fontSize, lineHeight: fontSize * 1.65 }]}>
+      <RNText style={baseStyle}>
         {words.map((word, i) => {
           const rule: TajweedRule = showTajweed ? (word.tajweed ?? 'default') : 'default';
           const color =
@@ -54,7 +70,7 @@ export function TajweedText({
 
   if (segments?.length && showTajweed) {
     return (
-      <RNText style={[styles.arabic, { fontSize, lineHeight: fontSize * 1.65 }]}>
+      <RNText style={baseStyle}>
         {segments.map((seg, i) => (
           <RNText key={i} style={{ color: getTajweedColor(seg.rule, theme.scheme) }}>
             {seg.text}
@@ -65,12 +81,7 @@ export function TajweedText({
   }
 
   return (
-    <RNText
-      style={[
-        styles.arabic,
-        { fontSize, lineHeight: fontSize * 1.65, color: theme.colors.textPrimary },
-      ]}
-    >
+    <RNText style={baseStyle}>
       {text}
     </RNText>
   );
@@ -80,6 +91,8 @@ const styles = StyleSheet.create({
   arabic: {
     textAlign: 'right',
     writingDirection: 'rtl',
-    fontWeight: '500',
+    fontWeight: '400',
   },
 });
+
+export { QURAN_LINE_HEIGHT_RATIO };

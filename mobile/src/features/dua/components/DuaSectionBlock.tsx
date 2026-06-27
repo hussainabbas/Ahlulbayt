@@ -1,8 +1,10 @@
 import { StyleSheet, View } from 'react-native';
 
+import { SacredText } from '@/components/ui/SacredText';
 import { Text } from '@/components/ui/Text';
 import { useLocale } from '@/i18n/useLocale';
 import { useTheme } from '@/theme/ThemeContext';
+import { getSacredTextStyle } from '@/theme/typographySystem';
 
 import type { DuaDisplayMode, DuaSection, DuaTranslationLayer } from '../types';
 
@@ -50,28 +52,23 @@ export function DuaSectionBlock({
       ) : null}
 
       {showArabic ? (
-        <Text
-          style={[
-            styles.arabic,
-            {
-              color: theme.colors.textPrimary,
-              fontSize: 22 * fontScale,
-              lineHeight: 40 * fontScale,
-            },
-          ]}
+        <SacredText
+          role="duaArabic"
+          fontScale={fontScale}
+          style={{ color: theme.colors.textPrimary }}
         >
           {section.arabic}
-        </Text>
+        </SacredText>
       ) : null}
 
       {showTranslation && translation ? (
         <Text
           variant="bodyMd"
           color="secondary"
+          script={translationLayer === 'ur' ? 'urdu' : 'latin'}
           style={[
             styles.translation,
-            locale === 'ur' && styles.urdu,
-            { fontSize: 16 * fontScale, lineHeight: 28 * fontScale },
+            getSacredTextStyle('translation', fontScale),
           ]}
         >
           {translation}
@@ -91,15 +88,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     marginBottom: 4,
   },
-  arabic: {
-    textAlign: 'right',
-    writingDirection: 'rtl',
-  },
   translation: {
     marginTop: 4,
-  },
-  urdu: {
-    textAlign: 'right',
-    writingDirection: 'rtl',
   },
 });
