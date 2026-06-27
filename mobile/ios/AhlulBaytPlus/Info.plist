@@ -71,7 +71,11 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Camera access shows live Qibla direction in AR view.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
+<<<<<<< HEAD
 	<string/>
+=======
+	<string></string>
+>>>>>>> 5777e87830d40f4f27e5aba14cebe4947068bd35
 	<key>RCTNewArchEnabled</key>
 	<true/>
 	<key>UIBackgroundModes</key>
@@ -98,6 +102,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+<<<<<<< HEAD
 	<key>UIAppFonts</key>
 	<array>
 		<string>Amiri-Bold.ttf</string>
@@ -111,5 +116,7 @@
 		<string>ScheherazadeNew-Regular.ttf</string>
 		<string>SpaceMono-Regular.ttf</string>
 	</array>
+=======
+>>>>>>> 5777e87830d40f4f27e5aba14cebe4947068bd35
 </dict>
 </plist>
