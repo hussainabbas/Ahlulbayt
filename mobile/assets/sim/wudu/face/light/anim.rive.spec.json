@@ -1,0 +1,8 @@
+{
+  "key": "sim/wudu/face",
+  "theme": "light",
+  "artboard": "face_light",
+  "animation": "idle_loop",
+  "sourceSvg": "wudu/face/light/static.svg",
+  "note": "Export from Rive Editor using static.svg as reference — no internet assets."
+}

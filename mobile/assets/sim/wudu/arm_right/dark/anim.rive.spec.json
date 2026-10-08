@@ -1,0 +1,8 @@
+{
+  "key": "sim/wudu/arm_right",
+  "theme": "dark",
+  "artboard": "arm_right_dark",
+  "animation": "idle_loop",
+  "sourceSvg": "wudu/arm_right/dark/static.svg",
+  "note": "Export from Rive Editor using static.svg as reference — no internet assets."
+}

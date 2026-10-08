@@ -1,0 +1,8 @@
+{
+  "key": "sim/wudu/masah_feet",
+  "theme": "dark",
+  "artboard": "masah_feet_dark",
+  "animation": "idle_loop",
+  "sourceSvg": "wudu/masah_feet/dark/static.svg",
+  "note": "Export from Rive Editor using static.svg as reference — no internet assets."
+}

@@ -1,0 +1,229 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ahlulbayt.app/schemas/prayer-academy/v1.json",
+  "title": "PrayerAcademyBundle",
+  "description": "Fiqh Jafariya prayer learning bundle for AhlulBayt+ Prayer Academy",
+  "type": "object",
+  "required": ["meta", "bundleVersion", "rakatStructure", "timingRules", "conditions", "steps"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": [
+        "id",
+        "slug",
+        "category",
+        "obligation",
+        "titles",
+        "subtitles",
+        "purpose",
+        "description",
+        "estimatedMinutes",
+        "hasAudio",
+        "hasGuidedMode",
+        "tags"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "enum": [
+            "salat_fajr",
+            "salat_dhuhr",
+            "salat_asr",
+            "salat_maghrib",
+            "salat_isha",
+            "namaz_e_ayat",
+            "namaz_e_mayyit",
+            "namaz_e_wahshat",
+            "salat_eid_fitr",
+            "salat_eid_adha",
+            "salat_jumuah",
+            "salat_ghufayla",
+            "salat_layl",
+            "salat_istikhara",
+            "nafl_recommended"
+          ]
+        },
+        "slug": { "type": "string" },
+        "category": {
+          "type": "string",
+          "enum": [
+            "obligatory_daily",
+            "special_obligatory",
+            "special_recommended",
+            "eid",
+            "jumuah",
+            "nafl"
+          ]
+        },
+        "obligation": {
+          "type": "string",
+          "enum": ["wajib", "wajib_kifai", "mustahab", "conditional"]
+        },
+        "titles": { "$ref": "#/$defs/localizedText" },
+        "subtitles": { "$ref": "#/$defs/localizedText" },
+        "purpose": { "$ref": "#/$defs/localizedText" },
+        "description": { "$ref": "#/$defs/localizedText" },
+        "estimatedMinutes": { "type": "integer", "minimum": 1 },
+        "hasAudio": { "type": "boolean" },
+        "hasGuidedMode": { "type": "boolean" },
+        "prerequisites": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "featured": { "type": "boolean" }
+      }
+    },
+    "bundleVersion": { "type": "integer", "minimum": 1 },
+    "rakatStructure": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/rakatUnit" }
+    },
+    "timingRules": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/timingRule" }
+    },
+    "conditions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/condition" }
+    },
+    "sunniDifferences": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/sunniDifference" }
+    },
+    "audioCues": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/audioCue" }
+    },
+    "steps": {
+      "type": "object",
+      "required": ["beginner", "advanced"],
+      "properties": {
+        "beginner": { "type": "array", "items": { "$ref": "#/$defs/guideStep" } },
+        "advanced": { "type": "array", "items": { "$ref": "#/$defs/guideStep" } }
+      }
+    }
+  },
+  "$defs": {
+    "localizedText": {
+      "type": "object",
+      "required": ["en"],
+      "properties": {
+        "en": { "type": "string" },
+        "ur": { "type": "string" },
+        "ar": { "type": "string" }
+      }
+    },
+    "rakatUnit": {
+      "type": "object",
+      "required": ["id", "kind", "count", "label"],
+      "properties": {
+        "id": { "type": "string" },
+        "kind": {
+          "type": "string",
+          "enum": ["wajib", "sunnah", "mustahab", "nafl", "witr"]
+        },
+        "count": { "type": "integer", "minimum": 1 },
+        "label": { "$ref": "#/$defs/localizedText" },
+        "notes": { "$ref": "#/$defs/localizedText" }
+      }
+    },
+    "timingRule": {
+      "type": "object",
+      "required": ["id", "title", "body"],
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "$ref": "#/$defs/localizedText" },
+        "body": { "$ref": "#/$defs/localizedText" },
+        "prayerTimeKey": {
+          "type": "string",
+          "enum": ["fajr", "dhuhr", "asr", "maghrib", "isha", "sunrise", "sunset"]
+        }
+      }
+    },
+    "condition": {
+      "type": "object",
+      "required": ["id", "title", "body"],
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "$ref": "#/$defs/localizedText" },
+        "body": { "$ref": "#/$defs/localizedText" },
+        "deepLink": {
+          "type": "object",
+          "properties": {
+            "screen": { "type": "string" },
+            "params": { "type": "object" }
+          }
+        }
+      }
+    },
+    "sunniDifference": {
+      "type": "object",
+      "required": ["topic", "jafari"],
+      "properties": {
+        "topic": { "$ref": "#/$defs/localizedText" },
+        "jafari": { "$ref": "#/$defs/localizedText" },
+        "sunni": { "$ref": "#/$defs/localizedText" }
+      }
+    },
+    "audioCue": {
+      "type": "object",
+      "required": ["id", "label"],
+      "properties": {
+        "id": { "type": "string" },
+        "label": { "$ref": "#/$defs/localizedText" },
+        "assetKey": { "type": "string" },
+        "remoteUrl": { "type": "string", "format": "uri" },
+        "durationSec": { "type": "number" }
+      }
+    },
+    "fiqhRef": {
+      "type": "object",
+      "required": ["source"],
+      "properties": {
+        "source": { "$ref": "#/$defs/localizedText" },
+        "citation": { "$ref": "#/$defs/localizedText" },
+        "marja": { "type": "string", "enum": ["sistani", "khamenei", "general"] }
+      }
+    },
+    "guideStep": {
+      "type": "object",
+      "required": ["id", "kind", "titles", "body"],
+      "properties": {
+        "id": { "type": "string" },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "intro",
+            "preparation",
+            "niyyah",
+            "takbir",
+            "recitation",
+            "ruku",
+            "sujud",
+            "qunoot",
+            "tashahhud",
+            "salam",
+            "rakat_transition",
+            "fiqh_note",
+            "checklist",
+            "diagram"
+          ]
+        },
+        "rakatIndex": { "type": "integer", "minimum": 1 },
+        "titles": { "$ref": "#/$defs/localizedText" },
+        "body": { "$ref": "#/$defs/localizedText" },
+        "advancedBody": { "$ref": "#/$defs/localizedText" },
+        "arabic": { "type": "string" },
+        "transliteration": { "$ref": "#/$defs/localizedText" },
+        "checklist": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/localizedText" }
+        },
+        "fiqhRefs": { "type": "array", "items": { "$ref": "#/$defs/fiqhRef" } },
+        "audioCueId": { "type": "string" },
+        "advancedOnly": { "type": "boolean" }
+      }
+    }
+  }
+}

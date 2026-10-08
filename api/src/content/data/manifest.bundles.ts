@@ -1,0 +1,77 @@
+import type { ContentBundle } from '../../common/types/content.types';
+
+/** Static bundle catalog — bulk text served from CDN. */
+export const MANIFEST_BUNDLES: ContentBundle[] = [
+  {
+    domain: 'quran',
+    id: 'surah-001',
+    version: 1,
+    sha256: '0000000000000000000000000000000000000000000000000000000000000001',
+    url: '/bundles/quran/surah-001.json.gz',
+    sizeBytes: 12_000,
+    compression: 'gzip',
+    optional: false,
+  },
+  {
+    domain: 'quran',
+    id: 'surah-030',
+    version: 1,
+    sha256: '0000000000000000000000000000000000000000000000000000000000000030',
+    url: '/bundles/quran/surah-030.json.gz',
+    sizeBytes: 45_000,
+    compression: 'gzip',
+    optional: false,
+  },
+  {
+    domain: 'duas',
+    id: 'dua-kumail',
+    version: 1,
+    sha256: '0000000000000000000000000000000000000000000000000000000000000d01',
+    url: '/bundles/duas/dua-kumail.json.gz',
+    sizeBytes: 18_000,
+    compression: 'gzip',
+    optional: false,
+  },
+  {
+    domain: 'duas',
+    id: 'dua-tawassul',
+    version: 1,
+    sha256: '0000000000000000000000000000000000000000000000000000000000000d02',
+    url: '/bundles/duas/dua-tawassul.json.gz',
+    sizeBytes: 22_000,
+    compression: 'gzip',
+    optional: false,
+  },
+  {
+    domain: 'ziyarat',
+    id: 'ziyarat-ashura',
+    version: 1,
+    sha256: '0000000000000000000000000000000000000000000000000000000000000z01',
+    url: '/bundles/ziyarat/ziyarat-ashura.json.gz',
+    sizeBytes: 15_000,
+    compression: 'gzip',
+    optional: false,
+  },
+  {
+    domain: 'ziyarat',
+    id: 'ziyarat-arbaeen',
+    version: 1,
+    sha256: '0000000000000000000000000000000000000000000000000000000000000z02',
+    url: '/bundles/ziyarat/ziyarat-arbaeen.json.gz',
+    sizeBytes: 20_000,
+    compression: 'gzip',
+    optional: true,
+  },
+  {
+    domain: 'prayer',
+    id: 'prayer-methods',
+    version: 1,
+    sha256: '0000000000000000000000000000000000000000000000000000000000000p01',
+    url: '/bundles/prayer/methods.json.gz',
+    sizeBytes: 4_000,
+    compression: 'gzip',
+    optional: false,
+  },
+];
+
+export const MANIFEST_VERSION = '2026.06.12.1';

@@ -1,0 +1,161 @@
+import { useEffect, useRef, useState } from 'react';
+import { FlatList, StyleSheet, View } from 'react-native';
+import { useRoute } from '@react-navigation/native';
+import type { RouteProp } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+
+import { Screen } from '@/components/ui/Screen';
+import { useKeyboardInset } from '@/core/hooks/useKeyboardInset';
+import { useRootNavigation } from '@/navigation/hooks';
+import type { MainTabParamList } from '@/navigation/types';
+
+import { AiChatHeader } from '../components/chat/AiChatHeader';
+import { AiWelcomeView } from '../components/chat/AiWelcomeView';
+import { AssistantTypingRow } from '../components/chat/AssistantTypingRow';
+import { ChatComposer } from '../components/chat/ChatComposer';
+import { ChatMessageRow } from '../components/chat/ChatMessageRow';
+import { SuggestedPromptStrip } from '../components/chat/SuggestedPromptStrip';
+import { useAiAssistant } from '../hooks/useAiAssistant';
+import type { AiAction, AiCitation, AiMessage } from '../types';
+import {
+  resolveCitationNavigation,
+  resolveIslamicReferenceNavigation,
+} from '../utils/citationNavigation';
+import type { IslamicReference } from '@/core/references';
+
+export function AiAssistantScreen() {
+  const navigation = useNavigation<BottomTabNavigationProp<MainTabParamList>>();
+  const rootNavigation = useRootNavigation();
+  const route = useRoute<RouteProp<MainTabParamList, 'AiAssistant'>>();
+  const { messages, isThinking, sendMessage, sendPrompt, clearMessages } = useAiAssistant();
+  const [input, setInput] = useState('');
+  const listRef = useRef<FlatList<AiMessage>>(null);
+  const seedSent = useRef(false);
+  const keyboardInset = useKeyboardInset();
+
+  useEffect(() => {
+    const seed = route.params?.seedPrompt;
+    if (seed && !seedSent.current && messages.length === 0) {
+      seedSent.current = true;
+      void sendMessage(seed);
+    }
+  }, [route.params?.seedPrompt, messages.length, sendMessage]);
+
+  useEffect(() => {
+    if (keyboardInset > 0 && messages.length > 0) {
+      listRef.current?.scrollToEnd({ animated: true });
+    }
+  }, [keyboardInset, messages.length]);
+
+  const handleSend = () => {
+    const text = input.trim();
+    if (!text || isThinking) return;
+    setInput('');
+    void sendMessage(text);
+  };
+
+  const handleAction = (action: AiAction) => {
+    if (action.payload?.duaId) {
+      rootNavigation.navigate('DuaReader', { duaId: action.payload.duaId });
+      return;
+    }
+    if (action.payload?.ziyaratId) {
+      rootNavigation.navigate('ZiyaratReader', { ziyaratId: action.payload.ziyaratId });
+      return;
+    }
+    const navRoute = action.payload?.route;
+    if (navRoute === 'Prayer') {
+      navigation.navigate('Prayer');
+    } else if (navRoute === 'Calendar') {
+      rootNavigation.navigate('Calendar');
+    } else if (navRoute === 'MuharramMode') {
+      rootNavigation.navigate('MuharramMode');
+    }
+  };
+
+  const handleCitationPress = (citation: AiCitation) => {
+    const target = resolveCitationNavigation(citation);
+    if (!target) return;
+
+    if (target.stack === 'tab') {
+      navigation.navigate(target.screen);
+      return;
+    }
+
+    rootNavigation.navigate(target.screen, target.params);
+  };
+
+  const handleReferencePress = (reference: IslamicReference) => {
+    const target = resolveIslamicReferenceNavigation(reference);
+    if (!target) return;
+
+    if (target.stack === 'tab') {
+      navigation.navigate(target.screen);
+      return;
+    }
+
+    rootNavigation.navigate(target.screen, target.params);
+  };
+
+  const showTypingFooter =
+    isThinking && !messages.some((message) => message.isStreaming);
+
+  const renderItem = ({ item }: { item: AiMessage }) => (
+    <ChatMessageRow
+      message={item}
+      onAction={handleAction}
+      onCitationPress={handleCitationPress}
+      onReferencePress={handleReferencePress}
+    />
+  );
+
+  return (
+    <Screen padded={false} safeBottom={false}>
+      <AiChatHeader onClear={clearMessages} canClear={messages.length > 0} />
+      <FlatList
+        ref={listRef}
+        style={styles.list}
+        data={messages}
+        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+        ListEmptyComponent={
+          <AiWelcomeView onSelectPrompt={sendPrompt} disabled={isThinking} />
+        }
+        ListFooterComponent={showTypingFooter ? AssistantTypingRow : null}
+        contentContainerStyle={messages.length === 0 ? styles.emptyContent : styles.chatContent}
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="interactive"
+        onContentSizeChange={() => {
+          if (messages.length > 0) {
+            listRef.current?.scrollToEnd({ animated: true });
+          }
+        }}
+      />
+      <View style={{ paddingBottom: keyboardInset }}>
+        {messages.length > 0 ? (
+          <SuggestedPromptStrip onSelect={sendPrompt} disabled={isThinking} />
+        ) : null}
+        <ChatComposer
+          value={input}
+          onChange={setInput}
+          onSend={handleSend}
+          disabled={isThinking}
+        />
+      </View>
+    </Screen>
+  );
+}
+
+const styles = StyleSheet.create({
+  list: { flex: 1 },
+  emptyContent: {
+    flexGrow: 1,
+    justifyContent: 'flex-end',
+    paddingBottom: 8,
+  },
+  chatContent: {
+    paddingTop: 8,
+    paddingBottom: 12,
+  },
+});

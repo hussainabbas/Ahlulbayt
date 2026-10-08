@@ -1,0 +1,8 @@
+{
+  "key": "sim/wudu/masah_head",
+  "theme": "dark",
+  "artboard": "masah_head_dark",
+  "animation": "idle_loop",
+  "sourceSvg": "wudu/masah_head/dark/static.svg",
+  "note": "Export from Rive Editor using static.svg as reference — no internet assets."
+}
