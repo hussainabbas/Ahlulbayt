@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AhlulBaytPlus</string>
+    <string name="tasbih_widget_title">Tasbih Fatima Zahra</string>
+    <string name="tasbih_widget_description">Daily dhikr progress and streak</string>
+</resources>

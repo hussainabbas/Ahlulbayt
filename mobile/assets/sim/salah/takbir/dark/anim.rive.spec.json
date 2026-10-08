@@ -1,0 +1,8 @@
+{
+  "key": "sim/salah/takbir",
+  "theme": "dark",
+  "artboard": "takbir_dark",
+  "animation": "idle_loop",
+  "sourceSvg": "salah/takbir/dark/static.svg",
+  "note": "Export from Rive Editor using static.svg as reference — no internet assets."
+}

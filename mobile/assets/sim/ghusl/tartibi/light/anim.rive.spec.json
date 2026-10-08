@@ -1,0 +1,8 @@
+{
+  "key": "sim/ghusl/tartibi",
+  "theme": "light",
+  "artboard": "tartibi_light",
+  "animation": "idle_loop",
+  "sourceSvg": "ghusl/tartibi/light/static.svg",
+  "note": "Export from Rive Editor using static.svg as reference — no internet assets."
+}

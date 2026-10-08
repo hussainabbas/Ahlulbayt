@@ -1,0 +1,13 @@
+{
+  "$schema": "https://railway.com/railway.schema.json",
+  "build": {
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "Dockerfile"
+  },
+  "deploy": {
+    "startCommand": "node scripts/start-production.mjs",
+    "healthcheckPath": "/health",
+    "healthcheckTimeout": 120,
+    "preDeployCommand": ["node scripts/apply-migrations.mjs"]
+  }
+}

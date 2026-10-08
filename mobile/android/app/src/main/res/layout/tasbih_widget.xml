@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1A1B1E"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tasbih_widget_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tasbih_widget_title"
+        android:textColor="#9BA3AF"
+        android:textSize="11sp"
+        android:textAllCaps="true" />
+
+    <TextView
+        android:id="@+id/tasbih_widget_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="0 / 100"
+        android:textColor="#3D9B8A"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tasbih_widget_streak"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="🔥 0"
+        android:textColor="#D4B87A"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tasbih_widget_phase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Subhanallah 0/34"
+        android:textColor="#E8EAED"
+        android:textSize="13sp" />
+
+</LinearLayout>

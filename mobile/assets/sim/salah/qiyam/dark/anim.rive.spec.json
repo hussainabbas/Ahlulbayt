@@ -1,0 +1,8 @@
+{
+  "key": "sim/salah/qiyam",
+  "theme": "dark",
+  "artboard": "qiyam_dark",
+  "animation": "idle_loop",
+  "sourceSvg": "salah/qiyam/dark/static.svg",
+  "note": "Export from Rive Editor using static.svg as reference — no internet assets."
+}
