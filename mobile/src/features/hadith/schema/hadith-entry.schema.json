@@ -1,0 +1,105 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ahlulbayt.app/schemas/hadith-entry/v2.json",
+  "title": "HadithEntry",
+  "type": "object",
+  "required": ["id", "source", "topics", "title", "text", "reference", "summary", "bundleVersion"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^hd_" },
+    "source": {
+      "type": "string",
+      "enum": [
+        "kafi", "faqih", "tahdhib", "istibsar", "bihar", "nahjul", "sahifa",
+        "bukhari", "muslim", "abudawud", "tirmidhi"
+      ]
+    },
+    "corpusTier": { "type": "integer", "enum": [0, 1, 2] },
+    "topics": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "ethics", "worship", "imamate", "knowledge", "patience", "family",
+          "justice", "dua", "karbala", "taqwa", "fiqh", "tawhid", "akhira"
+        ]
+      },
+      "minItems": 1
+    },
+    "title": { "$ref": "#/$defs/localizedText" },
+    "text": { "$ref": "#/$defs/localizedText" },
+    "summary": { "$ref": "#/$defs/localizedText" },
+    "arabic": { "type": "string" },
+    "grading": { "$ref": "#/$defs/grading" },
+    "gradingNotes": { "$ref": "#/$defs/localizedText" },
+    "isnad": { "$ref": "#/$defs/isnadChain" },
+    "reference": { "$ref": "#/$defs/hadithReference" },
+    "keyPoints": { "type": "array", "items": { "$ref": "#/$defs/localizedText" } },
+    "relatedIds": { "type": "array", "items": { "type": "string" } },
+    "crossReferences": { "type": "array", "items": { "$ref": "#/$defs/crossReference" } },
+    "speaker": { "$ref": "#/$defs/localizedText" },
+    "nahjulId": { "type": "string" },
+    "sahifaId": { "type": "string" },
+    "embeddingId": { "type": "string" },
+    "bundleVersion": { "type": "integer", "minimum": 1 }
+  },
+  "$defs": {
+    "localizedText": {
+      "type": "object",
+      "required": ["en"],
+      "properties": {
+        "en": { "type": "string" },
+        "ur": { "type": "string" },
+        "ar": { "type": "string" }
+      }
+    },
+    "grading": {
+      "type": "string",
+      "enum": ["sahih", "hasan", "muwaththaq", "daif", "mawdu", "unknown"]
+    },
+    "isnadLink": {
+      "type": "object",
+      "required": ["position", "name"],
+      "properties": {
+        "position": { "type": "integer", "minimum": 0 },
+        "narratorId": { "type": "string" },
+        "name": { "$ref": "#/$defs/localizedText" },
+        "era": { "type": "string", "enum": ["sahaba", "tabieen", "taba_tabieen", "imam", "unknown"] },
+        "reliability": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "isnadChain": {
+      "type": "object",
+      "properties": {
+        "links": { "type": "array", "items": { "$ref": "#/$defs/isnadLink" } },
+        "chainSummary": { "$ref": "#/$defs/localizedText" },
+        "gradingAuthority": { "$ref": "#/$defs/localizedText" }
+      }
+    },
+    "hadithReference": {
+      "type": "object",
+      "required": ["source"],
+      "properties": {
+        "source": { "type": "string" },
+        "volume": { "type": "integer" },
+        "book": { "$ref": "#/$defs/localizedText" },
+        "chapter": { "$ref": "#/$defs/localizedText" },
+        "hadithNumber": { "type": "string" },
+        "page": { "type": "string" },
+        "narrators": { "type": "array", "items": { "$ref": "#/$defs/localizedText" } },
+        "grading": { "$ref": "#/$defs/localizedText" },
+        "chainSummary": { "$ref": "#/$defs/localizedText" },
+        "alternateRefs": { "type": "array", "items": { "$ref": "#/$defs/localizedText" } }
+      }
+    },
+    "crossReference": {
+      "type": "object",
+      "required": ["source", "ref"],
+      "properties": {
+        "source": { "type": "string" },
+        "ref": { "type": "string" },
+        "note": { "$ref": "#/$defs/localizedText" },
+        "similarity": { "type": "string", "enum": ["parallel", "related", "contrasting"] }
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "key": "sim/salah/tashahhud",
+  "theme": "light",
+  "artboard": "tashahhud_light",
+  "animation": "idle_loop",
+  "sourceSvg": "salah/tashahhud/light/static.svg",
+  "note": "Export from Rive Editor using static.svg as reference — no internet assets."
+}

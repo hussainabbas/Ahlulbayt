@@ -1,0 +1,114 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ahlulbayt.app/schemas/worship-guide/v1.json",
+  "title": "WorshipGuideBundle",
+  "description": "Fiqh Jafariya step-by-step worship guide (wudu, ghusl)",
+  "type": "object",
+  "required": ["meta", "bundleVersion", "steps"],
+  "properties": {
+    "meta": { "$ref": "#/$defs/meta" },
+    "bundleVersion": { "type": "integer", "minimum": 1 },
+    "methodVariants": { "type": "array", "items": { "$ref": "#/$defs/methodVariant" } },
+    "invalidators": { "type": "array", "items": { "$ref": "#/$defs/invalidator" } },
+    "waterRequirements": { "$ref": "#/$defs/localizedText" },
+    "orderRules": { "type": "array", "items": { "$ref": "#/$defs/localizedText" } },
+    "audioCues": { "type": "array", "items": { "$ref": "#/$defs/audioCue" } },
+    "steps": {
+      "type": "object",
+      "required": ["beginner", "standard", "scholar"],
+      "properties": {
+        "beginner": { "type": "array", "items": { "$ref": "#/$defs/guideStep" } },
+        "standard": { "type": "array", "items": { "$ref": "#/$defs/guideStep" } },
+        "scholar": { "type": "array", "items": { "$ref": "#/$defs/guideStep" } }
+      }
+    }
+  },
+  "$defs": {
+    "localizedText": {
+      "type": "object",
+      "required": ["en"],
+      "properties": {
+        "en": { "type": "string" },
+        "ur": { "type": "string" },
+        "ar": { "type": "string" }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "required": ["id", "slug", "domain", "category", "obligation", "titles", "subtitles", "purpose", "description", "estimatedMinutes", "stepCount", "hasAudio", "hasGuidedMode", "tags"],
+      "properties": {
+        "id": { "type": "string" },
+        "slug": { "type": "string" },
+        "domain": { "enum": ["taharah"] },
+        "category": { "enum": ["wudu", "ghusl", "invalidators"] },
+        "obligation": { "enum": ["wajib", "wajib_kifai", "mustahab", "conditional"] },
+        "titles": { "$ref": "#/$defs/localizedText" },
+        "subtitles": { "$ref": "#/$defs/localizedText" },
+        "purpose": { "$ref": "#/$defs/localizedText" },
+        "description": { "$ref": "#/$defs/localizedText" },
+        "estimatedMinutes": { "type": "integer" },
+        "stepCount": { "type": "integer" },
+        "hasAudio": { "type": "boolean" },
+        "hasGuidedMode": { "type": "boolean" },
+        "prerequisites": { "type": "array", "items": { "type": "string" } },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "featured": { "type": "boolean" }
+      }
+    },
+    "guideStep": {
+      "type": "object",
+      "required": ["id", "kind", "title", "body", "isRequired"],
+      "properties": {
+        "id": { "type": "string" },
+        "kind": {
+          "type": "string",
+          "enum": ["intro", "niyyah", "wash", "masah", "order_rule", "method", "checklist", "fiqh_note", "invalidator", "completion"]
+        },
+        "title": { "$ref": "#/$defs/localizedText" },
+        "body": { "$ref": "#/$defs/localizedText" },
+        "arabicText": { "type": "string" },
+        "transliteration": { "$ref": "#/$defs/localizedText" },
+        "translationEn": { "type": "string" },
+        "translationUr": { "type": "string" },
+        "isRequired": { "type": "boolean" },
+        "fiqhRefs": { "type": "array" },
+        "commonErrors": { "type": "array", "items": { "$ref": "#/$defs/localizedText" } },
+        "visualHint": { "type": "string" },
+        "checklist": { "type": "array", "items": { "$ref": "#/$defs/localizedText" } },
+        "scholarBody": { "$ref": "#/$defs/localizedText" },
+        "confirmPrompt": { "$ref": "#/$defs/localizedText" },
+        "audioAssetKey": { "type": "string" },
+        "audioUrl": { "type": "string" }
+      }
+    },
+    "invalidator": {
+      "type": "object",
+      "required": ["id", "title", "body"],
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "$ref": "#/$defs/localizedText" },
+        "body": { "$ref": "#/$defs/localizedText" }
+      }
+    },
+    "methodVariant": {
+      "type": "object",
+      "required": ["method", "title", "summary"],
+      "properties": {
+        "method": { "enum": ["tartibi", "irtimasi"] },
+        "title": { "$ref": "#/$defs/localizedText" },
+        "summary": { "$ref": "#/$defs/localizedText" }
+      }
+    },
+    "audioCue": {
+      "type": "object",
+      "required": ["id", "label"],
+      "properties": {
+        "id": { "type": "string" },
+        "label": { "$ref": "#/$defs/localizedText" },
+        "assetKey": { "type": "string" },
+        "remoteUrl": { "type": "string" },
+        "durationSec": { "type": "number" }
+      }
+    }
+  }
+}

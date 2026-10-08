@@ -1,0 +1,8 @@
+{
+  "key": "sim/salah/completion",
+  "theme": "dark",
+  "artboard": "completion_dark",
+  "animation": "idle_loop",
+  "sourceSvg": "salah/completion/dark/static.svg",
+  "note": "Export from Rive Editor using static.svg as reference — no internet assets."
+}

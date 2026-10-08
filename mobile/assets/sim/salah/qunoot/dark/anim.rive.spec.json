@@ -1,0 +1,8 @@
+{
+  "key": "sim/salah/qunoot",
+  "theme": "dark",
+  "artboard": "qunoot_dark",
+  "animation": "idle_loop",
+  "sourceSvg": "salah/qunoot/dark/static.svg",
+  "note": "Export from Rive Editor using static.svg as reference — no internet assets."
+}

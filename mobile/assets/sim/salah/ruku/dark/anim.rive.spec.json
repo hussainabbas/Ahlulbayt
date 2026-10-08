@@ -1,0 +1,8 @@
+{
+  "key": "sim/salah/ruku",
+  "theme": "dark",
+  "artboard": "ruku_dark",
+  "animation": "idle_loop",
+  "sourceSvg": "salah/ruku/dark/static.svg",
+  "note": "Export from Rive Editor using static.svg as reference — no internet assets."
+}
