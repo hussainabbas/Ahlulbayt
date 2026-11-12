@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  quran-integrity:
+    name: Quran integrity gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # No dependencies and no network needed: the pinned Tanzil text is in the repo.
+      - name: Verify every bundled verse against the pinned Tanzil text
+        working-directory: api
+        run: node scripts/quran/validate-quran-corpus.mjs
+      - name: Integrity and tamper-detection tests
+        working-directory: api
+        run: node --test scripts/quran/validate-quran-corpus.test.mjs
+
+  api:
+    name: API typecheck and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: api/package-lock.json
+      - run: npm ci
+        working-directory: api
+      - run: npm run typecheck
+        working-directory: api
+      - run: npm run build
+        working-directory: api
+
+  admin:
+    name: Admin typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: admin/package-lock.json
+      - run: npm ci
+        working-directory: admin
+      - run: npm run typecheck
+        working-directory: admin
+
+  mobile:
+    name: Mobile typecheck
+    runs-on: ubuntu-latest
+    # The mobile app has pre-existing type errors (see docs/audit/README.md).
+    # Remove continue-on-error once they are fixed so regressions block merges.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+      - run: npm ci --ignore-scripts
+        working-directory: mobile
+      - run: npm run typecheck
+        working-directory: mobile

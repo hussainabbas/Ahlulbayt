@@ -16,24 +16,14 @@ interface ChartPlaceholderProps {
   emptyLabel?: string;
 }
 
-const PLACEHOLDER = Array.from({ length: 14 }, (_, i) => ({
-  date: `D${i + 1}`,
-  count: Math.floor(40 + Math.random() * 80),
-}));
-
 export function ChartPlaceholder({ title, data, emptyLabel = 'No data yet' }: ChartPlaceholderProps) {
-  const chartData = data?.length ? data : PLACEHOLDER;
-  const isStub = !data?.length;
+  // Only real data is ever plotted; with none, the empty state below is shown.
+  const chartData = data ?? [];
 
   return (
     <div className="rounded-xl border bg-card p-4 shadow-card">
       <div className="mb-4 flex items-center justify-between">
         <h3 className="text-sm font-medium">{title}</h3>
-        {isStub ? (
-          <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] uppercase text-muted-foreground">
-            placeholder
-          </span>
-        ) : null}
       </div>
       {chartData.length === 0 ? (
         <div className="flex h-48 items-center justify-center text-sm text-muted-foreground">
