@@ -30,6 +30,8 @@ import { OtpService } from './otp.service';
 import { TokenPair, TokenService } from './token.service';
 
 const BCRYPT_ROUNDS = 12;
+/** bcrypt hash of a random value nobody knows; used only to equalise login timing. */
+const DUMMY_PASSWORD_HASH = bcrypt.hashSync(generateOpaqueToken(), BCRYPT_ROUNDS);
 
 export interface AuthResponse {
   user: PublicUser;
@@ -116,12 +118,9 @@ export class AuthService {
       .where(and(eq(users.email, email), isNull(users.deletedAt)))
       .limit(1);
 
-    if (!user?.passwordHash) {
-      throw new UnauthorizedException('Invalid email or password');
-    }
-
-    const valid = await bcrypt.compare(dto.password, user.passwordHash);
-    if (!valid) {
+    // Always run one bcrypt comparison so response time does not reveal which emails exist.
+    const valid = await bcrypt.compare(dto.password, user?.passwordHash ?? DUMMY_PASSWORD_HASH);
+    if (!user?.passwordHash || !valid) {
       throw new UnauthorizedException('Invalid email or password');
     }
 
@@ -182,13 +181,39 @@ export class AuthService {
     }
 
     let user: User | undefined;
-    if (profile.email) {
+
+    // Link to an existing account only when the provider vouches for the address.
+    if (profile.email && profile.emailVerified) {
       const [byEmail] = await this.db
         .select()
         .from(users)
         .where(and(eq(users.email, profile.email.toLowerCase()), isNull(users.deletedAt)))
         .limit(1);
       user = byEmail;
+
+      if (user && !user.emailVerified) {
+        // The existing account never proved ownership of this address, so whoever
+        // created it may not be this person. Drop its password and sessions before
+        // handing the account to the verified owner.
+        const [claimed] = await this.db
+          .update(users)
+          .set({ passwordHash: null, emailVerified: true, updatedAt: new Date() })
+          .where(eq(users.id, user.id))
+          .returning();
+        await this.tokens.revokeAllForUser(user.id);
+        user = claimed ?? user;
+      }
+    } else if (profile.email) {
+      const [taken] = await this.db
+        .select({ id: users.id })
+        .from(users)
+        .where(and(eq(users.email, profile.email.toLowerCase()), isNull(users.deletedAt)))
+        .limit(1);
+      if (taken) {
+        throw new ConflictException(
+          'An account with this email already exists. Sign in with your password instead.',
+        );
+      }
     }
 
     if (!user) {
