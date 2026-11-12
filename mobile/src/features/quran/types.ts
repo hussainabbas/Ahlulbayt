@@ -78,6 +78,9 @@ export interface QuranAyah {
   translationSources?: TranslationSources;
   tafsir?: AyahTafsir;
   hasSajdah?: boolean;
+  /** Sajdah classification as published in Tanzil metadata (pending Ja'fari scholar review). */
+  sajdahType?: 'obligatory' | 'recommended';
+  /** True on verse 1 of surahs that open with the basmala (all except 1 and 9). */
   bismillahBefore?: boolean;
 }
 
@@ -101,6 +104,11 @@ export interface SurahBundle {
   bundleVersion: number;
   /** Corpus attribution — Arabic from Tanzil; translations from licensed sources. */
   attribution?: CorpusAttribution;
+  /**
+   * Opening basmala exactly as it appears in the Tanzil text, shown above verse 1.
+   * Absent for Al-Fatiha (where it is verse 1) and At-Tawbah (which has none).
+   */
+  bismillah?: string;
 }
 
 export interface QuranBookmark {

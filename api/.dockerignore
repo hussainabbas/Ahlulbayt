@@ -3,7 +3,6 @@ dist
 .env
 .env.*
 !.env.example
-data/quran/source
 data/quran/bundles
 coverage
 *.log

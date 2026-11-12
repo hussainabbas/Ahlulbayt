@@ -36,24 +36,28 @@ export class AuthController {
   }
 
   @Post('guest')
+  @Throttle({ default: { limit: 5, ttl: 60_000 } })
   createGuest() {
     return this.auth.createGuest();
   }
 
   @Post('google')
   @HttpCode(200)
+  @Throttle({ default: { limit: 10, ttl: 60_000 } })
   google(@Body() dto: GoogleAuthDto) {
     return this.auth.googleAuth(dto);
   }
 
   @Post('apple')
   @HttpCode(200)
+  @Throttle({ default: { limit: 10, ttl: 60_000 } })
   apple(@Body() dto: AppleAuthDto) {
     return this.auth.appleAuth(dto);
   }
 
   @Post('refresh')
   @HttpCode(200)
+  @Throttle({ default: { limit: 30, ttl: 60_000 } })
   refresh(@Body() dto: RefreshDto) {
     return this.auth.refresh(dto.refreshToken);
   }
@@ -80,6 +84,7 @@ export class AuthController {
 
   @Post('password/reset')
   @HttpCode(200)
+  @Throttle({ default: { limit: 5, ttl: 60_000 } })
   resetPassword(@Body() dto: ResetPasswordDto) {
     return this.auth.resetPassword(dto);
   }

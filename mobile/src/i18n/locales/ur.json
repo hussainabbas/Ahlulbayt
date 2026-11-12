@@ -302,7 +302,7 @@
     "surahs": "سورتیں",
     "ayahs": "آیات",
     "notFound": "سورت نہیں ملی",
-    "downloadPrompt": "مکمل آف لائن پڑھنے کے لیے انٹرنیٹ سے جڑیں یا نیچے ڈاؤن لوڈ کریں۔",
+    "downloadPrompt": "عربی متن ہمیشہ آف لائن دستیاب ہے۔ ترجمہ بغیر انٹرنیٹ پڑھنے کے لیے نیچے ڈاؤن لوڈ کریں۔",
     "readerSettings": "ریڈر کی ترتیبات",
     "displayMode": "ڈسپلے موڈ",
     "translations": "ترجمے",
@@ -322,7 +322,7 @@
     "reader": {
       "bookmark": "آیت بک مارک کریں",
       "openTafsir": "تفسیر دیکھیں",
-      "downloadText": "آف لائن ڈاؤن لوڈ",
+      "downloadText": "ترجمہ آف لائن ڈاؤن لوڈ کریں",
       "downloadingText": "محفوظ {{percent}}%",
       "textOffline": "آف لائن محفوظ",
       "textOfflineCount": "{{count}} سورتیں آف لائن محفوظ",

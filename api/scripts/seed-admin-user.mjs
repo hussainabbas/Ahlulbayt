@@ -1,10 +1,14 @@
 /**
- * Seeds the default local super-admin account.
- * Safe to re-run — updates password and role if the user already exists.
+ * Creates the first super-admin account.
  *
- * Defaults (override via env):
- *   ADMIN_SEED_EMAIL=admin@ahlulbayt.com
- *   ADMIN_SEED_PASSWORD=Ahlulbayt@512
+ * Required env:
+ *   ADMIN_SEED_EMAIL       e.g. you@example.com
+ *   ADMIN_SEED_PASSWORD    at least 12 characters — there is NO built-in default
+ * Optional:
+ *   ADMIN_SEED_RESET_PASSWORD=true   overwrite the password of an existing admin
+ *
+ * Safe to re-run: an existing admin keeps the password they set unless the reset
+ * flag is given, so a deploy can never roll a changed password back.
  */
 import bcrypt from 'bcrypt';
 import pg from 'pg';
@@ -15,13 +19,22 @@ loadEnv();
 
 const { Client } = pg;
 
-if (process.env.NODE_ENV === 'production' && !process.env.ADMIN_SEED_PASSWORD) {
-  console.log('[seed-admin] Skipped — set ADMIN_SEED_PASSWORD on Railway.');
+const email = (process.env.ADMIN_SEED_EMAIL ?? '').toLowerCase().trim();
+const password = process.env.ADMIN_SEED_PASSWORD ?? '';
+const resetPassword = process.env.ADMIN_SEED_RESET_PASSWORD === 'true';
+const KNOWN_WEAK = new Set(['Ahlulbayt@512']);
+
+if (!email || !password) {
+  console.log('[seed-admin] Skipped — set ADMIN_SEED_EMAIL and ADMIN_SEED_PASSWORD to create an admin.');
   process.exit(0);
 }
+if (password.length < 12 || KNOWN_WEAK.has(password)) {
+  console.error(
+    '[seed-admin] Refusing to seed: ADMIN_SEED_PASSWORD must be at least 12 characters and must not be the old published default.',
+  );
+  process.exit(process.env.NODE_ENV === 'production' ? 0 : 1);
+}
 
-const email = (process.env.ADMIN_SEED_EMAIL ?? 'admin@ahlulbayt.com').toLowerCase().trim();
-const password = process.env.ADMIN_SEED_PASSWORD ?? 'Ahlulbayt@512';
 const displayName = process.env.ADMIN_SEED_DISPLAY_NAME ?? 'Admin';
 const connectionString =
   process.env.DATABASE_URL ??
@@ -59,17 +72,29 @@ try {
 
   if (existing.rows[0]) {
     userId = existing.rows[0].id;
-    await client.query(
-      `UPDATE users
-       SET password_hash = $1,
-           role = 'super_admin',
-           display_name = COALESCE(display_name, $2),
-           email_verified = TRUE,
-           updated_at = NOW()
-       WHERE id = $3`,
-      [passwordHash, displayName, userId],
-    );
-    console.log(`Updated existing admin user: ${email}`);
+    if (resetPassword) {
+      await client.query(
+        `UPDATE users
+         SET password_hash = $1,
+             role = 'super_admin',
+             display_name = COALESCE(display_name, $2),
+             email_verified = TRUE,
+             updated_at = NOW()
+         WHERE id = $3`,
+        [passwordHash, displayName, userId],
+      );
+      await client.query(
+        `UPDATE refresh_tokens SET revoked_at = NOW() WHERE user_id = $1 AND revoked_at IS NULL`,
+        [userId],
+      );
+      console.log(`Reset password for existing admin user: ${email}`);
+    } else {
+      await client.query(
+        `UPDATE users SET role = 'super_admin', email_verified = TRUE, updated_at = NOW() WHERE id = $1`,
+        [userId],
+      );
+      console.log(`Admin user already exists (password left unchanged): ${email}`);
+    }
   } else {
     const inserted = await client.query(
       `INSERT INTO users (email, password_hash, display_name, role, email_verified, locale)
