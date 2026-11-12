@@ -35,3 +35,8 @@ export const MOBILE_METADATA_PATH = join(
 export const TANZIL_DOWNLOAD_URL = 'https://tanzil.net/pub/download/index.php';
 export const TANZIL_ATTRIBUTION = 'Tanzil.net Uthmani v1.1';
 export const TANZIL_RAW_FILENAME = 'quran-uthmani.txt';
+
+export const TANZIL_RAW_PATH = join(SOURCE_DIR, TANZIL_RAW_FILENAME);
+export const TANZIL_METADATA_URL = 'https://tanzil.net/res/text/metadata/quran-data.js';
+export const TANZIL_METADATA_FILENAME = 'quran-data.js';
+export const TANZIL_METADATA_PATH = join(SOURCE_DIR, TANZIL_METADATA_FILENAME);

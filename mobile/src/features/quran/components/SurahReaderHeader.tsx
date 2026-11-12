@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, Text as RNText, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import { Icon } from '@/components/ui/Icon';
@@ -7,6 +7,7 @@ import { Text } from '@/components/ui/Text';
 import { useLocale } from '@/i18n/useLocale';
 import { layout } from '@/theme/layout';
 import { useTheme } from '@/theme/ThemeContext';
+import { arabicLineHeight, FONT_FAMILIES } from '@/theme/typographySystem';
 
 import { useQuranTextDownloadStore } from '../stores/quranTextDownloadStore';
 import type { SurahBundle } from '../types';
@@ -17,6 +18,7 @@ interface SurahReaderHeaderProps {
 }
 
 const BADGE_SIZE = 36;
+const BISMILLAH_FONT_SIZE = 26;
 
 export function SurahReaderHeader({ bundle, onDownloadComplete }: SurahReaderHeaderProps) {
   const { t, locale } = useLocale();
@@ -84,7 +86,7 @@ export function SurahReaderHeader({ bundle, onDownloadComplete }: SurahReaderHea
           {localizedName}
         </Text>
 
-        {!isOffline && bundle.bundleVersion === 0 ? (
+        {!isOffline ? (
           <Text variant="caption" color="tertiary" style={styles.hint}>
             {t('quran.downloadPrompt')}
           </Text>
@@ -140,6 +142,22 @@ export function SurahReaderHeader({ bundle, onDownloadComplete }: SurahReaderHea
           )}
         </Pressable>
       </LinearGradient>
+
+      {bundle.bismillah ? (
+        <RNText
+          accessibilityRole="text"
+          style={[
+            styles.bismillah,
+            {
+              color: theme.colors.textPrimary,
+              fontFamily: FONT_FAMILIES.scheherazadeRegular,
+              lineHeight: arabicLineHeight(BISMILLAH_FONT_SIZE, 'quran'),
+            },
+          ]}
+        >
+          {bundle.bismillah}
+        </RNText>
+      ) : null}
     </View>
   );
 }
@@ -206,6 +224,12 @@ const styles = StyleSheet.create({
   },
   hint: {
     marginTop: 2,
+  },
+  bismillah: {
+    fontSize: BISMILLAH_FONT_SIZE,
+    textAlign: 'center',
+    writingDirection: 'rtl',
+    marginTop: layout.blockGap,
   },
   downloadBtn: {
     marginTop: 10,

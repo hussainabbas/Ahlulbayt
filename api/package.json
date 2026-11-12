@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "npm run quran:validate -- --if-present && nest build",
+    "build": "npm run quran:validate -- --source-only && nest build",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:prod": "node dist/main",
@@ -17,6 +17,7 @@
     "quran:fetch": "node scripts/quran/fetch-tanzil-uthmani.mjs",
     "quran:build": "node scripts/quran/build-surah-bundles.mjs",
     "quran:validate": "node scripts/quran/validate-quran-corpus.mjs",
+    "quran:report": "node scripts/quran/validate-quran-corpus.mjs --report ../docs/audit/quran-integrity-report.md",
     "quran:test": "node --test scripts/quran/validate-quran-corpus.test.mjs"
   },
   "dependencies": {

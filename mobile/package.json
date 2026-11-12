@@ -7,6 +7,7 @@
     "android": "node scripts/run-android.mjs",
     "ios": "react-native run-ios",
     "typecheck": "tsc --noEmit",
+    "quran:verify": "node scripts/verify-quran-corpus.cjs",
     "sync:adhan-sounds": "node scripts/sync-adhan-sounds.mjs",
     "generate:worship-assets": "node scripts/generate-worship-assets.mjs",
     "generate:app-icons": "node scripts/generate-app-icons.mjs",

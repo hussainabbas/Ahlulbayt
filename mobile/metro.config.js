@@ -2,6 +2,11 @@ const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
 const path = require('path');
 
 const {NATIVE_AUDIO_ENABLED} = require('./nativeAudio.config.js');
+const {assertQuranCorpusVerified} = require('./scripts/verify-quran-corpus.cjs');
+
+// Quran integrity gate: Metro produces every JS bundle (debug and release, iOS and
+// Android), so a corpus that does not match the pinned Tanzil text cannot be built.
+assertQuranCorpusVerified();
 
 const trackPlayerMock = path.resolve(__dirname, 'src/mocks/react-native-track-player.ts');
 const lottieEntry = path.resolve(

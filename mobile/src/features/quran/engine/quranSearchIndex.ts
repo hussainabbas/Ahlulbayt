@@ -3,11 +3,18 @@ import { SURAH_METADATA } from '../constants/surahMetadata';
 import { QuranRepository } from './quranRepository';
 import type { SearchResult, TranslationLayer } from '../types';
 
+/**
+ * Search-only folding (never applied to displayed text): strips harakat and
+ * Quranic annotation marks and folds alif forms, so a query typed on a normal
+ * keyboard ("الله") matches the Uthmani spelling ("ٱللَّهِ").
+ */
 function normalize(text: string): string {
   return text
     .toLowerCase()
-    .replace(/[\u064B-\u065F\u0670]/g, '')
+    .replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g, '')
+    .replace(/[\u0671\u0622\u0623\u0625]/g, '\u0627')
     .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+    .replace(/\s+/g, ' ')
     .trim();
 }
 
