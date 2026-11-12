@@ -1,28 +1,15 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { FormEvent, useMemo, useState } from 'react';
-
-const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000';
-const LOCAL_DEFAULT_EMAIL = 'admin@ahlulbayt.com';
-const LOCAL_DEFAULT_PASSWORD = 'Ahlulbayt@512';
-
-function isLocalApi(url: string): boolean {
-  return /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?\/?$/i.test(url.replace(/\/+$/, ''));
-}
+import { FormEvent, useState } from 'react';
 
 export function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const next = searchParams.get('next') ?? '/dashboard';
-  const localApi = useMemo(() => isLocalApi(API_BASE), []);
 
-  const [email, setEmail] = useState(
-    process.env.NODE_ENV === 'development' && localApi ? LOCAL_DEFAULT_EMAIL : '',
-  );
-  const [password, setPassword] = useState(
-    process.env.NODE_ENV === 'development' && localApi ? LOCAL_DEFAULT_PASSWORD : '',
-  );
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 

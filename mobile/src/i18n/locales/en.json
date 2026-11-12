@@ -325,7 +325,7 @@
     "surahs": "Surahs",
     "ayahs": "ayahs",
     "notFound": "Surah not found",
-    "downloadPrompt": "Connect to the internet or download below for full offline reading.",
+    "downloadPrompt": "The Arabic text is always available offline. Download the translation below to read it without internet.",
     "readerSettings": "Reader settings",
     "displayMode": "Display mode",
     "translations": "Translations",
@@ -345,7 +345,7 @@
     "reader": {
       "bookmark": "Bookmark ayah",
       "openTafsir": "View tafsir",
-      "downloadText": "Download for offline",
+      "downloadText": "Download translation for offline",
       "downloadingText": "Saving {{percent}}%",
       "textOffline": "Offline saved",
       "textOfflineCount": "{{count}} surahs offline saved",

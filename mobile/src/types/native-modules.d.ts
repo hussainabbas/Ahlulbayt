@@ -33,6 +33,9 @@ declare module 'react-native-fs' {
     mkdir: (path: string) => Promise<void>;
     unlink: (path: string) => Promise<void>;
     stat: (path: string) => Promise<StatResult>;
+    readFile: (path: string, encoding?: string) => Promise<string>;
+    writeFile: (path: string, contents: string, encoding?: string) => Promise<void>;
+    moveFile: (from: string, to: string) => Promise<void>;
     readDir: (path: string) => Promise<Array<{ name: string; size: number; isFile: () => boolean }>>;
     downloadFile: (options: DownloadFileOptions) => { jobId: number; promise: Promise<DownloadResult> };
     stopDownload: (jobId: number) => void;

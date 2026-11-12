@@ -1,8 +1,10 @@
-import { Body, Controller, Headers, Post } from '@nestjs/common';
+import { Body, Controller, Headers, Post, UseGuards } from '@nestjs/common';
 
 import { SubscriptionsService } from '../subscriptions/subscriptions.service';
+import { WebhookTokenGuard } from './guards/webhook-token.guard';
 
 @Controller('v1/webhooks')
+@UseGuards(WebhookTokenGuard)
 export class WebhooksController {
   constructor(private readonly subscriptions: SubscriptionsService) {}
 

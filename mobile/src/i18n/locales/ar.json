@@ -302,7 +302,7 @@
     "surahs": "السور",
     "ayahs": "آيات",
     "notFound": "لم تُعثر على السورة",
-    "downloadPrompt": "اتصل بالإنترنت أو نزّل أدناه للقراءة الكاملة دون اتصال.",
+    "downloadPrompt": "النص العربي متاح دائمًا دون اتصال. نزّل الترجمة أدناه لقراءتها دون إنترنت.",
     "readerSettings": "إعدادات القراءة",
     "displayMode": "وضع العرض",
     "translations": "الترجمات",
@@ -322,7 +322,7 @@
     "reader": {
       "bookmark": "إضافة إشارة",
       "openTafsir": "عرض التفسير",
-      "downloadText": "تنزيل للقراءة دون اتصال",
+      "downloadText": "تنزيل الترجمة للقراءة دون اتصال",
       "downloadingText": "جاري الحفظ {{percent}}%",
       "textOffline": "محفوظ دون اتصال",
       "textOfflineCount": "{{count}} سور محفوظة دون اتصال",
