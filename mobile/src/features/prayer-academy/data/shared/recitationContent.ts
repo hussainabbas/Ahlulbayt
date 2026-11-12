@@ -21,24 +21,31 @@ const INLINE_FATIHA_ARABIC = [
 
 const INLINE_QADR_ARABIC = [
   'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ',
-  'إِنَّا أَنْزَلْنَاهُ فِي لَيْلَةِ الْقَدْرِ',
+  'إِنَّا أَنزَلْنَاهُ فِي لَيْلَةِ الْقَدْرِ',
   'وَمَا أَدْرَاكَ مَا لَيْلَةُ الْقَدْرِ',
   'لَيْلَةُ الْقَدْرِ خَيْرٌ مِّنْ أَلْفِ شَهْرٍ',
   'تَنَزَّلُ الْمَلَائِكَةُ وَالرُّوحُ فِيهَا بِإِذْنِ رَبِّهِم مِّن كُلِّ أَمْرٍ',
   'سَلَامٌ هِيَ حَتَّىٰ مَطْلَعِ الْفَجْرِ',
 ].join('\n');
 
+/**
+ * Full text on one line. Used for locale slots that previously held a shortened
+ * "…" placeholder, so no reader is ever shown a cut-off recitation.
+ */
+const FATIHA_ARABIC_LINE = INLINE_FATIHA_ARABIC.split('\n').join('، ');
+const QADR_ARABIC_LINE = INLINE_QADR_ARABIC.split('\n').join('، ');
+
 export const FATIHA: PrayerRecitation = {
   arabic: INLINE_FATIHA_ARABIC,
   transliteration: L(
     'Bismillahir rahmanir rahim. Al hamdu lil lahi rabbil \'alamin. Arrahmanir rahim. Maliki yawmiddin. Iyyaka na\'budu wa iyyaka nasta\'in. Ihdinas siratal mustaqim. Siratal ladhina an\'amta\'alaihim, ghairil maghdubi\'alaihim wa lad dhallin.',
     'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ، الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ، الرَّحْمَٰنِ الرَّحِيمِ، مَالِكِ يَوْمِ الدِّينِ، إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ، اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ، صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ',
-    'بسم الله الرحمن الرحيم...',
+    FATIHA_ARABIC_LINE,
   ),
   translation: L(
     'In the name of Allah, the most Gracious, the most Merciful. All praise is for Allah, the Lord of the worlds. The most Beneficent, the most Merciful; Master of the Day of Judgment. You alone we worship, from You alone we seek help. Guide us on the straight path — the path of those upon whom You have favoured, not of those who earned Your anger or went astray.',
     'اللہ کے نام سے شروع جو نہایت مہربان بے حد رحم والا ہے۔ سب تعریفیں اللہ ہی کے لیے ہیں جو سارے جہانوں کا پروردگار ہے۔ نہایت مہربان بے حد رحم والا۔ روز جزا کا مالک۔ ہم تیری ہی عبادت کرتے ہیں اور تجھ سے مدد مانگتے ہیں۔ ہمیں سیدھا راستہ دکھا — ان لوگوں کا راستہ جن پر تو نے انعام فرمایا، نہ ان کا جن پر غضب ہوا اور نہ گمراہوں کا۔',
-    'بسم الله الرحمن الرحيم. الحمد لله رب العالمين...',
+    FATIHA_ARABIC_LINE,
   ),
 };
 
@@ -46,13 +53,13 @@ export const QADR: PrayerRecitation = {
   arabic: INLINE_QADR_ARABIC,
   transliteration: L(
     'Bismillahir rahmanir rahim. Innaa anzalnaahu fi laylatil qadr. Wa maa adraaka maa laylatul qadr. Laylatul qadri khayrun min alfi shahr. Tanazzalul malaaikatu war ruuhu fiyhaa bi idhni rabbihim min kulli amr. Salaamun hiya hattaa matla\'il fajr.',
-    'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ، إِنَّا أَنْزَلْنَاهُ فِي لَيْلَةِ الْقَدْرِ...',
-    'بسم الله... إنا أنزلناه في ليلة القدر...',
+    QADR_ARABIC_LINE,
+    QADR_ARABIC_LINE,
   ),
   translation: L(
     'In the name of Allah, the most Gracious, the most Merciful. Surely We revealed it on the night of power. And what will make you comprehend what the night of power is? The night of power is better than a thousand months. The angels and spirit descend in it by the permission of their Lord for every affair. Peace! It is till the break of dawn.',
     'اللہ کے نام سے۔ بے شک ہم نے اس (قرآن) کو شب قدر میں نازل کیا۔ اور تم کیا جانتے ہو شب قدر کیا ہے؟ شب قدر ہزار مہینوں سے بہتر ہے۔ فرشتے اور روح اس میں اپنے رب کے حکم سے ہر معاملے کے لیے اترتے ہیں۔ یہ (رات) سلامتی کی ہے فجر طلوع ہونے تک۔',
-    'بسم الله الرحمن الرحيم. إنا أنزلناه في ليلة القدر...',
+    QADR_ARABIC_LINE,
   ),
 };
 
@@ -70,47 +77,54 @@ export const QUNOOT: PrayerRecitation = {
   ),
 };
 
+const TASHAHHUD_ARABIC =
+  'أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ، اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ وَآلِ مُحَمَّدٍ';
+
 export const TASHAHHUD: PrayerRecitation = {
-  arabic:
-    'أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ، اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ وَآلِ مُحَمَّدٍ',
+  arabic: TASHAHHUD_ARABIC,
   transliteration: L(
     'Ash hadu an laa ilaaha illallaahu wahdahu laa shareeka lah, wa ash hadu anna Muhammadan \'abduhu wa rasuluh, Allaahumma salli \'alaa Muhammadin wa Aali Muhammad',
     'میں گواہی دیتا/دیتی ہوں کہ اللہ کے سوا کوئی معبود نہیں، وہ اکela ہے، اس کا کوئی شریک نہیں، اور میں گواہی دیتا/دیتی ہوں کہ محمدؐ اس کے بندے اور رسول ہیں، خداوند محمدؐ اور آل محمدؐ پر رحمت فرما۔',
-    'أشهد أن لا إله إلا الله وحده لا شريك له...',
+    TASHAHHUD_ARABIC,
   ),
   translation: L(
     'I bear witness that there is no god apart from Allah, Who is unique and without partners. I also bear witness that Muhammad is His servant and His Prophet. O God, bless Muhammad and the progeny of Muhammad.',
     'میں گواہی دیتا/دیتی ہوں کہ اللہ کے سوا کوئی معبود نہیں، وہ یکتا ہے، اس کا کوئی شریک نہیں، اور میں گواہی دیتا/دیتی ہوں کہ محمدؐ اس کے بندے اور رسول ہیں۔ اے اللہ! محمدؐ اور آل محمدؐ پر درود بھیج۔',
-    'أشهد أن لا إله إلا الله...',
+    TASHAHHUD_ARABIC,
   ),
 };
 
+const TASLIM_ARABIC =
+  'السَّلَامُ عَلَيْكَ أَيُّهَا النَّبِيُّ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ، السَّلَامُ عَلَيْنَا وَعَلَىٰ عِبَادِ اللَّهِ الصَّالِحِينَ، السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ';
+
 export const TASLIM: PrayerRecitation = {
-  arabic:
-    'السَّلَامُ عَلَيْكَ أَيُّهَا النَّبِيُّ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ، السَّلَامُ عَلَيْنَا وَعَلَىٰ عِبَادِ اللَّهِ الصَّالِحِينَ، السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ',
+  arabic: TASLIM_ARABIC,
   transliteration: L(
     'Assalaamu \'alayka ayyuhan nabiyyu wa rahmatullaahi wa barakaatuh. Assalamu \'alaynaa wa \'alaa \'ibaadillaahis saaliheen. Assalamu \'alaykum wa rahmatullaahi wa barakaatuh',
     'سلام ہو آپ پر اے نبیؐ! اور اللہ کی رحمت و برکتیں۔ سلام ہو ہم پر اور اللہ کے نیک بندوں پر۔ سلام ہو تم سب پر اور اللہ کی رحمت و برکتیں۔',
-    'السلام عليك أيها النبي...',
+    TASLIM_ARABIC,
   ),
   translation: L(
     'Peace be upon you, O Prophet, and God\'s mercy and blessing. Peace be upon us, and upon the righteous servants of God. Peace be upon you [all], and God\'s mercy and blessing.',
     'سلام ہو آپ پر اے نبیؐ! اور اللہ کی رحمت و برکات۔ سلام ہو ہم پر اور اللہ کے صالح بندوں پر۔ سلام ہو تم سب پر اور اللہ کی رحمت و برکات۔',
-    'السلام عليك أيها النبي...',
+    TASLIM_ARABIC,
   ),
 };
 
+const TASBIHAT_ARABIC =
+  'سُبْحَانَ اللَّهِ وَالْحَمْدُ لِلَّهِ وَلَا إِلَٰهَ إِلَّا اللَّهُ وَاللَّهُ أَكْبَرُ';
+
 export const TASBIHAT: PrayerRecitation = {
-  arabic: 'سُبْحَانَ اللَّهِ وَالْحَمْدُ لِلَّهِ وَلَا إِلَٰهَ إِلَّا اللَّهُ وَاللَّهُ أَكْبَرُ',
+  arabic: TASBIHAT_ARABIC,
   transliteration: L(
     'Subhaanallaahi wa\'l hamdu lillaahi wa laa ilaaha illallaahu wallaahu akbar',
     'پاک ہے اللہ، اور سب تعریف اللہ کے لیے ہے، اور اللہ کے سوا کوئی معبود نہیں، اور اللہ سب سے بڑا ہے۔',
-    'سبحان الله والحمد لله...',
+    TASBIHAT_ARABIC,
   ),
   translation: L(
     'Glory be to God, and praise be to God; there is no god but Allah, and Allah is Greater. (Recite three times.)',
     'اللہ پاک ہے، اور تمام تعریف اللہ کے لیے ہے، اللہ کے سوا کوئی معبود نہیں، اور اللہ سب سے بڑا ہے۔ (تین بار پڑھیں۔)',
-    'سبحان الله والحمد لله...',
+    TASBIHAT_ARABIC,
   ),
 };
 
